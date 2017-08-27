@@ -11,7 +11,7 @@ import java.util.Iterator;
  *
  * @author debian
  */
-public class Punto implements Iterable<Double> {
+public class Punto implements Iterable<Double>, Comparable<Punto>{
 
     private double[] valores;
     private double calidad;
@@ -52,6 +52,7 @@ public class Punto implements Iterable<Double> {
         return new Punto(valores.clone(), calidad);
     }
 
+    @Override
     public int compareTo(Punto otrop) {
         int retorno = this.calidad > otrop.calidad ? 1 : this.calidad < otrop.calidad ? -1 : 0;
         return -retorno;

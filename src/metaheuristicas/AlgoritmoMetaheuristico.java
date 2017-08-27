@@ -6,6 +6,7 @@
 package metaheuristicas;
 
 import funciones.Funcion;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -15,8 +16,8 @@ import java.util.Random;
  */
 public abstract class AlgoritmoMetaheuristico {
 
-    protected Funcion funcion;
-    protected String nombre;
+    protected final Funcion funcion;
+    protected final String nombre;
 
     public AlgoritmoMetaheuristico(Funcion funcion, String nombre) {
         this.funcion = funcion;
@@ -30,15 +31,15 @@ public abstract class AlgoritmoMetaheuristico {
      * @param listaPuntosS lista de todos los puntos de recorrido del algoritmo
      * @return
      */
-    public abstract Punto ejecutar(long semilla, int iteraciones, List listaPuntosS);
+    public abstract Punto ejecutar(long semilla, int iteraciones, Collection listaPuntosS);
 
     public Punto tweak(Punto punto, long semilla, double paso) {
         Random rand = new Random(semilla);
         Punto nuevop = (Punto) punto.clone();
         double[] valores = nuevop.getValores();
-//        System.out.println("clone:"+nuevop);
         for (int i = 0; i < valores.length; i++) {
-            valores[i] = limitar(valores[i] + rand.nextGaussian() * paso * 2 - paso);
+//            valores[i] = limitar(valores[i] + rand.nextGaussian() * paso * 2 - paso);
+            valores[i] = limitar(valores[i] + rand.nextDouble() * paso * 2 - paso);
         }
         return nuevop;
     }
@@ -53,7 +54,8 @@ public abstract class AlgoritmoMetaheuristico {
         Random rand = new Random(semilla);
 
         for (int i = 0; i < valores.length; i++) {
-            valores[i] = limitar(rand.nextGaussian() * funcion.getLimite() * 2 - funcion.getLimite());
+//            valores[i] = limitar(rand.nextGaussian() * funcion.getLimite() * 2 - funcion.getLimite());
+            valores[i] = limitar(rand.nextDouble()* funcion.getLimite() * 2 - funcion.getLimite());
         }
         return new Punto(valores);
     }
@@ -62,16 +64,8 @@ public abstract class AlgoritmoMetaheuristico {
         return funcion;
     }
 
-    public void setFuncion(Funcion funcion) {
-        this.funcion = funcion;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
     
     

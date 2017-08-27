@@ -17,11 +17,11 @@ import java.util.logging.Logger;
  */
 public class GraficoGnuPlot {
 
-    public static void plot(int dimension, String titulo, Funcion funcion) {
+    public static void plot(int dimensiones, String nombreArchivoDatos, String titulo, Funcion funcion) {
 
         FileWriter outF = null;
         try {
-            File file = new File(titulo + ".gp");
+            File file = new File(nombreArchivoDatos + ".gp");
             outF = new FileWriter(file);
 //            outF = new FileWriter("auxfile.gp");
             PrintWriter out = new PrintWriter(outF);
@@ -36,10 +36,10 @@ public class GraficoGnuPlot {
             out.println("f(x,y) = " + funcion);
             double limite = funcion.getLimite();
 //            out.println("splot [-10:10] [-10:10] f(x,y) w dots , \"" + titulo + ".dat\" title \"A\" w lp linewidth 1 linetype 6");
-            out.println("splot [-"+limite+":"+limite+"] [-"+limite+":"+limite+"] f(x,y) w l , \"" + titulo + ".dat\" title \"A\" w lp linewidth 1 linetype 6");
+            out.println("splot [-" + limite + ":" + limite + "] [-" + limite + ":" + limite + "] f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \"A\" w lp linewidth 1 linetype 6");
 //        out.println("plot \""+filename+"\" with linespoints,\"new\" with linespoints");
             out.close();// It's done, closing document.
-            Runtime.getRuntime().exec("gnuplot -persist " + titulo + ".gp");
+            Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");
 //            file.delete();
         } catch (IOException ex) {
             Logger.getLogger(GraficoGnuPlot.class.getName()).log(Level.SEVERE, null, ex);
