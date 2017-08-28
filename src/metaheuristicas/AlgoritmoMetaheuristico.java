@@ -16,11 +16,11 @@ import java.util.Random;
  */
 public abstract class AlgoritmoMetaheuristico {
 
-    protected final Funcion funcion;
-    protected final String nombre;
+    protected Funcion funcion;
+    protected String nombre;
 
-    public AlgoritmoMetaheuristico(Funcion funcion, String nombre) {
-        this.funcion = funcion;
+    public AlgoritmoMetaheuristico( String nombre) {
+        this.funcion = null;
         this.nombre = nombre;
     }
 
@@ -67,6 +67,9 @@ public abstract class AlgoritmoMetaheuristico {
     public String getNombre() {
         return nombre;
     }
-    
+
+    public void setFuncion(Funcion funcion) {
+        this.funcion = funcion;
+    }
     
 }

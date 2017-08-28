@@ -14,40 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pruebas;
+package funciones;
 
-import java.util.List;
 import metaheuristicas.Punto;
 
 /**
  *
  * @author debian
  */
-public class PuntoRecorrido implements Comparable<PuntoRecorrido> {
-    public Punto punto;
-    public List<Punto> recorrido;
+public class Piso extends Funcion {
 
-    public PuntoRecorrido(Punto punto, List<Punto> recorrido) {
-        this.punto = punto;
-        this.recorrido = recorrido;
+    public Piso(double limite, int dimension) {
+        super("PISO", limite, dimension);
     }
+    double num = 0.5;
 
     @Override
-    public int compareTo(PuntoRecorrido o) {
-        return this.punto.compareTo(o.punto);
-    }
-
-    public Punto getPunto() {
-        return punto;
-    }
-
-    public List<Punto> getRecorrido() {
-        return recorrido;
+    public double evaluar(Punto punto) {
+        int resultado = 0;
+        double[] valores = punto.getValores();
+        for (int i = 0; i < valores.length; i++) {
+            int piso = (int)(valores[i]+num);
+            resultado += piso * piso;
+        }
+        return resultado;
     }
 
     @Override
     public String toString() {
-        return punto.toString();
+
+        return "int(x+" + num + ")**2+int(y+" + num + ")**2";
     }
-    
 }

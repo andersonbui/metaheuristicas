@@ -18,12 +18,13 @@ import java.util.logging.Logger;
  *
  * @author debian
  */
-public class Hill_Climbing_anterior extends AlgoritmoMetaheuristico {
+public class Hill_Climbing_direccional extends AlgoritmoMetaheuristico {
 
     double paso;
 
-    public Hill_Climbing_anterior(Funcion funcion, double paso) {
-        super(funcion, "SUBIENDO LA COLINA MAXIMA ORTOGONAL");
+    public Hill_Climbing_direccional(double paso) {
+        super("HC MAXIMA ORTOGONAL");
+//        super(funcion, "SUBIENDO LA COLINA MAXIMA ORTOGONAL");
         this.paso = paso;
     }
 
@@ -36,13 +37,13 @@ public class Hill_Climbing_anterior extends AlgoritmoMetaheuristico {
         }
         Punto r;
         for (int i = 0; i < iteraciones; i++) {
-            r = tweak(new Punto(new double[funcion.getDimension()]), (i + semilla), paso);
+            r = tweak(new Punto(new double[funcion.getDimension()]), i * semilla*2, paso);
             List<Punto> listaSucesores = null;
             try {
                 listaSucesores = listaPosiblesSucesoresOrtogonales(s, r.getValores());
 //                listaSucesores = listaPosiblesSucesoresOrtogonales(s, r.getValores());
             } catch (Exception ex) {
-                Logger.getLogger(Hill_Climbing_anterior.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Hill_Climbing_direccional.class.getName()).log(Level.SEVERE, null, ex);
             }
             Collections.sort(listaSucesores);
 //            System.out.println("array:"+listaSucesores);
@@ -78,7 +79,7 @@ public class Hill_Climbing_anterior extends AlgoritmoMetaheuristico {
         double[] vectorAux;
         List<double[]> listaRest = new ArrayList();
         Punto nuevoPunto;
-        Hill_Climbing_anterior.combinaciones(new double[]{-1, 1}, new double[punto.getValores().length], 0, listaRest);
+        Hill_Climbing_direccional.combinaciones(new double[]{-1, 1}, new double[punto.getValores().length], 0, listaRest);
 
         for (double[] item : listaRest) {
 

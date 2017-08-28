@@ -30,13 +30,24 @@ public class GraficoGnuPlot {
 //        out.print("set title " + "\"" + filename + "\"" + "\n");
 //        out.print("set xlabel " + "\"Time\"" + "\n");
 //        out.print("set ylabel " + "\"UA\"" + "\n");
-            out.println("set isosample 40");
+            double limite = funcion.getLimite();
+            
+            out.println("set isosample 50");
+//            out.println("set hidden3d");
+//            out.println("set contour base");
 //            out.println("set pm3d");
+            out.println("set style line 100 lc rgb \"gray20\" lw 0.5");
+//            out.println("set pm3d hidden3d 100");
+            out.println("set view 58,228");
+//            out.println("set zrange [-"+20+":"+20+"]");
+//            out.println("set palette rgbformulae 22,13,-31");
             out.println("set title \"" + titulo + "\"");
             out.println("f(x,y) = " + funcion);
-            double limite = funcion.getLimite();
-//            out.println("splot [-10:10] [-10:10] f(x,y) w dots , \"" + titulo + ".dat\" title \"A\" w lp linewidth 1 linetype 6");
-            out.println("splot [-" + limite + ":" + limite + "] [-" + limite + ":" + limite + "] f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \"A\" w lp linewidth 1 linetype 6");
+            out.println("set xrange [-" + limite + ":" + limite + "]");
+            out.println("set yrange [-" + limite + ":" + limite + "]");
+            out.println("splot f(x,y) w l lw 0.5, \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w lp linewidth 2 linetype 6");
+//            out.println("splot [-" + limite + ":" + limite + "] [-" + limite + ":" + limite
+//                    + "] f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w l linewidth 2 linetype 6");
 //        out.println("plot \""+filename+"\" with linespoints,\"new\" with linespoints");
             out.close();// It's done, closing document.
             Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");

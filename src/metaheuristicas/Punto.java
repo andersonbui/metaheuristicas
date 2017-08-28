@@ -11,7 +11,7 @@ import java.util.Iterator;
  *
  * @author debian
  */
-public class Punto implements Iterable<Double>, Comparable<Punto>{
+public class Punto implements Iterable<Double>, Comparable<Punto> {
 
     private double[] valores;
     private double calidad;
@@ -38,10 +38,14 @@ public class Punto implements Iterable<Double>, Comparable<Punto>{
         return calidad;
     }
 
+    public String getCalidadString() {
+        return formatear(calidad);
+    }
+
     public void setCalidad(double calidad) {
         this.calidad = calidad;
     }
-    
+
     public String toString2() {
 
         return "Punto{" + toString() + '}';
@@ -86,7 +90,7 @@ public class Punto implements Iterable<Double>, Comparable<Punto>{
         return cadena;
     }
 
-    public String formatear(double valor) {
+    public static String formatear(double valor) {
         return String.format("%." + General.NUM_DECIMALES + General.FORMATO_DOUBLE + "", valor);
     }
 }
