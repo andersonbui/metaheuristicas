@@ -25,8 +25,9 @@ public class Ackley extends Funcion {
         for (int i = 0; i < valores.length; i++) {
             suma2 += Math.cos(2*Math.PI*valores[i]);
         }
-        funct = -20*Math.exp(-0.2*Math.sqrt((1/n)*suma)) - Math.exp((1/n)*suma2) + 20 + Math.E;
-        return (1 / 4000) * suma - suma2 + 1;
+//        System.out.println("Math.exp(1):"+Math.exp(1)+";   Math.E"+Math.E);
+        funct = -20*Math.exp(-0.2*Math.sqrt((1.0/n)*suma)) - Math.exp((1.0/n)*suma2) + 20 + Math.E;
+        return funct;
     }
 
     @Override
