@@ -5,9 +5,7 @@
  */
 package metaheuristicas;
 
-import funciones.Funcion;
 import java.util.Collection;
-import java.util.List;
 
 /**
  *
@@ -17,7 +15,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
 
     double paso;
     int numSucesores;
-    private boolean reemplazo;
+    final private boolean reemplazo;
 
     /**
      * suiendo la colina (simple)
@@ -31,24 +29,13 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         reemplazo = false;
     }
 
-//
-//    /**
-//     * subiendola colina por maxima pendiente
-//     *
-//     * @param paso
-//     * @param numSucesores
-//     */
-//    public Hill_Climbing(double paso, int numSucesores) {
-//        super("HC CON MAXIMA PENDIENTE");
-//        this.paso = paso;
-//        this.numSucesores = numSucesores > 0 ? numSucesores : 1;
-//    }
-//    
     /**
-     * subiendola colina por maxima pendiente con(o sin reemplazo) reemplazo
+     * subiendola colina por maxima pendiente con (o sin) reemplazo, se acuerdo
+     * a los parmetros
      *
      * @param paso
      * @param numSucesores
+     * @param reemplazo
      */
     public Hill_Climbing(double paso, int numSucesores, boolean reemplazo) {
         super("HC MAXIMA PENDIENTE");
@@ -59,33 +46,6 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
             this.nombre = "HC-MP CON REEMPLAZO";
         }
     }
-//    @Override
-//    public Punto ejecutar(long semilla, int iteraciones, Collection listaPuntosS) {
-//        Punto s = this.generarPunto(semilla);
-//        s.setCalidad(funcion.evaluar(s));
-//        if (listaPuntosS != null) {
-//            listaPuntosS.add(s);
-//        }
-//        Punto r = null;
-//        Punto r_aux;
-//        int index_numSucesores = numSucesores;
-//        for (int i = 0; i < iteraciones; i++) {
-//            for (int j = 0; j < numSucesores; j++) { // generador candidatos a sucesor
-//                r_aux = tweak(s, i * j, paso);
-//                r_aux.setCalidad(funcion.evaluar(r_aux));
-//                if (r == null || r_aux.compareTo(r) > 0) {
-//                    r = r_aux;
-//                }
-//            }
-//            if (r != null && r.compareTo(s) > 0) {
-//                s = r;
-//            }
-//            if (listaPuntosS != null) {
-//                listaPuntosS.add(s);
-//            }
-//        }
-//        return s;
-//    }
 
     @Override
     public Punto ejecutar(long semilla, int iteraciones, Collection listaPuntosS) {
@@ -99,7 +59,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         Punto mejor = s;
         for (int i = 0; i < iteraciones; i++) {
             for (int j = 0; j < numSucesores; j++) { // generador candidatos a sucesor
-                r_aux = tweak(s, i * j*(semilla), paso);
+                r_aux = tweak(s, i * j * (semilla), paso);
                 r_aux.setCalidad(funcion.evaluar(r_aux));
                 if (r == null || r_aux.compareTo(r) > 0) {
                     r = r_aux;
