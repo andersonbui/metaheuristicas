@@ -23,28 +23,23 @@ public class Hill_Climbing_direccional extends AlgoritmoMetaheuristico {
     double paso;
 
     public Hill_Climbing_direccional(double paso) {
-        super("HC MAXIMA ORTOGONAL");
+        super("HC MAXIMA H_ORTOGONALES");
 //        super(funcion, "SUBIENDO LA COLINA MAXIMA ORTOGONAL");
         this.paso = paso;
     }
 
     @Override
-    public Punto ejecutar(long semilla, int iteraciones, Collection listaPuntosS) {
-        Punto s = this.generarPunto(semilla);
+    public Punto ejecutar(Punto inicial,int iteraciones, Collection listaPuntosS) {
+        Punto s = inicial;
         s.setCalidad(funcion.evaluar(s));
         if (listaPuntosS != null) {
             listaPuntosS.add(s);
         }
         Punto r;
         for (int i = 0; i < iteraciones; i++) {
-            r = tweak(new Punto(new double[funcion.getDimension()]), i * semilla*2, paso);
+            r = tweak(new Punto(new double[funcion.getDimension()]), paso);
             List<Punto> listaSucesores = null;
-            try {
                 listaSucesores = listaPosiblesSucesoresOrtogonales(s, r.getValores());
-//                listaSucesores = listaPosiblesSucesoresOrtogonales(s, r.getValores());
-            } catch (Exception ex) {
-                Logger.getLogger(Hill_Climbing_direccional.class.getName()).log(Level.SEVERE, null, ex);
-            }
             Collections.sort(listaSucesores);
 //            System.out.println("array:"+listaSucesores);
             r = listaSucesores.get(listaSucesores.size() - 1);

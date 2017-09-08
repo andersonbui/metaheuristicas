@@ -38,18 +38,18 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
      * @param reemplazo
      */
     public Hill_Climbing(double paso, int numSucesores, boolean reemplazo) {
-        super("HC MAXIMA PENDIENTE");
+        super("SAHC MAXIMA PENDIENTE");
         this.paso = paso;
         this.numSucesores = numSucesores > 0 ? numSucesores : 1;
         this.reemplazo = reemplazo;
         if (reemplazo) {
-            this.nombre = "HC-MP CON REEMPLAZO";
+            this.nombre = "SAHC-WR CON REEMPLAZO";
         }
     }
 
     @Override
-    public Punto ejecutar(long semilla, int iteraciones, Collection listaPuntosS) {
-        Punto s = this.generarPunto(semilla);
+    public Punto ejecutar(Punto inicial,int iteraciones, Collection listaPuntosS) {
+        Punto s = inicial;
         s.setCalidad(funcion.evaluar(s));
         if (listaPuntosS != null) {
             listaPuntosS.add(s);
@@ -59,7 +59,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         Punto mejor = s;
         for (int i = 0; i < iteraciones; i++) {
             for (int j = 0; j < numSucesores; j++) { // generador candidatos a sucesor
-                r_aux = tweak(s, i * j * (semilla), paso);
+                r_aux = tweak(s, paso);
                 r_aux.setCalidad(funcion.evaluar(r_aux));
                 if (r == null || r_aux.compareTo(r) > 0) {
                     r = r_aux;

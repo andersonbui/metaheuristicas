@@ -7,7 +7,6 @@ package metaheuristicas;
 
 import funciones.Funcion;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,23 +17,31 @@ public abstract class AlgoritmoMetaheuristico {
 
     protected Funcion funcion;
     protected String nombre;
+    protected Random rand;
 
-    public AlgoritmoMetaheuristico( String nombre) {
+    public AlgoritmoMetaheuristico(String nombre) {
         this.funcion = null;
         this.nombre = nombre;
     }
-
+    
     /**
      *
-     * @param semilla
+     * @param inicial
      * @param iteraciones
      * @param listaPuntosS lista de todos los puntos de recorrido del algoritmo
      * @return
      */
-    public abstract Punto ejecutar(long semilla, int iteraciones, Collection listaPuntosS);
+    public abstract Punto ejecutar(Punto inicial, int iteraciones, Collection listaPuntosS);
 
-    public Punto tweak(Punto punto, long semilla, double paso) {
-        Random rand = new Random(semilla);
+    /**
+     * variacion de un punto[i] entre [-paso, paso], para i=1,2,3,...,N donde N
+     * = dimension(punto)
+     *
+     * @param punto
+     * @param paso
+     * @return
+     */
+    public Punto tweak(Punto punto, double paso) {
         Punto nuevop = (Punto) punto.clone();
         double[] valores = nuevop.getValores();
         for (int i = 0; i < valores.length; i++) {
@@ -44,18 +51,28 @@ public abstract class AlgoritmoMetaheuristico {
         return nuevop;
     }
 
+    /**
+     * variacion de un i entre [-ancho, ancho]
+     *
+     * @param i
+     * @param ancho
+     * @return
+     */
+    public double tweaki(double i, double ancho) {
+        double nuevop = limitar(i + rand.nextDouble() * ancho * 2 - ancho);
+        return nuevop;
+    }
+
     protected double limitar(double valor) {
         double limite = funcion.getLimite();
         return limite < valor ? limite : -limite > valor ? -limite : valor;
     }
 
-    protected Punto generarPunto(long semilla) {
+    public Punto generarPunto() {
         double[] valores = new double[funcion.getDimension()];
-        Random rand = new Random(semilla);
-
         for (int i = 0; i < valores.length; i++) {
 //            valores[i] = limitar(rand.nextGaussian() * funcion.getLimite() * 2 - funcion.getLimite());
-            valores[i] = limitar(rand.nextDouble()* funcion.getLimite() * 2 - funcion.getLimite());
+            valores[i] = limitar(rand.nextDouble() * funcion.getLimite() * 2 - funcion.getLimite());
         }
         return new Punto(valores);
     }
@@ -71,5 +88,13 @@ public abstract class AlgoritmoMetaheuristico {
     public void setFuncion(Funcion funcion) {
         this.funcion = funcion;
     }
-    
+
+    public Random getRand() {
+        return rand;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
+    }
+
 }

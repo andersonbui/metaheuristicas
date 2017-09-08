@@ -29,24 +29,21 @@ public abstract class Funcion {
         return limite;
     }
 
-//    public void setLimite(double limite) {
-//        this.limite = limite;
-//    }
-
+    public void setLimite(double limite) {
+        this.limite = limite;
+    }
     public int getDimension() {
         return dimension;
     }
 
-//    public void setDimension(int dimension) {
-//        this.dimension = dimension;
-//    }
-
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
     public String getNombre() {
         return nombre;
     }
 
-//    public void setNombre(String nombre) {
-//        this.nombre = nombre;
-//    }
-
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }
