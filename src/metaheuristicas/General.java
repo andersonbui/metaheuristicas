@@ -12,6 +12,6 @@ package metaheuristicas;
 public class General {
 
     static String FORMATO_DOUBLE= "f";
-    static int NUM_DECIMALES = 5;
+    static int NUM_DECIMALES = 1;
     public static String CARPETA_TEMP = "temp/";
 }

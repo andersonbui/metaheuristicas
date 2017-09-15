@@ -15,8 +15,8 @@ public class AproximacionPG2 extends Hill_Climbing {
      * @param paso
      */
     public AproximacionPG2(String nombre, double paso) {
-        super(paso, 1, false); //Hill_Climbing_
-//        super(paso); //B_Hill_Climbing
+//        super(paso, 1, false); //Hill_Climbing_
+        super(paso); //B_Hill_Climbing
         super.nombre = nombre;
         this.paso = paso;
     }

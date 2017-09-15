@@ -94,6 +94,7 @@ public class Utilidades {
         double promedioCalidad; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
         List<Punto> listaRecorrido;// recorrido del algoritmo para graficar
         List<OptimoYRecorrido> listaOptimos;
+        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
         imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
                 "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)");
         for (Funcion funcion : l_funciones) {

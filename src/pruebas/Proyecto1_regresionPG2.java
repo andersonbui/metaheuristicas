@@ -60,7 +60,7 @@ public class Proyecto1_regresionPG2 {
         // dimension de los puntos
         dimension = listaPuntos.get(0).getValores().length;
         dimension = (dimension * (dimension + 1)) / 2;
-        System.out.println("tam dimension:"+dimension);
+        System.out.println("dimension: "+dimension);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 
         listaAlgoritmos.add(

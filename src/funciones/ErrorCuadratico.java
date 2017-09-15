@@ -16,9 +16,15 @@ public class ErrorCuadratico extends Funcion {
         this.puntosReferencia = puntosReferencia;
     }
 
+    /**
+     * Evalua en la funcion de Error cuadratico
+     *
+     * @param punto
+     * @return
+     */
     @Override
     public double evaluar(Punto punto) {
-        punto = getPuntoAEvaluarError(puntosReferencia, punto);
+        punto = getPuntoFitnessErrorCuadratico(puntosReferencia, punto);
         double resultado = 0;
         double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
@@ -32,7 +38,15 @@ public class ErrorCuadratico extends Funcion {
         return "(x*x+y*y)/2";
     }
 
-    public Punto getPuntoAEvaluarError(List<Punto> listPuntos, Punto coeficientes) {
+    /**
+     * Genera punto que va a ser evaluado por la funcion Error cuadratico, a
+     * partir de los puntos de prueba de regresion
+     *
+     * @param listPuntos
+     * @param coeficientes
+     * @return
+     */
+    public Punto getPuntoFitnessErrorCuadratico(List<Punto> listPuntos, Punto coeficientes) {
         double[] valoresFitness = new double[listPuntos.size()];
         for (int i = 0; i < listPuntos.size(); i++) {
 
@@ -43,9 +57,11 @@ public class ErrorCuadratico extends Funcion {
     }
 
     /**
+     * Evlua el punto en el polinomio generado a partir de los coeficientes mas
+     * las correspondientes variables de un pilinomio grado 2
      *
-     * @param punto tamanio 10
-     * @param coeficientes tamanio 54
+     * @param punto punto 
+     * @param coeficientes coeficientes delpolinomio de grado 2
      * @return
      */
     public double funcionPolinomio(Punto punto, Punto coeficientes) {
