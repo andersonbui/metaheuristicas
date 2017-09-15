@@ -51,6 +51,11 @@ public class Punto implements Iterable<Double>, Comparable<Punto> {
         return "Punto{" + toString() + '}';
     }
 
+    public String toString3() {
+
+        return toString().replace(' ', ';').replace('.', ',');
+    }
+
     @Override
     protected Object clone() {
         return new Punto(valores.clone(), calidad);

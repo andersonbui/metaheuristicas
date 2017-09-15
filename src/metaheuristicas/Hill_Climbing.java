@@ -59,7 +59,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         Punto mejor = s;
         for (int i = 0; i < iteraciones; i++) {
             for (int j = 0; j < numSucesores; j++) { // generador candidatos a sucesor
-                r_aux = tweak(s, paso);
+                r_aux = tweak(s, getPaso());
                 r_aux.setCalidad(funcion.evaluar(r_aux));
                 if (r == null || r_aux.compareTo(r) > 0) {
                     r = r_aux;
@@ -79,4 +79,12 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         return s;
     }
 
+    public double getPaso() {
+        return paso;
+    }
+
+    public void setPaso(double paso) {
+        this.paso = paso;
+    }
+    
 }

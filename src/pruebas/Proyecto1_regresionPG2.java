@@ -46,25 +46,25 @@ public class Proyecto1_regresionPG2 {
         // lectura de parametros desde cadena
 //        Scanner scan = new Scanner("0,02\n10\n1000\n50000\n1\n");
         // rango maximo de cambio en el tweak
-        paso = 0.03;
+        paso = 0.1;
         // limite de las funciones
         limite = 10;
         // limite de las funciones
-        numDatos = 10;
+        numDatos = 100;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 100000;
+        iteraciones = 500000;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 5;
+        numMuestras = 1;
 
         List<Punto> listaPuntos = Utilidades.obtenerDatosRegresion(numDatos, "datos-regresion.txt");
         // dimension de los puntos
         dimension = listaPuntos.get(0).getValores().length;
         dimension = (dimension * (dimension + 1)) / 2;
-        System.out.println("tam diemnsion:");
+        System.out.println("tam dimension:"+dimension);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 
         listaAlgoritmos.add(
-                new AproximacionPG2("Calculo Error", listaPuntos, paso));
+                new AproximacionPG2("Calculo Error", paso));
 //        listaAlgoritmos.add(new Hill_Climbing(paso));
 //        listaAlgoritmos.add(new Hill_Climbing_Random_Restarts(10, paso));
 //        listaAlgoritmos.add(new Random_Search());
@@ -77,7 +77,7 @@ public class Proyecto1_regresionPG2 {
         List<Funcion> listaFunciones = new ArrayList();
 
         listaFunciones.add(
-                new ErrorCuadratico(limite, dimension));
+                new ErrorCuadratico(limite, dimension, listaPuntos));
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);

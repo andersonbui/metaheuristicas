@@ -156,6 +156,7 @@ public class Utilidades {
                         "" + Punto.formatear(promedioCalidad),
                         "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
                         "" + (tiempo_final - tiempo_inicial) / numMuestras);
+                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
             }
             System.out.println("");
         }
