@@ -50,11 +50,11 @@ public class Proyecto1_regresionPG2 {
         // limite de las funciones
         limite = 10;
         // limite de las funciones
-        numDatos = 100;
+        numDatos = 1000;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 500000;
+        iteraciones = 60000;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 1;
+        numMuestras = 5;
 
         List<Punto> listaPuntos = Utilidades.obtenerDatosRegresion(numDatos, "datos-regresion.txt");
         // dimension de los puntos
