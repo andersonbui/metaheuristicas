@@ -13,7 +13,6 @@ import java.util.Collection;
  */
 public class Random_Search extends AlgoritmoMetaheuristico {
 
-
     /**
      * Busqueda aleatoria (Random search)
      *
@@ -33,7 +32,7 @@ public class Random_Search extends AlgoritmoMetaheuristico {
 //    public RandomSearch(double paso, int numSucesores, boolean reemplazo) {
 //        super("HC MAXIMA PENDIENTE");
 //    }
-
+    
     @Override
     public Punto ejecutar(Punto inicial, int iteraciones, Collection listaPuntosS) {
         Punto s = inicial;

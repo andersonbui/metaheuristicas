@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  *
  * @author debian
  */
-public class Archivo {
+public class EscribirArchivo {
 
     private static FileWriter fw;
     private static PrintWriter pw;
@@ -22,7 +22,7 @@ public class Archivo {
             fw = new FileWriter(nombreArchivo);
             pw = new PrintWriter(fw);
         } catch (IOException ex) {
-            Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EscribirArchivo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

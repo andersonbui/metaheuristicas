@@ -41,8 +41,9 @@ public class Simulated_Annealing extends AlgoritmoMetaheuristico {
         for (int i = 0; i < iteraciones; i++) {
             r = tweak(s, paso);
             r.setCalidad(funcion.evaluar(r));
-//            if (r.compareTo(s) > 0 || Math.random() < Math.exp((r.getCalidad() - s.getCalidad()) / temperatura)) {
-            if (r.compareTo(s) > 0 || 1 > Math.exp((r.getCalidad() - s.getCalidad()) / temperatura)) {
+            
+            if (r.compareTo(s) > 0 || Math.random() < Math.exp(s.getCalidad() - r.getCalidad() / temperatura)) {
+//            if (r.compareTo(s) > 0 || 1 > Math.exp((r.getCalidad() - s.getCalidad()) / temperatura)) {
                 s = r;
             }
 //            temperatura = Math.sqrt(temperatura);
