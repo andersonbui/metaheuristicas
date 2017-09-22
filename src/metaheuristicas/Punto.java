@@ -57,7 +57,7 @@ public class Punto implements Iterable<Double>, Comparable<Punto> {
     }
 
     @Override
-    protected Object clone() {
+    public Punto clone() {
         return new Punto(valores.clone(), calidad);
     }
 

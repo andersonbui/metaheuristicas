@@ -5,6 +5,7 @@
  */
 package funciones;
 
+import java.util.Random;
 import metaheuristicas.Punto;
 
 /**
@@ -45,5 +46,26 @@ public abstract class Funcion {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    
+    public Punto limitar(Punto punto) {
+        double[] valores = punto.getValores();
+        for (int i = 0; i < valores.length; i++) {
+            valores[i] = limitar(valores[i]);
+        }
+        return punto;
+    }
+
+    public double limitar(double valor) {
+        return limite < valor ? limite : -limite > valor ? -limite : valor;
+    }
+
+    public Punto generarPunto(Random rand) {
+        double[] valores = new double[getDimension()];
+        for (int i = 0; i < valores.length; i++) {
+            valores[i] = limitar(rand.nextDouble() * getLimite() * 2 - getLimite());
+        }
+        return new Punto(valores);
     }
 }

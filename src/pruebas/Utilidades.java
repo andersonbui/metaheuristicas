@@ -86,7 +86,7 @@ public class Utilidades {
     }
 
     public static void ejecutarAlgoritmosMasFunciones(List<AlgoritmoMetaheuristico> l_amgoritmos,
-            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaDispersion, int numMuestras, int iteraciones) {
+            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaDispersion, int numMuestras, int iteraciones, double paso) {
 
         Punto p_optimo;
         int contadorAlgoritmos = 1;
@@ -111,8 +111,10 @@ public class Utilidades {
                     Random rand = new Random((i * contadorAlgoritmos * contadorFunciones));
                     algoritmo.setRand(rand);
 
-                    Punto inicial = algoritmo.generarPunto();
-                    p_optimo = algoritmo.ejecutar(inicial, iteraciones, listaRecorrido);
+                    Punto inicial = funcion.generarPunto(rand);
+                    algoritmo.setIteraciones(iteraciones);
+                    listaRecorrido = algoritmo.ejecutar(inicial, paso);
+                    p_optimo = listaRecorrido.get(listaRecorrido.size() - 1);
                     listaOptimos.add(new OptimoYRecorrido(p_optimo, listaRecorrido));
                     promedioCalidad += p_optimo.getCalidad();
                 }
@@ -157,9 +159,9 @@ public class Utilidades {
                         "" + Punto.formatear(promedioCalidad),
                         "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
                         "" + (tiempo_final - tiempo_inicial) / numMuestras);
-                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
+//                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
             }
-            System.out.println("");
+//            System.out.println("");
         }
     }
 }

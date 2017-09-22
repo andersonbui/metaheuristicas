@@ -5,66 +5,27 @@
  */
 package metaheuristicas;
 
-import java.util.Collection;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+import tweaks.Tweak;
 
 /**
  *
  * @author debian
  */
-public class B_Hill_Climbing extends AlgoritmoMetaheuristico {
+public class B_Hill_Climbing extends Hill_Climbing {
 
     double paso;
-    int numSucesores;
     double beta = 0.5;
     double bw = 0.6;
 
     /**
      * suiendo la colina (simple) beta = 0.5
-     *
-     * @param paso
+     * @param tweak
      */
-    public B_Hill_Climbing(double paso) {
-        super("B_HC");
-        this.paso = paso;
-        numSucesores = 1;
-    }
-
-    @Override
-    public Punto ejecutar(Punto inicial, int iteraciones, Collection listaPuntosS) {
-        Punto s = inicial;
-        s.setCalidad(funcion.evaluar(s));
-        if (listaPuntosS != null) {
-            listaPuntosS.add(s);
-        }
-        Punto r;
-        for (int i = 0; i < iteraciones; i++) {
-            r = tweak(s, paso);
-            r.setCalidad(funcion.evaluar(r));
-            if (r.compareTo(s) > 0) {
-                s = r;
-            }
-            if (listaPuntosS != null) {
-                listaPuntosS.add(s);
-            }
-        }
-        return s;
-    }
-
-    @Override
-    public Punto tweak(Punto punto, double paso) {
-
-        Punto nuevop = (Punto) punto.clone();
-        double[] valores = nuevop.getValores();
-        // improve
-        int index = rand.nextInt(valores.length);
-        valores[index] = tweaki(valores[index], bw);
-        // end improve
-        for (int i = 0; i < valores.length; i++) {
-            if (rand.nextDouble() < beta) {
-                valores[i] = tweaki(0, funcion.getLimite());
-            }
-        }
-        return nuevop;
+    public B_Hill_Climbing(Tweak tweak) {
+        super();
+        nombre = "B_HC";
+        this.tweak = tweak;
     }
 }

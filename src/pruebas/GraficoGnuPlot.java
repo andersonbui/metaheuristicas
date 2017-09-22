@@ -96,7 +96,7 @@ public class GraficoGnuPlot {
             Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");
 //            file.delete();
         } catch (IOException ex) {
-            Logger.getLogger(GraficoGnuPlot.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(GraficoGnuPlot.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 outF.close();

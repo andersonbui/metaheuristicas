@@ -1,100 +1,65 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metaheuristicas;
 
 import funciones.Funcion;
-import java.util.Collection;
+import java.util.List;
 import java.util.Random;
+import tweaks.Tweak;
 
 /**
  *
  * @author debian
  */
-public abstract class AlgoritmoMetaheuristico {
+public abstract class AlgoritmoMetaheuristico extends Tweak {
 
-    protected Funcion funcion;
+    protected int iteraciones;
     protected String nombre;
-    protected Random rand;
+    protected Tweak tweak;
 
     public AlgoritmoMetaheuristico(String nombre) {
         this.funcion = null;
         this.nombre = nombre;
+        iteraciones = 1;
     }
-    
-    /**
-     *
-     * @param inicial
-     * @param iteraciones
-     * @param listaPuntosS lista de todos los puntos de recorrido del algoritmo
-     * @return
-     */
-    public abstract Punto ejecutar(Punto inicial, int iteraciones, Collection listaPuntosS);
 
-    /**
-     * variacion de un punto[i] entre [-paso, paso], para i=1,2,3,...,N donde N
-     * = dimension(punto)
-     *
-     * @param punto
-     * @param paso
-     * @return
-     */
     public Punto tweak(Punto punto, double paso) {
-        Punto nuevop = (Punto) punto.clone();
-        double[] valores = nuevop.getValores();
-        for (int i = 0; i < valores.length; i++) {
-//            valores[i] = limitar(valores[i] + rand.nextGaussian() * paso * 2 - paso);
-            valores[i] = limitar(valores[i] + rand.nextDouble() * paso * 2 - paso);
-        }
-        return nuevop;
+        tweak.setRand(rand);
+        List<Punto> p_nuevo = tweak.ejecutar(punto, paso);
+        return funcion.limitar(p_nuevo.get(p_nuevo.size() - 1));
     }
 
-    /**
-     * variacion de un i entre [-ancho, ancho]
-     *
-     * @param i
-     * @param ancho
-     * @return
-     */
-    public double tweaki(double i, double ancho) {
-        double nuevop = limitar(i + rand.nextDouble() * ancho * 2 - ancho);
-        return nuevop;
-    }
-
-    protected double limitar(double valor) {
-        double limite = funcion.getLimite();
-        return limite < valor ? limite : -limite > valor ? -limite : valor;
-    }
-
-    public Punto generarPunto() {
-        double[] valores = new double[funcion.getDimension()];
-        for (int i = 0; i < valores.length; i++) {
-//            valores[i] = limitar(rand.nextGaussian() * funcion.getLimite() * 2 - funcion.getLimite());
-            valores[i] = limitar(rand.nextDouble() * funcion.getLimite() * 2 - funcion.getLimite());
-        }
-        return new Punto(valores);
-    }
-
-    public Funcion getFuncion() {
-        return funcion;
-    }
+    @Override
+    public abstract List<Punto> ejecutar(Punto p, double paso);
 
     public String getNombre() {
         return nombre;
     }
 
+    public int getIteraciones() {
+        return iteraciones;
+    }
+
+    public void setIteraciones(int iteraciones) {
+        this.iteraciones = iteraciones;
+    }
+
+    public Tweak getTweak() {
+        return tweak;
+    }
+
+    public void setTweak(Tweak tweak) {
+        this.tweak = tweak;
+    }
+
+    @Override
     public void setFuncion(Funcion funcion) {
-        this.funcion = funcion;
+        super.setFuncion(funcion);
+        tweak.setFuncion(funcion);
     }
 
-    public Random getRand() {
-        return rand;
-    }
-
+    @Override
     public void setRand(Random rand) {
-        this.rand = rand;
+        tweak.setRand(rand);
+        super.setRand(rand);
     }
 
 }

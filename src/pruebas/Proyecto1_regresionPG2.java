@@ -25,6 +25,8 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.AproximacionPG2;
 import metaheuristicas.Punto;
 import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
+import tweaks.Tweak_1;
+import tweaks.Tweak_Explotacion;
 
 /**
  *
@@ -52,19 +54,19 @@ public class Proyecto1_regresionPG2 {
         // limite de las funciones
         numDatos = 1000;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 60000;
+        iteraciones = 50000;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 5;
+        numMuestras = 2;
 
         List<Punto> listaPuntos = Utilidades.obtenerDatosRegresion(numDatos, "datos-regresion.txt");
         // dimension de los puntos
         dimension = listaPuntos.get(0).getValores().length;
         dimension = (dimension * (dimension + 1)) / 2;
-        System.out.println("dimension: "+dimension);
+        System.out.println("dimension: " + dimension);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 
         listaAlgoritmos.add(
-                new AproximacionPG2("Calculo Error", paso));
+                new AproximacionPG2(new Tweak_Explotacion()));
 //        listaAlgoritmos.add(new Hill_Climbing(paso));
 //        listaAlgoritmos.add(new Hill_Climbing_Random_Restarts(10, paso));
 //        listaAlgoritmos.add(new Random_Search());
@@ -80,7 +82,7 @@ public class Proyecto1_regresionPG2 {
                 new ErrorCuadratico(limite, dimension, listaPuntos));
 
         // EJECUTAR ANALISIS
-        ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
+        ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);
     }
 
 }

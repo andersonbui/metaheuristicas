@@ -1,6 +1,7 @@
 package funciones;
 
 import java.util.List;
+import java.util.Random;
 import metaheuristicas.Punto;
 
 /**
@@ -10,6 +11,7 @@ import metaheuristicas.Punto;
 public class ErrorCuadratico extends Funcion {
 
     private final List<Punto> puntosReferencia;
+    private final double prob_ceros = 0.8;
 
     public ErrorCuadratico(double limite, int dimension, List<Punto> puntosReferencia) {
         super("ERROR CUADRATICO", limite, dimension);
@@ -79,5 +81,16 @@ public class ErrorCuadratico extends Funcion {
         }
         return sumaTotal;
     }
-
+    
+    @Override
+    public Punto generarPunto(Random rand) {
+        Punto nuevop = super.generarPunto(rand);
+        double[] valores = nuevop.getValores();
+        for (int i = 0; i < valores.length; i++) {
+            if (rand.nextDouble() < prob_ceros) {
+                valores[i] = 0;
+            }
+        }
+        return nuevop;
+    }
 }
