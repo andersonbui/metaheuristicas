@@ -19,6 +19,7 @@ package pruebas;
 import funciones.Funcion;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -162,6 +163,31 @@ public class Utilidades {
 //                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
             }
 //            System.out.println("");
+        }
+    }
+
+    public static int indiceOrdenadamente(List<Object> lista, Comparable punto, boolean ascendente) {
+        if (lista.isEmpty()) {
+            return 0;
+        }
+        int pos;
+        int sup = lista.size() - 1;
+        int inf = 0;
+        Object puntoPos;
+        int comparacion;
+        while (true) {
+            pos = inf + (sup - inf) / 2;
+            puntoPos = lista.get(pos);
+            comparacion = punto.compareTo(puntoPos) * (ascendente ? 1 : -1);
+            if (comparacion >= 0) {
+                inf = pos + (ascendente ? 1 : 1);
+            } else if (comparacion < 0) {
+
+                sup = pos + (ascendente ? -1 : -1);
+            }
+            if (sup < inf || comparacion == 0) {
+                return inf;
+            }
         }
     }
 }

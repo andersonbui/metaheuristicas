@@ -16,7 +16,7 @@ public abstract class AlgoritmoMetaheuristico extends Tweak {
     protected Tweak tweak;
 
     public AlgoritmoMetaheuristico(String nombre) {
-        this.funcion = null;
+        super();
         this.nombre = nombre;
         iteraciones = 1;
     }
@@ -48,6 +48,7 @@ public abstract class AlgoritmoMetaheuristico extends Tweak {
 
     public void setTweak(Tweak tweak) {
         this.tweak = tweak;
+        this.tweak.setRand(rand);
     }
 
     @Override

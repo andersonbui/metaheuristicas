@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package metaheuristicas;
+package metaheuristicas.simple;
 
+import metaheuristicas.Punto;
+import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

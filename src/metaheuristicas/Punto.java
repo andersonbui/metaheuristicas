@@ -15,6 +15,13 @@ public class Punto implements Iterable<Double>, Comparable<Punto> {
 
     private double[] valores;
     private double calidad;
+    public static short ORDEN = -1;//-1 minimizar, +1 maximizar
+
+    public Punto() {
+        this.valores = null;
+        calidad = 0;
+//        calidad = ORDEN == 1 ? Double.MIN_VALUE : Double.MAX_VALUE;
+    }
 
     public Punto(double[] valores) {
         this.valores = valores;
@@ -63,8 +70,8 @@ public class Punto implements Iterable<Double>, Comparable<Punto> {
 
     @Override
     public int compareTo(Punto otrop) {
-        int retorno = this.calidad > otrop.calidad ? 1 : this.calidad < otrop.calidad ? -1 : 0;
-        return -retorno;
+        Double a_calidad = this.calidad;
+        return ORDEN * a_calidad.compareTo(otrop.getCalidad());
     }
 
     @Override
@@ -81,7 +88,6 @@ public class Punto implements Iterable<Double>, Comparable<Punto> {
             public Double next() {
                 return valores[posicion];
             }
-
         };
     }
 

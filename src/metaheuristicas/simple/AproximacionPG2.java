@@ -1,4 +1,4 @@
-package metaheuristicas;
+package metaheuristicas.simple;
 
 import tweaks.Tweak;
 

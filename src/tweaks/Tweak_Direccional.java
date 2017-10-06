@@ -3,7 +3,7 @@ package tweaks;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import metaheuristicas.Hill_Climbing_direccional;
+import metaheuristicas.simple.Hill_Climbing_direccional;
 import metaheuristicas.Punto;
 
 /**

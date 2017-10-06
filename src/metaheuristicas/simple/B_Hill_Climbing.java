@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package metaheuristicas;
+package metaheuristicas.simple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,6 @@ import tweaks.Tweak;
  * @author debian
  */
 public class B_Hill_Climbing extends Hill_Climbing {
-
-    double paso;
-    double beta = 0.5;
-    double bw = 0.6;
 
     /**
      * suiendo la colina (simple) beta = 0.5

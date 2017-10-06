@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.AproximacionPG2;
+import metaheuristicas.simple.AproximacionPG2;
 import metaheuristicas.Punto;
 import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
 import tweaks.Tweak_1;

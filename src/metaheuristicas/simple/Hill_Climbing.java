@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package metaheuristicas;
+package metaheuristicas.simple;
 
+import metaheuristicas.Punto;
+import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.List;
 import tweaks.Tweak;
@@ -25,9 +27,16 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
     public Hill_Climbing() {
         super("SUBIENDO LA COLINA");
         numSucesores = 1;
+        this.tweak = tweak;
         reemplazo = false;
     }
 
+    public Hill_Climbing(Tweak tweak) {
+        super("SUBIENDO LA COLINA");
+        numSucesores = 1;
+        this.tweak = tweak;
+        reemplazo = false;
+    }
 
     /**
      * subiendola colina por maxima pendiente con (o sin) reemplazo, se acuerdo
@@ -41,6 +50,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         super("SAHC MAXIMA PENDIENTE");
         this.numSucesores = numSucesores > 0 ? numSucesores : 1;
         this.reemplazo = reemplazo;
+        this.tweak = tweak;
         if (reemplazo) {
             this.nombre = "SAHC-WR CON REEMPLAZO";
         }
