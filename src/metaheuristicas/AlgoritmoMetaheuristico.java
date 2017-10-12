@@ -3,35 +3,43 @@ package metaheuristicas;
 import funciones.Funcion;
 import java.util.List;
 import java.util.Random;
-import tweaks.Tweak;
 
 /**
  *
  * @author debian
  */
-public abstract class AlgoritmoMetaheuristico extends Tweak {
+public abstract class AlgoritmoMetaheuristico {
 
+    protected Random rand;
+    protected Funcion funcion;
     protected int iteraciones;
     protected String nombre;
-    protected Tweak tweak;
+    protected AlgoritmoMetaheuristico tweak;
 
     public AlgoritmoMetaheuristico(String nombre) {
-        super();
         this.nombre = nombre;
         iteraciones = 1;
     }
 
-    public Punto tweak(Punto punto, double paso) {
+    public AlgoritmoMetaheuristico() {
+        this.nombre = "";
+        iteraciones = 1;
+    }
+
+    public Punto tweak(Punto punto) {
         tweak.setRand(rand);
-        List<Punto> p_nuevo = tweak.ejecutar(punto, paso);
+        List<Punto> p_nuevo = tweak.ejecutar(punto);
         return funcion.limitar(p_nuevo.get(p_nuevo.size() - 1));
     }
 
-    @Override
-    public abstract List<Punto> ejecutar(Punto p, double paso);
+    public abstract List<Punto> ejecutar(Punto p);
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getIteraciones() {
@@ -42,25 +50,45 @@ public abstract class AlgoritmoMetaheuristico extends Tweak {
         this.iteraciones = iteraciones;
     }
 
-    public Tweak getTweak() {
+    public Random getRand() {
+        return rand;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
+    }
+
+    public Funcion getFuncion() {
+        return funcion;
+    }
+
+    public void setFuncion(Funcion funcion) {
+        this.funcion = funcion;
+        if (tweak != null) {
+            tweak.setFuncion(funcion);
+        }
+    }
+
+    public AlgoritmoMetaheuristico getTweak() {
         return tweak;
     }
 
-    public void setTweak(Tweak tweak) {
+    public void setTweak(AlgoritmoMetaheuristico tweak) {
         this.tweak = tweak;
-        this.tweak.setRand(rand);
+        if (tweak != null) {
+            this.tweak.setRand(rand);
+        }
     }
 
-    @Override
-    public void setFuncion(Funcion funcion) {
-        super.setFuncion(funcion);
-        tweak.setFuncion(funcion);
+    /**
+     * variacion de un i entre [-ancho, ancho]
+     *
+     * @param i
+     * @param ancho
+     * @return
+     */
+    public double tweaki(double i, double ancho) {
+        double nuevop = funcion.limitar(i + rand.nextDouble() * ancho * 2 - ancho);
+        return nuevop;
     }
-
-    @Override
-    public void setRand(Random rand) {
-        tweak.setRand(rand);
-        super.setRand(rand);
-    }
-
 }

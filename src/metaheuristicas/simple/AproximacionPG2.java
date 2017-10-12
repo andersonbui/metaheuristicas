@@ -1,6 +1,7 @@
 package metaheuristicas.simple;
 
-import tweaks.Tweak;
+import metaheuristicas.AlgoritmoMetaheuristico;
+
 
 /**
  *
@@ -13,10 +14,9 @@ public class AproximacionPG2 extends Hill_Climbing {
      *
      * @param tweak
      */
-    public AproximacionPG2(Tweak tweak) {
+    public AproximacionPG2(AlgoritmoMetaheuristico tweak) {
 //        super(paso, 1, false); //Hill_Climbing_
-        super(); //B_Hill_Climbing
+        super(tweak); //B_Hill_Climbing
         super.nombre = "Aproximacion PG2";
-        this.tweak = tweak;
     }
 }

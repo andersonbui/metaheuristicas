@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Punto;
-import tweaks.Tweak;
 
 /**
  *
@@ -31,22 +30,21 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
     int tamanioPoblacion;
     int numDescendientes;
 
-    public AlgoritmoEvolutivo(Tweak tweak) {
+    public AlgoritmoEvolutivo(AlgoritmoMetaheuristico tweak) {
         super("Evolutivo");
         this.tweak = tweak;
-
         numDescendientes = 2;
         tamanioPoblacion = 10;
     }
 
     @Override
-    public List<Punto> ejecutar(Punto p, double paso) {
+    public List<Punto> ejecutar(Punto p) {
         Poblacion poblacion = generarPoblacionInicial();
         Punto mejor = obtenerMejor(poblacion);
         List<Punto> resultado = new ArrayList();
         resultado.add(mejor);
         for (int i = 0; i < iteraciones; i++) {
-            poblacion = mezclar(poblacion, genDescendientes(mejor));
+            poblacion = mezclar(poblacion, genDescendientes(new Punto[]{mejor}));
             mejor = obtenerMejor(poblacion);
             resultado.add(mejor);
         }
@@ -76,13 +74,14 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
         return poblacion;
     }
 
-    private Poblacion genDescendientes(Punto mejor) {
+    private Poblacion genDescendientes(Punto[] padres) {
         Poblacion hijos = new Poblacion(numDescendientes);
         Punto nuevo;
         for (int i = 0; i < numDescendientes; i++) {
-            nuevo = tweak(mejor, 0.5);
+            nuevo = tweak(padres[0]);
             nuevo.setCalidad(funcion.evaluar(nuevo));
             hijos.add(nuevo);
+            
         }
         return hijos;
     }

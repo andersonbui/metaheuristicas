@@ -5,7 +5,7 @@
  */
 package metaheuristicas.simple;
 
-import tweaks.Tweak;
+import metaheuristicas.AlgoritmoMetaheuristico;
 
 /**
  *
@@ -18,8 +18,8 @@ public class Random_Search extends Hill_Climbing {
      *
      * @param tweak
      */
-    public Random_Search(Tweak tweak) {
-        super();
+    public Random_Search(AlgoritmoMetaheuristico tweak) {
+        super(tweak);
         nombre = "RANDOM SEARCH";
         this.tweak = tweak;
     }

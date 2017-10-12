@@ -14,24 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package tweaks;
+package metaheuristicas.simple;
 
-import java.util.ArrayList;
-import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Punto;
 
 /**
- *
  * @author debian
  */
-public class Tweak_GeneraNuevo extends AlgoritmoMetaheuristico {
+public class Hill_Climbing_MPendiente extends Hill_Climbing {
 
-    @Override
-    public List<Punto> ejecutar(Punto punto) {
-        List lista = new ArrayList();
-        lista.add(funcion.generarPunto(rand));
-        return lista;
+    public Hill_Climbing_MPendiente(AlgoritmoMetaheuristico tweak) {
+        super(tweak);
+        super.setNombre("SAHC MAXIMA PENDIENTE");
     }
-
 }

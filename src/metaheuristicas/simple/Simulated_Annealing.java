@@ -10,7 +10,6 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import tweaks.Tweak;
 
 /**
  *
@@ -23,13 +22,13 @@ public class Simulated_Annealing extends AlgoritmoMetaheuristico {
      *
      * @param tweak
      */
-    public Simulated_Annealing(Tweak tweak) {
+    public Simulated_Annealing(AlgoritmoMetaheuristico tweak) {
         super("TEMPLE SIMULADO");
         this.tweak = tweak;
     }
 
     @Override
-    public List<Punto> ejecutar(Punto inicial, double paso) {
+    public List<Punto> ejecutar(Punto inicial) {
         List<Punto> listaPuntosS = new ArrayList();
         Punto s = inicial;
         s.setCalidad(funcion.evaluar(s));
@@ -37,7 +36,7 @@ public class Simulated_Annealing extends AlgoritmoMetaheuristico {
         Punto r;
         double temperatura = 100;
         for (int i = 0; i < iteraciones; i++) {
-            r = tweak(s, paso);
+            r = tweak(s);
             r.setCalidad(funcion.evaluar(r));
 
             if (r.compareTo(s) > 0 || Math.random() < Math.exp(s.getCalidad() - r.getCalidad() / temperatura)) {

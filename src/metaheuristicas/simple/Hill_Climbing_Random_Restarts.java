@@ -6,7 +6,6 @@
 package metaheuristicas.simple;
 
 import metaheuristicas.AlgoritmoMetaheuristico;
-import tweaks.Tweak;
 
 /**
  *
@@ -20,11 +19,10 @@ public class Hill_Climbing_Random_Restarts extends Hill_Climbing {
      * @param tweak
      * @param iteraciones_HC_Interno
      */
-    public Hill_Climbing_Random_Restarts(Tweak tweak, int iteraciones_HC_Interno) {
-        super();
+    public Hill_Climbing_Random_Restarts(AlgoritmoMetaheuristico tweak, int iteraciones_HC_Interno) {
+        super(null);
         // Hill climbing anidado
-        AlgoritmoMetaheuristico am = new Hill_Climbing();
-        am.setTweak(tweak);
+        AlgoritmoMetaheuristico am = new Hill_Climbing(tweak);
         this.tweak = am;
         nombre = "HC-RANDOM-RESTARTS";
         am.setIteraciones(iteraciones_HC_Interno);

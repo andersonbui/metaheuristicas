@@ -12,9 +12,13 @@ import metaheuristicas.Punto;
  */
 public class Tweak_Direccional extends Tweak_1 {
 
+    public Tweak_Direccional(double ancho) {
+        super(ancho);
+    }
+
     @Override
-    public List<Punto> ejecutar(Punto punto, double radio) {
-        Punto r = super.ejecutar(new Punto(new double[funcion.getDimension()]), radio).get(0);
+    public List<Punto> ejecutar(Punto punto) {
+        Punto r = super.ejecutar(new Punto(new double[funcion.getDimension()])).get(0);
         r.setCalidad(funcion.evaluar(r));
         List<Punto> listaSucesores = listaPosiblesSucesoresOrtogonales(punto, r.getValores());
         Collections.sort(listaSucesores);

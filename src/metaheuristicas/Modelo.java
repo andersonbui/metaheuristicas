@@ -14,24 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package tweaks;
-
-import java.util.ArrayList;
-import java.util.List;
-import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Punto;
+package metaheuristicas;
 
 /**
  *
  * @author debian
  */
-public class Tweak_GeneraNuevo extends AlgoritmoMetaheuristico {
-
-    @Override
-    public List<Punto> ejecutar(Punto punto) {
-        List lista = new ArrayList();
-        lista.add(funcion.generarPunto(rand));
-        return lista;
-    }
-
+public interface Modelo {
+    
+    
 }

@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package tweaks;
+package metaheuristicas.simple;
 
-import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Punto;
@@ -25,27 +24,32 @@ import metaheuristicas.Punto;
  *
  * @author debian
  */
-public class Tweak_1 extends AlgoritmoMetaheuristico {
+public class Hill_Climbing_WR extends Hill_Climbing {
 
-    double ancho;
+    int numSucesores;
 
     /**
-     * @param ancho
+     * subiendola colina por maxima pendiente con (o sin) reemplazo, se acuerdo
+     * a los parmetros
+     *
+     * @param tweak
+     * @param numSucesores
      */
-    public Tweak_1(double ancho) {
-        this.ancho = ancho;
+    public Hill_Climbing_WR(AlgoritmoMetaheuristico tweak, int numSucesores) {
+        super(tweak);
+        this.numSucesores = numSucesores > 0 ? numSucesores : 1;
+        this.tweak = tweak;
+        this.nombre = "SAHC-WR CON REEMPLAZO";
     }
 
     @Override
-    public List<Punto> ejecutar(Punto punto) {
-        Punto nuevop = (Punto) punto.clone();
-        double[] valores = nuevop.getValores();
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = funcion.limitar(valores[i] + rand.nextDouble() * ancho * 2 - ancho);
-        }
-        List lista = new ArrayList();
-        lista.add(nuevop);
-        return lista;
+    public Punto tweak(Punto s) {
+        Hill_Climbing hc = new Hill_Climbing((AlgoritmoMetaheuristico) this.tweak);
+        hc.setRand(rand);
+        hc.setFuncion(funcion);
+        hc.setIteraciones(numSucesores);
+        List<Punto> listaRes = hc.ejecutar(s);
+        return listaRes.get(listaRes.size() - 1);
     }
 
 }

@@ -114,7 +114,7 @@ public class Utilidades {
 
                     Punto inicial = funcion.generarPunto(rand);
                     algoritmo.setIteraciones(iteraciones);
-                    listaRecorrido = algoritmo.ejecutar(inicial, paso);
+                    listaRecorrido = algoritmo.ejecutar(inicial);
                     p_optimo = listaRecorrido.get(listaRecorrido.size() - 1);
                     listaOptimos.add(new OptimoYRecorrido(p_optimo, listaRecorrido));
                     promedioCalidad += p_optimo.getCalidad();

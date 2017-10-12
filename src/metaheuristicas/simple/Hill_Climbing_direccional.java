@@ -5,7 +5,8 @@
  */
 package metaheuristicas.simple;
 
-import tweaks.Tweak;
+import metaheuristicas.AlgoritmoMetaheuristico;
+
 
 /**
  *
@@ -13,10 +14,9 @@ import tweaks.Tweak;
  */
 public class Hill_Climbing_direccional extends Hill_Climbing {
     
-    public Hill_Climbing_direccional(Tweak tweak) {
-        super();
+    public Hill_Climbing_direccional(AlgoritmoMetaheuristico tweak) {
+        super(tweak);
         nombre = "HC MAXIMA H_ORTOGONALES";
-        this.tweak = tweak;
     }
     
 }

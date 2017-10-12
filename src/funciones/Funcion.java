@@ -48,7 +48,6 @@ public abstract class Funcion {
         this.nombre = nombre;
     }
     
-    
     public Punto limitar(Punto punto) {
         double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {

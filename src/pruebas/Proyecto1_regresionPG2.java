@@ -66,7 +66,7 @@ public class Proyecto1_regresionPG2 {
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 
         listaAlgoritmos.add(
-                new AproximacionPG2(new Tweak_Explotacion()));
+                new AproximacionPG2(new Tweak_Explotacion(paso)));
 //        listaAlgoritmos.add(new Hill_Climbing(paso));
 //        listaAlgoritmos.add(new Hill_Climbing_Random_Restarts(10, paso));
 //        listaAlgoritmos.add(new Random_Search());
