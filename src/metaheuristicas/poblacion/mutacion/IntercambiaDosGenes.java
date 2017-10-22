@@ -14,13 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package metaheuristicas;
+package metaheuristicas.poblacion.mutacion;
+
+import java.util.Random;
+import metaheuristicas.Punto;
 
 /**
  *
  * @author debian
  */
-public interface Modelo {
-    
-    
+public class IntercambiaDosGenes {
+
+    public Punto mutar(Punto punto, Random rand) {
+        int pos1;
+        int pos2;
+        double valor1;
+        double valor2;
+        pos1 = rand.nextInt(punto.getDimension());
+        pos2 = rand.nextInt(punto.getDimension());
+        valor1 = punto.getValor(pos1);
+        valor2 = punto.getValor(pos2);
+
+        punto.set(pos1, (valor2 == 1 ? 0 : 1));
+        punto.set(pos2, (valor1 == 1 ? 0 : 1));
+
+        punto.evaluar();
+        return punto;
+    }
 }

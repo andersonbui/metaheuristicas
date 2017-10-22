@@ -16,74 +16,40 @@
  */
 package metaheuristicas.poblacion;
 
+import funciones.Funcion;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Punto;
 
 /**
- *
  * @author debian
  */
 public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
 
-    int tamanioPoblacion;
-    int numDescendientes;
+    Estrategia estrategia;
 
-    public AlgoritmoEvolutivo(AlgoritmoMetaheuristico tweak) {
+    /**
+     * @param estrategia
+     */
+    public AlgoritmoEvolutivo(Estrategia estrategia) {
         super("Evolutivo");
-        this.tweak = tweak;
-        numDescendientes = 2;
-        tamanioPoblacion = 10;
+        this.estrategia = estrategia;
+        setNombre(estrategia.getNombreEstrategia());
     }
 
     @Override
-    public List<Punto> ejecutar(Punto p) {
-        Poblacion poblacion = generarPoblacionInicial();
-        Punto mejor = obtenerMejor(poblacion);
-        List<Punto> resultado = new ArrayList();
-        resultado.add(mejor);
+    public List<Punto> ejecutar(Random rand, Funcion funcion) {
+        Poblacion poblacion = estrategia.generarPoblacion(funcion, rand);
+        Punto mejor = poblacion.getMejor();
+        List<Punto> recorrido = new ArrayList();
+        recorrido.add(mejor);
         for (int i = 0; i < iteraciones; i++) {
-            poblacion = mezclar(poblacion, genDescendientes(new Punto[]{mejor}));
-            mejor = obtenerMejor(poblacion);
-            resultado.add(mejor);
+            poblacion = estrategia.siguienteGeneracion(1, poblacion, rand);
+            mejor = poblacion.getMejor();
+            recorrido.add(mejor);
         }
-        return resultado;
+        return recorrido;
     }
-
-    private Poblacion mezclar(Poblacion poblacion, Poblacion genDescendientes) {
-        Poblacion pob = poblacion;
-        for (Punto descen : genDescendientes.getPoblacion()) {
-            poblacion.add(descen);
-        }
-        return pob;
-    }
-
-    protected Punto obtenerMejor(Poblacion poblacion) {
-        return poblacion.getMejor();
-    }
-
-    protected Poblacion generarPoblacionInicial() {
-        Poblacion poblacion = new Poblacion(tamanioPoblacion);
-        Punto p;
-        for (int i = 0; i < tamanioPoblacion; i++) {
-            p = funcion.generarPunto(rand);
-            p.setCalidad(funcion.evaluar(p));
-            poblacion.add(p);
-        }
-        return poblacion;
-    }
-
-    private Poblacion genDescendientes(Punto[] padres) {
-        Poblacion hijos = new Poblacion(numDescendientes);
-        Punto nuevo;
-        for (int i = 0; i < numDescendientes; i++) {
-            nuevo = tweak(padres[0]);
-            nuevo.setCalidad(funcion.evaluar(nuevo));
-            hijos.add(nuevo);
-            
-        }
-        return hijos;
-    }
-
 }

@@ -5,10 +5,14 @@
  */
 package metaheuristicas.simple;
 
+import funciones.Funcion;
 import metaheuristicas.Punto;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import tweaks.Tweak;
+import tweaks.Tweak_1;
 
 /**
  *
@@ -16,25 +20,27 @@ import java.util.List;
  */
 public class Hill_Climbing extends AlgoritmoMetaheuristico {
 
+    Tweak tweak;
+
     /**
      * suiendo la colina (simple)
      *
-     * @param tweak
+     * @param ancho
      */
-    public Hill_Climbing(AlgoritmoMetaheuristico tweak) {
+    public Hill_Climbing(double ancho) {
         super("SUBIENDO LA COLINA");
-        this.tweak = tweak;
+        this.tweak = new Tweak_1(ancho);
     }
 
     @Override
-    public List<Punto> ejecutar(Punto inicial) {
+    public List<Punto> ejecutar(Random rand, Funcion funcion) {
         List<Punto> listaPuntosS = new ArrayList();
-        Punto s = inicial;
+        Punto s = Punto.generar(funcion, rand);
         s.setCalidad(funcion.evaluar(s));
         listaPuntosS.add(s);
         Punto r;
         for (int i = 0; i < iteraciones; i++) {
-            r = tweak(s);
+            r = tweak.tweak(s, rand);
             r.setCalidad(funcion.evaluar(r));
             if (r.compareTo(s) > 0) {
                 s = r;

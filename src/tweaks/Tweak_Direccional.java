@@ -1,9 +1,10 @@
 package tweaks;
 
+import funciones.Funcion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import metaheuristicas.simple.Hill_Climbing_direccional;
+import java.util.Random;
 import metaheuristicas.Punto;
 
 /**
@@ -16,18 +17,19 @@ public class Tweak_Direccional extends Tweak_1 {
         super(ancho);
     }
 
+    Funcion funcion;
+
     @Override
-    public List<Punto> ejecutar(Punto punto) {
-        Punto r = super.ejecutar(new Punto(new double[funcion.getDimension()])).get(0);
+    public Punto tweak(Punto punto, Random rand) {
+        funcion = punto.getFuncion();
+        Punto r = super.tweak(new Punto(punto.getFuncion(), new double[funcion.getDimension()]), rand);
         r.setCalidad(funcion.evaluar(r));
         List<Punto> listaSucesores = listaPosiblesSucesoresOrtogonales(punto, r.getValores());
         Collections.sort(listaSucesores);
         // reemplazo del punto original
         punto = listaSucesores.get(listaSucesores.size() - 1);
-        punto.setCalidad(funcion.evaluar(punto));
-        List lista = new ArrayList();
-        lista.add(punto);
-        return lista;
+        punto.evaluar();
+        return punto;
     }
 
     /**
@@ -44,7 +46,6 @@ public class Tweak_Direccional extends Tweak_1 {
         if (vectorDireccionOriginal.length != punto.getValores().length) {
             throw new IllegalArgumentException("error! tamanio diferente de punto y vector direccion!");
         }
-
         List<Punto> listaPuntos = new ArrayList();
         double[] vectorAux;
         List<double[]> listaRest = new ArrayList();
@@ -57,7 +58,7 @@ public class Tweak_Direccional extends Tweak_1 {
             for (int i = 0; i < vectorAux.length; i++) {
                 vectorAux[i] = funcion.limitar(vectorAux[i] + item[i] * vectorDireccionOriginal[i]);
             }
-            nuevoPunto = new Punto(vectorAux);
+            nuevoPunto = new Punto(punto.getFuncion(), vectorAux);
             nuevoPunto.setCalidad(funcion.evaluar(nuevoPunto));
             listaPuntos.add(nuevoPunto);
         }

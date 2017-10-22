@@ -33,6 +33,7 @@ public abstract class Funcion {
     public void setLimite(double limite) {
         this.limite = limite;
     }
+
     public int getDimension() {
         return dimension;
     }
@@ -40,6 +41,7 @@ public abstract class Funcion {
     public void setDimension(int dimension) {
         this.dimension = dimension;
     }
+
     public String getNombre() {
         return nombre;
     }
@@ -47,7 +49,7 @@ public abstract class Funcion {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public Punto limitar(Punto punto) {
         double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
@@ -60,11 +62,4 @@ public abstract class Funcion {
         return limite < valor ? limite : -limite > valor ? -limite : valor;
     }
 
-    public Punto generarPunto(Random rand) {
-        double[] valores = new double[getDimension()];
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = limitar(rand.nextDouble() * getLimite() * 2 - getLimite());
-        }
-        return new Punto(valores);
-    }
 }

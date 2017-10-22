@@ -1,15 +1,14 @@
 package tweaks;
 
-import java.util.ArrayList;
-import java.util.List;
-import metaheuristicas.AlgoritmoMetaheuristico;
+import funciones.Funcion;
+import java.util.Random;
 import metaheuristicas.Punto;
 
 /**
  *
  * @author debian
  */
-public class Tweak_B_HC extends AlgoritmoMetaheuristico {
+public class Tweak_B_HC extends Tweak {
 
     double paso;
     double beta = 0.5;
@@ -22,22 +21,22 @@ public class Tweak_B_HC extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Punto> ejecutar(Punto punto) {
+    public Punto tweak(Punto punto, Random rand) {
 
         Punto nuevop = (Punto) punto.clone();
+        Funcion funcion = punto.getFuncion();
         double[] valores = nuevop.getValores();
         // improve
         int index = rand.nextInt(valores.length);
-        valores[index] = tweaki(valores[index], bw);
+        valores[index] = genValor(valores[index], bw, rand);
         // end improve
         for (int i = 0; i < valores.length; i++) {
             if (rand.nextDouble() < beta) {
-                valores[i] = tweaki(0, funcion.getLimite());
+                valores[i] = genValor(0, funcion.getLimite(), rand);
             }
         }
-        List lista = new ArrayList();
-        lista.add(nuevop);
-        return lista;
+        nuevop.evaluar();
+        return nuevop;
     }
 
 }

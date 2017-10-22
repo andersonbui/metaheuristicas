@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package tweaks;
+package metaheuristicas.poblacion.mutacion;
 
-import funciones.Funcion;
 import java.util.Random;
 import metaheuristicas.Punto;
 
@@ -24,30 +23,24 @@ import metaheuristicas.Punto;
  *
  * @author debian
  */
-public class Tweak_1 extends Tweak {
-
-    double ancho;
+public class MultiBit {
 
     /**
-     * genera un nuevo punto tomando un otro punto como base y añadiendo un
-     * cambio aleatorio limitado por un ancho.
      *
-     * @param ancho
+     * @param punto
+     * @param rand
+     * @param probabilidad de ser mutado un bit
+     * @return
      */
-    public Tweak_1(double ancho) {
-        this.ancho = ancho;
-    }
-
-    @Override
-    public Punto tweak(Punto punto, Random rand) {
-        Punto nuevop = (Punto) punto.clone();
-        Funcion funcion = punto.getFuncion();
-        double[] valores = nuevop.getValores();
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = funcion.limitar(valores[i] + rand.nextDouble() * ancho * 2 - ancho);
+    public Punto mutar(Punto punto, Random rand, double probabilidad) {
+        int valor;
+        for (int i = 0; i < punto.getDimension(); i++) {
+            if (probabilidad > rand.nextDouble()) {
+                valor = (int) punto.getValor(i);
+                punto.set(i, (valor == 1 ? 0 : 1));
+            }
         }
-        nuevop.evaluar();
-        return nuevop;
+        punto.evaluar();
+        return punto;
     }
-
 }

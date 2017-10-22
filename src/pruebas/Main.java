@@ -6,25 +6,18 @@
 package pruebas;
 
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.simple.Random_Search;
 import funciones.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
-import metaheuristicas.simple.B_Hill_Climbing;
+import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
+import metaheuristicas.poblacion.EstrategiaGenetico;
+import metaheuristicas.poblacion.EstrategiaGeneticoBinaria;
+import metaheuristicas.poblacion.EstrategiaMLamda;
+import metaheuristicas.poblacion.EstrategiaMutacion;
 import metaheuristicas.simple.Hill_Climbing;
-import metaheuristicas.simple.Hill_Climbing_MPendiente;
-import metaheuristicas.simple.Hill_Climbing_Random_Restarts;
-import metaheuristicas.simple.Hill_Climbing_WR;
-import metaheuristicas.simple.Hill_Climbing_direccional;
-import metaheuristicas.simple.Simulated_Annealing;
 import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
-import tweaks.Tweak_1;
-import tweaks.Tweak_Direccional;
-import tweaks.Tweak_B_HC;
-import tweaks.Tweak_GeneraNuevo;
 
 /**
  *
@@ -50,35 +43,35 @@ public class Main {
         int iteraciones;
         int numMuestras;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
-        boolean graficaDispercion2D = true; // true para graficas de dispersion con gnuplot
-
-//        Scanner scan = new Scanner(new File("parametros.txt"));
-        // lectura de parametros desde cadena
-//        Scanner scan = new Scanner("1\n100\n2\n5000\n5\n");
+        boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
+//        graficaRecorrido3D = true;
+//        graficaDispercion2D = true;
         // rango maximo de cambio en el tweak
-        paso = 0.2;
+        paso = 1;
         // limite de las funciones
         limite = 100;
         // dimension de los puntos
         dimension = 2;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 2000;
+        iteraciones = 10;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 5;
 
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
-        AlgoritmoMetaheuristico tweak = new Hill_Climbing(new Tweak_1(paso));
-        ((AlgoritmoMetaheuristico)tweak).setIteraciones(10);
-        listaAlgoritmos.add(new Hill_Climbing_MPendiente(tweak));
-        listaAlgoritmos.add(new Hill_Climbing_WR(new Tweak_1(paso),10));
-        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso)));
-//        listaAlgoritmos.add(new Hill_Climbing_Random_Restarts(new Tweak_1(paso), 500));
-//        listaAlgoritmos.add(new Random_Search(new Tweak_GeneraNuevo()));
-//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new Tweak_1(paso)));
+//        listaAlgoritmos.add(new Hill_Climbing_MPendiente(paso));
+//        listaAlgoritmos.add(new Hill_Climbing_WR(paso,10));
+        listaAlgoritmos.add(new Hill_Climbing(paso));
+//        listaAlgoritmos.add(new Hill_Climbing_Random_Restarts(paso, 50));
+//        listaAlgoritmos.add(new Random_Search());
+//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaGenetico(10)));
+//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaGeneticoBinaria(10)));
+//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMutacion(10)));
+//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMLamda(5, 10)));
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencial(10)));
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,false)); // hill climbing maxima pendiente
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,true)); // hill climbing con reinicio aleatorio
-//        listaAlgoritmos.add(new Hill_Climbing_direccional(new Tweak_Direccional(paso)));
-//        listaAlgoritmos.add(new Simulated_Annealing(new Tweak_1(paso)));
+//        listaAlgoritmos.add(new Hill_Climbing_HO(paso));
+//        listaAlgoritmos.add(new Simulated_Annealing(paso));
 //        listaAlgoritmos.add(new B_Hill_Climbing(new Tweak_B_HC(paso)));
 
         List<Funcion> listaFunciones = new ArrayList();
@@ -91,8 +84,8 @@ public class Main {
 //        listaFunciones.add(new Schwefel(limite, dimension));
 //        listaFunciones.add(new Rastrigin(limite, dimension));
 //        listaFunciones.add(new Griewank(limite, dimension));
-//        listaFunciones.add(new Ackley(limite, dimension));
-//        listaFunciones.add(new Piso(limite, dimension));
+        listaFunciones.add(new Ackley(limite, dimension));
+        listaFunciones.add(new Piso(limite, dimension));
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);

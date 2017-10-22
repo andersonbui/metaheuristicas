@@ -16,9 +16,10 @@
  */
 package metaheuristicas.poblacion;
 
+import funciones.Funcion;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import metaheuristicas.Punto;
 import pruebas.Utilidades;
 
@@ -26,78 +27,99 @@ import pruebas.Utilidades;
  *
  * @author debian
  */
-public class Poblacion extends Punto {
+public class Poblacion extends ArrayList<Punto> {
 
-    protected Punto mejor;
-    List<Punto> poblacion;
+//    protected Punto mejor;
+//    protected List<Punto> poblacion;
+    private Funcion funcion;
+    private int tamanioMaximo;
+    private int generacion;
 
-    public Poblacion(int initialCapacity) {
-        super();
-        mejor = null;
-        poblacion = new ArrayList(initialCapacity);
+    /**
+     *
+     * @param funcion
+     * @param tamanioMaximo
+     */
+    public Poblacion(Funcion funcion, int tamanioMaximo) {
+//        mejor = null;
+//        poblacion = new ArrayList(tamanioMaximo);
+        this.tamanioMaximo = tamanioMaximo;
+        this.funcion = funcion;
+        this.generacion = 0;
     }
 
-    public void add(Punto element) {
+    @Override
+    public boolean add(Punto element) {
         int pos = 0;
-
-        if (mejor != null) {
-            mejor = mejor.compareTo(element) >= 0 ? mejor : element;
-        } else {
-            mejor = element;
+        element.setGeneracion(generacion);
+//        if (mejor != null) {
+//            mejor = mejor.compareTo(element) >= 0 ? mejor : element;
+//        } else {
+//            mejor = element;
+//        }
+        List listapob = this;
+        pos = Utilidades.indiceOrdenadamente(listapob, element, (Punto.ORDEN == 1));
+        super.add(pos, element);
+        if (size() > tamanioMaximo) {
+            remove(tamanioMaximo);
         }
-//        List listapob = poblacion;
-//        pos = Utilidades.indiceOrdenadamente(listapob, element, (Punto.ORDEN == 1));
-        poblacion.add(pos, element);
+        return true;
+    }
+
+    public int getGeneracion() {
+        return generacion;
+    }
+
+    public void setGeneracion(int generacion) {
+        this.generacion = generacion;
+    }
+
+    public void aumentarGeneracion() {
+        this.generacion++;
+    }
+    public int getTamanioMaximo() {
+        return tamanioMaximo;
+    }
+
+    public void setTamanioMaximo(int tamanioMaximo) {
+        this.tamanioMaximo = tamanioMaximo;
     }
 
     public Punto getMejor() {
-        return mejor;
+        return this.get(0);
     }
 
-    public void setMejor(Punto mejor) {
-        this.mejor = mejor;
+    public void evaluar() {
+        for (Punto punto : this) {
+            punto.setCalidad(funcion.evaluar(punto));
+        }
     }
 
-    public List<Punto> getPoblacion() {
+    public Funcion getFuncion() {
+        return funcion;
+    }
+
+    public void setFuncion(Funcion funcion) {
+        this.funcion = funcion;
+    }
+
+    public static Poblacion generar(Funcion funcion, int tamanioPoblacion, Random rand) {
+        Poblacion poblacion = new Poblacion(funcion, tamanioPoblacion);
+        Punto p;
+        for (int i = 0; i < tamanioPoblacion; i++) {
+            p = Punto.generar(funcion, rand);
+            poblacion.add(p);
+        }
         return poblacion;
     }
 
-    public void setPoblacion(List<Punto> poblacion) {
-        this.poblacion = poblacion;
-    }
-
     @Override
-    public double[] getValores() {
-        return mejor.getValores();
-    }
-
-    @Override
-    public void setValores(double[] valores) {
-        mejor.setValores(valores);
-    }
-
-    @Override
-    public double getCalidad() {
-        return mejor.getCalidad();
-    }
-
-    @Override
-    public String getCalidadString() {
-        return mejor.getCalidadString();
-    }
-
-    @Override
-    public void setCalidad(double calidad) {
-        mejor.setCalidad(calidad);
-    }
-
-    @Override
-    public int compareTo(Punto otrop) {
-        return mejor.compareTo(otrop);
-    }
-
-    public int size() {
-        return poblacion.size();
+    public Poblacion clone() {
+        Poblacion copia = new Poblacion(funcion, tamanioMaximo);
+        for (Punto punto : this) {
+            copia.add(punto.clone());
+        }
+        return copia;
     }
 
 }

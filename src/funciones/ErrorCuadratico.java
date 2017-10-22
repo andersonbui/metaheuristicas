@@ -55,14 +55,14 @@ public class ErrorCuadratico extends Funcion {
             Punto punto = listPuntos.get(i);
             valoresFitness[i] = punto.getCalidad() - funcionPolinomio(punto, coeficientes);
         }
-        return new Punto(valoresFitness);
+        return new Punto(this, valoresFitness);
     }
 
     /**
      * Evlua el punto en el polinomio generado a partir de los coeficientes mas
      * las correspondientes variables de un pilinomio grado 2
      *
-     * @param punto punto 
+     * @param punto punto
      * @param coeficientes coeficientes delpolinomio de grado 2
      * @return
      */
@@ -81,10 +81,9 @@ public class ErrorCuadratico extends Funcion {
         }
         return sumaTotal;
     }
-    
-    @Override
-    public Punto generarPunto(Random rand) {
-        Punto nuevop = super.generarPunto(rand);
+
+    public Punto generarPunto(Funcion funcion, Random rand) {
+        Punto nuevop = Punto.generar(funcion, rand);
         double[] valores = nuevop.getValores();
         for (int i = 0; i < valores.length; i++) {
             if (rand.nextDouble() < prob_ceros) {

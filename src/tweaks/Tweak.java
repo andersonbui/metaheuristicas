@@ -14,17 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package metaheuristicas.simple;
+package tweaks;
 
-import metaheuristicas.AlgoritmoMetaheuristico;
+import java.util.Random;
+import metaheuristicas.Punto;
 
 /**
+ *
  * @author debian
  */
-public class Hill_Climbing_MPendiente extends Hill_Climbing {
+public abstract class Tweak {
 
-    public Hill_Climbing_MPendiente(AlgoritmoMetaheuristico tweak) {
-        super(tweak);
-        super.setNombre("SAHC MAXIMA PENDIENTE");
+    public abstract Punto tweak(Punto punto, Random rand);
+
+    /**
+     * variacion de un i entre [-ancho, ancho]
+     *
+     * @param i
+     * @param ancho
+     * @param rand
+     * @return
+     */
+    public double genValor(double i, double ancho, Random rand) {
+        return i + rand.nextDouble() * ancho * 2 - ancho;
     }
 }

@@ -16,22 +16,20 @@
  */
 package tweaks;
 
-import java.util.ArrayList;
-import java.util.List;
-import metaheuristicas.AlgoritmoMetaheuristico;
+import java.util.Random;
 import metaheuristicas.Punto;
 
 /**
  *
  * @author debian
  */
-public class Tweak_GeneraNuevo extends AlgoritmoMetaheuristico {
+public class Tweak_GeneraNuevo extends Tweak {
 
     @Override
-    public List<Punto> ejecutar(Punto punto) {
-        List lista = new ArrayList();
-        lista.add(funcion.generarPunto(rand));
-        return lista;
+    public Punto tweak(Punto punto, Random rand) {
+        Punto nuevo = Punto.generar(punto.getFuncion(), rand);
+        nuevo.evaluar();
+        return nuevo;
     }
 
 }
