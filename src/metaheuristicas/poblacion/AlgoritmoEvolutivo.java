@@ -48,6 +48,7 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
         for (int i = 0; i < iteraciones; i++) {
             poblacion = estrategia.siguienteGeneracion(1, poblacion, rand);
             mejor = poblacion.getMejor();
+            
             recorrido.add(mejor);
         }
         return recorrido;

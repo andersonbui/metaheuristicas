@@ -58,7 +58,7 @@ public class Poblacion extends ArrayList<Punto> {
 //            mejor = element;
 //        }
         List listapob = this;
-        pos = Utilidades.indiceOrdenadamente(listapob, element, (Punto.ORDEN == 1));
+        pos = Utilidades.indiceOrdenadamente(listapob, element, false);
         super.add(pos, element);
         if (size() > tamanioMaximo) {
             remove(tamanioMaximo);

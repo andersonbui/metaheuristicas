@@ -62,4 +62,13 @@ public abstract class Funcion {
         return limite < valor ? limite : -limite > valor ? -limite : valor;
     }
 
+    public Punto generarPunto(Random rand) {
+        double[] valores = new double[getDimension()];
+        for (int i = 0; i < valores.length; i++) {
+            valores[i] = limitar(rand.nextDouble() * getLimite() * 2 - getLimite());
+        }
+        Punto punto = new Punto(this, valores);
+        punto.evaluar();
+        return punto;
+    }
 }

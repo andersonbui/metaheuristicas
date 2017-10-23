@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metaheuristicas;
 
 import funciones.Funcion;
@@ -21,7 +16,7 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
     private double calidad;
     private Funcion funcion;
     private int generacion;
-    public static short ORDEN = -1;//-1 minimizar, +1 maximizar
+    public static short ORDEN = 1; //-1 minimizar, +1 maximizar
 
     public Punto(Funcion funcion) {
         this.funcion = funcion;
@@ -90,12 +85,10 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
     }
 
     public String toString2() {
-
         return "Punto{" + toString() + '}';
     }
 
     public String toString3() {
-
         return toString().replace(' ', ';').replace('.', ',');
     }
 
@@ -161,13 +154,6 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
     }
 
     public static Punto generar(Funcion funcion, Random rand) {
-        double[] valores = new double[funcion.getDimension()];
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = funcion.limitar(rand.nextDouble() * funcion.getLimite() * 2 - funcion.getLimite());
-        }
-        Punto punto = new Punto(funcion, valores);
-        punto.evaluar();
-        return punto;
-
+        return funcion.generarPunto(rand);
     }
 }

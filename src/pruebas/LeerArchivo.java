@@ -58,6 +58,20 @@ public class LeerArchivo {
         return listaCadenas;
     }
 
+    public static List<String> leer() {
+        List<String> listaCadenas = new ArrayList();
+        // Lectura del fichero
+        String linea;
+        try {
+            while ((linea = br.readLine()) != null) {
+                listaCadenas.add(linea);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(LeerArchivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaCadenas;
+    }
+
     public static void terminar() {
         try {
             if (null != fr) {

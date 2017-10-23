@@ -156,6 +156,9 @@ public class Utilidades {
                         "" + Punto.formatear(promedioCalidad),
                         "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
                         "" + (tiempo_final - tiempo_inicial) / numMuestras);
+
+                //implimir mejor optimo
+                System.out.println("\n\nMejor optimo: " + mejorOptimo.toString());
 //                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
             }
 //            System.out.println("");
@@ -185,5 +188,33 @@ public class Utilidades {
                 return inf;
             }
         }
+    }
+
+    static public List obtenerDatosMochila(String nombreArchivo) {
+        LeerArchivo.abrir(nombreArchivo);
+        List<String> listaCadenas = LeerArchivo.leer();
+        List listaObj = new ArrayList();
+        int j;
+        LeerArchivo.terminar();
+        for (int i = 0; i < listaCadenas.size(); i++) {
+            int posicionSubdivisiones = 0;
+            String cadena = listaCadenas.get(i).replace(',', '.');
+
+            cadena = eliminarEspaciosRepetidos(cadena);
+
+            String[] vectSubdivisiones = cadena.split("" + '\u0020');
+            double[] valoresPuntoActual = new double[vectSubdivisiones.length];
+            for (j = 0; j < valoresPuntoActual.length; j++) {
+//                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
+                valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[j].trim());
+            }
+            if (vectSubdivisiones.length == 1) {
+                listaObj.add(0, Double.parseDouble(vectSubdivisiones[0]));
+                break;
+            }
+            listaObj.add(valoresPuntoActual);
+//            System.out.println("<" + puntoActual.toString() + ">");
+        }
+        return listaObj;
     }
 }

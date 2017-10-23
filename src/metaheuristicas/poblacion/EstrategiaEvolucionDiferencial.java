@@ -26,8 +26,8 @@ import metaheuristicas.poblacion.seleccion.Ruleta;
  */
 public class EstrategiaEvolucionDiferencial extends Estrategia {
 
-    private final double alfa; //mutation rate
-    private final double cr; // tasa de cruce
+    protected double alfa; //mutation rate
+    protected double cr; // tasa de cruce
 
     public EstrategiaEvolucionDiferencial(int tamPoblacion) {
         super(tamPoblacion, 2);
@@ -63,14 +63,14 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         return siguienteGeneracion;
     }
 
-    public void seleccion(Punto objetivo, Punto individuoPrueba, Poblacion siguienteGeneracion) {
+    protected void seleccion(Punto objetivo, Punto individuoPrueba, Poblacion siguienteGeneracion) {
 //        individuoPrueba.evaluar();
 //        objetivo.evaluar();
         Punto selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
         siguienteGeneracion.add(selleccionado);
     }
 
-    private Punto cruce(Punto objetivo, Punto mutado, Poblacion poblacion, int k, Random rand) {
+    protected Punto cruce(Punto objetivo, Punto mutado, Poblacion poblacion, int k, Random rand) {
         Punto individuoPrueba = objetivo.clone();
         double wi; // posicion i del punto mutado
         double vi; // posicion i del punto objetivo
@@ -87,7 +87,7 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         return individuoPrueba;
     }
 
-    private Punto mutar(Poblacion poblacion, Random rand) {
+    protected Punto mutar(Poblacion poblacion, Random rand) {
 
         Punto x1 = Ruleta.seleccionar(poblacion, rand);
         Punto x2 = Ruleta.seleccionar(poblacion, rand);
@@ -98,41 +98,39 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         Punto diferenciaX1X2 = resta(x1, x2);
         Punto productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
         Punto mutado = suma(x3, productoEscalar);
-        mutado.evaluar();
+//        mutado.evaluar();
         return mutado;
     }
 
-    private Punto resta(Punto minuendo, Punto sustraendo) {
+    protected Punto resta(Punto minuendo, Punto sustraendo) {
         Punto diferencia = minuendo.clone();
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.getValor(i) - sustraendo.getValor(i);
-            minuendo.set(i, resta);
+//            minuendo.set(i, resta);
             diferencia.set(i, resta);
         }
-        diferencia.evaluar();
         return diferencia;
     }
 
-    private Punto suma(Punto sumando, Punto sumando2) {
+    protected Punto suma(Punto sumando, Punto sumando2) {
         Punto resultado = (Punto) sumando.clone();
         double suma;
         for (int i = 0; i < resultado.getDimension(); i++) {
             suma = sumando.getValor(i) + sumando2.getValor(i);
+//            sumando.set(i, suma);
             resultado.set(i, suma);
         }
-        resultado.evaluar();
         return resultado;
     }
 
-    private Punto multiplicacionPorEscalar(Punto punto, double escalar) {
+    protected Punto multiplicacionPorEscalar(Punto punto, double escalar) {
         Punto result = (Punto) punto.clone();
         double producto;
         for (int i = 0; i < result.getDimension(); i++) {
             producto = punto.getValor(i) * escalar;
             result.set(i, producto);
         }
-        result.evaluar();
         return result;
     }
 }
