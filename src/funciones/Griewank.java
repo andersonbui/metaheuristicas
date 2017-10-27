@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Griewank extends Funcion {
 
-    public Griewank(double limite, int dimension) {
-        super("GRIEWANT", limite, dimension);
+    public Griewank(double limite, int dimension, boolean maximizar) {
+        super("GRIEWANT", limite, dimension, maximizar);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Griewank extends Funcion {
             suma += valores[i] * valores[i];
         }
         for (int i = 0; i < valores.length; i++) {
-            producto *= Math.cos(valores[i] / Math.sqrt(i+1));
+            producto *= Math.cos(valores[i] / Math.sqrt(i + 1));
         }
         return (1 / 4000) * suma - producto + 1;
     }

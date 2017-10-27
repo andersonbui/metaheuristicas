@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Cubo extends Funcion {
 
-    public Cubo(double limite, int dimension) {
-        super("CUBO", limite, dimension);
+    public Cubo(double limite, int dimension, boolean maximizar) {
+        super("CUBO", limite, dimension, maximizar);
     }
 
     @Override

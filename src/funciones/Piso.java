@@ -24,8 +24,8 @@ import metaheuristicas.Punto;
  */
 public class Piso extends Funcion {
 
-    public Piso(double limite, int dimension) {
-        super("PISO", limite, dimension);
+    public Piso(double limite, int dimension, boolean maximizar) {
+        super("PISO", limite, dimension, maximizar);
     }
     double num = 0.5;
 

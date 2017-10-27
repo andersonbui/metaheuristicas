@@ -25,9 +25,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
+import metaheuristicas.Punto;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinaria;
+import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaper;
 import metaheuristicas.simple.Hill_Climbing;
 import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
 
@@ -40,7 +42,7 @@ public class MainMochila {
     public static void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
         double limite;
-        int dimension;
+        int tamPoblacion;
         int iteraciones;
         int numMuestras;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
@@ -50,32 +52,38 @@ public class MainMochila {
         // rango maximo de cambio en el tweak
         paso = 1;
         // limite de las funciones
-        limite = 100;
+        limite = 0;
         // dimension de los puntos
-        dimension = 0;
+        tamPoblacion = 0;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 5000;
+        iteraciones = 50;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 5;
+        numMuestras = 1;
+        
+        boolean maximizar = true;
 
-        List listaPuntos = Utilidades.obtenerDatosMochila("mochila/Knapsack2.txt");
+        List listaPuntos = Utilidades.obtenerDatosMochila("mochila/Knapsack4.txt");
         // dimension de los puntos;
-        double capacidad = (double) listaPuntos.remove(0);
-        dimension = listaPuntos.size();
-        System.out.println("dimension: " + dimension);
+        limite = (double) listaPuntos.remove(0);
+        tamPoblacion = listaPuntos.size();
+        System.out.println("dimension: " + tamPoblacion);
 
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinaria(dimension)));
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinaria(tamPoblacion)));
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion)));
 //        listaAlgoritmos.add(new Hill_Climbing(paso));
 
         List<Funcion> listaFunciones = new ArrayList();
 //        listaFunciones.add(new Esfera(limite, dimension));
 //        listaFunciones.add(new Mochila(63, new double[][]{{12,23}, {15,24}, {13,43}, {23,20}, {24,35}, {13,65}, {21,41}, {13,37}, {12,22}, {6,3}}));
-        listaFunciones.add(new Mochila(capacidad, listaPuntos));
-//        listaFunciones.add(new Ackley(limite, dimension));
+        Mochila funcionMochila = new Mochila(limite, listaPuntos, maximizar);
+        listaFunciones.add(funcionMochila);
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);
-
+        Punto mejor = funcionMochila.getMejor();
+        System.out.println("Peso: "+funcionMochila.obtenerPeso(mejor));
+        System.out.println("Precio: "+funcionMochila.obtenerPrecio(mejor));
+        
     }
 }

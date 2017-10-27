@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Ackley extends Funcion {
 
-    public Ackley(double limite, int dimension) {
-        super("ACKLEY", limite, dimension);
+    public Ackley(double limite, int dimension, boolean maximizar) {
+        super("ACKLEY", limite, dimension, maximizar);
     }
 
     @Override

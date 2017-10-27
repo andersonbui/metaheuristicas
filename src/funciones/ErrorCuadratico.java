@@ -13,8 +13,8 @@ public class ErrorCuadratico extends Funcion {
     private final List<Punto> puntosReferencia;
     private final double prob_ceros = 0.8;
 
-    public ErrorCuadratico(double limite, int dimension, List<Punto> puntosReferencia) {
-        super("ERROR CUADRATICO", limite, dimension);
+    public ErrorCuadratico(double limite, int dimension, List<Punto> puntosReferencia, boolean maximizar) {
+        super("ERROR CUADRATICO", limite, dimension, maximizar);
         this.puntosReferencia = puntosReferencia;
     }
 
@@ -55,7 +55,7 @@ public class ErrorCuadratico extends Funcion {
             Punto punto = listPuntos.get(i);
             valoresFitness[i] = punto.getCalidad() - funcionPolinomio(punto, coeficientes);
         }
-        return new Punto(this, valoresFitness);
+        return new Punto(this, valoresFitness, this.isMaximizar());
     }
 
     /**

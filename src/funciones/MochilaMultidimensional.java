@@ -8,14 +8,14 @@ import metaheuristicas.Punto;
  *
  * @author debian
  */
-public class Mochila extends Funcion {
+public class MochilaMultidimensional extends Funcion {
 
     private final List<double[]> w;
     private final double L;
     private final double prob_ceros;
     private Punto mejor;
 
-    public Mochila(double capacidad, List<double[]> w, boolean maximizar) {
+    public MochilaMultidimensional(double capacidad, List<double[]> w, boolean maximizar) {
         super("MOCHILA", capacidad, w.size(), maximizar);
         this.w = w;
         L = 1000; // grande y entero para garantizatr una buena penalizacion

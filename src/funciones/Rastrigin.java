@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Rastrigin extends Funcion {
 
-    public Rastrigin(double limite, int dimension) {
-        super("RASTRIGIN", limite, dimension);
+    public Rastrigin(double limite, int dimension, boolean maximizar) {
+        super("RASTRIGIN", limite, dimension, maximizar);
     }
 
     @Override

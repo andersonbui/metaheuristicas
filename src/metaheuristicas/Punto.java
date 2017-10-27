@@ -16,24 +16,30 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
     private double calidad;
     private Funcion funcion;
     private int generacion;
-    public static short ORDEN = 1; //-1 minimizar, +1 maximizar
+    public boolean maximizar; //-1 minimizar, +1 maximizar
 
-    public Punto(Funcion funcion) {
+    /**
+     *
+     * @param funcion
+     * @param maximizar
+     */
+    public Punto(Funcion funcion, boolean maximizar) {
         this.funcion = funcion;
         this.valores = null;
 //        calidad = 0;
         generacion = 0;
-        calidad = ORDEN == 1 ? Double.MIN_VALUE : Double.MAX_VALUE;
+        this.maximizar = maximizar;
+        calidad = maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
     }
 
-    public Punto(Funcion funcion, double[] valores) {
+    public Punto(Funcion funcion, double[] valores, boolean maximizar) {
         this.valores = valores;
         this.funcion = funcion;
         calidad = 0;
         generacion = 0;
     }
 
-    public Punto(Funcion funcion, double[] valores, double calidad, int generacion) {
+    public Punto(Funcion funcion, double[] valores, double calidad, int generacion, boolean maximizar) {
         this.valores = valores;
         this.calidad = calidad;
         this.funcion = funcion;
@@ -107,7 +113,8 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
     @Override
     public int compareTo(Punto otrop) {
         Double a_calidad = this.calidad;
-        return ORDEN * a_calidad.compareTo(otrop.getCalidad());
+        int orden = maximizar ? 1 : -1;
+        return orden * a_calidad.compareTo(otrop.getCalidad());
     }
 
     @Override

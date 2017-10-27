@@ -92,19 +92,9 @@ public class EstrategiaGeneticoBinaria extends Estrategia {
         Poblacion poblacion = new Poblacion(funcion, getTamPoblacion());
         Punto p;
         for (int i = 0; i < getTamPoblacion(); i++) {
-            p = generar(funcion, rand);
+            p = funcion.generarPunto(rand);
             poblacion.add(p);
         }
         return poblacion;
-    }
-
-    public static Punto generar(Funcion funcion, Random rand) {
-        double[] valores = new double[funcion.getDimension()];
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = rand.nextBoolean() ? 1 : 0;
-        }
-        Punto punto = new Punto(funcion, valores);
-        punto.evaluar();
-        return punto;
     }
 }

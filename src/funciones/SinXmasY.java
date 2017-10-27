@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class SinXmasY extends Funcion {
 
-    public SinXmasY(double limite, int dimension) {
-        super("SinXmasY", limite, dimension);
+    public SinXmasY(double limite, int dimension, boolean maximizar) {
+        super("SinXmasY", limite, dimension, maximizar);
     }
 
     @Override

@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Schwefel extends Funcion {
 
-    public Schwefel(double limite, int dimension) {
-        super("SCHWEFEL", limite, dimension);
+    public Schwefel(double limite, int dimension, boolean maximizar) {
+        super("SCHWEFEL", limite, dimension, maximizar);
     }
 
     @Override

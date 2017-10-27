@@ -47,7 +47,7 @@ public class Utilidades {
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio);
     }
 
-    static public List<Punto> obtenerDatosRegresion(int numDatos, String nombreArchivo) {
+    static public List<Punto> obtenerDatosRegresion(int numDatos, String nombreArchivo, boolean maximizar) {
         LeerArchivo.abrir(nombreArchivo);
         List<String> listaCadenas = LeerArchivo.leer(numDatos);
         List<Punto> listaPuntos = new ArrayList();
@@ -66,7 +66,7 @@ public class Utilidades {
 //                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
                 valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++].trim());
             }
-            Punto puntoActual = new Punto(null, valoresPuntoActual);
+            Punto puntoActual = new Punto(null, valoresPuntoActual, maximizar);
             puntoActual.setCalidad(Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++]));
             listaPuntos.add(puntoActual);
 //            System.out.println("<" + puntoActual.toString() + ">");
@@ -94,7 +94,7 @@ public class Utilidades {
         double promedioCalidad; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
         List<Punto> listaRecorrido;// recorrido del algoritmo para graficar
         List<OptimoYRecorrido> listaOptimos;
-        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
+//        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
         imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
                 "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)");
         for (Funcion funcion : l_funciones) {

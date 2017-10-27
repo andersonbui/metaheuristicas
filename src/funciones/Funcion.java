@@ -17,11 +17,20 @@ public abstract class Funcion {
     protected String nombre;
     protected double limite;
     protected int dimension;
+    protected boolean maximizar;
 
-    public Funcion(String nombre, double limite, int dimension) {
+    /**
+     *
+     * @param nombre
+     * @param limite
+     * @param dimension
+     * @param maximizar
+     */
+    public Funcion(String nombre, double limite, int dimension, boolean maximizar) {
         this.nombre = nombre;
         this.limite = limite;
         this.dimension = dimension;
+        this.maximizar = maximizar;
     }
 
     public abstract double evaluar(Punto p);
@@ -67,8 +76,17 @@ public abstract class Funcion {
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(rand.nextDouble() * getLimite() * 2 - getLimite());
         }
-        Punto punto = new Punto(this, valores);
+        Punto punto = new Punto(this, valores, isMaximizar());
         punto.evaluar();
         return punto;
     }
+
+    public boolean isMaximizar() {
+        return maximizar;
+    }
+
+    public void setMaximizar(boolean maximizar) {
+        this.maximizar = maximizar;
+    }
+
 }

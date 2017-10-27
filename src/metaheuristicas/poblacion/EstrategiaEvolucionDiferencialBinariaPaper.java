@@ -23,13 +23,16 @@ import metaheuristicas.Punto;
  *
  * @author debian
  */
-public class EstrategiaEvolucionDiferencialBinaria extends EstrategiaEvolucionDiferencial {
+public class EstrategiaEvolucionDiferencialBinariaPaper extends EstrategiaEvolucionDiferencial {
 
-    public EstrategiaEvolucionDiferencialBinaria(int tamPoblacion) {
+    private double b;
+
+    public EstrategiaEvolucionDiferencialBinariaPaper(int tamPoblacion) {
         super(tamPoblacion);
-        setNombreEstrategia("EstrategiaEvolucionDB");
-        cr = 0.5;
-        alfa = 1.4;
+        setNombreEstrategia("EstrategiaEDB_Paper");
+        cr = 0.2;
+        alfa = 0.8;
+        b = 20;
     }
 
     @Override
@@ -50,9 +53,9 @@ public class EstrategiaEvolucionDiferencialBinaria extends EstrategiaEvolucionDi
     }
 
     public double sig(double x) {
-        double result = 1 + Math.exp(-x);
+        double result = 1 + Math.exp(-2 * b * (x - 0.5) / (1 + 2 * alfa));
         result = 1 / result;
         return result;
-    
+
     }
 }

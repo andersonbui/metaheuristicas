@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Montana extends Funcion {
 
-    public Montana(double limite, int dimension) {
-        super("MONTANA", limite, dimension);
+    public Montana(double limite, int dimension, boolean maximizar) {
+        super("MONTANA", limite, dimension, maximizar);
     }
 
     @Override

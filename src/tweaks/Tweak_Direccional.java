@@ -22,8 +22,8 @@ public class Tweak_Direccional extends Tweak_1 {
     @Override
     public Punto tweak(Punto punto, Random rand) {
         funcion = punto.getFuncion();
-        Punto r = super.tweak(new Punto(punto.getFuncion(), new double[funcion.getDimension()]), rand);
-        r.setCalidad(funcion.evaluar(r));
+        Punto r = punto.clone();
+        r.evaluar();
         List<Punto> listaSucesores = listaPosiblesSucesoresOrtogonales(punto, r.getValores());
         Collections.sort(listaSucesores);
         // reemplazo del punto original
@@ -53,12 +53,11 @@ public class Tweak_Direccional extends Tweak_1 {
         combinaciones(new double[]{-1, 1}, new double[punto.getValores().length], 0, listaRest);
 
         for (double[] item : listaRest) {
-
-            vectorAux = punto.getValores().clone();
+            nuevoPunto = punto.clone();
+            vectorAux = nuevoPunto.getValores();
             for (int i = 0; i < vectorAux.length; i++) {
                 vectorAux[i] = funcion.limitar(vectorAux[i] + item[i] * vectorDireccionOriginal[i]);
             }
-            nuevoPunto = new Punto(punto.getFuncion(), vectorAux);
             nuevoPunto.setCalidad(funcion.evaluar(nuevoPunto));
             listaPuntos.add(nuevoPunto);
         }

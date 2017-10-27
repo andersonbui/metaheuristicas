@@ -8,8 +8,8 @@ import metaheuristicas.Punto;
  */
 public class Esfera extends Funcion {
 
-    public Esfera(double limite, int dimension) {
-        super("ESFERA", limite, dimension);
+    public Esfera(double limite, int dimension, boolean maximizar) {
+        super("ESFERA", limite, dimension, maximizar);
     }
 
     @Override

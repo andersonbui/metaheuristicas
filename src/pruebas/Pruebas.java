@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Hill_Climbing;
+import metaheuristicas.simple.Hill_Climbing;
 import metaheuristicas.*;
 
 /**
@@ -53,22 +53,22 @@ public class Pruebas {
 
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
         listaAlgoritmos.add(new Hill_Climbing(paso));
-        listaAlgoritmos.add(new Hill_Climbing(paso, 10,false));
-        listaAlgoritmos.add(new Hill_Climbing(paso, 10,true));
-        listaAlgoritmos.add(new Hill_Climbing_direccional(paso));
+//        listaAlgoritmos.add(new Hill_Climbing(paso, 10,false));
+//        listaAlgoritmos.add(new Hill_Climbing(paso, 10,true));
+//        listaAlgoritmos.add(new Hill_Climbing_direccional(paso));
 
         List<Funcion> listaFunciones = new ArrayList();
-        listaFunciones.add(new Esfera(limite, dimension));
-        listaFunciones.add(new Cubo(limite, dimension));
-        listaFunciones.add(new XmasY(limite, dimension));
-        listaFunciones.add(new SinXmasY(limite, dimension));
-        listaFunciones.add(new SinXporCosY(limite, dimension));
-        listaFunciones.add(new Montana(limite, dimension));
-        listaFunciones.add(new Schwefel(limite, dimension));
-        listaFunciones.add(new Rastrigin(limite, dimension));
-        listaFunciones.add(new Griewank(limite, dimension));
-        listaFunciones.add(new Ackley(limite, dimension));
-        listaFunciones.add(new Piso(limite, dimension));
+//        listaFunciones.add(new Esfera(limite, dimension));
+//        listaFunciones.add(new Cubo(limite, dimension));
+//        listaFunciones.add(new XmasY(limite, dimension));
+//        listaFunciones.add(new SinXmasY(limite, dimension));
+//        listaFunciones.add(new SinXporCosY(limite, dimension));
+//        listaFunciones.add(new Montana(limite, dimension));
+//        listaFunciones.add(new Schwefel(limite, dimension));
+//        listaFunciones.add(new Rastrigin(limite, dimension));
+//        listaFunciones.add(new Griewank(limite, dimension));
+//        listaFunciones.add(new Ackley(limite, dimension));
+//        listaFunciones.add(new Piso(limite, dimension));
 
         // EJECUTAR ANALISIS
         combinarAlgoritmoFuncion(listaAlgoritmos, listaFunciones, false, numMuestras, iteraciones);
@@ -79,64 +79,64 @@ public class Pruebas {
             List<Funcion> l_fns, boolean graficar, int numMuestras, int iteraciones) {
 
 //        long semilla = System.currentTimeMillis();
-        long semilla = -2;
-        Punto p_optimo;
-        int contadorAlgoritmos=1;
-        int contadorFunciones=1;
-        double promedioCalidad; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
-        List<Punto> listaRecorrido;// recorrido del algoritmo para graficar
-        List<PuntoRecorrido> listaOptimos;
-        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
-                "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)");
-        for (Funcion funcion : l_fns) {
-            contadorFunciones++;
-            for (AlgoritmoMetaheuristico algoritmo : l_ams) {
-                contadorAlgoritmos++;
-                //asignacion de la funcion a probar
-                algoritmo.setFuncion(funcion);
-//                System.out.println("" + algoritmo.getNombre() + " (" + algoritmo.getFuncion().getNombre() + ")");
-                listaOptimos = new ArrayList();
-                promedioCalidad = 0;
-//            listaRecorrido = null;
-                long tiempo_inicial = System.currentTimeMillis();
-                for (int i = 0; i < numMuestras; i++) {
-                    listaRecorrido = new ArrayList();
-                    p_optimo = algoritmo.ejecutar((i*contadorAlgoritmos*contadorFunciones *semilla), iteraciones, listaRecorrido);
-                    listaOptimos.add(new PuntoRecorrido(p_optimo, listaRecorrido));
-                    promedioCalidad += p_optimo.getCalidad();
-                }
-                long tiempo_final = System.currentTimeMillis();
-
-                promedioCalidad = promedioCalidad / numMuestras;
-                Collections.sort(listaOptimos);
-                PuntoRecorrido mejorOptimo = listaOptimos.get(listaOptimos.size() - 1);
-//                for (PuntoRecorrido listaOptimo : listaOptimos) {
-//                    System.out.println(">>"+listaOptimo);
+//        long semilla = -2;
+//        Punto p_optimo;
+//        int contadorAlgoritmos=1;
+//        int contadorFunciones=1;
+//        double promedioCalidad; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
+//        List<Punto> listaRecorrido;// recorrido del algoritmo para graficar
+//        List<PuntoRecorrido> listaOptimos;
+//        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
+//                "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)");
+//        for (Funcion funcion : l_fns) {
+//            contadorFunciones++;
+//            for (AlgoritmoMetaheuristico algoritmo : l_ams) {
+//                contadorAlgoritmos++;
+//                //asignacion de la funcion a probar
+//                algoritmo.setFuncion(funcion);
+////                System.out.println("" + algoritmo.getNombre() + " (" + algoritmo.getFuncion().getNombre() + ")");
+//                listaOptimos = new ArrayList();
+//                promedioCalidad = 0;
+////            listaRecorrido = null;
+//                long tiempo_inicial = System.currentTimeMillis();
+//                for (int i = 0; i < numMuestras; i++) {
+//                    listaRecorrido = new ArrayList();
+//                    p_optimo = algoritmo.ejecutar((i*contadorAlgoritmos*contadorFunciones *semilla), iteraciones, listaRecorrido);
+//                    listaOptimos.add(new PuntoRecorrido(p_optimo, listaRecorrido));
+//                    promedioCalidad += p_optimo.getCalidad();
 //                }
-//                System.out.println("");
-                // graficacion 
-                if (mejorOptimo != null && graficar) {
-                    String titulo = algoritmo.getNombre() + "-(" + algoritmo.getFuncion().getNombre() + ")";
-                    String nombreFile = General.CARPETA_TEMP + algoritmo.getNombre() + "-(" + algoritmo.getFuncion().getNombre() + ")";
-                    nombreFile = nombreFile.replace('\u0020', '-');
-                    Archivo.abrir(nombreFile + ".dat");
-                    Archivo.escribir(mejorOptimo.getRecorrido());
-                    Archivo.terminar();
-                    GraficoGnuPlot.plot(3, nombreFile, titulo, algoritmo.getFuncion());
-                }
-                imprimirConFormato(
-                        algoritmo.getFuncion().getNombre(),
-                        algoritmo.getNombre(),
-                        "" + algoritmo.getFuncion().getDimension(),
-                        "" + iteraciones,
-                        "" + mejorOptimo.getPunto().getCalidadString(),
-                        "" + listaOptimos.get(0).getPunto().getCalidadString(),
-                        "" + Punto.formatear(promedioCalidad),
-                        "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
-                        "" + (tiempo_final - tiempo_inicial) / numMuestras);
-            }
-            System.out.println("");
-        }
+//                long tiempo_final = System.currentTimeMillis();
+//
+//                promedioCalidad = promedioCalidad / numMuestras;
+//                Collections.sort(listaOptimos);
+//                PuntoRecorrido mejorOptimo = listaOptimos.get(listaOptimos.size() - 1);
+////                for (PuntoRecorrido listaOptimo : listaOptimos) {
+////                    System.out.println(">>"+listaOptimo);
+////                }
+////                System.out.println("");
+//                // graficacion 
+//                if (mejorOptimo != null && graficar) {
+//                    String titulo = algoritmo.getNombre() + "-(" + algoritmo.getFuncion().getNombre() + ")";
+//                    String nombreFile = General.CARPETA_TEMP + algoritmo.getNombre() + "-(" + algoritmo.getFuncion().getNombre() + ")";
+//                    nombreFile = nombreFile.replace('\u0020', '-');
+//                    Archivo.abrir(nombreFile + ".dat");
+//                    Archivo.escribir(mejorOptimo.getRecorrido());
+//                    Archivo.terminar();
+//                    GraficoGnuPlot.plot(3, nombreFile, titulo, algoritmo.getFuncion());
+//                }
+//                imprimirConFormato(
+//                        algoritmo.getFuncion().getNombre(),
+//                        algoritmo.getNombre(),
+//                        "" + algoritmo.getFuncion().getDimension(),
+//                        "" + iteraciones,
+//                        "" + mejorOptimo.getPunto().getCalidadString(),
+//                        "" + listaOptimos.get(0).getPunto().getCalidadString(),
+//                        "" + Punto.formatear(promedioCalidad),
+//                        "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
+//                        "" + (tiempo_final - tiempo_inicial) / numMuestras);
+//            }
+//            System.out.println("");
+//        }
     }
 
     public static double calcularDesviacion(List<PuntoRecorrido> lista, double promedio) {

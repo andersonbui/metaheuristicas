@@ -36,7 +36,7 @@ import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
  */
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, Exception {
+    public void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
         double limite;
         int dimension;
@@ -46,6 +46,7 @@ public class Main {
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
 //        graficaDispercion2D = true;
+        boolean maximizar = true;
         // rango maximo de cambio en el tweak
         paso = 1;
         // limite de las funciones
@@ -75,7 +76,7 @@ public class Main {
 //        listaAlgoritmos.add(new B_Hill_Climbing(new Tweak_B_HC(paso)));
 
         List<Funcion> listaFunciones = new ArrayList();
-        listaFunciones.add(new Esfera(limite, dimension));
+        listaFunciones.add(new Esfera(limite, dimension, maximizar));
 //        listaFunciones.add(new Cubo(limite, dimension));
 //        listaFunciones.add(new XmasY(limite, dimension));
 //        listaFunciones.add(new SinXmasY(limite, dimension));
@@ -84,8 +85,8 @@ public class Main {
 //        listaFunciones.add(new Schwefel(limite, dimension));
 //        listaFunciones.add(new Rastrigin(limite, dimension));
 //        listaFunciones.add(new Griewank(limite, dimension));
-        listaFunciones.add(new Ackley(limite, dimension));
-        listaFunciones.add(new Piso(limite, dimension));
+        listaFunciones.add(new Ackley(limite, dimension, maximizar));
+        listaFunciones.add(new Piso(limite, dimension, maximizar));
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);
