@@ -10,13 +10,21 @@ import metaheuristicas.Punto;
  */
 public class MochilaMultidimensional extends Funcion {
 
+    private final double[] capacidades;
     private final List<double[]> w;
     private final double L;
     private final double prob_ceros;
     private Punto mejor;
 
-    public MochilaMultidimensional(double capacidad, List<double[]> w, boolean maximizar) {
-        super("MOCHILA", capacidad, w.size(), maximizar);
+    /**
+     *
+     * @param capacidades
+     * @param w
+     * @param maximizar
+     */
+    public MochilaMultidimensional(double[] capacidades, List<double[]> w, boolean maximizar) {
+        super("MOCHILA", 2, w.size(), maximizar);
+        this.capacidades = capacidades;
         this.w = w;
         L = 1000; // grande y entero para garantizatr una buena penalizacion
         prob_ceros = 0.6;
@@ -36,27 +44,19 @@ public class MochilaMultidimensional extends Funcion {
     }
 
     public double obtenerPrecio(Punto punto) {
-        double sumWX = 0;
         double sumPX = 0;
-        double result = 0;
+        int length = w.get(0).length;
         for (int i = 0; i < punto.getDimension(); i++) {
-            sumWX += punto.getValor(i) * w.get(i)[0];
-            sumPX += punto.getValor(i) * w.get(i)[1];
+            sumPX += punto.getValor(i) * w.get(i)[length - 1];
         }
-        double resta = sumWX - limite;
-        double max = resta > 0 ? resta : 0;
-        double producto = L * max;
-        result = sumPX - producto;
-//        if (result > 1024) {
-//            System.out.print("");
-//        }
-        return result;
+        return sumPX;
     }
 
-    public double obtenerPeso(Punto punto) {
+    public double obtenerPeso(Punto punto, int indicePeso) {
         double sumWX = 0;
+        // para cada elemento que podria ir en la mochila
         for (int i = 0; i < punto.getDimension(); i++) {
-            sumWX += punto.getValor(i) * w.get(i)[0];
+            sumWX += punto.getValor(i) * w.get(i)[indicePeso];
         }
         return sumWX;
     }
@@ -64,18 +64,30 @@ public class MochilaMultidimensional extends Funcion {
     @Override
     public Punto limitar(Punto punto) {
         int posicion;
-        while (obtenerPeso(punto) > limite) {
-            posicion = mayor(punto);
-            punto.set(posicion, 0);
+        // para cada caracteristica(peso) del elemento
+        for (int i = 0; i < capacidades.length; i++) {
+            posicion = 0;
+            while (obtenerPeso(punto, i) > capacidades[i]) {
+                posicion = mayor(punto, i);
+                punto.set(posicion, 0);
+            }
         }
+
         return punto; //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int mayor(Punto punto) {
-        int mayor = 0;
-        for (int i = 1; i < punto.getDimension(); i++) {
-            if (mayor < 0 || punto.getValor(mayor) * w.get(mayor)[0] < punto.getValor(i) * w.get(i)[0]) {
-                mayor = i;
+    public int mayor(Punto punto, int indicePeso) {
+        int mayor = -1;
+        double valorMayor = 0;
+        double valor;
+        // para cada elemento que podria ir en la mochila
+        for (int k = 1; k < punto.getDimension(); k++) {
+            valor = 0;
+            // para indicePeso-esimo caracteristica(peso) del elemento k-esimo
+            valor += punto.getValor(k) * w.get(k)[indicePeso];
+            if (mayor < 0 || valorMayor < valor) {
+                mayor = k;
+                valorMayor = valor;
             }
         }
         return mayor;

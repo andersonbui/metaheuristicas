@@ -217,4 +217,35 @@ public class Utilidades {
         }
         return listaObj;
     }
+
+    static public List obtenerDatosMochilaMultidimensional(String nombreArchivo) {
+        LeerArchivo.abrir(nombreArchivo);
+        List<String> listaCadenas = LeerArchivo.leer();
+        int numVar = -1;
+        List listaObj = new ArrayList();
+        int j;
+        LeerArchivo.terminar();
+        for (int i = 0; i < listaCadenas.size(); i++) {
+
+            String cadena = listaCadenas.get(i).replace(',', '.');
+
+            cadena = eliminarEspaciosRepetidos(cadena);
+
+            String[] vectSubdivisiones = cadena.split("" + '\u0020');
+            if (numVar < 0) {
+                numVar = vectSubdivisiones.length;
+            }
+            double[] valoresPuntoActual = new double[vectSubdivisiones.length];
+            for (j = 0; j < valoresPuntoActual.length; j++) {
+//                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
+                valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[j].trim());
+            }
+            listaObj.add(valoresPuntoActual);
+            if (vectSubdivisiones.length != numVar) {
+                break;
+            }
+//            System.out.println("<" + puntoActual.toString() + ">");
+        }
+        return listaObj;
+    }
 }

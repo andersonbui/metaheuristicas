@@ -37,6 +37,7 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
         this.funcion = funcion;
         calidad = 0;
         generacion = 0;
+        this.maximizar = maximizar;
     }
 
     public Punto(Funcion funcion, double[] valores, double calidad, int generacion, boolean maximizar) {
@@ -44,6 +45,7 @@ public class Punto implements Iterable<Double>, Comparable<Punto>, Cloneable {
         this.calidad = calidad;
         this.funcion = funcion;
         this.generacion = generacion;
+        this.maximizar = maximizar;
     }
 
     public int getDimension() {
