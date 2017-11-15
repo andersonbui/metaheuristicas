@@ -5,7 +5,6 @@ import java.util.Random;
 import metaheuristicas.Punto;
 
 /**
- *
  * @author debian
  */
 public class Mochila extends Funcion {

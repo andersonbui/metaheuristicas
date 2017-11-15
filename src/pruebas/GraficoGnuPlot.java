@@ -31,7 +31,7 @@ public class GraficoGnuPlot {
 //        out.print("set xlabel " + "\"Time\"" + "\n");
 //        out.print("set ylabel " + "\"UA\"" + "\n");
             double limite = funcion.getLimite();
-            
+
             out.println("set isosample 50");
 //            out.println("set hidden3d");
 //            out.println("set contour base");
@@ -45,13 +45,17 @@ public class GraficoGnuPlot {
             out.println("f(x,y) = " + funcion);
             out.println("set xrange [-" + limite + ":" + limite + "]");
             out.println("set yrange [-" + limite + ":" + limite + "]");
-            out.println("splot f(x,y) w l lw 0.5, \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w lp linewidth 2 linetype 6");
+            out.println("splot f(x,y) w l lw 0.5, \"" + nombreArchivoDatos + ".dat\" title \"" + 2 + "\" w lp linewidth 2 linetype 6");
 //            out.println("splot [-" + limite + ":" + limite + "] [-" + limite + ":" + limite
 //                    + "] f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w l linewidth 2 linetype 6");
 //        out.println("plot \""+filename+"\" with linespoints,\"new\" with linespoints");
             out.close();// It's done, closing document.
-            Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");
-//            file.delete();
+//            Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");
+
+            Runtime commandPrompt = Runtime.getRuntime();
+            commandPrompt.exec("gnuplot auxfile.gp");
+            //commandPrompt.waitFor();
+            //            file.delete();
         } catch (IOException ex) {
             Logger.getLogger(GraficoGnuPlot.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -62,6 +66,7 @@ public class GraficoGnuPlot {
             }
         }
     }
+
     public static void plot2D(String nombreArchivoDatos, String titulo, Funcion funcion) {
 
         FileWriter outF = null;
@@ -76,7 +81,7 @@ public class GraficoGnuPlot {
 //        out.print("set xlabel " + "\"Time\"" + "\n");
 //        out.print("set ylabel " + "\"UA\"" + "\n");
             double limite = funcion.getLimite();
-            
+
             out.println("set isosample 50");
 //            out.println("set hidden3d");
 //            out.println("set contour base");
@@ -88,7 +93,7 @@ public class GraficoGnuPlot {
             out.println("set title \"" + titulo + "\"");
 //            out.println("set xrange [-" + limite + ":" + limite + "]");
 //            out.println("set yrange [-" + limite + ":" + limite + "]");
-            out.println("plot \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w l linewidth 2 linetype 6");
+            out.println("plot \"" + nombreArchivoDatos + ".dat\" title \"" + 2 + "\" w l linewidth 2 linetype 6");
 //            out.println("splot [-" + limite + ":" + limite + "] [-" + limite + ":" + limite
 //                    + "] f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w l linewidth 2 linetype 6");
 //        out.println("plot \""+filename+"\" with linespoints,\"new\" with linespoints");
