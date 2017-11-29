@@ -10,11 +10,10 @@ import metaheuristicas.Punto;
  */
 public class MochilaMultidimensional extends Funcion {
 
-    private final double[] capacidades;
-    private final List<double[]> w;
-    private final double L;
-    private final double prob_ceros;
-    private Punto mejor;
+    protected final double[] capacidades;
+    protected final List<double[]> w;
+    protected final double prob_ceros;
+    protected Punto mejor;
 
     /**
      *
@@ -23,10 +22,9 @@ public class MochilaMultidimensional extends Funcion {
      * @param maximizar
      */
     public MochilaMultidimensional(double[] capacidades, List<double[]> w, boolean maximizar) {
-        super("MOCHILA", 2, w.size(), maximizar);
+        super("MOCHILA MultiD", 2, w.size(), maximizar);
         this.capacidades = capacidades;
         this.w = w;
-        L = 1000; // grande y entero para garantizatr una buena penalizacion
         prob_ceros = 0.6;
     }
 
@@ -117,4 +115,7 @@ public class MochilaMultidimensional extends Funcion {
         this.mejor = mejor;
     }
 
+    public double[] getCapacidades() {
+        return capacidades;
+    }
 }

@@ -1,7 +1,7 @@
 /*
  * https://stackoverflow.com/questions/19419128/using-gnuplot-with-java
  */
-package pruebas;
+package main;
 
 import funciones.Funcion;
 import java.io.File;

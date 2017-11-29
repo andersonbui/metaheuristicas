@@ -25,7 +25,7 @@ public class FreudensteinRoth extends Funcion {
 
     @Override
     public String toString() {
-        return "(−13+x+((5−y)*y−2)y)^2 + (−29+x+((y+1)*y−14)y)^2";
+        return "(-13+x+((5-y)*y-2)*y)**2+(-29+x+((y+1)*y-14)*y)**2";
     }
 
 }

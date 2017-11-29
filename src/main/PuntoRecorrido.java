@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pruebas;
+package main;
 
 import java.util.List;
 import metaheuristicas.Punto;
@@ -23,17 +23,17 @@ import metaheuristicas.Punto;
  *
  * @author debian
  */
-public class OptimoYRecorrido implements Comparable<OptimoYRecorrido> {
+public class PuntoRecorrido implements Comparable<PuntoRecorrido> {
     public Punto punto;
     public List<Punto> recorrido;
 
-    public OptimoYRecorrido(Punto punto, List<Punto> recorrido) {
+    public PuntoRecorrido(Punto punto, List<Punto> recorrido) {
         this.punto = punto;
         this.recorrido = recorrido;
     }
 
     @Override
-    public int compareTo(OptimoYRecorrido o) {
+    public int compareTo(PuntoRecorrido o) {
         return this.punto.compareTo(o.punto);
     }
 

@@ -32,8 +32,8 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
     public EstrategiaEvolucionDiferencial(int tamPoblacion) {
         super(tamPoblacion, 2);
         setNombreEstrategia("EstrategiaEvolucionDiferencial");
-        cr = 0.2;
-        alfa = 0.8;
+        cr = 0.6;
+        alfa = 1.1;
     }
 
     /**

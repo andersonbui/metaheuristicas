@@ -24,7 +24,7 @@ public class Rosenbrocks extends Funcion {
 
     @Override
     public String toString() {
-        return "100*(x - y^2)^2 + (1 - x)^2";
+        return "100*(x - y**2)**2 + (1 - x)**2";
     }
 
 }

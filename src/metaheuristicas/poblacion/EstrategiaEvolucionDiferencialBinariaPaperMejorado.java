@@ -33,7 +33,7 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
         setNombreEstrategia("EstrategiaEDB_PaperMM");
         cr = 0.2;
         alfa = 0.8;
-        b = 10;
+        b = 20;
     }
 
     @Override

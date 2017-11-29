@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pruebas;
+package main;
 
 import funciones.Funcion;
+import funciones.MochilaMultidimensional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +44,7 @@ public class Utilidades {
 
     public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
             String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio) {
-        System.out.format("%-13s%-30s%-12s%-20s%-20s%-20s%-20s%-20s%-20s\n", funcion, algoritmo, dimension, promIteraciones,
+        System.out.format("%-20s%-30s%-12s%-20s%-20s%-20s%-20s%-20s%-20s\n", funcion, algoritmo, dimension, promIteraciones,
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio);
     }
 
@@ -157,6 +158,93 @@ public class Utilidades {
                         "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
                         "" + (tiempo_final - tiempo_inicial) / numMuestras);
 
+                //implimir mejor optimo
+//                System.out.println("\n\nMejor optimo: " + mejorOptimo.getPunto().getCalidad());
+//                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void ejecutarAlgoritmosMasFuncionesED(List<AlgoritmoMetaheuristico> l_amgoritmos,
+            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaDispersion, int numMuestras, int iteraciones, double paso) {
+
+        Punto p_optimo;
+        int contadorAlgoritmos = 1;
+        int contadorFunciones = 1;
+        double promedioCalidad; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
+        List<Punto> listaRecorrido;// recorrido del algoritmo para graficar
+        List<OptimoYRecorrido> listaOptimos;
+//        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
+        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
+                "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)");
+        for (Funcion funcion : l_funciones) {
+            contadorFunciones++;
+            for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
+                contadorAlgoritmos++;
+                //asignacion de la funcion a probar
+                listaOptimos = new ArrayList();
+                promedioCalidad = 0;
+                long tiempo_inicial = System.currentTimeMillis();
+                for (int i = 0; i < numMuestras; i++) {
+                    listaRecorrido = new ArrayList();
+                    Random rand = new Random((i * contadorAlgoritmos * contadorFunciones));
+                    algoritmo.setIteraciones(iteraciones);
+                    listaRecorrido = algoritmo.ejecutar(rand, funcion);
+                    p_optimo = listaRecorrido.get(listaRecorrido.size() - 1);
+                    listaOptimos.add(new OptimoYRecorrido(p_optimo, listaRecorrido));
+                    promedioCalidad += p_optimo.getCalidad();
+                }
+                long tiempo_final = System.currentTimeMillis();
+
+                promedioCalidad = promedioCalidad / numMuestras;
+                //ordenamiento de lista por calida de menor a mayor
+                Collections.sort(listaOptimos);
+                // seleccion del punto optimo de mayor calidad
+                OptimoYRecorrido mejorOptimo = listaOptimos.get(listaOptimos.size() - 1);
+                // graficacion 
+                if (mejorOptimo != null && graficaRecorrido) {
+                    String titulo = algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
+                    String nombreFile = General.CARPETA_TEMP + algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
+                    nombreFile = nombreFile.replace('\u0020', '-');
+                    EscribirArchivo.abrir(nombreFile + ".dat");
+                    EscribirArchivo.escribir(mejorOptimo.getRecorrido());
+                    EscribirArchivo.terminar();
+                    GraficoGnuPlot.plot3D(nombreFile, titulo, funcion);
+                }
+                if (mejorOptimo != null && graficaDispersion) {
+                    String titulo = algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
+                    String nombreFile = General.CARPETA_TEMP + "plot2D-" + algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
+                    nombreFile = nombreFile.replace('\u0020', '-');
+                    EscribirArchivo.abrir(nombreFile + ".dat");
+                    List<String> listaCalida = new ArrayList();
+                    listaRecorrido = mejorOptimo.getRecorrido();
+                    for (int i = 0; i < listaRecorrido.size(); i++) {
+//                        listaCalida.add(listaRecorrido.get(i).getGeneracion() + " " + listaRecorrido.get(i).getCalidad());
+                        listaCalida.add(i + " " + listaRecorrido.get(i).getCalidad());
+                    }
+                    EscribirArchivo.escribir(listaCalida);
+                    EscribirArchivo.terminar();
+                    GraficoGnuPlot.plot2D(nombreFile, titulo, funcion);
+                }
+                imprimirConFormato(
+                        funcion.getNombre(),
+                        algoritmo.getNombre(),
+                        "" + funcion.getDimension(),
+                        "" + iteraciones,
+                        "" + mejorOptimo.getPunto().getCalidadString(),
+                        "" + listaOptimos.get(0).getPunto().getCalidadString(),
+                        "" + Punto.formatear(promedioCalidad),
+                        "" + Punto.formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
+                        "" + (tiempo_final - tiempo_inicial) / numMuestras);
+
+                Punto mejor = mejorOptimo.getPunto();
+                MochilaMultidimensional func = (MochilaMultidimensional) funcion;
+                
+                for (int i = 0; i < func.getCapacidades().length; i++) {
+                    System.out.println("Peso[" + i + "]: " + func.obtenerPeso(mejor, i));
+                }
+                System.out.println("Precio: " + func.obtenerPrecio(mejor));
                 //implimir mejor optimo
 //                System.out.println("\n\nMejor optimo: " + mejorOptimo.getPunto().getCalidad());
 //                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());

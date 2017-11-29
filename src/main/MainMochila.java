@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pruebas;
+package main;
 
 import funciones.Ackley;
 import funciones.Esfera;
 import funciones.Funcion;
 import funciones.Mochila;
-import funciones.MochilaMultidimensional;
-import funciones.MochilaMultidimensionalMejorada;
 import funciones.Piso;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -32,15 +30,14 @@ import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinaria;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaper;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaperMejorado;
 import metaheuristicas.simple.Hill_Climbing;
-import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
+import static main.Utilidades.ejecutarAlgoritmosMasFunciones;
 
 /**
  *
  * @author debian
  */
-public class MainMochilaMultidimensional {
+public class MainMochila {
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
@@ -55,39 +52,36 @@ public class MainMochilaMultidimensional {
         // rango maximo de cambio en el tweak
         paso = 1;
         // limite de las funciones
-        limite = 10;
-        // numero de individuos porpoblacion
-        tamPoblacion = 20;
+        limite = 0;
+        // dimension de los puntos
+        tamPoblacion = 0;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 500;
+        iteraciones = 50;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
-
+        
         boolean maximizar = true;
 
-        List listaPuntos = Utilidades.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f2-1000.txt");
+        List listaPuntos = Utilidades.obtenerDatosMochila("mochila/Knapsack4.txt");
         // dimension de los puntos;
-        double[] capacidades = (double[]) listaPuntos.remove(listaPuntos.size() - 1);
-        // tamPoblacion = listaPuntos.size();
+        limite = (double) listaPuntos.remove(0);
+        tamPoblacion = listaPuntos.size();
         System.out.println("dimension: " + tamPoblacion);
 
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion)));
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion)));
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinaria(tamPoblacion)));
 
         List<Funcion> listaFunciones = new ArrayList();
-        MochilaMultidimensional funcionMochila = new MochilaMultidimensional(capacidades, listaPuntos, maximizar);
-        MochilaMultidimensionalMejorada funcionMochilaM = new MochilaMultidimensionalMejorada(capacidades, listaPuntos, maximizar);
+//        listaFunciones.add(new Esfera(limite, dimension));
+//        listaFunciones.add(new Mochila(63, new double[][]{{12,23}, {15,24}, {13,43}, {23,20}, {24,35}, {13,65}, {21,41}, {13,37}, {12,22}, {6,3}}));
+        Mochila funcionMochila = new Mochila(limite, listaPuntos, maximizar);
         listaFunciones.add(funcionMochila);
-        listaFunciones.add(funcionMochilaM);
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);
         Punto mejor = funcionMochila.getMejor();
-        for (int i = 0; i < capacidades.length; i++) {
-            System.out.println("Peso[" + i + "]: " + funcionMochila.obtenerPeso(mejor, i));
-        }
-        System.out.println("Precio: " + funcionMochila.obtenerPrecio(mejor));
-
+        System.out.println("Peso: "+funcionMochila.obtenerPeso(mejor));
+        System.out.println("Precio: "+funcionMochila.obtenerPrecio(mejor));
+        
     }
 }

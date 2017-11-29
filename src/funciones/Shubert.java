@@ -25,7 +25,7 @@ public class Shubert extends Funcion {
 
     @Override
     public String toString() {
-        return "";
+        return "cos(2*x+1)*cos(2*y+1)";
     }
 
 }
