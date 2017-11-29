@@ -158,10 +158,10 @@ public class Utilidades {
                         "" + (tiempo_final - tiempo_inicial) / numMuestras);
 
                 //implimir mejor optimo
-                System.out.println("\n\nMejor optimo: " + mejorOptimo.toString());
+//                System.out.println("\n\nMejor optimo: " + mejorOptimo.getPunto().getCalidad());
 //                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
             }
-//            System.out.println("");
+            System.out.println("");
         }
     }
 

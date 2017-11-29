@@ -21,6 +21,7 @@ import funciones.Esfera;
 import funciones.Funcion;
 import funciones.Mochila;
 import funciones.MochilaMultidimensional;
+import funciones.MochilaMultidimensionalMejorada;
 import funciones.Piso;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinaria;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaper;
+import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaperMejorado;
 import metaheuristicas.simple.Hill_Climbing;
 import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
 
@@ -49,21 +51,21 @@ public class MainMochilaMultidimensional {
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
-        graficaDispercion2D = true;
+//        graficaDispercion2D = true;
         // rango maximo de cambio en el tweak
         paso = 1;
         // limite de las funciones
         limite = 10;
         // numero de individuos porpoblacion
-        tamPoblacion = 50;
+        tamPoblacion = 20;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 5000;
+        iteraciones = 500;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
 
         boolean maximizar = true;
 
-        List listaPuntos = Utilidades.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f4-22.txt");
+        List listaPuntos = Utilidades.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f2-1000.txt");
         // dimension de los puntos;
         double[] capacidades = (double[]) listaPuntos.remove(listaPuntos.size() - 1);
         // tamPoblacion = listaPuntos.size();
@@ -71,10 +73,13 @@ public class MainMochilaMultidimensional {
 
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
         listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion)));
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion)));
 
         List<Funcion> listaFunciones = new ArrayList();
         MochilaMultidimensional funcionMochila = new MochilaMultidimensional(capacidades, listaPuntos, maximizar);
+        MochilaMultidimensionalMejorada funcionMochilaM = new MochilaMultidimensionalMejorada(capacidades, listaPuntos, maximizar);
         listaFunciones.add(funcionMochila);
+        listaFunciones.add(funcionMochilaM);
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);
