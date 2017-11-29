@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
+import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialMejorado;
 import metaheuristicas.poblacion.EstrategiaGenetico;
 import metaheuristicas.poblacion.EstrategiaGeneticoBinaria;
 import metaheuristicas.poblacion.EstrategiaMLamda;
@@ -36,39 +37,41 @@ import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
  */
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, Exception {
+    public  void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
         double limite;
         int dimension;
         int iteraciones;
         int numMuestras;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
-        boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
-        graficaRecorrido3D = true;
-        graficaDispercion2D = true;
+        boolean graficaDispercion2D = false; // true para curvas de convergencia con gnuplot
+//        graficaRecorrido3D = true;
+//        graficaDispercion2D = true;
         boolean maximizar = false;
         // rango maximo de cambio en el tweak
         paso = 1;
         // limite de las funciones
         limite = 100;
         // dimension de los puntos
-        dimension = 2;
+        dimension = 10;
         // iteraciones realizadas por los algoritmos
         iteraciones = 100;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 5;
+        numMuestras = 1;
 
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 //        listaAlgoritmos.add(new Hill_Climbing_MPendiente(paso));
 //        listaAlgoritmos.add(new Hill_Climbing_WR(paso,10));
-        listaAlgoritmos.add(new Hill_Climbing(paso));
+//        listaAlgoritmos.add(new Hill_Climbing(paso));
 //        listaAlgoritmos.add(new Hill_Climbing_Random_Restarts(paso, 50));
 //        listaAlgoritmos.add(new Random_Search());
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaGenetico(10)));
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaGeneticoBinaria(10)));
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMutacion(10)));
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMLamda(5, 10)));
-//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencial(10)));
+
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencial(100)));
+        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialMejorado(100)));
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,false)); // hill climbing maxima pendiente
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,true)); // hill climbing con reinicio aleatorio
 //        listaAlgoritmos.add(new Hill_Climbing_HO(paso));
@@ -87,9 +90,9 @@ public class Main {
 //        listaFunciones.add(new XmasY(limite, dimension));
 //        listaFunciones.add(new SinXmasY(limite, dimension));
 //        listaFunciones.add(new SinXporCosY(limite, dimension));
-//        listaFunciones.add(new Montana(limite, dimension));
-//        listaFunciones.add(new Schwefel(limite, dimension));
-//        listaFunciones.add(new Rastrigin(limite, dimension));
+        listaFunciones.add(new Montana(limite, dimension, maximizar));
+        listaFunciones.add(new Schwefel(limite, dimension, maximizar));
+        listaFunciones.add(new Rastrigin(limite, dimension, maximizar));
 //        listaFunciones.add(new Griewank(limite, dimension));
 //        listaFunciones.add(new Ackley(limite, dimension, maximizar));
 //        listaFunciones.add(new Piso(limite, dimension, maximizar));
