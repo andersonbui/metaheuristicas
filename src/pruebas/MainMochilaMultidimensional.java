@@ -40,7 +40,7 @@ import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
  */
 public class MainMochilaMultidimensional {
 
-    public static void main(String[] args) throws FileNotFoundException, Exception {
+    public void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
         double limite;
         int tamPoblacion;

@@ -50,10 +50,10 @@ public class GraficoGnuPlot {
 //                    + "] f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w l linewidth 2 linetype 6");
 //        out.println("plot \""+filename+"\" with linespoints,\"new\" with linespoints");
             out.close();// It's done, closing document.
-//            Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");
+            Runtime.getRuntime().exec("gnuplot -persist " + nombreArchivoDatos + ".gp");
 
-            Runtime commandPrompt = Runtime.getRuntime();
-            commandPrompt.exec("gnuplot auxfile.gp");
+//            Runtime commandPrompt = Runtime.getRuntime();
+//            commandPrompt.exec("gnuplot auxfile.gp");
             //commandPrompt.waitFor();
             //            file.delete();
         } catch (IOException ex) {

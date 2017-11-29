@@ -36,7 +36,7 @@ import static pruebas.Utilidades.ejecutarAlgoritmosMasFunciones;
  */
 public class Main {
 
-    public void main(String[] args) throws FileNotFoundException, Exception {
+    public static void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
         double limite;
         int dimension;
@@ -44,9 +44,9 @@ public class Main {
         int numMuestras;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
-//        graficaRecorrido3D = true;
-//        graficaDispercion2D = true;
-        boolean maximizar = true;
+        graficaRecorrido3D = true;
+        graficaDispercion2D = true;
+        boolean maximizar = false;
         // rango maximo de cambio en el tweak
         paso = 1;
         // limite de las funciones
@@ -54,7 +54,7 @@ public class Main {
         // dimension de los puntos
         dimension = 2;
         // iteraciones realizadas por los algoritmos
-        iteraciones = 10;
+        iteraciones = 100;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 5;
 
@@ -68,7 +68,7 @@ public class Main {
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaGeneticoBinaria(10)));
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMutacion(10)));
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMLamda(5, 10)));
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencial(10)));
+//        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencial(10)));
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,false)); // hill climbing maxima pendiente
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,true)); // hill climbing con reinicio aleatorio
 //        listaAlgoritmos.add(new Hill_Climbing_HO(paso));
@@ -77,6 +77,12 @@ public class Main {
 
         List<Funcion> listaFunciones = new ArrayList();
         listaFunciones.add(new Esfera(limite, dimension, maximizar));
+        listaFunciones.add(new FreudensteinRoth(limite, dimension, maximizar));
+        listaFunciones.add(new Glankwahmdees(limite, dimension, maximizar));
+        listaFunciones.add(new GoldsteinAndPrice(limite, dimension, maximizar));
+        listaFunciones.add(new Rosenbrocks(limite, dimension, maximizar));
+        listaFunciones.add(new SchafferF6(limite, dimension, maximizar));
+        listaFunciones.add(new Shubert(limite, dimension, maximizar));
 //        listaFunciones.add(new Cubo(limite, dimension));
 //        listaFunciones.add(new XmasY(limite, dimension));
 //        listaFunciones.add(new SinXmasY(limite, dimension));
@@ -85,8 +91,8 @@ public class Main {
 //        listaFunciones.add(new Schwefel(limite, dimension));
 //        listaFunciones.add(new Rastrigin(limite, dimension));
 //        listaFunciones.add(new Griewank(limite, dimension));
-        listaFunciones.add(new Ackley(limite, dimension, maximizar));
-        listaFunciones.add(new Piso(limite, dimension, maximizar));
+//        listaFunciones.add(new Ackley(limite, dimension, maximizar));
+//        listaFunciones.add(new Piso(limite, dimension, maximizar));
 
         // EJECUTAR ANALISIS
         ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones, paso);

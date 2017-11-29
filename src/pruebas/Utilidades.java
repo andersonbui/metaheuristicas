@@ -43,7 +43,7 @@ public class Utilidades {
 
     public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
             String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio) {
-        System.out.format("%-13s%-30s%-12s%-20s%-20s%-20s%-20s%-20s%-20s\n", funcion, algoritmo, dimension, promIteraciones,
+        System.out.format("%-20s%-30s%-12s%-20s%-20s%-20s%-20s%-20s%-20s\n", funcion, algoritmo, dimension, promIteraciones,
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio);
     }
 
