@@ -24,14 +24,14 @@ import metaheuristicas.poblacion.seleccion.Ruleta;
  *
  * @author debian
  */
-public class EstrategiaEvolucionDiferencial extends Estrategia {
+public class EstrategiaEvolucionDiferencialMejorado extends Estrategia {
 
     protected double alfa; //mutation rate
     protected double cr; // tasa de cruce
 
-    public EstrategiaEvolucionDiferencial(int tamPoblacion) {
+    public EstrategiaEvolucionDiferencialMejorado(int tamPoblacion) {
         super(tamPoblacion, 2);
-        setNombreEstrategia("EstrategiaEvolucionDiferencial");
+        setNombreEstrategia("EvolucionDiferencialMM");
         cr = 0.2;
         alfa = 0.8;
     }
@@ -95,6 +95,12 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         poblacion.add(x1);
         poblacion.add(x2);
         poblacion.add(x3);
+        
+//        if (x1.compareTo(x2) < 0) {
+//            Punto aux = x1;
+//            x1 = x2;
+//            x2 = aux;
+//        }
         Punto diferenciaX1X2 = resta(x1, x2);
         Punto productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
         Punto mutado = suma(x3, productoEscalar);

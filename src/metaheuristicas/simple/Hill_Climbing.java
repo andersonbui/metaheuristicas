@@ -35,7 +35,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
     @Override
     public List<Punto> ejecutar(Random rand, Funcion funcion) {
         List<Punto> listaPuntosS = new ArrayList();
-        Punto s = Punto.generar(funcion, rand);
+        Punto s = funcion.generarPunto(rand);
         s.setCalidad(funcion.evaluar(s));
         listaPuntosS.add(s);
         Punto r;

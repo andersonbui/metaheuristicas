@@ -12,6 +12,10 @@ public class Montana extends Funcion {
         super("MONTANA", limite, dimension, maximizar);
     }
 
+//    public Montana(double limite, int dimension) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+
     @Override
     public double evaluar(Punto punto) {
         double resultado = 0;

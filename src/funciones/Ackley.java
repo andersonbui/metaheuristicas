@@ -27,7 +27,7 @@ public class Ackley extends Funcion {
         }
 //        System.out.println("Math.exp(1):"+Math.exp(1)+";   Math.E"+Math.E);
         funct = -20*Math.exp(-0.2*Math.sqrt((1.0/n)*suma)) - Math.exp((1.0/n)*suma2) + 20 + Math.E;
-        return funct;
+        return funct-1;
     }
 
     @Override
