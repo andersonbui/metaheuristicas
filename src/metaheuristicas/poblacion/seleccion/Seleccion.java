@@ -18,7 +18,7 @@ package metaheuristicas.poblacion.seleccion;
 
 import java.util.List;
 import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -26,6 +26,6 @@ import metaheuristicas.Punto;
  */
 public interface Seleccion {
 
-    public Punto seleccionar(List<Punto> poblacion, Random rand);
+    public Individuo seleccionar(List<Individuo> poblacion, Random rand);
 
 }

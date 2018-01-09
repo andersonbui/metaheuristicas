@@ -16,8 +16,8 @@
  */
 package metaheuristicas.poblacion;
 
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Aleatorio;
+import metaheuristicas.Individuo;
 import metaheuristicas.poblacion.seleccion.Ruleta;
 
 /**
@@ -30,8 +30,7 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
     protected double cr; // tasa de cruce
 
     public EstrategiaEvolucionDiferencial(int tamPoblacion) {
-        super(tamPoblacion, 2);
-        setNombreEstrategia("EstrategiaEvolucionDiferencial");
+        super(tamPoblacion, 2, "EstrategiaEvolucionDiferencial");
         cr = 0.6;
         alfa = 1.1;
     }
@@ -42,20 +41,19 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
      *
      * @param numIndividuosElitismo
      * @param poblacion
-     * @param rand
      * @return
      */
     @Override
-    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion, Random rand) {
+    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
         Poblacion siguienteGeneracion = poblacion.clone();
         siguienteGeneracion.aumentarGeneracion();
         siguienteGeneracion.clear();
         for (int k = 0; k < poblacion.size(); k++) {
-            Punto objetivo = poblacion.remove(k);
+            Individuo objetivo = poblacion.remove(k);
             // MUTACION
-            Punto mutado = mutar(poblacion, rand);
+            Individuo mutado = mutar(poblacion);
             // CRUCE -> generacion del vector prueba
-            Punto individuoPrueba = cruce(objetivo, mutado, poblacion, k, rand);
+            Individuo individuoPrueba = cruce(objetivo, mutado, poblacion, k);
             // SELECCION
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
@@ -63,21 +61,21 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         return siguienteGeneracion;
     }
 
-    protected void seleccion(Punto objetivo, Punto individuoPrueba, Poblacion siguienteGeneracion) {
+    protected void seleccion(Individuo objetivo, Individuo individuoPrueba, Poblacion siguienteGeneracion) {
 //        individuoPrueba.evaluar();
 //        objetivo.evaluar();
-        Punto selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
+        Individuo selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
         siguienteGeneracion.add(selleccionado);
     }
 
-    protected Punto cruce(Punto objetivo, Punto mutado, Poblacion poblacion, int k, Random rand) {
-        Punto individuoPrueba = objetivo.clone();
+    protected Individuo cruce(Individuo objetivo, Individuo mutado, Poblacion poblacion, int k) {
+        Individuo individuoPrueba = objetivo.clone();
         double wi; // posicion i del punto mutado
         double vi; // posicion i del punto objetivo
         for (int i = 0; i < objetivo.getDimension(); i++) {
             wi = mutado.getValor(i);
             vi = objetivo.getValor(i);
-            if (rand.nextDouble() <= cr || k == rand.nextInt(poblacion.size())) {
+            if (Aleatorio.nextDouble() <= cr || k == Aleatorio.nextInt(poblacion.size())) {
                 individuoPrueba.set(i, wi);
             } else {
                 individuoPrueba.set(i, vi);
@@ -87,23 +85,23 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         return individuoPrueba;
     }
 
-    protected Punto mutar(Poblacion poblacion, Random rand) {
+    protected Individuo mutar(Poblacion poblacion) {
 
-        Punto x1 = Ruleta.seleccionar(poblacion, rand);
-        Punto x2 = Ruleta.seleccionar(poblacion, rand);
-        Punto x3 = Ruleta.seleccionar(poblacion, rand);
+        Individuo x1 = Ruleta.seleccionar(poblacion);
+        Individuo x2 = Ruleta.seleccionar(poblacion);
+        Individuo x3 = Ruleta.seleccionar(poblacion);
         poblacion.add(x1);
         poblacion.add(x2);
         poblacion.add(x3);
-        Punto diferenciaX1X2 = resta(x1, x2);
-        Punto productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
-        Punto mutado = suma(x3, productoEscalar);
+        Individuo diferenciaX1X2 = resta(x1, x2);
+        Individuo productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
+        Individuo mutado = suma(x3, productoEscalar);
 //        mutado.evaluar();
         return mutado;
     }
 
-    protected Punto resta(Punto minuendo, Punto sustraendo) {
-        Punto diferencia = minuendo.clone();
+    protected Individuo resta(Individuo minuendo, Individuo sustraendo) {
+        Individuo diferencia = minuendo.clone();
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.getValor(i) - sustraendo.getValor(i);
@@ -113,8 +111,8 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         return diferencia;
     }
 
-    protected Punto suma(Punto sumando, Punto sumando2) {
-        Punto resultado = (Punto) sumando.clone();
+    protected Individuo suma(Individuo sumando, Individuo sumando2) {
+        Individuo resultado = (Individuo) sumando.clone();
         double suma;
         for (int i = 0; i < resultado.getDimension(); i++) {
             suma = sumando.getValor(i) + sumando2.getValor(i);
@@ -124,8 +122,8 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         return resultado;
     }
 
-    protected Punto multiplicacionPorEscalar(Punto punto, double escalar) {
-        Punto result = (Punto) punto.clone();
+    protected Individuo multiplicacionPorEscalar(Individuo punto, double escalar) {
+        Individuo result = (Individuo) punto.clone();
         double producto;
         for (int i = 0; i < result.getDimension(); i++) {
             producto = punto.getValor(i) * escalar;

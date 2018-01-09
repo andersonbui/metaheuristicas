@@ -16,8 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 import metaheuristicas.poblacion.cruce.Cruce;
 import metaheuristicas.poblacion.mutacion.MultiGen;
 
@@ -30,12 +29,13 @@ public class EstrategiaGenetico extends Estrategia {
     MultiGen mutacion;
     double ancho = 0.5;
     int[] mascaraCruce;
+    boolean competirPadres;
 
     private final int numPadres = 2;
 
     public EstrategiaGenetico(int tamPoblacion) {
-        super(tamPoblacion, 2);
-        setNombreEstrategia("EstrategiaGenetica");
+        super(tamPoblacion, 2, "E_Genetica");
+        competirPadres = false;
     }
 
     /**
@@ -44,11 +44,10 @@ public class EstrategiaGenetico extends Estrategia {
      *
      * @param numIndividuosElitismo
      * @param poblacion
-     * @param rand
      * @return
      */
     @Override
-    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion, Random rand) {
+    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
         if (mascaraCruce == null) {
             int dimension = poblacion.getFuncion().getDimension();
             mascaraCruce = Cruce.mascaraDosPuntos(dimension / 2, dimension); // cruce unpunto  = dimension/2
@@ -56,14 +55,14 @@ public class EstrategiaGenetico extends Estrategia {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
         while (!poblacion.isEmpty()) {
-            Punto[] padres = seleccionPadreMadre(poblacion);
-            genDescendientes(padres[0], padres[1], nuevaGeneracion, rand);
+            Individuo[] padres = seleccionPadreMadre(poblacion);
+            genDescendientes(padres[0], padres[1], nuevaGeneracion);
         }
         return nuevaGeneracion;
     }
 
-    public Punto[] seleccionPadreMadre(Poblacion poblacion) {
-        Punto[] padres = new Punto[numPadres];
+    public Individuo[] seleccionPadreMadre(Poblacion poblacion) {
+        Individuo[] padres = new Individuo[numPadres];
         padres[0] = poblacion.remove(0);
         if (!poblacion.isEmpty()) {
             padres[1] = poblacion.remove(0);
@@ -74,19 +73,39 @@ public class EstrategiaGenetico extends Estrategia {
         return padres;
     }
 
-    private void genDescendientes(Punto padre, Punto madre, Poblacion nuevaGeneracion, Random rand) {
-        Punto[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
-        for (Punto hijo : hijos) {
-            mutar(hijo, rand);
+    private void genDescendientes(Individuo padre, Individuo madre, Poblacion nuevaGeneracion) {
+        Individuo[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
+        for (Individuo hijo : hijos) {
+            mutar(hijo);
+            hijo.evaluar();
             nuevaGeneracion.add(hijo);
         }
-//        nuevaGeneracion.add(madre);
-//        nuevaGeneracion.add(padre);
+        if (competirPadres) {
+            nuevaGeneracion.add(madre);
+            nuevaGeneracion.add(padre);
+        }
     }
 
-    private Punto mutar(Punto punto, Random rand) {
+    private Individuo mutar(Individuo punto) {
         mutacion = new MultiGen(ancho);
-        return mutacion.mutar(punto, rand, punto.getFuncion().getLimite(), 0.2, true);
+        return mutacion.mutar(punto, punto.getFuncion().getLimite(), 0.2, true);
+    }
+
+    @Override
+    public boolean haySiguiente() {
+        setNombreEstrategia("E_Genetica_padres");
+        return !competirPadres;
+    }
+
+    @Override
+    public void siguiente() {
+        competirPadres = true;
+    }
+
+    @Override
+    public void reiniciar() {
+        setNombreEstrategia("E_Genetica");
+        competirPadres = false;
     }
 
 }

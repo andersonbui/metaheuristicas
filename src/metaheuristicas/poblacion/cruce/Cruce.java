@@ -19,7 +19,7 @@ package metaheuristicas.poblacion.cruce;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -35,16 +35,14 @@ public class Cruce {
      * @return
      */
     
-    public static Punto[] cruzar(Punto padre, Punto madre, int[] mascaraCruce) {
-        Punto hijoP = padre.clone();
-        Punto hijoM = madre.clone();
+    public static Individuo[] cruzar(Individuo padre, Individuo madre, int[] mascaraCruce) {
+        Individuo hijoP = padre.clone();
+        Individuo hijoM = madre.clone();
         for (int i: mascaraCruce) {
             hijoM.set(i, padre.getValor(i));
             hijoP.set(i, madre.getValor(i));
         }
-        hijoM.evaluar();
-        hijoP.evaluar();
-        return new Punto[]{hijoP, hijoM};
+        return new Individuo[]{hijoP, hijoM};
     }
 
     public static int[] mascaraDosPuntos(int puntoInicial, int puntoFinal) {

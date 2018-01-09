@@ -5,14 +5,14 @@
  */
 package metaheuristicas.simple;
 
-import funciones.Funcion;
-import metaheuristicas.Punto;
+import metaheuristicas.Funcion;
+import metaheuristicas.Individuo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import tweaks.Tweak;
-import tweaks.Tweak_1;
+import metaheuristicas.Viajante;
+import metaheuristicas.tweaks.Tweak;
+import metaheuristicas.tweaks.Tweak_1;
 
 /**
  *
@@ -20,6 +20,8 @@ import tweaks.Tweak_1;
  */
 public class Hill_Climbing extends AlgoritmoMetaheuristico {
 
+    Tweak[] tweaks;
+    int contadorTweak;
     Tweak tweak;
 
     /**
@@ -28,25 +30,45 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
      * @param ancho
      */
     public Hill_Climbing(double ancho) {
-        super("SUBIENDO LA COLINA");
-        this.tweak = new Tweak_1(ancho);
+        super("HC");
+        this.tweaks = new Tweak[]{new Tweak_1(1.5), new Tweak_1(1), new Tweak_1(4), new Tweak_1(0.6)};
+        contadorTweak = 0;
+        tweak = tweaks[contadorTweak];
     }
 
     @Override
-    public List<Punto> ejecutar(Random rand, Funcion funcion) {
-        List<Punto> listaPuntosS = new ArrayList();
-        Punto s = funcion.generarPunto(rand);
-        s.setCalidad(funcion.evaluar(s));
-        listaPuntosS.add(s);
-        Punto r;
-        for (int i = 0; i < iteraciones; i++) {
-            r = tweak.tweak(s, rand);
-            r.setCalidad(funcion.evaluar(r));
+    public List<Viajante> ejecutar(Funcion funcion) {
+        List<Viajante> optimos = new ArrayList();
+        Individuo s = funcion.generarPunto();
+        s.evaluar();
+        optimos.add(s);
+        Individuo r;
+        for (iteraciones = 0; iteraciones < maxIteraciones && !funcion.suficiente(s); iteraciones++) {
+            r = tweak.tweak(s);
+            r.evaluar();
             if (r.compareTo(s) > 0) {
                 s = r;
             }
-            listaPuntosS.add(s);
+            optimos.add(s);
         }
-        return listaPuntosS;
+        return optimos;
     }
+
+    @Override
+    public void siguiente() {
+        tweak = tweaks[++contadorTweak];
+        nombre = "HC" + tweak;
+    }
+
+    @Override
+    public boolean haySiguiente() {
+        return tweaks.length > contadorTweak+1;
+    }
+
+    @Override
+    public void reiniciar() {
+        nombre = "HC";
+        contadorTweak = 0;
+    }
+
 }

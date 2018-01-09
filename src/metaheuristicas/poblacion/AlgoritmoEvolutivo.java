@@ -16,12 +16,11 @@
  */
 package metaheuristicas.poblacion;
 
-import funciones.Funcion;
+import metaheuristicas.Funcion;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Punto;
+import metaheuristicas.Viajante;
 
 /**
  * @author debian
@@ -36,21 +35,41 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
     public AlgoritmoEvolutivo(Estrategia estrategia) {
         super("Evolutivo");
         this.estrategia = estrategia;
-        setNombre(estrategia.getNombreEstrategia());
     }
 
     @Override
-    public List<Punto> ejecutar(Random rand, Funcion funcion) {
-        Poblacion poblacion = estrategia.generarPoblacion(funcion, rand);
-        Punto mejor = poblacion.getMejor();
-        List<Punto> recorrido = new ArrayList();
+    public List<Viajante> ejecutar(Funcion funcion) {
+        Poblacion poblacion = estrategia.generarPoblacion(funcion);
+        Viajante mejor = poblacion.getMejor();
+        List<Viajante> recorrido = new ArrayList();
         recorrido.add(mejor);
-        for (int i = 0; i < iteraciones; i++) {
-            poblacion = estrategia.siguienteGeneracion(1, poblacion, rand);
+        for (iteraciones = 0; iteraciones < maxIteraciones && !funcion.suficiente(mejor.getOptimo()); iteraciones++) {
+            poblacion = estrategia.siguienteGeneracion(1, poblacion);
             mejor = poblacion.getMejor();
-            
+
             recorrido.add(mejor);
         }
         return recorrido;
     }
+
+    @Override
+    public void siguiente() {
+        estrategia.siguiente();
+    }
+
+    @Override
+    public boolean haySiguiente() {
+        return estrategia.haySiguiente();
+    }
+
+    @Override
+    public String getNombre() {
+        return estrategia.getNombreEstrategia();
+    }
+
+    @Override
+    public void reiniciar() {
+        estrategia.reiniciar();
+    }
+
 }

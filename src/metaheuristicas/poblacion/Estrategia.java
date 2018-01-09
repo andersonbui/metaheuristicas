@@ -16,9 +16,8 @@
  */
 package metaheuristicas.poblacion;
 
-import funciones.Funcion;
+import metaheuristicas.Funcion;
 import java.security.InvalidParameterException;
-import java.util.Random;
 
 /**
  *
@@ -26,16 +25,18 @@ import java.util.Random;
  */
 public abstract class Estrategia {
 
-    private int tamPoblacion;
-    private int numDescendientes;
-    private String nombreEstrategia;
+    protected int tamPoblacion;
+    protected int numDescendientes;
+    protected String nombreEstrategia;
 
-    public Estrategia(int tamPoblacion, int numDescendientes) {
+    public Estrategia(int tamPoblacion, int numDescendientes, String nombreEstrategia) {
         this.tamPoblacion = tamPoblacion;
         this.numDescendientes = numDescendientes;
+        this.nombreEstrategia = nombreEstrategia;
     }
 
-    public abstract Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion, Random rand);
+    public abstract Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion);
+    //<
 
     public int getTamPoblacion() {
         return tamPoblacion;
@@ -61,8 +62,8 @@ public abstract class Estrategia {
         this.nombreEstrategia = nombreEstrategia;
     }
 
-    public Poblacion generarPoblacion(Funcion funcion, Random rand) {
-        return Poblacion.generar(funcion, tamPoblacion, rand);
+    public Poblacion generarPoblacion(Funcion funcion) {
+        return Poblacion.generar(funcion, tamPoblacion);
     }
 
     public void elitismo(Poblacion nueva, Poblacion actual, int numIndividuos) {
@@ -72,5 +73,17 @@ public abstract class Estrategia {
         for (int i = 0; i < numIndividuos; i++) {
             nueva.add(actual.remove(0));
         }
+    }
+
+    public void siguiente() {
+
+    }
+
+    public void reiniciar() {
+
+    }
+
+    public boolean haySiguiente() {
+        return false;
     }
 }

@@ -18,10 +18,10 @@ package metaheuristicas.poblacion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import metaheuristicas.Punto;
-import tweaks.Tweak;
-import tweaks.Tweak_Explotacion;
+import metaheuristicas.Aleatorio;
+import metaheuristicas.Individuo;
+import metaheuristicas.tweaks.Tweak;
+import metaheuristicas.tweaks.Tweak_Explotacion;
 
 /**
  *
@@ -30,12 +30,15 @@ import tweaks.Tweak_Explotacion;
 public class EstrategiaMLamda extends Estrategia {
 
     Tweak tweak;
-    Random rand;
     double ancho = 0.5;
 
+    /**
+     *
+     * @param miu numerod de descendientes por individuo
+     * @param lamda tamanio poblacion
+     */
     public EstrategiaMLamda(int miu, int lamda) {
-        super(lamda, miu);
-        setNombreEstrategia("MiuLamda");
+        super(lamda, miu, "MiuLamda");
     }
 
     public int getMiu() {
@@ -47,25 +50,24 @@ public class EstrategiaMLamda extends Estrategia {
     }
 
     @Override
-    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion, Random rand) {
-        this.rand = rand;
+    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
-        List<Punto> padresEscogidos = escogerPadres(getMiu(), poblacion);
+        List<Individuo> padresEscogidos = escogerPadres(getMiu(), poblacion);
         genDescendientes(padresEscogidos, nuevaGeneracion);
         return nuevaGeneracion;
     }
 
-    private Poblacion mezclar(Poblacion poblacion, List<Punto> genDescendientes) {
+    private Poblacion mezclar(Poblacion poblacion, List<Individuo> genDescendientes) {
         Poblacion pob = poblacion;
-        for (Punto descen : genDescendientes) {
+        for (Individuo descen : genDescendientes) {
             poblacion.add(descen);
         }
         return pob;
     }
 
-    private void genDescendientes(List<Punto> padres, Poblacion nuevaGeneracion) {
-        for (Punto padre : padres) {
+    private void genDescendientes(List<Individuo> padres, Poblacion nuevaGeneracion) {
+        for (Individuo padre : padres) {
             for (int i = 0; i < getLamda() / getMiu(); i++) {
                 nuevaGeneracion.add(mutar(padre));
             }
@@ -73,24 +75,24 @@ public class EstrategiaMLamda extends Estrategia {
         }
     }
 
-    public Punto mutar(Punto punto) {
+    public Individuo mutar(Individuo punto) {
         tweak = new Tweak_Explotacion(ancho);
-        return tweak.tweak(punto, rand);
+        return tweak.tweak(punto);
     }
 
-    private List<Punto> escogerPadres(int miu, Poblacion poblacion) {
+    private List<Individuo> escogerPadres(int miu, Poblacion poblacion) {
 //        List<Punto> padres = poblacion.getPoblacion().subList(0, miu);
         //Los cromosomas con mayor valor de aptitud tendran mayor probabilidad de ser seleccionados
         double totalCalidad = 0;
         double[] acomuladoPuntos = new double[poblacion.size()];
         int i = 0;
-        for (Punto punto : poblacion) {
+        for (Individuo punto : poblacion) {
             acomuladoPuntos[i++] = totalCalidad;
             totalCalidad += punto.getCalidad();
         }
-        List<Punto> padres = new ArrayList();
+        List<Individuo> padres = new ArrayList();
         for (int k = 0; k < miu; k++) {
-            double valorAleatorio = rand.nextDouble() * totalCalidad;
+            double valorAleatorio = Aleatorio.nextDouble() * totalCalidad;
             for (int j = 0; j < acomuladoPuntos.length; j++) {
                 if (valorAleatorio >= acomuladoPuntos[j]) {
                     padres.add(poblacion.get(j));

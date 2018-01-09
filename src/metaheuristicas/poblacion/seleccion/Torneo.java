@@ -18,7 +18,7 @@ package metaheuristicas.poblacion.seleccion;
 
 import java.util.List;
 import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -48,10 +48,10 @@ public class Torneo implements Seleccion {
      * @return el individuo mas apto de entre los numParticipantes escodigos.
      */
     @Override
-    public Punto seleccionar(List<Punto> poblacion, Random rand) {
+    public Individuo seleccionar(List<Individuo> poblacion, Random rand) {
         //Los cromosomas con mayor valor de aptitud tendran mayor probabilidad de ser seleccionados
-        Punto escogido;
-        Punto masApto = null;
+        Individuo escogido;
+        Individuo masApto = null;
         int posicion;
         for (int j = 0; j < numParticipantes; j++) {
             posicion = rand.nextInt(numParticipantes);

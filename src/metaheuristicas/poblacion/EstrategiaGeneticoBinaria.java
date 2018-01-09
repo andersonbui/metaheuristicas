@@ -16,9 +16,8 @@
  */
 package metaheuristicas.poblacion;
 
-import funciones.Funcion;
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Funcion;
+import metaheuristicas.Individuo;
 import metaheuristicas.poblacion.cruce.Cruce;
 import metaheuristicas.poblacion.mutacion.MultiBit;
 
@@ -34,8 +33,7 @@ public class EstrategiaGeneticoBinaria extends Estrategia {
     private final int numPadres = 2;
 
     public EstrategiaGeneticoBinaria(int tamPoblacion) {
-        super(tamPoblacion, 2);
-        setNombreEstrategia("EstrategiaGeneticaBinaria");
+        super(tamPoblacion, 2, "EstrategiaGeneticaBinaria");
     }
 
     /**
@@ -48,7 +46,7 @@ public class EstrategiaGeneticoBinaria extends Estrategia {
      * @return
      */
     @Override
-    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion, Random rand) {
+    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
         if (mascaraCruce == null) {
             int dimension = poblacion.getFuncion().getDimension();
             mascaraCruce = Cruce.mascaraDosPuntos(dimension / 2, dimension); // cruce unpunto  = dimension/2
@@ -56,14 +54,14 @@ public class EstrategiaGeneticoBinaria extends Estrategia {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
         while (!poblacion.isEmpty()) {
-            Punto[] padres = seleccionPadreMadre(poblacion);
-            genDescendientes(padres[0], padres[1], nuevaGeneracion, rand);
+            Individuo[] padres = seleccionPadreMadre(poblacion);
+            genDescendientes(padres[0], padres[1], nuevaGeneracion);
         }
         return nuevaGeneracion;
     }
 
-    public Punto[] seleccionPadreMadre(Poblacion poblacion) {
-        Punto[] padres = new Punto[numPadres];
+    public Individuo[] seleccionPadreMadre(Poblacion poblacion) {
+        Individuo[] padres = new Individuo[numPadres];
         padres[0] = poblacion.remove(0);
         if (!poblacion.isEmpty()) {
             padres[1] = poblacion.remove(0);
@@ -74,25 +72,25 @@ public class EstrategiaGeneticoBinaria extends Estrategia {
         return padres;
     }
 
-    private void genDescendientes(Punto padre, Punto madre, Poblacion nuevaGeneracion, Random rand) {
-        Punto[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
-        for (Punto hijo : hijos) {
-            mutar(hijo, rand);
+    private void genDescendientes(Individuo padre, Individuo madre, Poblacion nuevaGeneracion) {
+        Individuo[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
+        for (Individuo hijo : hijos) {
+            mutar(hijo);
             nuevaGeneracion.add(hijo);
         }
     }
 
-    private Punto mutar(Punto punto, Random rand) {
+    private Individuo mutar(Individuo punto) {
         mutacion = new MultiBit();
-        return mutacion.mutar(punto, rand, 0.2);
+        return mutacion.mutar(punto, 0.2);
     }
 
     @Override
-    public Poblacion generarPoblacion(Funcion funcion, Random rand) {
+    public Poblacion generarPoblacion(Funcion funcion) {
         Poblacion poblacion = new Poblacion(funcion, getTamPoblacion());
-        Punto p;
+        Individuo p;
         for (int i = 0; i < getTamPoblacion(); i++) {
-            p = funcion.generarPunto(rand);
+            p = funcion.generarPunto();
             poblacion.add(p);
         }
         return poblacion;

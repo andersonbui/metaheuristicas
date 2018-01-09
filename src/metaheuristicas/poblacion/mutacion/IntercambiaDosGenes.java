@@ -17,7 +17,7 @@
 package metaheuristicas.poblacion.mutacion;
 
 import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -25,7 +25,7 @@ import metaheuristicas.Punto;
  */
 public class IntercambiaDosGenes {
 
-    public Punto mutar(Punto punto, Random rand) {
+    public Individuo mutar(Individuo punto, Random rand) {
         int pos1;
         int pos2;
         double valor1;

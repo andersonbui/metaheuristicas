@@ -16,39 +16,28 @@
  */
 package metaheuristicas.poblacion;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import metaheuristicas.Punto;
-import tweaks.Tweak;
-import tweaks.Tweak_1;
-import tweaks.Tweak_B_HC;
-import tweaks.Tweak_Direccional;
-import tweaks.Tweak_Explotacion;
-import tweaks.Tweak_GeneraNuevo;
+import metaheuristicas.Individuo;
+import metaheuristicas.tweaks.Tweak;
+import metaheuristicas.tweaks.Tweak_Explotacion;
 
 /**
  *
  * @author debian
  */
-public class EstrategiaMutacion  extends Estrategia {
+public class EstrategiaMutacion extends Estrategia {
 
     Tweak tweak;
-    Random rand;
     double ancho = 0.5;
 
     public EstrategiaMutacion(int tamPoblacion) {
-        super(tamPoblacion, 2);
-        setNombreEstrategia("SoloMutacion");
+        super(tamPoblacion, 2, "SoloMutacion");
     }
 
     @Override
-    public Poblacion siguienteGeneracion(int numIndividuosElitismo,Poblacion poblacion, Random rand) {
-        this.rand = rand;
+    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
-        for (Punto punto : poblacion) {
+        for (Individuo punto : poblacion) {
             genDescendientes(punto, nuevaGeneracion);
         }
         poblacion = mezclar(poblacion, nuevaGeneracion);
@@ -57,20 +46,20 @@ public class EstrategiaMutacion  extends Estrategia {
 
     private Poblacion mezclar(Poblacion poblacion, Poblacion genDescendientes) {
         Poblacion pob = poblacion;
-        for (Punto descen : genDescendientes) {
+        for (Individuo descen : genDescendientes) {
             poblacion.add(descen);
         }
         return pob;
     }
 
-    private void genDescendientes(Punto padre, Poblacion nuevaGeneracion) {
+    private void genDescendientes(Individuo padre, Poblacion nuevaGeneracion) {
         for (int i = 0; i < getNumDescendientes(); i++) {
             nuevaGeneracion.add(mutar(padre));
         }
     }
 
-    public Punto mutar(Punto punto) {
+    public Individuo mutar(Individuo punto) {
         tweak = new Tweak_Explotacion(ancho);
-        return tweak.tweak(punto, rand);
+        return tweak.tweak(punto);
     }
 }

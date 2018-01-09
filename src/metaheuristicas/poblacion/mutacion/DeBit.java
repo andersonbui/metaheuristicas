@@ -17,7 +17,7 @@
 package metaheuristicas.poblacion.mutacion;
 
 import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -25,7 +25,7 @@ import metaheuristicas.Punto;
  */
 public class DeBit {
 
-    public Punto mutar(Punto punto, Random rand) {
+    public Individuo mutar(Individuo punto, Random rand) {
         int valor;
         int i = rand.nextInt(punto.getDimension());
         valor = (int) punto.getValor(i);

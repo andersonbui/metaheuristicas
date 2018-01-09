@@ -1,8 +1,6 @@
 package metaheuristicas;
 
-import funciones.Funcion;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -11,19 +9,26 @@ import java.util.Random;
 public abstract class AlgoritmoMetaheuristico {
 
     protected int iteraciones;
+    protected int maxIteraciones;
     protected String nombre;
 
     public AlgoritmoMetaheuristico(String nombre) {
         this.nombre = nombre;
-        iteraciones = 1;
     }
 
-    public AlgoritmoMetaheuristico() {
-        this.nombre = "";
-        iteraciones = 1;
+    public abstract List<Viajante> ejecutar(Funcion funcion);
+
+    public void siguiente() {
+
     }
 
-    public abstract List<Punto> ejecutar(Random rand, Funcion funcion);
+    public boolean haySiguiente() {
+        return false;
+    }
+    
+    public void reiniciar(){
+        
+    }
 
     public String getNombre() {
         return nombre;
@@ -37,8 +42,12 @@ public abstract class AlgoritmoMetaheuristico {
         return iteraciones;
     }
 
-    public void setIteraciones(int iteraciones) {
-        this.iteraciones = iteraciones;
+    public int getMaxIteraciones() {
+        return maxIteraciones;
+    }
+
+    public void setMaxIteraciones(int maxIteraciones) {
+        this.maxIteraciones = maxIteraciones;
     }
 
 }

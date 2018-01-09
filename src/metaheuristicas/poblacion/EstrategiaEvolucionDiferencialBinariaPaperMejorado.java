@@ -16,9 +16,8 @@
  */
 package metaheuristicas.poblacion;
 
-import funciones.Funcion;
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Aleatorio;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -37,16 +36,16 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
     }
 
     @Override
-    protected Punto mutar(Poblacion poblacion, Random rand) {
-        Punto mutado = super.mutar(poblacion, rand);
+    protected Individuo mutar(Poblacion poblacion) {
+        Individuo mutado = super.mutar(poblacion);
         //variacion para problema de la mochila
-        normalizar(mutado, rand);
+        normalizar(mutado);
         return mutado;
     }
 
     @Override
-    protected Punto resta(Punto minuendo, Punto sustraendo) {
-        Punto diferencia = minuendo.clone();
+    protected Individuo resta(Individuo minuendo, Individuo sustraendo) {
+        Individuo diferencia = minuendo.clone();
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.getValor(i) - sustraendo.getValor(i);
@@ -58,8 +57,8 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
     }
 
     @Override
-    protected Punto suma(Punto sumando, Punto sumando2) {
-        Punto resultado = (Punto) sumando.clone();
+    protected Individuo suma(Individuo sumando, Individuo sumando2) {
+        Individuo resultado = (Individuo) sumando.clone();
         double suma;
         for (int i = 0; i < resultado.getDimension(); i++) {
             suma = sumando.getValor(i) + sumando2.getValor(i);
@@ -70,10 +69,10 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
         return resultado;
     }
 
-    public void normalizar(Punto punto, Random rand) {
+    public void normalizar(Individuo punto) {
         for (int i = 0; i < punto.getDimension(); i++) {
             double valor = punto.getValor(i);
-            valor = rand.nextDouble() <= sig(valor) ? 1 : 0;
+            valor = Aleatorio.nextDouble() <= sig(valor) ? 1 : 0;
             punto.set(i, valor);
         }
         punto.evaluar();

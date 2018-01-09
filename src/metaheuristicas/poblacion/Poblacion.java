@@ -16,20 +16,19 @@
  */
 package metaheuristicas.poblacion;
 
-import funciones.Funcion;
+import metaheuristicas.Funcion;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 import main.Utilidades;
 
 /**
  *
  * @author debian
  */
-public class Poblacion extends ArrayList<Punto> {
+public class Poblacion extends ArrayList<Individuo> {
 
-//    protected Punto mejor;
+//    protected Individuo mejor;
 //    protected List<Punto> poblacion;
     private Funcion funcion;
     private int tamanioMaximo;
@@ -49,12 +48,10 @@ public class Poblacion extends ArrayList<Punto> {
     }
 
     @Override
-    public boolean add(Punto element) {
+    public boolean add(Individuo element) {
         int pos = 0;
         element.setGeneracion(generacion);
-//        if (mejor != null) {
-//            mejor = mejor.compareTo(element) >= 0 ? mejor : element;
-//        } else {
+//        if (mejor == null || mejor.compareTo(element) < 0) {
 //            mejor = element;
 //        }
         List listapob = this;
@@ -77,6 +74,7 @@ public class Poblacion extends ArrayList<Punto> {
     public void aumentarGeneracion() {
         this.generacion++;
     }
+
     public int getTamanioMaximo() {
         return tamanioMaximo;
     }
@@ -85,14 +83,14 @@ public class Poblacion extends ArrayList<Punto> {
         this.tamanioMaximo = tamanioMaximo;
     }
 
-    public Punto getMejor() {
+    public Individuo getMejor() {
         return this.get(0);
     }
 
     public void evaluar() {
-        for (Punto punto : this) {
-            punto.setCalidad(funcion.evaluar(punto));
-        }
+        this.forEach((punto) -> {
+            punto.evaluar();
+        });
     }
 
     public Funcion getFuncion() {
@@ -103,11 +101,12 @@ public class Poblacion extends ArrayList<Punto> {
         this.funcion = funcion;
     }
 
-    public static Poblacion generar(Funcion funcion, int tamanioPoblacion, Random rand) {
+    public static Poblacion generar(Funcion funcion, int tamanioPoblacion) {
         Poblacion poblacion = new Poblacion(funcion, tamanioPoblacion);
-        Punto p;
+        Individuo p;
         for (int i = 0; i < tamanioPoblacion; i++) {
-            p = Punto.generar(funcion, rand);
+            p = funcion.generarPunto();
+            p.evaluar();
             poblacion.add(p);
         }
         return poblacion;
@@ -116,7 +115,7 @@ public class Poblacion extends ArrayList<Punto> {
     @Override
     public Poblacion clone() {
         Poblacion copia = new Poblacion(funcion, tamanioMaximo);
-        for (Punto punto : this) {
+        for (Individuo punto : this) {
             copia.add(punto.clone());
         }
         return copia;

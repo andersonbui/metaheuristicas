@@ -16,8 +16,8 @@
  */
 package metaheuristicas.poblacion;
 
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Aleatorio;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -33,17 +33,17 @@ public class EstrategiaEvolucionDiferencialBinaria extends EstrategiaEvolucionDi
     }
 
     @Override
-    protected Punto mutar(Poblacion poblacion, Random rand) {
-        Punto mutado = super.mutar(poblacion, rand);
+    protected Individuo mutar(Poblacion poblacion) {
+        Individuo mutado = super.mutar(poblacion);
         //variacion para problema de la mochila
-        normalizar(mutado, rand);
+        normalizar(mutado);
         return mutado;
     }
 
-    public void normalizar(Punto punto, Random rand) {
+    public void normalizar(Individuo punto) {
         for (int i = 0; i < punto.getDimension(); i++) {
             double valor = punto.getValor(i);
-            valor = rand.nextDouble() <= sig(valor) ? 1 : 0;
+            valor = Aleatorio.nextDouble() <= sig(valor) ? 1 : 0;
             punto.set(i, valor);
         }
         punto.evaluar();

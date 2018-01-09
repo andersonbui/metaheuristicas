@@ -17,8 +17,8 @@
 package metaheuristicas.poblacion.seleccion;
 
 import java.util.List;
-import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Aleatorio;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -32,27 +32,26 @@ public class Ruleta {
      * probabilidad de ser seleccionados
      *
      * @param poblacion
-     * @param rand
      * @return
      */
-    public static Punto seleccionar(List<Punto> poblacion, Random rand) {
+    public static Individuo seleccionar(List<Individuo> poblacion) {
         //Los cromosomas con mayor valor de aptitud tendran mayor probabilidad de ser seleccionados
         double totalCalidad = 0;
         double[] acomuladoPuntos = new double[poblacion.size()];
         int i = 0;
         double menor = 0;
-        for (Punto punto : poblacion) {
+        for (Individuo punto : poblacion) {
             if (menor > punto.getCalidad()) {
                 menor = punto.getCalidad();
             }
         }
         menor = menor < 0 ? -menor : 0;
-        for (Punto punto : poblacion) {
+        for (Individuo punto : poblacion) {
             totalCalidad += punto.getCalidad()+menor;
             acomuladoPuntos[i++] = totalCalidad;
         }
-        Punto escogido = null;
-        double valorAleatorio = rand.nextDouble() * totalCalidad;
+        Individuo escogido = null;
+        double valorAleatorio = Aleatorio.nextDouble() * totalCalidad;
         for (int j = 0; j < acomuladoPuntos.length; j++) {
             if (valorAleatorio <= acomuladoPuntos[j]) {
                 escogido = poblacion.remove(j);

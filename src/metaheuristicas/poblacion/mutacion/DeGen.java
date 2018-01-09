@@ -17,7 +17,7 @@
 package metaheuristicas.poblacion.mutacion;
 
 import java.util.Random;
-import metaheuristicas.Punto;
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -25,7 +25,7 @@ import metaheuristicas.Punto;
  */
 public class DeGen {
 
-    public Punto mutar(Punto punto, Random rand, double limite) {
+    public Individuo mutar(Individuo punto, Random rand, double limite) {
         double valor;
         // improve
         int posicion = rand.nextInt(punto.getDimension());
