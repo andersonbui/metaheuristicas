@@ -41,7 +41,7 @@ import metaheuristicas.simple.Hill_Climbing;
  */
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, Exception {
+    public void main(String[] args) throws FileNotFoundException, Exception {
         double paso;
         double limite;
         int dimension;

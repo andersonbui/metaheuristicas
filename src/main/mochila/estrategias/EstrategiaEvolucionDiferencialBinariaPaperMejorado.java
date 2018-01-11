@@ -14,43 +14,63 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package metaheuristicas.poblacion;
+package main.mochila.estrategias;
 
-import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
+import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaper;
+import metaheuristicas.poblacion.Poblacion;
 
 /**
  *
  * @author debian
  */
-public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends EstrategiaEvolucionDiferencial {
+public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends EstrategiaEvolucionDiferencialBinariaPaper {
 
     private double b;
 
     public EstrategiaEvolucionDiferencialBinariaPaperMejorado(int tamPoblacion) {
         super(tamPoblacion);
-        setNombreEstrategia("EstrategiaEDB_PaperMM");
+        nombreEstrategia = "EstrategiaEDB_PaperMM";
         cr = 0.2;
         alfa = 0.8;
         b = 20;
     }
 
+    /**
+     * genera hijos a partir de un padre y una madre y compiten en calidad entre
+     * todos.
+     *
+     * @param numIndividuosElitismo
+     * @param poblacion
+     * @return
+     */
     @Override
-    protected Individuo mutar(Poblacion poblacion) {
-        Individuo mutado = super.mutar(poblacion);
-        //variacion para problema de la mochila
-        normalizar(mutado);
-        return mutado;
+    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
+        Poblacion siguienteGeneracion = poblacion.clone();
+        siguienteGeneracion.aumentarGeneracion();
+        siguienteGeneracion.clear();
+        for (int k = 0; k < poblacion.size(); k++) {
+            Individuo objetivo = poblacion.remove(k);
+            // MUTACION
+            Individuo mutado = mutar(poblacion);
+            // CRUCE -> generacion del vector prueba
+            Individuo individuoPrueba = cruce(objetivo, mutado, poblacion, k);
+            // SELECCION
+            individuoPrueba.evaluar();
+            seleccion(objetivo, individuoPrueba, siguienteGeneracion);
+            poblacion.add(objetivo);
+        }
+        return siguienteGeneracion;
     }
 
+    
     @Override
     protected Individuo resta(Individuo minuendo, Individuo sustraendo) {
         Individuo diferencia = minuendo.clone();
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.getValor(i) - sustraendo.getValor(i);
-            resta = Math.abs(resta % 2);
-//            minuendo.set(i, resta);
+//            resta = Math.abs(resta % 2);
             diferencia.set(i, resta);
         }
         return diferencia;
@@ -62,27 +82,10 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
         double suma;
         for (int i = 0; i < resultado.getDimension(); i++) {
             suma = sumando.getValor(i) + sumando2.getValor(i);
-//            sumando.set(i, suma);
             suma = Math.abs(suma % 2);
             resultado.set(i, suma);
         }
         return resultado;
     }
 
-    public void normalizar(Individuo punto) {
-        for (int i = 0; i < punto.getDimension(); i++) {
-            double valor = punto.getValor(i);
-            valor = Aleatorio.nextDouble() <= sig(valor) ? 1 : 0;
-            punto.set(i, valor);
-        }
-        punto.evaluar();
-    }
-
-    public double sig(double x) {
-        double result = 1 + Math.exp(-2 * b * (x - 0.5) / (1 + 2 * alfa));
-        result = 1 / result;
-        return result;
-
-    }
-    
 }

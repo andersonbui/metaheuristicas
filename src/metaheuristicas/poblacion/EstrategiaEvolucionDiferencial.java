@@ -55,6 +55,7 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
             // CRUCE -> generacion del vector prueba
             Individuo individuoPrueba = cruce(objetivo, mutado, poblacion, k);
             // SELECCION
+            individuoPrueba.evaluar();
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
         }
@@ -62,8 +63,6 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
     }
 
     protected void seleccion(Individuo objetivo, Individuo individuoPrueba, Poblacion siguienteGeneracion) {
-//        individuoPrueba.evaluar();
-//        objetivo.evaluar();
         Individuo selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
         siguienteGeneracion.add(selleccionado);
     }
@@ -81,12 +80,10 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
                 individuoPrueba.set(i, vi);
             }
         }
-        individuoPrueba.evaluar();
         return individuoPrueba;
     }
 
     protected Individuo mutar(Poblacion poblacion) {
-
         Individuo x1 = Ruleta.seleccionar(poblacion);
         Individuo x2 = Ruleta.seleccionar(poblacion);
         Individuo x3 = Ruleta.seleccionar(poblacion);
@@ -96,7 +93,6 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         Individuo diferenciaX1X2 = resta(x1, x2);
         Individuo productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
         Individuo mutado = suma(x3, productoEscalar);
-//        mutado.evaluar();
         return mutado;
     }
 
@@ -105,7 +101,6 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.getValor(i) - sustraendo.getValor(i);
-//            minuendo.set(i, resta);
             diferencia.set(i, resta);
         }
         return diferencia;
@@ -116,7 +111,6 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
         double suma;
         for (int i = 0; i < resultado.getDimension(); i++) {
             suma = sumando.getValor(i) + sumando2.getValor(i);
-//            sumando.set(i, suma);
             resultado.set(i, suma);
         }
         return resultado;

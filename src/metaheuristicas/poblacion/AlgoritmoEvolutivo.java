@@ -53,6 +53,11 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
     }
 
     @Override
+    public String getNombre() {
+        return estrategia.getNombreEstrategia();
+    }
+
+    @Override
     public void siguiente() {
         estrategia.siguiente();
     }
@@ -60,11 +65,6 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
     @Override
     public boolean haySiguiente() {
         return estrategia.haySiguiente();
-    }
-
-    @Override
-    public String getNombre() {
-        return estrategia.getNombreEstrategia();
     }
 
     @Override

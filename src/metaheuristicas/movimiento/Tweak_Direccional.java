@@ -1,10 +1,9 @@
-package metaheuristicas.tweaks;
+package metaheuristicas.movimiento;
 
 import metaheuristicas.Funcion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import metaheuristicas.Individuo;
 
 /**

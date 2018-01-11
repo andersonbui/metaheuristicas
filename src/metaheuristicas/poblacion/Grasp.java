@@ -24,13 +24,13 @@ import metaheuristicas.movimiento.Tweak_Explotacion;
  *
  * @author debian
  */
-public class EstrategiaMutacion extends Estrategia {
+public class Grasp extends Estrategia {
 
     Tweak tweak;
     double ancho = 0.5;
 
-    public EstrategiaMutacion(int tamPoblacion) {
-        super(tamPoblacion, 2, "SoloMutacion");
+    public Grasp(int tamPoblacion) {
+        super(tamPoblacion, 2, "Grasp");
     }
 
     @Override
@@ -61,5 +61,9 @@ public class EstrategiaMutacion extends Estrategia {
     public Individuo mutar(Individuo punto) {
         tweak = new Tweak_Explotacion(ancho);
         return tweak.tweak(punto);
+    }
+    
+    public void voraz(){
+        
     }
 }

@@ -3,7 +3,6 @@ package main.mochila.funciones;
 import metaheuristicas.Individuo;
 import metaheuristicas.Funcion;
 import java.util.List;
-import java.util.Random;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -12,10 +11,9 @@ import metaheuristicas.Aleatorio;
  */
 public class MochilaMultidimensional extends Funcion {
 
-    protected final double[] capacidades;
-    protected final List<double[]> w;
-    protected final double prob_ceros;
-    protected Individuo mejor;
+    protected Funcion funcion;
+    protected int contFuncion;
+    protected Funcion[] funciones;
 
     /**
      *
@@ -25,100 +23,104 @@ public class MochilaMultidimensional extends Funcion {
      */
     public MochilaMultidimensional(double[] capacidades, List<double[]> w, boolean maximizar) {
         super("MOCHILA MultiD", 2, w.size(), maximizar);
-        this.capacidades = capacidades;
-        this.w = w;
-        prob_ceros = 0.6;
+        contFuncion = 0;
+        funciones = new Funcion[]{
+            new MochilaMultidimensionalOriginal(capacidades, w, maximizar),
+            new MochilaMultidimensionalMejorada(capacidades, w, maximizar),
+            new MochilaMultidimensionalMejorada2(capacidades, w, maximizar)
+        };
+        funcion = funciones[contFuncion];
     }
 
     @Override
-    public double evaluar(Individuo punto) {
-        super.evaluar(punto);
-        punto = limitar(punto);
-        double result = obtenerPrecio(punto);
-        punto.setCalidad(result);
-        if (mejor == null || mejor.compareTo(punto) < 0) {
-            mejor = punto;
-            result = obtenerPrecio(punto);
-            punto.setCalidad(result);
-        }
-        return result;
-    }
-
-    public double obtenerPrecio(Individuo punto) {
-        double sumPX = 0;
-        int length = w.get(0).length;
-        for (int i = 0; i < punto.getDimension(); i++) {
-            sumPX += punto.getValor(i) * w.get(i)[length - 1];
-        }
-        return sumPX;
-    }
-
-    public double obtenerPeso(Individuo punto, int indicePeso) {
-        double sumWX = 0;
-        // para cada elemento que podria ir en la mochila
-        for (int i = 0; i < punto.getDimension(); i++) {
-            sumWX += punto.getValor(i) * w.get(i)[indicePeso];
-        }
-        return sumWX;
+    public void siguiente() {
+        funcion = funciones[++contFuncion];
     }
 
     @Override
-    public Individuo limitar(Individuo punto) {
-        int posicion;
-        // para cada caracteristica(peso) del elemento
-        for (int i = 0; i < capacidades.length; i++) {
-            posicion = 0;
-            while (obtenerPeso(punto, i) > capacidades[i]) {
-                posicion = mayor(punto, i);
-                punto.set(posicion, 0);
-            }
-        }
-
-        return punto; //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public int mayor(Individuo punto, int indicePeso) {
-        int mayor = -1;
-        double valorMayor = 0;
-        double valor;
-        // para cada elemento que podria ir en la mochila
-        for (int k = 1; k < punto.getDimension(); k++) {
-            valor = 0;
-            // para indicePeso-esimo caracteristica(peso) del elemento k-esimo
-            valor += punto.getValor(k) * w.get(k)[indicePeso];
-            if (mayor < 0 || valorMayor < valor) {
-                mayor = k;
-                valorMayor = valor;
-            }
-        }
-        return mayor;
+    public boolean haySiguiente() {
+        return contFuncion + 1 < funciones.length;
     }
 
     @Override
-    public String toString() {
-        return "x+y";
+    public void reiniciar() {
+        contFuncion = 0;
+        funcion = funciones[contFuncion];
+    }
+
+    @Override
+    public boolean suficiente(Individuo punto) {
+        return funcion.suficiente(punto);
     }
 
     @Override
     public Individuo generarPunto() {
-        double[] valores = new double[getDimension()];
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0 : 1);
-        }
-        Individuo nuevop = new Individuo(this, valores, isMaximizar());
-        nuevop.evaluar();
-        return nuevop;
+        return funcion.generarPunto();
     }
 
-    public Individuo getMejor() {
-        return mejor;
+    @Override
+    public double evaluar(Individuo mochila) {
+        return funcion.evaluar(mochila);
     }
 
-    public void setMejor(Individuo mejor) {
-        this.mejor = mejor;
+    @Override
+    public int getContadorEvaluaciones() {
+        return funcion.getContadorEvaluaciones();
     }
 
-    public double[] getCapacidades() {
-        return capacidades;
+    @Override
+    public void reiniciarContadorEvaluaciones() {
+        funcion.reiniciarContadorEvaluaciones();
     }
+
+    @Override
+    public double getLimite() {
+        return funcion.getLimite();
+    }
+
+    @Override
+    public void setLimite(double limite) {
+        funcion.setLimite(limite);
+    }
+
+    @Override
+    public int getDimension() {
+        return funcion.getDimension();
+    }
+
+    @Override
+    public void setDimension(int dimension) {
+        funcion.setDimension(dimension);
+    }
+
+    @Override
+    public String getNombre() {
+        return funcion.getNombre();
+    }
+
+    @Override
+    public void setNombre(String nombre) {
+        funcion.setNombre(nombre);
+    }
+
+    @Override
+    public double limitar(double valor) {
+        return funcion.limitar(valor);
+    }
+
+    @Override
+    public boolean isMaximizar() {
+        return funcion.isMaximizar();
+    }
+
+    @Override
+    public void setMaximizar(boolean maximizar) {
+        funcion.setMaximizar(maximizar);
+    }
+
+    @Override
+    public String toString() {
+        return funcion.toString();
+    }
+
 }

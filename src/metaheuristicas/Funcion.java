@@ -93,7 +93,7 @@ public abstract class Funcion {
         this.nombre = nombre;
     }
 
-    public Individuo limitar(Individuo punto) {
+    protected Individuo limitar(Individuo punto) {
         double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(valores[i]);
@@ -124,5 +124,15 @@ public abstract class Funcion {
 
     @Override
     public abstract String toString();
+
+    public void siguiente() {
+    }
+
+    public boolean haySiguiente() {
+        return false;
+    }
+
+    public void reiniciar() {
+    }
 
 }

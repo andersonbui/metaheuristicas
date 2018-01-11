@@ -31,9 +31,9 @@ import metaheuristicas.Viajante;
  */
 public class Ejecutor {
 
-    public static String FORMATO_DOUBLE= "E";
+    public static String FORMATO_DOUBLE = "E";
     public static int NUM_DECIMALES = 4;
-    
+
     GraficoGnuPlot gnuplot;
 
     public Ejecutor() {
@@ -81,7 +81,7 @@ public class Ejecutor {
                 for (int i = 0; i < menorTamanio; i++) {
                     cd.add(new gnuplot.Punto2D((double) i, listaViajantes.get(i).getCalidad()));
                 }
-                gnuplot.addConjuntoDatos(cd, itemRecorrido.getNombreAlgoritmo() + "(" + formatear(itemRecorrido.getPromedioCalidad()) + ")");
+                gnuplot.addConjuntoDatos(cd, itemRecorrido.getNombreRecorrido() + "(" + formatear(itemRecorrido.getPromedioCalidad()) + ")");
             }
         }
 
@@ -95,7 +95,6 @@ public class Ejecutor {
         List<Viajante> mejorRecorrido = null;// recorrido del algoritmo
         List<Viajante> optimos = new ArrayList<>();
         Individuo optimo;
-        funcion.reiniciarContadorEvaluaciones();
 
         algoritmo.setMaxIteraciones(iteraciones);
         long tiempo_inicial = System.currentTimeMillis();
@@ -126,22 +125,22 @@ public class Ejecutor {
                 "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
                 "" + funcion.getContadorEvaluaciones() / numeroPruebas);
         //implimir mejor optimo
-//                System.out.println("\n\nMejor optimo: " + mejorOptimo.getPunto().getCalidad());
-//                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
+        System.out.println("\nMejor optimo: " + optimo.getCalidad());
+//                System.out.println("mejor punto: "+ optimo.toString3());
 
-        return new Recorrido(recorrido, promedioCalidad, algoritmo.getNombre());
+        return new Recorrido(mejorRecorrido, promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
     }
 
     public class Recorrido {
 
         private List<Viajante> recorrido;
         private double promedioCalidad;
-        private String nombreAlgoritmo;
+        private String nombreRecorrido;
 
-        public Recorrido(List<Viajante> recorrido, double promedioCalidad, String nombreAlgoritmo) {
+        public Recorrido(List<Viajante> recorrido, double promedioCalidad, String nombreRecorrido) {
             this.recorrido = recorrido;
             this.promedioCalidad = promedioCalidad;
-            this.nombreAlgoritmo = nombreAlgoritmo;
+            this.nombreRecorrido = nombreRecorrido;
         }
 
         public List<Viajante> getRecorrido() {
@@ -160,18 +159,19 @@ public class Ejecutor {
             this.promedioCalidad = promedioCalidad;
         }
 
-        public String getNombreAlgoritmo() {
-            return nombreAlgoritmo;
+        public String getNombreRecorrido() {
+            return nombreRecorrido;
         }
 
-        public void setNombreAlgoritmo(String nombreAlgoritmo) {
-            this.nombreAlgoritmo = nombreAlgoritmo;
+        public void setNombreRecorrido(String nombreAlgoritmo) {
+            this.nombreRecorrido = nombreAlgoritmo;
         }
 
     }
 
     public void ejecutarAlgoritmosMasFunciones(List<AlgoritmoMetaheuristico> l_amgoritmos,
-            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaConvergencia, int numeroPruebas, int iteraciones) {
+            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaConvergencia,
+            int numeroPruebas, int iteraciones) {
 
 //        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
         imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
@@ -179,26 +179,41 @@ public class Ejecutor {
         List<Recorrido> listaRecorridos; // para grafica de convergencia
         String titulo;
         for (Funcion funcion : l_funciones) {
-            titulo
-                    = //                    algoritmo.getNombre() +
-                    "(" + funcion.getNombre() + ")";
             listaRecorridos = new ArrayList();
-            for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
-                for (int i = 0;; i++) {
+            for (int k = 0;; k++) {
+                /**
+                 * ciclo para los diferentes planteamientos de una misma funcion
+                 */
 
-                    Recorrido recorrido = ejecutar(algoritmo, funcion, numeroPruebas, iteraciones);
-                    listaRecorridos.add(recorrido);
-                    if (graficaRecorrido) {
-                        grafico3D(recorrido.getRecorrido(), titulo);
-                    }
-                    if (algoritmo.haySiguiente()) {
-                        algoritmo.siguiente();
-                    } else {
-                        algoritmo.reiniciar();
-                        break;
+                titulo = "(" + funcion.getNombre() + ")";
+                for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
+
+                    for (int i = 0;; i++) {
+                        /**
+                         * ciclo para los diferentes modificaciones de un mismo
+                         * algoritmo
+                         */
+                        Recorrido recorrido = ejecutar(algoritmo, funcion, numeroPruebas, iteraciones);
+                        listaRecorridos.add(recorrido);
+                        if (graficaRecorrido) {
+                            grafico3D(recorrido.getRecorrido(), titulo);
+                        }
+                        if (algoritmo.haySiguiente()) {
+                            algoritmo.siguiente();
+                        } else {
+                            algoritmo.reiniciar();
+                            break;
+                        }
                     }
                 }
+                if (funcion.haySiguiente()) {
+                    funcion.siguiente();
+                } else {
+                    funcion.reiniciar();
+                    break;
+                }
             }
+
             if (graficaConvergencia) {
                 grafico2D(listaRecorridos, titulo);
             }
@@ -221,7 +236,7 @@ public class Ejecutor {
         }
         return Math.sqrt(suma / (lista.size() - 1));
     }
-    
+
     public static String formatear(double valor) {
         return String.format("%." + NUM_DECIMALES + FORMATO_DOUBLE + "", valor);
     }

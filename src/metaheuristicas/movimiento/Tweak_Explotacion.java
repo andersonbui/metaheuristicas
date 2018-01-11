@@ -1,4 +1,4 @@
-package metaheuristicas.tweaks;
+package metaheuristicas.movimiento;
 
 import metaheuristicas.Funcion;
 import metaheuristicas.Aleatorio;

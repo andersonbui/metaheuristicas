@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
-import metaheuristicas.tweaks.Tweak;
-import metaheuristicas.tweaks.Tweak_Explotacion;
+import metaheuristicas.movimiento.Tweak;
+import metaheuristicas.movimiento.Tweak_Explotacion;
 
 /**
  *

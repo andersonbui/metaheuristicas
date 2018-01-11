@@ -11,8 +11,8 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Viajante;
-import metaheuristicas.tweaks.Tweak;
-import metaheuristicas.tweaks.Tweak_1;
+import metaheuristicas.movimiento.Tweak;
+import metaheuristicas.movimiento.Tweak_1;
 
 /**
  *

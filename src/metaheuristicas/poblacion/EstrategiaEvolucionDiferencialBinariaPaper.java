@@ -29,7 +29,7 @@ public class EstrategiaEvolucionDiferencialBinariaPaper extends EstrategiaEvoluc
 
     public EstrategiaEvolucionDiferencialBinariaPaper(int tamPoblacion) {
         super(tamPoblacion);
-        setNombreEstrategia("EstrategiaEDB_Paper");
+        nombreEstrategia = "EstrategiaEDB_Paper";
         cr = 0.2;
         alfa = 0.8;
         b = 20;
@@ -49,7 +49,6 @@ public class EstrategiaEvolucionDiferencialBinariaPaper extends EstrategiaEvoluc
             valor = Aleatorio.nextDouble() <= sig(valor) ? 1 : 0;
             punto.set(i, valor);
         }
-        punto.evaluar();
     }
 
     public double sig(double x) {
