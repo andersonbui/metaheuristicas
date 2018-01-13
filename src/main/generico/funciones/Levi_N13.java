@@ -19,7 +19,7 @@ public class Levi_N13 extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         double sin2_3pix = Math.pow(Math.sin(3 * Math.PI * valores[0]), 2);
         double sin2_3piy = 1 + Math.pow(Math.sin(3 * Math.PI * valores[1]), 2);
         double sin2_2piy = 1 + Math.pow(Math.sin(2 * Math.PI * valores[1]), 2);

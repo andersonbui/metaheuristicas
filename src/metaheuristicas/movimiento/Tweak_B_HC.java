@@ -25,7 +25,7 @@ public class Tweak_B_HC extends Tweak {
 
         Individuo nuevop = (Individuo) punto.clone();
         Funcion funcion = punto.getFuncion();
-        double[] valores = nuevop.getValores();
+        Double[] valores = nuevop.getValores();
         // improve
         int index = Aleatorio.nextInt(valores.length);
         valores[index] = genValor(valores[index], bw);

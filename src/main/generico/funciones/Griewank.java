@@ -18,7 +18,7 @@ public class Griewank extends Funcion {
         super.evaluar(punto);
         double suma = 0;
         double producto = 1;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             suma += valores[i] * valores[i];
         }

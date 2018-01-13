@@ -20,7 +20,7 @@ package metaheuristicas;
  *
  * @author debian
  */
-public abstract class Viajante implements Comparable<Individuo>, Cloneable {
+public abstract class Viajante implements Comparable<Viajante>, Cloneable {
 
     protected Funcion funcion;
     protected int generacion;

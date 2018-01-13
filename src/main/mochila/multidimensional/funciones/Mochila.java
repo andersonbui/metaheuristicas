@@ -1,4 +1,4 @@
-package main.mochila.funciones;
+package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
 import metaheuristicas.Funcion;
@@ -89,9 +89,9 @@ public class Mochila extends Funcion {
 
     @Override
     public Individuo generarPunto() {
-        double[] valores = new double[getDimension()];
+        Double[] valores = new Double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
-            valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0 : 1);
+            valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : 1);
         }
         Individuo nuevop = new Individuo(this, valores, isMaximizar());
         nuevop.evaluar();

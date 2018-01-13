@@ -21,7 +21,7 @@ public class Ackley extends Funcion {
         double suma2 = 0;
         double funct = 0;
         int n = punto.getValores().length;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             suma += valores[i] * valores[i];
         }

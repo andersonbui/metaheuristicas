@@ -16,7 +16,7 @@
  */
 package main.mochila;
 
-import main.mochila.funciones.Mochila;
+import main.mochila.multidimensional.funciones.Mochila;
 import main.generico.funciones.Ackley;
 import main.generico.funciones.Esfera;
 import metaheuristicas.Funcion;
@@ -31,7 +31,7 @@ import metaheuristicas.Individuo;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
 import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinaria;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaper;
+import main.mochila.multidimensional.estrategias.EstrategiaEvolucionDiferencialBinariaPaper;
 import metaheuristicas.simple.Hill_Climbing;
 
 /**

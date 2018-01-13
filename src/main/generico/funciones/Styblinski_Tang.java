@@ -18,7 +18,7 @@ public class Styblinski_Tang extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double suma = 0;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             double x2 = valores[i] * valores[i];
             double x4 = x2 * x2;

@@ -18,7 +18,7 @@ public class Rosenbrock extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double suma = 0;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length - 1; i++) {
             suma += 100 * Math.pow((valores[i + 1] - Math.pow(valores[i], 2)), 2) + Math.pow((1 - valores[i]), 2);
         }

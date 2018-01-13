@@ -11,7 +11,7 @@ import static main.Ejecutor.formatear;
  */
 public class Individuo extends Viajante implements Iterable<Double>, Comparable<Individuo>, Cloneable {
 
-    private double[] valores;
+    private Double[] valores;
     private double calidad;
 
     /**
@@ -26,7 +26,7 @@ public class Individuo extends Viajante implements Iterable<Double>, Comparable<
         calidad = maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
     }
 
-    public Individuo(Funcion funcion, double[] valores, boolean maximizar) {
+    public Individuo(Funcion funcion, Double[] valores, boolean maximizar) {
         super(funcion, maximizar);
         this.valores = valores;
         calidad = 0;
@@ -42,11 +42,11 @@ public class Individuo extends Viajante implements Iterable<Double>, Comparable<
         return calidad;
     }
 
-    public double[] getValores() {
+    public Double[] getValores() {
         return valores;
     }
 
-    public void setValores(double[] valores) {
+    public void setValores(Double[] valores) {
         this.valores = valores;
     }
 
@@ -61,7 +61,6 @@ public class Individuo extends Viajante implements Iterable<Double>, Comparable<
 //    public String getCalidadString() {
 //        return formatear(calidad);
 //    }
-
     public void setCalidad(double calidad) {
         this.calidad = calidad;
     }
@@ -76,6 +75,14 @@ public class Individuo extends Viajante implements Iterable<Double>, Comparable<
 
     public String toString3() {
         return toString().replace(' ', ';').replace('.', ',');
+    }
+
+    public String toStringBinario() {
+        String cadena = "";
+        for (double valor : valores) {
+            cadena += (int)valor;
+        }
+        return cadena;
     }
 
     @Override

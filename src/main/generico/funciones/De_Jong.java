@@ -19,7 +19,7 @@ public class De_Jong extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         double x12_x2 = valores[0] * valores[0] - valores[1];
         x12_x2 *= x12_x2;
         double uno_x1 = 1 - valores[0];

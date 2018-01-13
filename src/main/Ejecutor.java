@@ -126,7 +126,7 @@ public class Ejecutor {
                 "" + funcion.getContadorEvaluaciones() / numeroPruebas);
         //implimir mejor optimo
         System.out.println("\nMejor optimo: " + optimo.getCalidad());
-//                System.out.println("mejor punto: "+ optimo.toString3());
+//                System.out.println("mejor punto: "+ Long.valueOf(optimo.toStringBinario(),2));
 
         return new Recorrido(mejorRecorrido, promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
     }
@@ -180,7 +180,7 @@ public class Ejecutor {
         String titulo;
         for (Funcion funcion : l_funciones) {
             listaRecorridos = new ArrayList();
-            for (int k = 0;; k++) {
+            for (;;) {
                 /**
                  * ciclo para los diferentes planteamientos de una misma funcion
                  */
@@ -188,7 +188,7 @@ public class Ejecutor {
                 titulo = "(" + funcion.getNombre() + ")";
                 for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
 
-                    for (int i = 0;; i++) {
+                    for (;;) {
                         /**
                          * ciclo para los diferentes modificaciones de un mismo
                          * algoritmo
@@ -201,6 +201,7 @@ public class Ejecutor {
                         if (algoritmo.haySiguiente()) {
                             algoritmo.siguiente();
                         } else {
+                            funcion.reiniciarContadorEvaluaciones();
                             algoritmo.reiniciar();
                             break;
                         }

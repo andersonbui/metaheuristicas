@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.estrategias;
+package main.mochila.multidimensional.estrategias;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinariaPaper;
 import metaheuristicas.poblacion.Poblacion;
 
 /**
@@ -33,7 +32,7 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
         nombreEstrategia = "EstrategiaEDB_PaperMM";
         cr = 0.2;
         alfa = 0.8;
-        b = 20;
+        b = 10;
     }
 
     /**
@@ -56,7 +55,6 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
             // CRUCE -> generacion del vector prueba
             Individuo individuoPrueba = cruce(objetivo, mutado, poblacion, k);
             // SELECCION
-            individuoPrueba.evaluar();
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
         }
@@ -70,7 +68,7 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.getValor(i) - sustraendo.getValor(i);
-//            resta = Math.abs(resta % 2);
+            resta = Math.abs(resta % 2);
             diferencia.set(i, resta);
         }
         return diferencia;

@@ -1,4 +1,4 @@
-package main.mochila.funciones;
+package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
 import java.util.ArrayList;

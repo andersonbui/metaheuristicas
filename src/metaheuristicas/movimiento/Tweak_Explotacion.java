@@ -20,7 +20,7 @@ public class Tweak_Explotacion extends Tweak {
     public Individuo tweak(Individuo punto) {
         Funcion funcion = punto.getFuncion();
         Individuo nuevo = (Individuo) punto.clone();
-        double[] valores = nuevo.getValores();
+        Double[] valores = nuevo.getValores();
         // improve
         int posicion = Aleatorio.nextInt(valores.length);
         valores[posicion] = funcion.limitar(genValor(valores[posicion], ancho));

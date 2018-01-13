@@ -16,54 +16,64 @@
  */
 package metaheuristicas.poblacion;
 
+import java.util.ArrayList;
+import java.util.List;
+import main.mochila.multidimensional.funciones.FuncionMochilaGreedy;
+import metaheuristicas.AlgoritmoMetaheuristico;
+import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
-import metaheuristicas.movimiento.Tweak;
-import metaheuristicas.movimiento.Tweak_Explotacion;
+import metaheuristicas.Viajante;
 
 /**
  *
  * @author debian
  */
-public class Grasp extends Estrategia {
+public class Grasp extends AlgoritmoMetaheuristico {
 
-    Tweak tweak;
-    double ancho = 0.5;
+    protected List<Integer> articulos = new ArrayList();
+    FuncionMochilaGreedy funcionGreedy;
 
-    public Grasp(int tamPoblacion) {
-        super(tamPoblacion, 2, "Grasp");
+    public Grasp(int tamPoblacion, FuncionMochilaGreedy funcionGreedy) {
+        super("Grasp");
+
+        for (int i = 0; i < funcionGreedy.getDimension(); i++) {
+            articulos.add(i);//i:indices de los articulos 
+        }
+        this.funcionGreedy = funcionGreedy;
+        articulos.sort((Integer o1, Integer o2) -> {
+            /**
+             * comparar los indices, segun aptitud(w.get(o1).length - 1),
+             * aptitud se encuentra en la ultima posicion de cada articulo
+             * W.get(i),i=0,1,...,w.size();
+             */
+            // densidad de ganacia por unidad de peso
+            Double aptotudO1 = funcionGreedy.funcionSeleccion(o1);
+            Double aptotudO2 = funcionGreedy.funcionSeleccion(o2);
+            // ganancia
+//                int posicionAptitud = w.get(o1).length - 1;
+//                Double aptotudO1 = w.get(o1)[posicionAptitud];
+//                Double aptotudO2 = w.get(o2)[posicionAptitud];
+            return aptotudO1.compareTo(aptotudO2);
+        });
+    }
+
+    public Individuo voraz(Individuo individuo) {
+        for (int i = 0; i < articulos.size() && !funcionGreedy.suficiente(individuo); i++) {
+            int posMejor = articulos.get(i);
+            individuo.set(posMejor, 1);
+            if (!funcionGreedy.factible(individuo)) {
+                individuo.set(posMejor, 0);
+            }
+        }
+        individuo.evaluar();
+        return individuo;
     }
 
     @Override
-    public Poblacion siguienteGeneracion(int numIndividuosElitismo, Poblacion poblacion) {
-        Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
-        elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
-        for (Individuo punto : poblacion) {
-            genDescendientes(punto, nuevaGeneracion);
-        }
-        poblacion = mezclar(poblacion, nuevaGeneracion);
-        return poblacion;
-    }
-
-    private Poblacion mezclar(Poblacion poblacion, Poblacion genDescendientes) {
-        Poblacion pob = poblacion;
-        for (Individuo descen : genDescendientes) {
-            poblacion.add(descen);
-        }
-        return pob;
-    }
-
-    private void genDescendientes(Individuo padre, Poblacion nuevaGeneracion) {
-        for (int i = 0; i < getNumDescendientes(); i++) {
-            nuevaGeneracion.add(mutar(padre));
-        }
-    }
-
-    public Individuo mutar(Individuo punto) {
-        tweak = new Tweak_Explotacion(ancho);
-        return tweak.tweak(punto);
-    }
-    
-    public void voraz(){
-        
+    public List<Viajante> ejecutar(Funcion funcion) {
+        Individuo individuo = funcionGreedy.generarPunto(0);
+        voraz(individuo);
+        Byte c = 1;
+        return null;
     }
 }

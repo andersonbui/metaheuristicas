@@ -14,10 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package metaheuristicas.poblacion;
+package main.mochila.multidimensional.estrategias;
 
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
+import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
+import metaheuristicas.poblacion.Poblacion;
 
 /**
  *

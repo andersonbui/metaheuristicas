@@ -19,7 +19,7 @@ public class Cubo extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado = 1;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             resultado *= valores[i];
         }

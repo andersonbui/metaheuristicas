@@ -20,7 +20,7 @@ public class Cross_in_tray extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         double x2 = valores[0] * valores[0];
         double y2 = valores[1] * valores[1];
         resultado = -0.0001 * Math.pow(Math.abs(Math.sin(valores[0]) * Math.sin(valores[1]) * Math.exp(Math.abs(100 - ((Math.sqrt(x2 + y2)) / (Math.PI)))))+1, 0.1);

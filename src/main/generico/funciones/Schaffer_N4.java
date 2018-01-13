@@ -19,7 +19,7 @@ public class Schaffer_N4 extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         double x2 = valores[0] * valores[0];
         double y2 = valores[1] * valores[1];
         resultado = 0.5 + (Math.pow(Math.cos(Math.sin(Math.abs(x2 - y2))), 2) - 0.5) / (Math.pow((1 + 0.001 * (x2 + y2)), 2));

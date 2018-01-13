@@ -1,4 +1,4 @@
-package main.mochila.funciones;
+package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
 import metaheuristicas.Funcion;
@@ -25,9 +25,10 @@ public class MochilaMultidimensional extends Funcion {
         super("MOCHILA MultiD", 2, w.size(), maximizar);
         contFuncion = 0;
         funciones = new Funcion[]{
-            new MochilaMultidimensionalOriginal(capacidades, w, maximizar),
+//            new MochilaMultidimensionalOriginal(capacidades, w, maximizar),
             new MochilaMultidimensionalMejorada(capacidades, w, maximizar),
-            new MochilaMultidimensionalMejorada2(capacidades, w, maximizar)
+            new MochilaMultidimensionalMejorada2(capacidades, w, maximizar),
+            new MochilaMultidimensionalMejorada3(capacidades, w, maximizar)
         };
         funcion = funciones[contFuncion];
     }
@@ -44,6 +45,7 @@ public class MochilaMultidimensional extends Funcion {
 
     @Override
     public void reiniciar() {
+        super.reiniciar();
         contFuncion = 0;
         funcion = funciones[contFuncion];
     }

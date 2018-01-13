@@ -42,7 +42,7 @@ public class Tweak_1 extends Tweak {
     public Individuo tweak(Individuo punto) {
         Individuo nuevop = (Individuo) punto.clone();
         Funcion funcion = punto.getFuncion();
-        double[] valores = nuevop.getValores();
+        Double[] valores = nuevop.getValores();
         for (int i = 0; i < valores.length; i++) {
             valores[i] = funcion.limitar(valores[i] + Aleatorio.nextDouble() * ancho * 2 - ancho);
         }

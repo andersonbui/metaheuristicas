@@ -18,6 +18,7 @@ package main;
 
 import metaheuristicas.Funcion;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Individuo;
@@ -27,7 +28,6 @@ import metaheuristicas.Individuo;
  * @author debian
  */
 public class Utilidades {
-
 
     static public List<Individuo> obtenerDatosRegresion(int numDatos, String nombreArchivo, boolean maximizar) {
         LeerArchivo.abrir(nombreArchivo);
@@ -42,8 +42,8 @@ public class Utilidades {
             cadena = eliminarEspaciosRepetidos(cadena);
 
             String[] vectSubdivisiones = cadena.split("" + '\u0020');
-            double[] valoresPuntoActual = new double[vectSubdivisiones.length];
-            valoresPuntoActual[0] = 1;
+            Double[] valoresPuntoActual = new Double[vectSubdivisiones.length];
+            valoresPuntoActual[0] = 1.;
             for (j = 1; j < valoresPuntoActual.length; j++) {
 //                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
                 valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++].trim());
@@ -67,96 +67,6 @@ public class Utilidades {
         return texto;
     }
 
-
-
-    public static void ejecutarAlgoritmosMasFuncionesED(List<AlgoritmoMetaheuristico> l_amgoritmos,
-            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaDispersion, int numMuestras, int iteraciones, double paso) {
-//
-//        Individuo p_optimo;
-//        int contadorAlgoritmos = 1;
-//        int contadorFunciones = 1;
-//        double promedioCalidad; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
-//        List<Individuo> listaRecorrido;// recorrido del algoritmo para graficar
-//        List<OptimoYRecorrido> listaOptimos;
-////        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
-//        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
-//                "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)");
-//        for (Funcion funcion : l_funciones) {
-//            contadorFunciones++;
-//            for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
-//                contadorAlgoritmos++;
-//                //asignacion de la funcion a probar
-//                listaOptimos = new ArrayList();
-//                promedioCalidad = 0;
-//                long tiempo_inicial = System.currentTimeMillis();
-//                for (int i = 0; i < numMuestras; i++) {
-//                    listaRecorrido = new ArrayList();
-//                    Random rand = new Random((i * contadorAlgoritmos * contadorFunciones));
-//                    algoritmo.setIteraciones(iteraciones);
-//                    listaRecorrido = algoritmo.ejecutar(rand, funcion);
-//                    p_optimo = listaRecorrido.get(listaRecorrido.size() - 1);
-//                    listaOptimos.add(new OptimoYRecorrido(p_optimo, listaRecorrido));
-//                    promedioCalidad += p_optimo.getCalidad();
-//                }
-//                long tiempo_final = System.currentTimeMillis();
-//
-//                promedioCalidad = promedioCalidad / numMuestras;
-//                //ordenamiento de lista por calida de menor a mayor
-//                Collections.sort(listaOptimos);
-//                // seleccion del punto optimo de mayor calidad
-//                OptimoYRecorrido mejorOptimo = listaOptimos.get(listaOptimos.size() - 1);
-//                // graficacion 
-//                if (mejorOptimo != null && graficaRecorrido) {
-//                    String titulo = algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
-//                    String nombreFile = General.CARPETA_TEMP + algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
-//                    nombreFile = nombreFile.replace('\u0020', '-');
-//                    EscribirArchivo.abrir(nombreFile + ".dat");
-//                    EscribirArchivo.escribir(mejorOptimo.getRecorrido());
-//                    EscribirArchivo.terminar();
-//                    (new GraficoGnuPlot()).plot3D(nombreFile);
-//                }
-//                if (mejorOptimo != null && graficaDispersion) {
-//                    String titulo = algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
-//                    String nombreFile = General.CARPETA_TEMP + "plot2D-" + algoritmo.getNombre() + "-(" + funcion.getNombre() + ")";
-//                    nombreFile = nombreFile.replace('\u0020', '-');
-//                    EscribirArchivo.abrir(nombreFile + ".dat");
-//                    List<String> listaCalida = new ArrayList();
-//                    listaRecorrido = mejorOptimo.getRecorrido();
-//                    for (int i = 0; i < listaRecorrido.size(); i++) {
-////                        listaCalida.add(listaRecorrido.get(i).getGeneracion() + " " + listaRecorrido.get(i).getCalidad());
-//                        listaCalida.add(i + " " + listaRecorrido.get(i).getCalidad());
-//                    }
-//                    EscribirArchivo.escribir(listaCalida);
-//                    EscribirArchivo.terminar();
-//                    (new GraficoGnuPlot()).plot2D(nombreFile);
-//                }
-//                imprimirConFormato(funcion.getNombre(),
-//                        algoritmo.getNombre(),
-//                        "" + funcion.getDimension(),
-//                        "" + iteraciones,
-//                        "" + mejorOptimo.getPunto().getCalidadString(),
-//                        "" + listaOptimos.get(0).getPunto().getCalidadString(),
-//                        "" + formatear(promedioCalidad),
-//                        "" + formatear(calcularDesviacion(listaOptimos, promedioCalidad)),
-//                        "" + (tiempo_final - tiempo_inicial) / numMuestras);
-//
-//                Individuo mejor = mejorOptimo.getPunto();
-//                MochilaMultidimensional func = (MochilaMultidimensional) funcion;
-//
-//                for (int i = 0; i < func.getCapacidades().length; i++) {
-//                    System.out.println("Peso[" + i + "]: " + func.obtenerPeso(mejor, i));
-//                }
-//                System.out.println("Precio: " + func.obtenerPrecio(mejor));
-//                //implimir mejor optimo
-////                System.out.println("\n\nMejor optimo: " + mejorOptimo.getPunto().getCalidad());
-////                System.out.println("mejor punto: "+ mejorOptimo.getPunto().toString3());
-//            }
-//            System.out.println("");
-//        }
-    }
-
-    
-    
     public static int indiceOrdenadamente(List<Object> lista, Comparable punto, boolean ascendente) {
         if (lista.isEmpty()) {
             return 0;
@@ -180,6 +90,110 @@ public class Utilidades {
                 return inf;
             }
         }
+    }
+
+    public static void resta() {
+        Double[] mayor = {1., 1., 1.};
+        Double[] menor = {1., 1., 1.};
+        Double[] temp;
+        if (comparaToBinario(mayor, menor) < 0) {
+            temp = mayor;
+            mayor = menor;
+            menor = temp;
+        }
+        Double[] resultado = resta(mayor, menor, 2);
+        System.out.println("resta:" + Arrays.toString(resultado));
+        resultado = suma(mayor, menor, 2);
+        System.out.println("suma:" + Arrays.toString(resultado));
+
+    }
+
+    public static Double[] invertirArray(Double[] array) {
+        Double[] ar_i = new Double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ar_i[array.length - i - 1] = array[i];
+        }
+        return ar_i;
+    }
+
+    public static int comparaToBinario(Double[] a, Double[] b) {
+        Double v_a;
+        Double v_b;
+        for (int i = 0;; i++) {
+            v_a = a.length > i ? a[i] : 0;
+            v_b = b.length > i ? b[i] : 0;
+            if (v_b == 0 && v_a == 0) {
+                if (!(a.length > i && b.length > i)) {
+                    return 1;
+                } else {
+                    continue;
+                }
+            }
+            if (v_b == 0) {
+                return 1;
+            }
+            if (v_a == 0) {
+                return -1;
+            }
+
+        }
+    }
+
+    public static Double[] resta(Double[] a, Double[] b, int radix) {
+        Double[] ar = invertirArray(a);
+        Double[] br = invertirArray(b);
+
+        Double[] resultado = new Double[ar.length];
+        int acarreo = 0;
+        Double v_a;
+        Double v_b;
+        for (int i = 0;; i++) {
+            v_a = ar.length > i ? ar[i] : 0;
+            v_b = br.length > i ? br[i] : 0;
+            if (!(br.length > i || ar.length > i)) {
+                break;
+            }
+            resultado[i] = v_a + acarreo - v_b;
+            acarreo = resultado[i] < 0 ? -1 : 0;
+            resultado[i] = Math.abs((radix + resultado[i]) % radix);
+
+        }
+        resultado = invertirArray(resultado);
+        return resultado;
+    }
+
+    /**
+     *
+     * @param a es mayor que b
+     * @param b
+     * @param radix base de la numeración
+     * @return
+     */
+    public static Double[] suma(Double[] a, Double[] b, int radix) {
+        Double[] ar = invertirArray(a);
+        Double[] br = invertirArray(b);
+
+        Double[] resultado = new Double[ar.length];
+        int acarreo = 0;
+        Double v_a;
+        Double v_b;
+        for (int i = 0;; i++) {
+            v_a = ar.length > i ? ar[i] : 0;
+            v_b = br.length > i ? br[i] : 0;
+            if (!(br.length > i || ar.length > i)) {
+                if (acarreo > 0) {
+                    resultado = Arrays.copyOf(resultado, resultado.length + 1);
+                } else {
+                    break;
+                }
+            }
+            resultado[i] = v_a + acarreo + v_b;
+            acarreo = resultado[i] >= radix ? 1 : 0;
+            resultado[i] = resultado[i] % radix;
+
+        }
+        resultado = invertirArray(resultado);
+        return resultado;
     }
 
 }

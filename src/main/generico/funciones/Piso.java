@@ -34,7 +34,7 @@ public class Piso extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         int resultado = 0;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             int piso = (int)(valores[i]+num);
             resultado += piso * piso;

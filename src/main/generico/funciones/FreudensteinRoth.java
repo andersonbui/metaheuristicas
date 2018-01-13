@@ -19,7 +19,7 @@ public class FreudensteinRoth extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double suma = 0;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
 //        for (int i = 0; i < valores.length-1; i++) {
         int i = 0;
 //            double x1=,x2=valores[i+1];

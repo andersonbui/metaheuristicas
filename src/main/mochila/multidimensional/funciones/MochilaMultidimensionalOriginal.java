@@ -1,4 +1,4 @@
-package main.mochila.funciones;
+package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
 import metaheuristicas.Funcion;
@@ -14,7 +14,6 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     protected final double[] capacidades;
     protected final List<double[]> w;
     protected final double prob_ceros;
-    protected Individuo mejor;
 
     /**
      *
@@ -35,11 +34,6 @@ public class MochilaMultidimensionalOriginal extends Funcion {
         mochila = limitar(mochila);
         double result = obtenerPrecio(mochila);
         mochila.setCalidad(result);
-        if (mejor == null || mejor.compareTo(mochila) < 0) {
-            mejor = mochila;
-            result = obtenerPrecio(mochila);
-            mochila.setCalidad(result);
-        }
         return result;
     }
 
@@ -62,18 +56,18 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     }
 
     @Override
-    public Individuo limitar(Individuo punto) {
+    public Individuo limitar(Individuo mochila) {
         int posicion;
         // para cada caracteristica(peso) del elemento
         for (int i = 0; i < capacidades.length; i++) {
             posicion = 0;
-            while (obtenerPeso(punto, i) > capacidades[i]) {
-                posicion = mayor(punto, i);
-                punto.set(posicion, 0);
+            while (obtenerPeso(mochila, i) > capacidades[i]) {
+                posicion = mayor(mochila, i);
+                mochila.set(posicion, 0);
             }
         }
 
-        return punto; //To change body of generated methods, choose Tools | Templates.
+        return mochila; //To change body of generated methods, choose Tools | Templates.
     }
 
     public int mayor(Individuo punto, int indicePeso) {
@@ -100,21 +94,12 @@ public class MochilaMultidimensionalOriginal extends Funcion {
 
     @Override
     public Individuo generarPunto() {
-        double[] valores = new double[getDimension()];
+        Double[] valores = new Double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
-            valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0 : 1);
+            valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : 1);
         }
         Individuo nuevop = new Individuo(this, valores, isMaximizar());
-        nuevop.evaluar();
         return nuevop;
-    }
-
-    public Individuo getMejor() {
-        return mejor;
-    }
-
-    public void setMejor(Individuo mejor) {
-        this.mejor = mejor;
     }
 
     public double[] getCapacidades() {

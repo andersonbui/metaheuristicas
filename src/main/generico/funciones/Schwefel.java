@@ -19,7 +19,7 @@ public class Schwefel extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado = 0;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         double sum_tmp;
         for (int i = 0; i < valores.length; i++) {
             sum_tmp = 0;

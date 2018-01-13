@@ -18,7 +18,7 @@ public class SinXporCosY extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado = 1;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             if (i % 2 == 0) {
                 resultado *= Math.sin(valores[i]);

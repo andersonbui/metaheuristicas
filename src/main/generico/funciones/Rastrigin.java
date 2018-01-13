@@ -18,7 +18,7 @@ public class Rastrigin extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado = 0;
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             resultado += valores[i] * valores[i] - 10 * Math.cos(2 * Math.PI * valores[i]) + 10;
         }

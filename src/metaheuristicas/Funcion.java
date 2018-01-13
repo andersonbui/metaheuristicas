@@ -94,7 +94,7 @@ public abstract class Funcion {
     }
 
     protected Individuo limitar(Individuo punto) {
-        double[] valores = punto.getValores();
+        Double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(valores[i]);
         }
@@ -106,7 +106,7 @@ public abstract class Funcion {
     }
 
     public Individuo generarPunto() {
-        double[] valores = new double[getDimension()];
+        Double[] valores = new Double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(Aleatorio.nextDouble() * getLimite() * 2 - getLimite());
         }
@@ -133,6 +133,7 @@ public abstract class Funcion {
     }
 
     public void reiniciar() {
+        contadorEvaluaciones = 0;
     }
 
 }

@@ -55,7 +55,6 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
             // CRUCE -> generacion del vector prueba
             Individuo individuoPrueba = cruce(objetivo, mutado, poblacion, k);
             // SELECCION
-            individuoPrueba.evaluar();
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
         }
@@ -63,6 +62,7 @@ public class EstrategiaEvolucionDiferencial extends Estrategia {
     }
 
     protected void seleccion(Individuo objetivo, Individuo individuoPrueba, Poblacion siguienteGeneracion) {
+        individuoPrueba.evaluar();
         Individuo selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
         siguienteGeneracion.add(selleccionado);
     }
