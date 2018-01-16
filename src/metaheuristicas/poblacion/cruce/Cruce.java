@@ -39,8 +39,8 @@ public class Cruce {
         Individuo hijoP = padre.clone();
         Individuo hijoM = madre.clone();
         for (int i: mascaraCruce) {
-            hijoM.set(i, padre.getValor(i));
-            hijoP.set(i, madre.getValor(i));
+            hijoM.set(i, padre.get(i));
+            hijoP.set(i, madre.get(i));
         }
         return new Individuo[]{hijoP, hijoM};
     }

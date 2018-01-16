@@ -18,7 +18,7 @@ public class Glankwahmdees extends Funcion {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double suma = 0;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         for (int i = 0; i < valores.length - 1; i++) {
             double x1 = valores[i], x2 = valores[i + 1];
             suma = Math.pow((Math.pow(x1, 2) + x2 - 11), 2) + Math.pow((x1 + (Math.pow(x2, 2)) - 7), 2);

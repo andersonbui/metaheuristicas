@@ -20,7 +20,7 @@ public class Shubert extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         double jcosX = 0;
         double jcosY = 0;
         for (int j = 1; j < 5; j++) {

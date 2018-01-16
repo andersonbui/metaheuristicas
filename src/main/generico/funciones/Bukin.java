@@ -19,7 +19,7 @@ public class Bukin extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         double sqrt = 100 * Math.sqrt(Math.abs(valores[1] - 0.01 * valores[0] * valores[0]));
         double abs = 0.01 * Math.abs(valores[0] + 10);
         resultado = sqrt + abs;

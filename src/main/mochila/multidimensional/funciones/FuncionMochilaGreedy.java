@@ -8,18 +8,16 @@ import metaheuristicas.Aleatorio;
  *
  * @author debian
  */
-public class FuncionMochilaGreedy extends MochilaMultidimensionalMejorada2 {
+public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficio {
 
     /**
      *
+     * @param VectorRestricciones
+     * @param beneficios
      * @param capacidades
-     * @param w lista de pesos y ganancia de cada elemento. "w.get(k)[length -
-     * 1]" es la ganancia que aporta el elemento k
-     *
-     * @param maximizar
      */
-    public FuncionMochilaGreedy(double[] capacidades, List<double[]> w, boolean maximizar) {
-        super(capacidades, w, maximizar);
+    public FuncionMochilaGreedy(double[][] VectorRestricciones, double[] beneficios, double[] capacidades) {
+        super(VectorRestricciones, beneficios, capacidades);
         this.nombre = "Greedy";
 //        maxGlobal = 117930.0;
 
@@ -35,10 +33,11 @@ public class FuncionMochilaGreedy extends MochilaMultidimensionalMejorada2 {
         double densidadGanancia = 0;
         /**
          * para indicePeso-esimo caracteristica(peso) del elemento k-esimo
-         * "w.get(k)[length - 1]" es la ganancia que aporta el elemento k
+         * "VectorRestricciones[k][length - 1]" es la ganancia que aporta el
+         * elemento k
          */
 //        double promedioPesos;
-        double[] caract = w.get(k);
+        double[] caract = VectorRestricciones[k];
         int pos_UltimoElemento = caract.length - 1;
         for (int i = 0; i < pos_UltimoElemento; i++) {
             densidadGanancia += caract[i];
@@ -63,33 +62,8 @@ public class FuncionMochilaGreedy extends MochilaMultidimensionalMejorada2 {
         return result;
     }
 
-    @Override
-    public double obtenerPrecio(Individuo punto) {
-        double sumPX = 0;
-        int length = w.get(0).length;
-        for (int i = 0; i < punto.getDimension(); i++) {
-            sumPX += punto.getValor(i) * w.get(i)[length - 1];
-        }
-        return sumPX;
-    }
-
-    @Override
-    public double obtenerPeso(Individuo mochila, int indicePeso) {
-        double sumWX = 0;
-        // para cada elemento que podria ir en la mochila
-        for (int i = 0; i < mochila.getDimension(); i++) {
-            sumWX += mochila.getValor(i) * w.get(i)[indicePeso];
-        }
-        return sumWX;
-    }
-
-    @Override
-    public String toString() {
-        return "x+y";
-    }
-
     public Individuo generarPunto(double valor) {
-        Double[] valores = new Double[getDimension()];
+        double[] valores = new double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
             valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : valor);
         }
@@ -129,16 +103,16 @@ public class FuncionMochilaGreedy extends MochilaMultidimensionalMejorada2 {
         return true;
     }
 
-    public Individuo limitarInferiormente(Individuo mochila, List<Integer> articulos) {
+    public Individuo limitarInferiormente(Individuo mochila) {
         double[] espacios = sacarEspacios(mochila);
         boolean cabeArticulo;
         // en todos los articulos
         for (int pos : articulos) {
             cabeArticulo = true;
-            if (mochila.getValor(pos) == 0) {
+            if (mochila.get(pos) == 0) {
                 // dimension de la mochila
                 for (int i = 0; i < espacios.length; i++) {
-                    if (espacios[i] < w.get(pos)[i]) {
+                    if (espacios[i] < VectorRestricciones[i][pos]) {
                         cabeArticulo = false;
                         break;
                     }
@@ -151,39 +125,4 @@ public class FuncionMochilaGreedy extends MochilaMultidimensionalMejorada2 {
         }
         return mochila;
     }
-
-    public double desviacion(Individuo individuo) {
-        double densidadGanancia = 0;
-        /**
-         * para indicePeso-esimo caracteristica(peso) del elemento k-esimo
-         * "w.get(k)[length - 1]" es la ganancia que aporta el elemento k
-         */
-        Double[] valores = individuo.getValores();
-        double promedioPesos;
-        double[] caract = w.get(0);
-        int pos_UltimoElemento = caract.length - 1;
-        for (int i = 0; i < pos_UltimoElemento; i++) {
-            for (int k = 0; k < w.size(); k++) {
-                densidadGanancia += w.get(k)[i] * valores[k];
-            }
-
-        }
-        //calculo desviacion estandar de pesos
-        promedioPesos = densidadGanancia / pos_UltimoElemento;
-        double desviacionEst = 0;
-        double suma;
-        for (int i = 0; i < pos_UltimoElemento; i++) {
-            suma = 0;
-            for (int k = 0; k < w.size(); k++) {
-                suma += w.get(k)[i] * valores[k];
-
-            }
-            desviacionEst += Math.pow(promedioPesos - suma, 2);
-        }
-        desviacionEst = Math.sqrt(desviacionEst / (pos_UltimoElemento - 1));
-        densidadGanancia = ((caract[pos_UltimoElemento]) / (densidadGanancia + desviacionEst * 1));
-
-        return densidadGanancia;
-    }
-
 }

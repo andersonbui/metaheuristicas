@@ -22,7 +22,6 @@ import main.mochila.multidimensional.funciones.FuncionMochilaGreedy;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
-import metaheuristicas.Viajante;
 
 /**
  *
@@ -70,7 +69,7 @@ public class Grasp extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Viajante> ejecutar(Funcion funcion) {
+    public List<Individuo> ejecutar(Funcion funcion) {
         Individuo individuo = funcionGreedy.generarPunto(0);
         voraz(individuo);
         Byte c = 1;

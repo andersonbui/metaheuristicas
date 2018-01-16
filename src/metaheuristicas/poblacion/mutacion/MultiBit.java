@@ -37,7 +37,7 @@ public class MultiBit {
         int valor;
         for (int i = 0; i < punto.getDimension(); i++) {
             if (probabilidad > Aleatorio.nextDouble()) {
-                valor = (int) punto.getValor(i);
+                valor = (int) punto.get(i);
                 punto.set(i, (valor == 1 ? 0 : 1));
             }
         }

@@ -16,7 +16,7 @@ public abstract class AlgoritmoMetaheuristico {
         this.nombre = nombre;
     }
 
-    public abstract List<Viajante> ejecutar(Funcion funcion);
+    public abstract List<Individuo> ejecutar(Funcion funcion);
 
     public void siguiente() {
 

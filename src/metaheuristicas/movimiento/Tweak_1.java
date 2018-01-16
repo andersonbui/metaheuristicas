@@ -16,7 +16,6 @@
  */
 package metaheuristicas.movimiento;
 
-import metaheuristicas.Funcion;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
 
@@ -41,10 +40,8 @@ public class Tweak_1 extends Tweak {
     @Override
     public Individuo tweak(Individuo punto) {
         Individuo nuevop = (Individuo) punto.clone();
-        Funcion funcion = punto.getFuncion();
-        Double[] valores = nuevop.getValores();
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = funcion.limitar(valores[i] + Aleatorio.nextDouble() * ancho * 2 - ancho);
+        for (int i = 0; i < nuevop.getDimension(); i++) {
+            nuevop.set(i,nuevop.get(i) + Aleatorio.nextDouble() * ancho * 2 - ancho);
         }
         return nuevop;
     }

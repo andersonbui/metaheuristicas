@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import main.Ejecutor;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialMejorado;
-import metaheuristicas.poblacion.EstrategiaGenetico;
-import metaheuristicas.poblacion.EstrategiaGeneticoBinaria;
-import metaheuristicas.poblacion.EstrategiaMLamda;
-import metaheuristicas.poblacion.EstrategiaMutacion;
+import metaheuristicas.poblacion.EvolucionDiferencial;
+import metaheuristicas.poblacion.EvolucionDiferencialMejorado;
+import metaheuristicas.poblacion.Genetico;
+import metaheuristicas.poblacion.GeneticoBinaria;
+import metaheuristicas.poblacion.MLamda;
+import metaheuristicas.poblacion.Mutacion;
 import metaheuristicas.simple.Hill_Climbing;
 
 /**
@@ -71,9 +71,9 @@ public class Main {
 //        listaAlgoritmos.add(new Random_Search());
 //        listaAlgoritmos.add(new Hill_Climbing(1));
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaGenetico(tamPoblacion)));
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMutacion(tamPoblacion)));
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaMLamda(5, tamPoblacion)));
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencial(tamPoblacion)));
+        listaAlgoritmos.add(new Mutacion(tamPoblacion));
+        listaAlgoritmos.add(new MLamda(5, tamPoblacion));
+        listaAlgoritmos.add(new EvolucionDiferencial(tamPoblacion));
 
 //        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialMejorado(100)));
 //        listaAlgoritmos.add(new Hill_Climbing(new Tweak_1(paso), 10,false)); // hill climbing maxima pendiente

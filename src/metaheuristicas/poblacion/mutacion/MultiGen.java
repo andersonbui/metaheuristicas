@@ -19,7 +19,7 @@ public class MultiGen {
         double valor;
         for (int i = 0; i < punto.getDimension(); i++) {
             if (probabilidad > Aleatorio.nextDouble()) {
-                valor = (conBase ? punto.getValor(i) : 0) + Aleatorio.nextDouble() * limite * 2 - limite;
+                valor = (conBase ? punto.get(i) : 0) + Aleatorio.nextDouble() * limite * 2 - limite;
                 punto.set(i, valor);
             }
         }

@@ -31,7 +31,7 @@ public class ErrorCuadratico extends Funcion {
         super.evaluar(punto);
         punto = getPuntoFitnessErrorCuadratico(puntosReferencia, punto);
         double resultado = 0;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             resultado += (valores[i] * valores[i]);
         }
@@ -52,7 +52,7 @@ public class ErrorCuadratico extends Funcion {
      * @return
      */
     public Individuo getPuntoFitnessErrorCuadratico(List<Individuo> listPuntos, Individuo coeficientes) {
-        Double[] valoresFitness = new Double[listPuntos.size()];
+        double[] valoresFitness = new double[listPuntos.size()];
         for (int i = 0; i < listPuntos.size(); i++) {
 
             Individuo punto = listPuntos.get(i);
@@ -71,8 +71,8 @@ public class ErrorCuadratico extends Funcion {
      */
     public double funcionPolinomio(Individuo punto, Individuo coeficientes) {
         // 
-        Double[] valoresX = punto.getValores();
-        Double[] valoresCoeficientes = coeficientes.getValores();
+        double[] valoresX = punto.getValores();
+        double[] valoresCoeficientes = coeficientes.getValores();
         int posCoeficientes = 0;
         double sumaTotal = 0;
 
@@ -86,8 +86,8 @@ public class ErrorCuadratico extends Funcion {
     }
 
     public Individuo generarPunto(Funcion funcion) {
-        Individuo nuevop = funcion.generarPunto();
-        Double[] valores = nuevop.getValores();
+        Individuo nuevop = funcion.generarIndividuo();
+        double[] valores = nuevop.getValores();
         for (int i = 0; i < valores.length; i++) {
             if (Aleatorio.nextDouble() < prob_ceros) {
                 valores[i] = 0.;

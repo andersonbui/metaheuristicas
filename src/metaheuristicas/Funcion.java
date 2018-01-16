@@ -35,6 +35,24 @@ public abstract class Funcion {
         this.maxGlobal = Double.MAX_VALUE;
         this.minGlobal = -maxGlobal;
         this.error = 0.001;
+        contadorEvaluaciones = 0;
+    }
+
+    /**
+     *
+     * @param nombre
+     * @param dimension
+     * @param maximizar
+     */
+    public Funcion(String nombre, int dimension, boolean maximizar) {
+        this.nombre = nombre;
+        this.dimension = dimension;
+        this.maximizar = maximizar;
+        this.maxGlobal = Double.MAX_VALUE;
+        this.minGlobal = -maxGlobal;
+        this.limite = Double.MAX_VALUE;
+        this.error = 0.001;
+        contadorEvaluaciones = 0;
     }
 
     /**
@@ -94,19 +112,19 @@ public abstract class Funcion {
     }
 
     protected Individuo limitar(Individuo punto) {
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(valores[i]);
         }
         return punto;
     }
 
-    public double limitar(double valor) {
+    protected double limitar(double valor) {
         return limite < valor ? limite : -limite > valor ? -limite : valor;
     }
 
-    public Individuo generarPunto() {
-        Double[] valores = new Double[getDimension()];
+    public Individuo generarIndividuo() {
+        double[] valores = new double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(Aleatorio.nextDouble() * getLimite() * 2 - getLimite());
         }
@@ -135,5 +153,8 @@ public abstract class Funcion {
     public void reiniciar() {
         contadorEvaluaciones = 0;
     }
-
+    
+    public String toString(Individuo individuo){
+        return ""+individuo.getCalidad()+"; max: "+individuo.isMaximizar();
+    }
 }

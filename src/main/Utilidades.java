@@ -16,11 +16,9 @@
  */
 package main;
 
-import metaheuristicas.Funcion;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Individuo;
 
 /**
@@ -42,7 +40,7 @@ public class Utilidades {
             cadena = eliminarEspaciosRepetidos(cadena);
 
             String[] vectSubdivisiones = cadena.split("" + '\u0020');
-            Double[] valoresPuntoActual = new Double[vectSubdivisiones.length];
+            double[] valoresPuntoActual = new double[vectSubdivisiones.length];
             valoresPuntoActual[0] = 1.;
             for (j = 1; j < valoresPuntoActual.length; j++) {
 //                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
@@ -62,7 +60,6 @@ public class Utilidades {
         while (tokens.hasMoreTokens()) {
             texto += " " + tokens.nextToken();
         }
-        texto = texto.toString();
         texto = texto.trim();
         return texto;
     }
@@ -93,30 +90,30 @@ public class Utilidades {
     }
 
     public static void resta() {
-        Double[] mayor = {1., 1., 1.};
-        Double[] menor = {1., 1., 1.};
-        Double[] temp;
+        double[] mayor = {1., 1., 1.};
+        double[] menor = {1., 1., 1.};
+        double[] temp;
         if (comparaToBinario(mayor, menor) < 0) {
             temp = mayor;
             mayor = menor;
             menor = temp;
         }
-        Double[] resultado = resta(mayor, menor, 2);
+        double[] resultado = resta(mayor, menor, 2);
         System.out.println("resta:" + Arrays.toString(resultado));
         resultado = suma(mayor, menor, 2);
         System.out.println("suma:" + Arrays.toString(resultado));
 
     }
 
-    public static Double[] invertirArray(Double[] array) {
-        Double[] ar_i = new Double[array.length];
+    public static double[] invertirArray(double[] array) {
+        double[] ar_i = new double[array.length];
         for (int i = 0; i < array.length; i++) {
             ar_i[array.length - i - 1] = array[i];
         }
         return ar_i;
     }
 
-    public static int comparaToBinario(Double[] a, Double[] b) {
+    public static int comparaToBinario(double[] a, double[] b) {
         Double v_a;
         Double v_b;
         for (int i = 0;; i++) {
@@ -139,11 +136,11 @@ public class Utilidades {
         }
     }
 
-    public static Double[] resta(Double[] a, Double[] b, int radix) {
-        Double[] ar = invertirArray(a);
-        Double[] br = invertirArray(b);
+    public static double[] resta(double[] a, double[] b, int radix) {
+        double[] ar = invertirArray(a);
+        double[] br = invertirArray(b);
 
-        Double[] resultado = new Double[ar.length];
+        double[] resultado = new double[ar.length];
         int acarreo = 0;
         Double v_a;
         Double v_b;
@@ -169,11 +166,11 @@ public class Utilidades {
      * @param radix base de la numeración
      * @return
      */
-    public static Double[] suma(Double[] a, Double[] b, int radix) {
-        Double[] ar = invertirArray(a);
-        Double[] br = invertirArray(b);
+    public static double[] suma(double[] a, double[] b, int radix) {
+        double[] ar = invertirArray(a);
+        double[] br = invertirArray(b);
 
-        Double[] resultado = new Double[ar.length];
+        double[] resultado = new double[ar.length];
         int acarreo = 0;
         Double v_a;
         Double v_b;

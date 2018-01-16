@@ -28,7 +28,7 @@ public class DeBit {
     public Individuo mutar(Individuo punto, Random rand) {
         int valor;
         int i = rand.nextInt(punto.getDimension());
-        valor = (int) punto.getValor(i);
+        valor = (int) punto.get(i);
         punto.set(i, (valor == 1 ? 0 : 1));
         punto.evaluar();
         return punto;

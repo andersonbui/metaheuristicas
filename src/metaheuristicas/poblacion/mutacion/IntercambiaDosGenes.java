@@ -32,8 +32,8 @@ public class IntercambiaDosGenes {
         double valor2;
         pos1 = rand.nextInt(punto.getDimension());
         pos2 = rand.nextInt(punto.getDimension());
-        valor1 = punto.getValor(pos1);
-        valor2 = punto.getValor(pos2);
+        valor1 = punto.get(pos1);
+        valor2 = punto.get(pos2);
 
         punto.set(pos1, (valor2 == 1 ? 0 : 1));
         punto.set(pos2, (valor1 == 1 ? 0 : 1));

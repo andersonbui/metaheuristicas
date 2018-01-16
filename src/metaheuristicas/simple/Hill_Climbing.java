@@ -10,7 +10,7 @@ import metaheuristicas.Individuo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.List;
-import metaheuristicas.Viajante;
+import metaheuristicas.Individuo;
 import metaheuristicas.movimiento.Tweak;
 import metaheuristicas.movimiento.Tweak_1;
 
@@ -37,9 +37,9 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Viajante> ejecutar(Funcion funcion) {
-        List<Viajante> optimos = new ArrayList();
-        Individuo s = funcion.generarPunto();
+    public List<Individuo> ejecutar(Funcion funcion) {
+        List<Individuo> optimos = new ArrayList();
+        Individuo s = funcion.generarIndividuo();
         s.evaluar();
         optimos.add(s);
         Individuo r;

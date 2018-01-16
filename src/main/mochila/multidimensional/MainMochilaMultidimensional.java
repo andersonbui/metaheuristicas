@@ -16,24 +16,20 @@
  */
 package main.mochila.multidimensional;
 
-import com.sun.javafx.fxml.expression.BinaryExpression;
-import com.sun.javafx.fxml.expression.Expression;
-import com.sun.javafx.fxml.expression.ExpressionValue;
-import main.mochila.multidimensional.funciones.MochilaMultidimensionalMejorada;
-import main.mochila.multidimensional.funciones.MochilaMultidimensional;
+import main.mochila.multidimensional.funciones.MochilaMultidimensional_LimitRelleno;
+import main.mochila.multidimensional.funciones.MochilasMultidimensionales;
 import metaheuristicas.Funcion;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import main.Ejecutor;
-import main.mochila.Util;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencial;
-import metaheuristicas.poblacion.EstrategiaEvolucionDiferencialBinaria;
-import main.mochila.multidimensional.estrategias.EstrategiaEvolucionDiferencialBinariaPaper;
-import main.mochila.multidimensional.estrategias.EstrategiaEvolucionDiferencialBinariaPaperMejorado;
+import metaheuristicas.poblacion.EvolucionDiferencial;
+import metaheuristicas.poblacion.EvolucionDiferencialBinaria;
+import main.mochila.estrategias.EstrategiaEvolucionDiferencialBinariaPaper;
+import main.mochila.estrategias.EstrategiaEvolucionDiferencialBinariaPaperMejorado;
 import main.mochila.multidimensional.funciones.FuncionMochilaGreedy;
 import metaheuristicas.poblacion.Grasp;
 import metaheuristicas.simple.Hill_Climbing;
@@ -44,7 +40,7 @@ import metaheuristicas.simple.Hill_Climbing;
  */
 public class MainMochilaMultidimensional {
 
-    public static void main(String[] args) throws FileNotFoundException, Exception {
+    public  void main(String[] args) throws FileNotFoundException, Exception {
         double limite;
         int tamPoblacion;
         int iteraciones;
@@ -58,40 +54,44 @@ public class MainMochilaMultidimensional {
         // numero de individuos porpoblacion
         tamPoblacion = 5;
         // iteraciones realizadas por los algoritmos
-        iteraciones =20;
+        iteraciones = 20;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
 
         boolean maximizar = true;
 
-//        List listaPuntos = Util.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f2-1000-2.txt");
-        List listaPuntos = Util.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f2-1000.txt");
-//        List listaPuntos = Util.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f2-11.txt");
-//        List listaPuntos = Util.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f2-20000.txt");
-//        List listaPuntos = Util.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f3-100.txt");
-//        List listaPuntos = Util.obtenerDatosMochilaMultidimensional("mochilaMultidimencional/f4-22.txt");
+        String nombreArchivo;
+
+//        nombreArchivo = "mochilaMultidimencional/f2-1000-2.txt";
+//        nombreArchivo = "mochilaMultidimencional/f2-1000.txt";
+//        nombreArchivo = "mochilaMultidimencional/f2-11.txt";
+//        nombreArchivo = "mochilaMultidimencional/f2-20000.txt";
+//        nombreArchivo = "mochilaMultidimencional/f3-100.txt";
+        nombreArchivo = "mochilaMultidimencional/f4-22.txt";
+
+        List listaParametros = UtilMultid.obtenerDatosMochilaMultidimensional(nombreArchivo);
         // dimension de los puntos;
-        double[] capacidades = (double[]) listaPuntos.remove(listaPuntos.size() - 1);
-        // tamPoblacion = listaPuntos.size();
+        String nombreInstancia = (String) listaParametros.remove(0);
+        double[][] VectorPesosMochilasElementos = (double[][]) listaParametros.remove(0);
+        double[] beneficios = (double[]) listaParametros.remove(0);
+        double[] capacidades = (double[]) listaParametros.remove(0);
+        // tamPoblacion = listaParametros.size();
         System.out.println("dimension: " + tamPoblacion);
         System.out.println("capacidades: " + Arrays.toString(capacidades));
-        Funcion funcionGreedy = new FuncionMochilaGreedy(capacidades, listaPuntos, maximizar);
+        System.out.println("nombre: " + nombreInstancia);
+        Funcion funcionGreedy = new FuncionMochilaGreedy(VectorPesosMochilasElementos, beneficios, capacidades);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion)));
-        listaAlgoritmos.add(new AlgoritmoEvolutivo(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion)));
+        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
+        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
 //        listaAlgoritmos.add(new Grasp(10, (FuncionMochilaGreedy) funcionGreedy));
 
         List<Funcion> listaFunciones = new ArrayList();
-        MochilaMultidimensional funcionMochila = new MochilaMultidimensional(capacidades, listaPuntos, maximizar);
+        MochilasMultidimensionales funcionMochila = new MochilasMultidimensionales(VectorPesosMochilasElementos, beneficios, capacidades);
         listaFunciones.add(funcionMochila);
 //        listaFunciones.add(funcionGreedy);
         // EJECUTAR ANALISIS
         (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
-//        Punto mejor = funcionMochila.getMejor();
-//        for (int i = 0; i < capacidades.length; i++) {
-//            System.out.println("Peso[" + i + "]: " + funcionMochila.obtenerPeso(mejor, i));
-//        }
-//        System.out.println("Precio: " + funcionMochila.obtenerPrecio(mejor));
+
     }
 
 }

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Individuo;
-import metaheuristicas.Viajante;
 
 /**
  *
@@ -40,15 +39,13 @@ public class Ejecutor {
         gnuplot = new GraficoGnuPlot();
     }
 
-    public void grafico3D(List<Viajante> recorrido, String titulo) {
+    public void grafico3D(List<Individuo> recorrido, String titulo) {
         if (!(recorrido == null || recorrido.isEmpty())) {
             ArrayList<gnuplot.Punto> cd = new ArrayList();
-            Individuo individuo = null;
-            for (Viajante item : recorrido) {
-                individuo = item.getOptimo();
-                cd.add(new gnuplot.Punto3D(individuo.getValor(0), individuo.getValor(1), individuo.getCalidad()));
-            }
-            Funcion funcion = individuo.getFuncion();
+            recorrido.forEach((individuo) -> {
+                cd.add(new gnuplot.Punto3D(individuo.get(0), individuo.get(1), individuo.getCalidad()));
+            });
+            Funcion funcion = recorrido.get(0).getFuncion();
 //                gnuplot.addFuncionAritmetica(funcion.toString());
             gnuplot.addFuncionAritmetica(funcion.toString());
             gnuplot.setXrange(funcion.getLimite());
@@ -74,12 +71,12 @@ public class Ejecutor {
             menorTamanio = Math.min(item.getRecorrido().size(), menorTamanio);
         }
         for (Recorrido itemRecorrido : listaRecorridos) {
-            List<Viajante> listaViajantes = itemRecorrido.getRecorrido();
-            if (!(listaViajantes == null || listaViajantes.isEmpty())) {
+            List<Individuo> listaIndividuos = itemRecorrido.getRecorrido();
+            if (!(listaIndividuos == null || listaIndividuos.isEmpty())) {
                 List<Punto> cd = new ArrayList();
-//                for (int i = 0; i < listaViajantes.size(); i++) {
+//                for (int i = 0; i < listaIndividuos.size(); i++) {
                 for (int i = 0; i < menorTamanio; i++) {
-                    cd.add(new gnuplot.Punto2D((double) i, listaViajantes.get(i).getCalidad()));
+                    cd.add(new gnuplot.Punto2D((double) i, listaIndividuos.get(i).getCalidad()));
                 }
                 gnuplot.addConjuntoDatos(cd, itemRecorrido.getNombreRecorrido() + "(" + formatear(itemRecorrido.getPromedioCalidad()) + ")");
             }
@@ -91,28 +88,28 @@ public class Ejecutor {
 
     public Recorrido ejecutar(AlgoritmoMetaheuristico algoritmo, Funcion funcion, int numeroPruebas, int iteraciones) {
         double promedioCalidad = 0; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
-        List<Viajante> recorrido = null;// recorrido del algoritmo
-        List<Viajante> mejorRecorrido = null;// recorrido del algoritmo
-        List<Viajante> optimos = new ArrayList<>();
+        List<Individuo> recorrido;// recorrido del algoritmo
+        List<Individuo> mejorRecorrido = null;// recorrido del algoritmo
+        List<Individuo> optimos = new ArrayList<>();
         Individuo optimo;
 
         algoritmo.setMaxIteraciones(iteraciones);
         long tiempo_inicial = System.currentTimeMillis();
         for (int i = 0; i < numeroPruebas; i++) {
             recorrido = algoritmo.ejecutar(funcion);
-            optimo = recorrido.get(recorrido.size() - 1).getOptimo();
+            optimo = recorrido.get(recorrido.size() - 1);
             if (mejorRecorrido == null
-                    || mejorRecorrido.get(mejorRecorrido.size() - 1).getOptimo().compareTo(optimo) < 0) {
+                    || mejorRecorrido.get(mejorRecorrido.size() - 1).compareTo(optimo) < 0) {
                 mejorRecorrido = recorrido;
             }
             optimos.add(optimo);
             promedioCalidad += optimo.getCalidad();
         }
         long tiempo_final = System.currentTimeMillis();
-        optimo = mejorRecorrido.get(mejorRecorrido.size() - 1).getOptimo();
+        optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
         promedioCalidad = promedioCalidad / numeroPruebas;
-
-        Viajante peor = mejorRecorrido.get(0);
+        Individuo peor = mejorRecorrido.get(0);
+        
         imprimirConFormato(
                 funcion.getNombre(),
                 algoritmo.getNombre(),
@@ -125,29 +122,29 @@ public class Ejecutor {
                 "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
                 "" + funcion.getContadorEvaluaciones() / numeroPruebas);
         //implimir mejor optimo
-        System.out.println("\nMejor optimo: " + optimo.getCalidad());
-//                System.out.println("mejor punto: "+ Long.valueOf(optimo.toStringBinario(),2));
+        System.out.println("caract Mejor: " + funcion.toString(optimo)+"\n");
+//        System.out.println("Mejor: " + optimo.toStringInt()+"\n");
 
         return new Recorrido(mejorRecorrido, promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
     }
 
     public class Recorrido {
 
-        private List<Viajante> recorrido;
+        private List<Individuo> recorrido;
         private double promedioCalidad;
         private String nombreRecorrido;
 
-        public Recorrido(List<Viajante> recorrido, double promedioCalidad, String nombreRecorrido) {
+        public Recorrido(List<Individuo> recorrido, double promedioCalidad, String nombreRecorrido) {
             this.recorrido = recorrido;
             this.promedioCalidad = promedioCalidad;
             this.nombreRecorrido = nombreRecorrido;
         }
 
-        public List<Viajante> getRecorrido() {
+        public List<Individuo> getRecorrido() {
             return recorrido;
         }
 
-        public void setRecorrido(List<Viajante> recorrido) {
+        public void setRecorrido(List<Individuo> recorrido) {
             this.recorrido = recorrido;
         }
 
@@ -214,7 +211,6 @@ public class Ejecutor {
                     break;
                 }
             }
-
             if (graficaConvergencia) {
                 grafico2D(listaRecorridos, titulo);
             }
@@ -228,10 +224,10 @@ public class Ejecutor {
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio, numEvaluaciones);
     }
 
-    public static double calcularDesviacion(List<Viajante> lista, double promedio) {
+    public static double calcularDesviacion(List<Individuo> lista, double promedio) {
         double suma = 0;
         double diferencia;
-        for (Viajante item : lista) {
+        for (Individuo item : lista) {
             diferencia = item.getCalidad() - promedio;
             suma += diferencia * diferencia;
         }

@@ -19,7 +19,7 @@ public class Easom extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         double x_pi2 = valores[0] - Math.PI;
         x_pi2 *= x_pi2;
         double y_pi2 = valores[1] - Math.PI;

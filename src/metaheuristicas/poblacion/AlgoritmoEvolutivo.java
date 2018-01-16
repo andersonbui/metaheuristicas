@@ -16,35 +16,40 @@
  */
 package metaheuristicas.poblacion;
 
+import java.security.InvalidParameterException;
 import metaheuristicas.Funcion;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Viajante;
+import metaheuristicas.Individuo;
 
 /**
  * @author debian
  */
-public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
+public abstract class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
 
-    Estrategia estrategia;
+    protected int tamPoblacion;
+    protected int numDescendientes;
+    protected Poblacion poblacion;
 
     /**
-     * @param estrategia
+     * @param tamPoblacion
+     * @param numDescendientes
      */
-    public AlgoritmoEvolutivo(Estrategia estrategia) {
+    public AlgoritmoEvolutivo(int tamPoblacion, int numDescendientes) {
         super("Evolutivo");
-        this.estrategia = estrategia;
+        this.tamPoblacion = tamPoblacion;
+        this.numDescendientes = numDescendientes;
     }
 
     @Override
-    public List<Viajante> ejecutar(Funcion funcion) {
-        Poblacion poblacion = estrategia.generarPoblacion(funcion);
-        Viajante mejor = poblacion.getMejor();
-        List<Viajante> recorrido = new ArrayList();
+    public List<Individuo> ejecutar(Funcion funcion) {
+        poblacion = generarPoblacion(funcion);
+        Individuo mejor = poblacion.getMejor();
+        List<Individuo> recorrido = new ArrayList();
         recorrido.add(mejor);
-        for (iteraciones = 0; iteraciones < maxIteraciones && !funcion.suficiente(mejor.getOptimo()); iteraciones++) {
-            poblacion = estrategia.siguienteGeneracion(1, poblacion);
+        for (iteraciones = 0; iteraciones < maxIteraciones && !funcion.suficiente(mejor); iteraciones++) {
+            poblacion = siguienteGeneracion(1);
             mejor = poblacion.getMejor();
 
             recorrido.add(mejor);
@@ -52,24 +57,26 @@ public class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
         return recorrido;
     }
 
-    @Override
-    public String getNombre() {
-        return estrategia.getNombreEstrategia();
+    public Poblacion generarPoblacion(Funcion funcion) {
+        Poblacion unaPoblacion = new Poblacion(funcion, tamPoblacion);
+        Individuo p;
+        for (int i = 0; i < tamPoblacion; i++) {
+            p = funcion.generarIndividuo();
+            p.evaluar();
+            unaPoblacion.add(p);
+        }
+        return unaPoblacion;
     }
 
-    @Override
-    public void siguiente() {
-        estrategia.siguiente();
-    }
+    protected abstract Poblacion siguienteGeneracion(int elitismo);
 
-    @Override
-    public boolean haySiguiente() {
-        return estrategia.haySiguiente();
-    }
-
-    @Override
-    public void reiniciar() {
-        estrategia.reiniciar();
+    public void elitismo(Poblacion nueva, Poblacion actual, int numIndividuos) {
+        if (numIndividuos > actual.size()) {
+            throw new InvalidParameterException("numero de parametros invalido: numIndividuos <= atual.size()");
+        }
+        for (int i = 0; i < numIndividuos; i++) {
+            nueva.add(actual.remove(0));
+        }
     }
 
 }

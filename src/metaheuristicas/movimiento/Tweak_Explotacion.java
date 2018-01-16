@@ -18,12 +18,10 @@ public class Tweak_Explotacion extends Tweak {
 
     @Override
     public Individuo tweak(Individuo punto) {
-        Funcion funcion = punto.getFuncion();
         Individuo nuevo = (Individuo) punto.clone();
-        Double[] valores = nuevo.getValores();
         // improve
-        int posicion = Aleatorio.nextInt(valores.length);
-        valores[posicion] = funcion.limitar(genValor(valores[posicion], ancho));
+        int posicion = Aleatorio.nextInt(nuevo.getDimension());
+        nuevo.set(posicion, genValor(nuevo.get(posicion), ancho));
         nuevo.evaluar();
         return nuevo;
     }

@@ -26,7 +26,7 @@ public class Tweak_GeneraNuevo extends Tweak {
 
     @Override
     public Individuo tweak(Individuo punto) {
-        Individuo nuevo = punto.getFuncion().generarPunto();
+        Individuo nuevo = punto.getFuncion().generarIndividuo();
         nuevo.evaluar();
         return nuevo;
     }

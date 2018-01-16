@@ -28,8 +28,6 @@ import main.Utilidades;
  */
 public class Poblacion extends ArrayList<Individuo> {
 
-//    protected Individuo mejor;
-//    protected List<Punto> poblacion;
     private Funcion funcion;
     private int tamanioMaximo;
     private int generacion;
@@ -101,23 +99,12 @@ public class Poblacion extends ArrayList<Individuo> {
         this.funcion = funcion;
     }
 
-    public static Poblacion generar(Funcion funcion, int tamanioPoblacion) {
-        Poblacion poblacion = new Poblacion(funcion, tamanioPoblacion);
-        Individuo p;
-        for (int i = 0; i < tamanioPoblacion; i++) {
-            p = funcion.generarPunto();
-            p.evaluar();
-            poblacion.add(p);
-        }
-        return poblacion;
-    }
-
     @Override
     public Poblacion clone() {
         Poblacion copia = new Poblacion(funcion, tamanioMaximo);
-        for (Individuo punto : this) {
+        this.forEach((punto) -> {
             copia.add(punto.clone());
-        }
+        });
         return copia;
     }
 

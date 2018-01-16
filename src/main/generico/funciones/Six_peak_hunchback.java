@@ -20,7 +20,7 @@ public class Six_peak_hunchback extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         double x2 = valores[0] * valores[0];
         double y2 = valores[1] * valores[1];
         resultado = (4 - 2.1 * x2 + (1 / 3) * x2 * x2) * x2 + valores[0] * valores[1]

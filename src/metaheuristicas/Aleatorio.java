@@ -31,7 +31,7 @@ public class Aleatorio {
     }
 
     static {
-        rand = new Random(5);
+        rand = new Random(3);
     }
 
     public static double nextDouble() {

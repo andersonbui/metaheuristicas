@@ -40,22 +40,20 @@ public class Tweak_Direccional extends Tweak_1 {
      * @param vectorDireccionOriginal
      * @return
      */
-    public List<Individuo> listaPosiblesSucesoresOrtogonales(Individuo punto, Double[] vectorDireccionOriginal) {
+    public List<Individuo> listaPosiblesSucesoresOrtogonales(Individuo punto, double[] vectorDireccionOriginal) {
 
         if (vectorDireccionOriginal.length != punto.getValores().length) {
             throw new IllegalArgumentException("error! tamanio diferente de punto y vector direccion!");
         }
         List<Individuo> listaPuntos = new ArrayList();
-        Double[] vectorAux;
         List<double[]> listaRest = new ArrayList();
         Individuo nuevoPunto;
         combinaciones(new double[]{-1, 1}, new double[punto.getValores().length], 0, listaRest);
 
         for (double[] item : listaRest) {
             nuevoPunto = punto.clone();
-            vectorAux = nuevoPunto.getValores();
-            for (int i = 0; i < vectorAux.length; i++) {
-                vectorAux[i] = funcion.limitar(vectorAux[i] + item[i] * vectorDireccionOriginal[i]);
+            for (int i = 0; i < nuevoPunto.getDimension(); i++) {
+                nuevoPunto.set(i, nuevoPunto.get(i) + item[i] * vectorDireccionOriginal[i]);
             }
             nuevoPunto.setCalidad(funcion.evaluar(nuevoPunto));
             listaPuntos.add(nuevoPunto);

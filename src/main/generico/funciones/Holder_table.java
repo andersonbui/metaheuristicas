@@ -20,7 +20,7 @@ public class Holder_table extends Funcion2D {
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
         double resultado;
-        Double[] valores = punto.getValores();
+        double[] valores = punto.getValores();
         double x2 = valores[0] * valores[0];
         double y2 = valores[1] * valores[1];
         resultado = -Math.abs(Math.sin(valores[0]) * Math.cos(valores[1]) * Math.exp(Math.abs(1 - ((Math.sqrt(x2 + y2)) / (Math.PI)))));
