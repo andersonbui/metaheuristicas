@@ -1,8 +1,8 @@
-package main.mochila.cuadratica.funciones;
+package main.mochila.cuadratica;
 
 import metaheuristicas.Individuo;
 import metaheuristicas.Funcion;
-import java.util.List;
+import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 
 /**
  *
@@ -16,18 +16,14 @@ public class MochilasCuadraticas extends Funcion {
 
     /**
      *
-     * @param capacidades
-     * @param w
-     * @param maximizar
      */
-    public MochilasCuadraticas(double[] capacidades, List<double[]> w, boolean maximizar) {
-        super("MOCHILA MultiD", 2, w.size(), maximizar);
+    public MochilasCuadraticas(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+        super("MOCHILA MultiD", vectorPesos.length, true);
         contFuncion = 0;
         funciones = new Funcion[]{
-//            new MochilaMultidimensionalOriginal(capacidades, w, maximizar),
-            new MochilaCuadraticaOriginal(capacidades, w, maximizar),
-//            new MochilaMultidimensionalMejorada2(capacidades, w, maximizar),
-//            new MochilaMultidimensionalMejorada3(capacidades, w, maximizar)
+            //            new MochilaMultidimensionalOriginal(capacidades, w, maximizar),
+            new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal), //            new MochilaMultidimensionalMejorada2(capacidades, w, maximizar),
+        //            new MochilaMultidimensionalMejorada3(capacidades, w, maximizar)
         };
         funcion = funciones[contFuncion];
     }

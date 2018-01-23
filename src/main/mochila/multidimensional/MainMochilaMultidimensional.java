@@ -40,7 +40,7 @@ import metaheuristicas.simple.Hill_Climbing;
  */
 public class MainMochilaMultidimensional {
 
-    public  void main(String[] args) throws FileNotFoundException, Exception {
+    public static void main(String[] args) throws FileNotFoundException, Exception {
         double limite;
         int tamPoblacion;
         int iteraciones;
@@ -63,11 +63,11 @@ public class MainMochilaMultidimensional {
         String nombreArchivo;
 
 //        nombreArchivo = "mochilaMultidimencional/f2-1000-2.txt";
-//        nombreArchivo = "mochilaMultidimencional/f2-1000.txt";
+        nombreArchivo = "mochilaMultidimencional/f2-1000.txt";
 //        nombreArchivo = "mochilaMultidimencional/f2-11.txt";
 //        nombreArchivo = "mochilaMultidimencional/f2-20000.txt";
 //        nombreArchivo = "mochilaMultidimencional/f3-100.txt";
-        nombreArchivo = "mochilaMultidimencional/f4-22.txt";
+//        nombreArchivo = "mochilaMultidimencional/f4-22.txt";
 
         List listaParametros = UtilMultid.obtenerDatosMochilaMultidimensional(nombreArchivo);
         // dimension de los puntos;

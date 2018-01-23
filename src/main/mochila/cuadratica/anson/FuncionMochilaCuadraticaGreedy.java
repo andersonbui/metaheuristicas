@@ -1,4 +1,4 @@
-package main.mochila.cuadratica.funciones;
+package main.mochila.cuadratica.anson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,7 @@ public class FuncionMochilaCuadraticaGreedy extends Mochila {
         pos_articulos = listToArray(posiciones);
 
         prob_ceros = 0.650;
+//        prob_ceros = 0.70;
         limite = Double.MAX_VALUE;
         this.maxGlobal = maxGlobal;
     }

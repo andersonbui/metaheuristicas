@@ -27,7 +27,6 @@ public class Aleatorio {
     private static Random rand;
 
     private Aleatorio() {
-
     }
 
     static {

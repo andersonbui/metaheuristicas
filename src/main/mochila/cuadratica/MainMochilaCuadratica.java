@@ -16,14 +16,13 @@
  */
 package main.mochila.cuadratica;
 
-import main.mochila.cuadratica.funciones.MochilasCuadraticas;
 import metaheuristicas.Funcion;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import main.Ejecutor;
-import main.mochila.cuadratica.funciones.FuncionMochilaCuadraticaGreedy;
+import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EvolucionDiferencial;
@@ -51,17 +50,17 @@ public class MainMochilaCuadratica {
         // limite de las funciones
         limite = 20;
         // numero de individuos porpoblacion
-        tamPoblacion = 50;// 20 ó 50 resultan benos
+        tamPoblacion = 20;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        iteraciones = 100;
+        iteraciones = 400;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
 
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
-        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_10.txt");
+        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_1.txt");
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_1.txt");
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_8.txt");
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
         // dimension de los puntos;
         String nombreInstancia = (String) listaParametros.remove(0);
