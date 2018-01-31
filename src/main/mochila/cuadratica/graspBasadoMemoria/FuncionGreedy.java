@@ -18,6 +18,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.Utilidades;
 import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
 
@@ -51,6 +52,18 @@ public class FuncionGreedy extends Funcion {
         posiciones = new ArrayList();
     }
 
+    @Override
+    public double evaluar(Individuo mochila) {
+        super.evaluar(mochila);
+        double sumaBeneficiosTotal = 0;
+        for (int i = 0; i < mochila.getDimension(); i++) {
+            for (int j = i; j < mochila.getDimension(); j++) {
+                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
+            }
+        }
+        return sumaBeneficiosTotal;
+    }
+
     /**
      * beneficio del elemento en la posicion: indice no seleccionado
      *
@@ -59,19 +72,13 @@ public class FuncionGreedy extends Funcion {
      * @return
      */
     public double voraz(Individuo mochila, int indice) {
-        double sumaBeneficiosTotal = 0;
+        double sumaBeneficiosTotal;
         double sumaPeso = 0;
 
         if (mochila.get(indice) == 1) {
             throw new IllegalArgumentException("El elemento en la posicion indice ya se encuentra en la mochila");
         }
-        for (int i = 0; i < mochila.getDimension(); i++) {
-            for (int j = i; j < mochila.getDimension(); j++) {
-                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
-            }
-            sumaPeso += vectorPesos[i] * mochila.get(i);
-        }
-
+        sumaBeneficiosTotal = evaluar(mochila);
         for (int i = 0; i < indice; i++) {
             sumaBeneficiosTotal += matrizBeneficios[i][indice] * mochila.get(i) * mochila.get(indice);
         }
