@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static main.Ejecutor.formatear;
+import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
 
 /**
  *
@@ -15,26 +16,22 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     protected double calidad;
     protected Funcion funcion;
     protected int generacion;
-    protected boolean maximizar; //-1 minimizar, +1 maximizar
 
     /**
      *
      * @param funcion
-     * @param maximizar
      */
-    public Individuo(Funcion funcion, boolean maximizar) {
+    public Individuo(Funcion funcion) {
         this.funcion = funcion;
-        this.maximizar = maximizar;
-        calidad = maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
+        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
         valores = new double[funcion.dimension];
         generacion = 0;
     }
 
-    public Individuo(Funcion funcion, double[] valores, boolean maximizar) {
+    public Individuo(Funcion funcion, double[] valores) {
         this.funcion = funcion;
-        this.maximizar = maximizar;
         this.valores = valores;
-        calidad = 0;
+        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
         generacion = 0;
     }
 
@@ -55,7 +52,8 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     }
 
     public void set(int posicion, double valor) {
-        this.valores[posicion] = funcion.limitar(valor);
+        this.valores[posicion] = valor;
+        evaluar();
     }
 
     public int getDimension() {
@@ -89,7 +87,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     @Override
     public int compareTo(Individuo otrop) {
         Double a_calidad = this.calidad;
-        int orden = maximizar ? 1 : -1;
+        int orden = funcion.maximizar ? 1 : -1;
         return orden * a_calidad.compareTo(otrop.getCalidad());
     }
 
@@ -100,12 +98,12 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
 
             @Override
             public boolean hasNext() {
-                return valores.length < posicion;
+                return valores.length > posicion;
             }
 
             @Override
             public Double next() {
-                return valores[posicion];
+                return valores[posicion++];
             }
         };
     }
@@ -128,9 +126,15 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
         cadena += (int) calidad;
         return cadena;
     }
+    public double peso;
 
-    public void evaluar() {
-        setCalidad(funcion.evaluar(this));
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+    
+    public double evaluar() {
+        calidad = funcion.evaluar(this);
+        return calidad;
     }
 
     public Funcion getFuncion() {
@@ -150,11 +154,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     }
 
     public boolean isMaximizar() {
-        return maximizar;
-    }
-
-    public void setMaximizar(boolean maximizar) {
-        this.maximizar = maximizar;
+        return funcion.isMaximizar();
     }
 
 }

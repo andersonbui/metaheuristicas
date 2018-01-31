@@ -40,6 +40,9 @@ public class Ejecutor {
     }
 
     public void grafico3D(List<Individuo> recorrido, String titulo) {
+        if (recorrido == null) {
+            throw new IllegalArgumentException(titulo);
+        }
         if (!(recorrido == null || recorrido.isEmpty())) {
             ArrayList<gnuplot.Punto> cd = new ArrayList();
             recorrido.forEach((individuo) -> {
@@ -109,7 +112,7 @@ public class Ejecutor {
         optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
         promedioCalidad = promedioCalidad / numeroPruebas;
         Individuo peor = mejorRecorrido.get(0);
-        
+
         imprimirConFormato(
                 funcion.getNombre(),
                 algoritmo.getNombre(),
@@ -122,7 +125,7 @@ public class Ejecutor {
                 "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
                 "" + funcion.getContadorEvaluaciones() / numeroPruebas);
         //implimir mejor optimo
-        System.out.println("caract Mejor: " + funcion.toString(optimo)+"\n");
+        System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
 //        System.out.println("Mejor: " + optimo.toStringInt()+"\n");
 
         return new Recorrido(mejorRecorrido, promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());

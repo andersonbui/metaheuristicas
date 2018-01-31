@@ -19,10 +19,11 @@ package main.mochila.cuadratica;
 import metaheuristicas.Funcion;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import main.Ejecutor;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
+import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
+import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EvolucionDiferencial;
@@ -78,13 +79,16 @@ public class MainMochilaCuadratica {
         System.out.println("dimension: " + tamPoblacion);
         System.out.println("capacidad: " + capacidad);
         Funcion FuncionMochilaCuadraticaGreedy = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        FuncionMochilaHyperplaneExploration funcionHyperplanos = new FuncionMochilaHyperplaneExploration(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
-        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
-        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
+//        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
+//        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
+        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 //        listaAlgoritmos.add(new Grasp(10, (FuncionMochilaGreedy) funcionGreedy));
 
         List<Funcion> listaFunciones = new ArrayList();
-        listaFunciones.add(FuncionMochilaCuadraticaGreedy);
+//        listaFunciones.add(FuncionMochilaCuadraticaGreedy);
+        listaFunciones.add(funcionHyperplanos);
 //        listaFunciones.add(funcionGreedy);
         // EJECUTAR ANALISIS
         (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);

@@ -12,31 +12,29 @@ package metaheuristicas;
 public abstract class Funcion {
 
     protected String nombre;
-    protected double limite;
     protected int dimension;
-    protected boolean maximizar;
+    protected boolean maximizar; //-1 minimizar, +1 maximizar
     protected int contadorEvaluaciones;
     protected double minGlobal;
     protected double maxGlobal;
     protected double error;
 
-    /**
-     *
-     * @param nombre
-     * @param limite
-     * @param dimension
-     * @param maximizar
-     */
-    public Funcion(String nombre, double limite, int dimension, boolean maximizar) {
-        this.nombre = nombre;
-        this.limite = limite;
-        this.dimension = dimension;
-        this.maximizar = maximizar;
-        this.maxGlobal = Double.MAX_VALUE;
-        this.minGlobal = -maxGlobal;
-        this.error = 0.001;
-        contadorEvaluaciones = 0;
-    }
+//    /**
+//     *
+//     * @param nombre
+//     * @param limite
+//     * @param dimension
+//     * @param maximizar
+//     */
+//    public Funcion(String nombre, double limite, int dimension, boolean maximizar) {
+//        this.nombre = nombre;
+//        this.dimension = dimension;
+//        this.maximizar = maximizar;
+//        this.maxGlobal = Double.MAX_VALUE;
+//        this.minGlobal = -maxGlobal;
+//        this.error = 0.001;
+//        contadorEvaluaciones = 0;
+//    }
 
     /**
      *
@@ -50,20 +48,19 @@ public abstract class Funcion {
         this.maximizar = maximizar;
         this.maxGlobal = Double.MAX_VALUE;
         this.minGlobal = -maxGlobal;
-        this.limite = Double.MAX_VALUE;
         this.error = 0.001;
         contadorEvaluaciones = 0;
     }
 
     /**
-     * identifica si punto tiene una calidad suficiente exigida por el error
+     * identifica si individuo tiene una calidad suficiente exigida por el error
      * aceptado en alcanzar el minimo o maximo global si existe, en cada caso si
      * se está buscando un minimo o maximo respectivamente.
      *
-     * @param punto
+     * @param individuo
      * @return
      */
-    public boolean suficiente(Individuo punto) {
+    public boolean suficiente(Individuo individuo) {
         double maxmin;
         Individuo i;
         if (maximizar) {
@@ -71,7 +68,7 @@ public abstract class Funcion {
         } else {
             maxmin = minGlobal;
         }
-        return Math.abs(punto.getCalidad() - maxmin) < error;
+        return Math.abs(individuo.getCalidad() - maxmin) < error;
     }
 
     public double evaluar(Individuo p) {
@@ -85,14 +82,6 @@ public abstract class Funcion {
 
     public void reiniciarContadorEvaluaciones() {
         this.contadorEvaluaciones = 0;
-    }
-
-    public double getLimite() {
-        return limite;
-    }
-
-    public void setLimite(double limite) {
-        this.limite = limite;
     }
 
     public int getDimension() {
@@ -111,26 +100,11 @@ public abstract class Funcion {
         this.nombre = nombre;
     }
 
-    protected Individuo limitar(Individuo punto) {
-        double[] valores = punto.getValores();
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = limitar(valores[i]);
-        }
-        return punto;
+    public void limitar(Individuo individuo){
+        
     }
 
-    protected double limitar(double valor) {
-        return limite < valor ? limite : -limite > valor ? -limite : valor;
-    }
-
-    public Individuo generarIndividuo() {
-        double[] valores = new double[getDimension()];
-        for (int i = 0; i < valores.length; i++) {
-            valores[i] = limitar(Aleatorio.nextDouble() * getLimite() * 2 - getLimite());
-        }
-        Individuo individuo = new Individuo(this, valores, isMaximizar());
-        return individuo;
-    }
+    public abstract Individuo generarIndividuo();
 
     public boolean isMaximizar() {
         return maximizar;
@@ -153,8 +127,12 @@ public abstract class Funcion {
     public void reiniciar() {
         contadorEvaluaciones = 0;
     }
-    
-    public String toString(Individuo individuo){
-        return ""+individuo.getCalidad()+"; max: "+individuo.isMaximizar();
+
+    public String toString(Individuo individuo) {
+        return "" + individuo.getCalidad() + "; max: " + individuo.isMaximizar();
+    }
+
+    public double getLimite() {
+        return Double.MAX_VALUE;
     }
 }

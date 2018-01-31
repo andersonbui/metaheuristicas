@@ -18,14 +18,14 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
 import java.util.List;
-import metaheuristicas.Funcion;
+import main.mochila.FuncionMochila;
 import metaheuristicas.Individuo;
 
 /**
  *
  * @author JUAN
  */
-public class FuncionGreedy extends Funcion {
+public class FuncionGreedy extends FuncionMochila {
 
     private final double[][] matrizBeneficios;
     private final double capacidad;
@@ -42,7 +42,7 @@ public class FuncionGreedy extends Funcion {
      * @param maxGlobal
      */
     public FuncionGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super("greedyGrasp", vectorPesos.length, true);
+        super("greedyGrasp", vectorPesos.length, 0);
         this.matrizBeneficios = matrizBeneficios;
         this.capacidad = capacidad;
         this.vectorPesos = vectorPesos;

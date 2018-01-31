@@ -36,9 +36,8 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     @Override
     public double evaluar(Individuo mochila) {
         super.evaluar(mochila);
-        mochila = limitar(mochila);
+        limitar(mochila);
         double result = obtenerPrecio(mochila);
-        mochila.setCalidad(result);
         return result;
     }
 
@@ -60,7 +59,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     }
 
     @Override
-    public Individuo limitar(Individuo mochila) {
+    public void limitar(Individuo mochila) {
         int posicion;
         // para cada caracteristica(peso) del elemento
         for (int i = 0; i < capacidades.length; i++) {
@@ -70,7 +69,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
             }
         }
 
-        return mochila; //To change body of generated methods, choose Tools | Templates.
+//        return mochila; //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -113,7 +112,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
 
     @Override
     public Individuo generarIndividuo() {
-        Individuo nuevop = new Individuo(this, isMaximizar());
+        Individuo nuevop = new Individuo(this);
         for (int i = 0; i < nuevop.getDimension(); i++) {
             if (Aleatorio.nextDouble() > prob_ceros) {
                 nuevop.set(i, 1);

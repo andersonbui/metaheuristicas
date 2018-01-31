@@ -12,11 +12,13 @@ public class MochilaSimple extends Funcion {
 
     private final List<double[]> w;
     private final double L;
+    private final double capacidad;
     private final double prob_ceros;
     private Individuo mejor;
 
     public MochilaSimple(double capacidad, List<double[]> w, boolean maximizar) {
-        super("MOCHILA", capacidad, w.size(), maximizar);
+        super("MOCHILA", w.size(), maximizar);
+        this.capacidad = capacidad;
         this.w = w;
         L = 1000; // grande y entero para garantizatr una buena penalizacion
         prob_ceros = 0.6;
@@ -25,9 +27,8 @@ public class MochilaSimple extends Funcion {
     @Override
     public double evaluar(Individuo punto) {
         super.evaluar(punto);
-        punto = limitar(punto);
+        limitar(punto);
         double result = obtenerPrecio(punto);
-        punto.setCalidad(result);
         return result;
     }
 
@@ -39,7 +40,7 @@ public class MochilaSimple extends Funcion {
             sumWX += punto.get(i) * w.get(i)[0];
             sumPX += punto.get(i) * w.get(i)[1];
         }
-        double resta = sumWX - limite;
+        double resta = sumWX - capacidad;
         double max = resta > 0 ? resta : 0;
         double producto = L * max;
         result = sumPX - producto;
@@ -58,13 +59,12 @@ public class MochilaSimple extends Funcion {
     }
 
     @Override
-    public Individuo limitar(Individuo punto) {
+    public void limitar(Individuo punto) {
         int posicion;
-        while (obtenerPeso(punto) > limite) {
+        while (obtenerPeso(punto) > capacidad) {
             posicion = mayor(punto);
             punto.set(posicion, 0);
         }
-        return punto; //To change body of generated methods, choose Tools | Templates.
     }
 
     public int mayor(Individuo punto) {
@@ -88,7 +88,7 @@ public class MochilaSimple extends Funcion {
         for (int i = 0; i < valores.length; i++) {
             valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : 1);
         }
-        Individuo nuevop = new Individuo(this, valores, isMaximizar());
+        Individuo nuevop = new Individuo(this, valores);
         nuevop.evaluar();
         return nuevop;
     }

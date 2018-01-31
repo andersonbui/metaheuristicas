@@ -1,14 +1,13 @@
 package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
-import java.util.List;
 import metaheuristicas.Aleatorio;
 
 /**
  *
  * @author debian
  */
-public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficio {
+public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficioM2 {
 
     /**
      *
@@ -58,7 +57,6 @@ public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficio {
     public double evaluar(Individuo mochila) {
         super.evaluar(mochila);
         double result = obtenerPrecio(mochila);
-        mochila.setCalidad(result);
         return result;
     }
 
@@ -67,7 +65,7 @@ public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficio {
         for (int i = 0; i < valores.length; i++) {
             valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : valor);
         }
-        Individuo nuevop = new Individuo(this, valores, isMaximizar());
+        Individuo nuevop = new Individuo(this, valores);
         return nuevop;
     }
 //    public int menorDensidadGananciaEnMochila(Individuo mochila) {
@@ -103,26 +101,26 @@ public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficio {
         return true;
     }
 
-    public Individuo limitarInferiormente(Individuo mochila) {
-        double[] espacios = sacarEspacios(mochila);
-        boolean cabeArticulo;
-        // en todos los articulos
-        for (int pos : articulos) {
-            cabeArticulo = true;
-            if (mochila.get(pos) == 0) {
-                // dimension de la mochila
-                for (int i = 0; i < espacios.length; i++) {
-                    if (espacios[i] < VectorRestricciones[i][pos]) {
-                        cabeArticulo = false;
-                        break;
-                    }
-                }
-                if (cabeArticulo) {
-                    mochila.set(pos, 1);
-                    espacios = sacarEspacios(mochila);
-                }
-            }
-        }
-        return mochila;
-    }
+//    public Individuo limitarInferiormente(Individuo mochila) {
+//        double[] espacios = sacarEspacios(mochila);
+//        boolean cabeArticulo;
+//        // en todos los articulos
+//        for (int pos : articulos) {
+//            cabeArticulo = true;
+//            if (mochila.get(pos) == 0) {
+//                // dimension de la mochila
+//                for (int i = 0; i < espacios.length; i++) {
+//                    if (espacios[i] < VectorRestricciones[i][pos]) {
+//                        cabeArticulo = false;
+//                        break;
+//                    }
+//                }
+//                if (cabeArticulo) {
+//                    mochila.set(pos, 1);
+//                    espacios = sacarEspacios(mochila);
+//                }
+//            }
+//        }
+//        return mochila;
+//    }
 }

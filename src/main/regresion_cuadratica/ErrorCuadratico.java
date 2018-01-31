@@ -3,14 +3,14 @@ package main.regresion_cuadratica;
 import metaheuristicas.Individuo;
 import metaheuristicas.Funcion;
 import java.util.List;
-import java.util.Random;
+import main.Algebraicas.FuncionAlgebraica;
 import metaheuristicas.Aleatorio;
 
 /**
  *
  * @author debian
  */
-public class ErrorCuadratico extends Funcion {
+public class ErrorCuadratico extends FuncionAlgebraica {
 
     private final List<Individuo> puntosReferencia;
     private final double prob_ceros = 0.8;
@@ -58,7 +58,7 @@ public class ErrorCuadratico extends Funcion {
             Individuo punto = listPuntos.get(i);
             valoresFitness[i] = punto.getCalidad() - funcionPolinomio(punto, coeficientes);
         }
-        return new Individuo(this, valoresFitness, this.isMaximizar());
+        return new Individuo(this, valoresFitness);
     }
 
     /**

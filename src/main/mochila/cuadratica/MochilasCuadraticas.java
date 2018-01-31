@@ -76,11 +76,6 @@ public class MochilasCuadraticas extends Funcion {
     }
 
     @Override
-    public void setLimite(double limite) {
-        funcion.setLimite(limite);
-    }
-
-    @Override
     public int getDimension() {
         return funcion.getDimension();
     }
@@ -98,11 +93,6 @@ public class MochilasCuadraticas extends Funcion {
     @Override
     public void setNombre(String nombre) {
         funcion.setNombre(nombre);
-    }
-
-    @Override
-    public double limitar(double valor) {
-        return super.limitar(valor);
     }
 
     @Override

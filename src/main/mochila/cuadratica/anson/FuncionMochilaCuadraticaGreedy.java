@@ -2,14 +2,14 @@ package main.mochila.cuadratica.anson;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.multidimensional.funciones.Mochila;
+import main.mochila.multidimensional.funciones.MochilaMultidimensional;
 import metaheuristicas.Individuo;
 
 /**
  *
  * @author debian
  */
-public class FuncionMochilaCuadraticaGreedy extends Mochila {
+public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
 
     private final double[][] matrizBeneficios;
     private final double capacidad;
@@ -27,7 +27,10 @@ public class FuncionMochilaCuadraticaGreedy extends Mochila {
      * @param maxGlobal
      */
     public FuncionMochilaCuadraticaGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super("Cuadratica", vectorPesos.length, true);
+        super("Cuadratica", vectorPesos.length, 0);
+        
+        prob_ceros = 0.650;
+//        prob_ceros = 0.70;
         this.matrizBeneficios = matrizBeneficios;
         this.capacidad = capacidad;
         this.vectorPesos = vectorPesos;
@@ -47,9 +50,6 @@ public class FuncionMochilaCuadraticaGreedy extends Mochila {
         });
         pos_articulos = listToArray(posiciones);
 
-        prob_ceros = 0.650;
-//        prob_ceros = 0.70;
-        limite = Double.MAX_VALUE;
         this.maxGlobal = maxGlobal;
     }
 

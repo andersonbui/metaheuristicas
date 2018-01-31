@@ -16,10 +16,10 @@
  */
 package main.mochila.simple;
 
-import main.generico.funciones.Ackley;
-import main.generico.funciones.Esfera;
+import main.Algebraicas.funciones.Ackley;
+import main.Algebraicas.funciones.Esfera;
 import metaheuristicas.Funcion;
-import main.generico.funciones.Piso;
+import main.Algebraicas.funciones.Piso;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;

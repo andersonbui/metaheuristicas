@@ -24,9 +24,9 @@ public class MochilasMultidimensionales extends Funcion {
         contFuncion = 0;
         funciones = new Funcion[]{
             //            new MochilaMultidimensionalOriginal(VectorRestricciones, beneficios, capacidades),
-            new MochilaMultidimensional_LimitRelleno(VectorRestricciones, beneficios, capacidades),
-            new MochilaMultidOrdenXDensidadBeneficio(VectorRestricciones, beneficios, capacidades),
-            new MochilaMultidOrdenAvanzado(VectorRestricciones, beneficios, capacidades)
+            new MochilaMultidimensional_LimitRellenoM(VectorRestricciones, beneficios, capacidades),
+            new MochilaMultidOrdenXDensidadBeneficioM2(VectorRestricciones, beneficios, capacidades),
+            new MochilaMultidOrdenAvanzadoM3(VectorRestricciones, beneficios, capacidades)
         };
         funcion = funciones[contFuncion];
     }
@@ -60,7 +60,7 @@ public class MochilasMultidimensionales extends Funcion {
 
     @Override
     public double evaluar(Individuo mochila) {
-        if (funcion.getClass() == MochilaMultidimensional_LimitRelleno.class) {
+        if (funcion.getClass() == MochilaMultidimensional_LimitRellenoM.class) {
             System.out.print("");
         }
         return funcion.evaluar(mochila);
@@ -79,11 +79,6 @@ public class MochilasMultidimensionales extends Funcion {
     @Override
     public double getLimite() {
         return funcion.getLimite();
-    }
-
-    @Override
-    public void setLimite(double limite) {
-        funcion.setLimite(limite);
     }
 
     @Override

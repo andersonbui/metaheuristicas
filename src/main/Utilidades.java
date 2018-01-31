@@ -46,7 +46,8 @@ public class Utilidades {
 //                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
                 valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++].trim());
             }
-            Individuo puntoActual = new Individuo(null, valoresPuntoActual, maximizar);
+            Individuo puntoActual = new Individuo(null, valoresPuntoActual);
+            
             puntoActual.setCalidad(Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++]));
             listaPuntos.add(puntoActual);
 //            System.out.println("<" + puntoActual.toString() + ">");
