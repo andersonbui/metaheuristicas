@@ -65,6 +65,18 @@ public class FuncionGreedy extends FuncionMochila {
         return sumaBeneficiosTotal;
     }
 
+    @Override
+    public double evaluar(Individuo mochila) {
+        super.evaluar(mochila);
+        double sumaBeneficiosTotal = 0;
+        for (int i = 0; i < mochila.getDimension(); i++) {
+            for (int j = i; j < mochila.getDimension(); j++) {
+                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
+            }
+        }
+        return sumaBeneficiosTotal;
+    }
+
     /**
      * beneficio del elemento en la posicion: indice no seleccionado
      *
