@@ -19,6 +19,8 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.FuncionMochila;
+import main.Utilidades;
+import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
 
 /**
