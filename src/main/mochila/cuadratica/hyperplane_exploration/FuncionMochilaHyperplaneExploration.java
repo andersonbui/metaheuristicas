@@ -31,12 +31,12 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * lower bound: minimo numero de elementos que llenarian la mochila sin que
      * haya espacio para uno mas.
      */
-    private int lb;
+    protected int lb;
     /**
      * upper bound: maximo número de elementos que llenarian la mochila sin que
      * haya espacio para uno mas.
      */
-    private int ub;
+    protected int ub;
 
     public FuncionMochilaHyperplaneExploration(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
@@ -49,7 +49,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param mochila
      * @return
      */
-    private double contribucion(int indice, Individuo mochila) {
+    protected double contribucion(int indice, Individuo mochila) {
         double suma = 0;
         for (int i = 0; i < indice; i++) {
             suma += matrizBeneficios[i][indice] * mochila.get(indice) * mochila.get(i);
@@ -80,7 +80,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
     /**
      * obtiene los valores de lower bound y upper bound
      */
-    private void optener_lb_ub() {
+    protected void optener_lb_ub() {
         List<Integer> listaIndices = new ArrayList();
         for (int i = 0; i < this.vectorPesos.length; i++) {
             listaIndices.add(i);

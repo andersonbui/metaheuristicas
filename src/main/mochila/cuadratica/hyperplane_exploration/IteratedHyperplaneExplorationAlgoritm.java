@@ -137,7 +137,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_prima = descent(x_prima);
             // linea 33:
             x_mejorRondaHyper = x_prima;
-
         }
         return null;
     }
