@@ -56,5 +56,14 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
         cadena += obtenerPeso(individuo, vectorPesos) + ";";
         return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
     }
-
+    
+    /**
+     * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
+     *
+     * @param mochila
+     * @return
+     */
+    public double sacarEspacios(Individuo mochila) {
+        return capacidad - obtenerPeso(mochila, vectorPesos);
+    }
 }

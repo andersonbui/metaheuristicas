@@ -22,7 +22,7 @@ public abstract class FuncionMochila extends Funcion {
         this.prob_ceros = prob_ceros;
     }
 
-    public double obtenerPeso(Individuo mochila, double[] pesos) {
+    protected double obtenerPeso(Individuo mochila, double[] pesos) {
         double sumPesos = 0;
         // para cada elemento que podria ir en la mochila
         for (int i = 0; i < mochila.getDimension(); i++) {

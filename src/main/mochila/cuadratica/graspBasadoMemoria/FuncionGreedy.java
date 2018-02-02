@@ -16,25 +16,14 @@
  */
 package main.mochila.cuadratica.graspBasadoMemoria;
 
-import java.util.ArrayList;
-import java.util.List;
-import main.mochila.FuncionMochila;
-import main.Utilidades;
-import metaheuristicas.Funcion;
+import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.Individuo;
 
 /**
  *
  * @author JUAN
  */
-public class FuncionGreedy extends FuncionMochila {
-
-    private final double[][] matrizBeneficios;
-    private final double capacidad;
-    private final double[] vectorPesos;
-    private final Double maxGlobal;
-    private int[] pos_articulos;
-    List<Integer> posiciones;
+public class FuncionGreedy extends FuncionMochilaCuadratica {
 
     /**
      *
@@ -44,28 +33,13 @@ public class FuncionGreedy extends FuncionMochila {
      * @param maxGlobal
      */
     public FuncionGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super("greedyGrasp", vectorPesos.length, 0);
-        this.matrizBeneficios = matrizBeneficios;
-        this.capacidad = capacidad;
-        this.vectorPesos = vectorPesos;
-        this.maxGlobal = maxGlobal;
-        pos_articulos = new int[vectorPesos.length];
-        posiciones = new ArrayList();
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
     }
 
     @Override
-    public double evaluar(Individuo mochila) {
-        super.evaluar(mochila);
-        double sumaBeneficiosTotal = 0;
-        for (int i = 0; i < mochila.getDimension(); i++) {
-            for (int j = i; j < mochila.getDimension(); j++) {
-                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
-            }
-        }
-        return sumaBeneficiosTotal;
-    }
-
-    @Override
+    /**
+     * Obj(S): el valor de la funcion objetivo con respecto a S
+     */
     public double evaluar(Individuo mochila) {
         super.evaluar(mochila);
         double sumaBeneficiosTotal = 0;
@@ -103,8 +77,19 @@ public class FuncionGreedy extends FuncionMochila {
 
     @Override
     public String toString() {
-
         return nombre;
+    }
+
+    /**
+     * Verifica si el elemento en la posicion indice cabe en la mochila. true si
+     * cabe, false si no.
+     *
+     * @param mochila
+     * @param indice
+     * @return
+     */
+    public boolean cabe(Individuo mochila, int indice) {
+        return (capacidad - obtenerPeso(mochila, vectorPesos) - vectorPesos[indice]) >= 0;
     }
 
 }
