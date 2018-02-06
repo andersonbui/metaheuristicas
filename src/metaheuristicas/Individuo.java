@@ -1,5 +1,6 @@
 package metaheuristicas;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
      */
     public Individuo(Funcion funcion) {
         this.funcion = funcion;
-        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
+//        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
         valores = new double[funcion.dimension];
         generacion = 0;
     }
@@ -31,7 +32,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     public Individuo(Funcion funcion, double[] valores) {
         this.funcion = funcion;
         this.valores = valores;
-        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
+//        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
         generacion = 0;
     }
 
@@ -156,5 +157,31 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     public boolean isMaximizar() {
         return funcion.isMaximizar();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Individuo other = (Individuo) obj;
+        if (!Arrays.equals(this.valores, other.valores)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }
