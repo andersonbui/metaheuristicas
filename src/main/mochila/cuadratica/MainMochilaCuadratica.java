@@ -57,12 +57,12 @@ public class MainMochilaCuadratica {
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
 
-        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_1.txt");
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_8.txt");
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
+        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
         // dimension de los puntos;
         String nombreInstancia = (String) listaParametros.remove(0);
         double[][] matrizBeneficios = (double[][]) listaParametros.remove(0);
@@ -87,9 +87,7 @@ public class MainMochilaCuadratica {
 //        listaAlgoritmos.add(new Grasp(10, (FuncionMochilaGreedy) funcionGreedy));
 
         List<Funcion> listaFunciones = new ArrayList();
-//        listaFunciones.add(FuncionMochilaCuadraticaGreedy);
-        listaFunciones.add(funcionHyperplanos);
-//        listaFunciones.add(funcionGreedy);
+        listaFunciones.add(new FuncionMochilaCuadratica(matrizBeneficios, capacidad, vectorPesos, maxGlobal));
         // EJECUTAR ANALISIS
         (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
     }

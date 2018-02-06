@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
@@ -40,6 +41,8 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
 
     public FuncionMochilaHyperplaneExploration(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
+        lb = -1;
+        ub = -1;
     }
 
     /**
@@ -52,10 +55,10 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
     protected double contribucion(int indice, Individuo mochila) {
         double suma = 0;
         for (int i = 0; i < indice; i++) {
-            suma += matrizBeneficios[i][indice] * mochila.get(indice) * mochila.get(i);
+            suma += matrizBeneficios[i][indice] * mochila.get(i);
         }
         for (int k = indice + 1; k < vectorPesos.length; k++) {
-            suma += matrizBeneficios[indice][k] * mochila.get(indice) * mochila.get(k);
+            suma += matrizBeneficios[indice][k] * mochila.get(k);
         }
         return suma + matrizBeneficios[indice][indice];
     }
@@ -79,8 +82,12 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
 
     /**
      * obtiene los valores de lower bound y upper bound
+     *
+     * @return double [lower_bound, upper_bound]
      */
-    protected void optener_lb_ub() {
+    protected int[] optener_lb_ub() {
+        int lowerB;
+        int upperB;
         List<Integer> listaIndices = new ArrayList();
         for (int i = 0; i < this.vectorPesos.length; i++) {
             listaIndices.add(i);
@@ -89,22 +96,23 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
             Double peso1 = vectorPesos[o1];
             Double peso2 = vectorPesos[o2];
             // orden decreciente
-            return peso2.compareTo(peso1);
+            return -peso1.compareTo(peso2);
         });
-        lb = 0;
+        lowerB = 0;
         int suma_lb = 0;
-        ub = 0;
+        upperB = 0;
         int suma_ub = 0;
         for (int i = 0, j = listaIndices.size() - 1; i < listaIndices.size(); j--, i++) {
-            suma_lb += listaIndices.get(i);
+            suma_lb += vectorPesos[listaIndices.get(i)];
             if (suma_lb <= capacidad) {
-                lb++;
+                lowerB++;
             }
-            suma_ub += listaIndices.get(j);
+            suma_ub += vectorPesos[listaIndices.get(j)];
             if (suma_ub <= capacidad) {
-                ub++;
+                upperB++;
             }
         }
+        return new int[]{lowerB, upperB};
     }
 
     /**
@@ -114,7 +122,9 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      */
     public int obtener_lb() {
         if (lb == -1) {
-            optener_lb_ub();
+            int[] lu_b = optener_lb_ub();
+            lb = lu_b[0];
+            ub = lu_b[1];
         }
         return lb;
     }
@@ -126,7 +136,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      */
     public int obtener_ub() {
         if (ub == -1) {
-            optener_lb_ub();
+            obtener_lb();
         }
         return ub;
     }
@@ -144,23 +154,21 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
         return capacidad - peso;
     }
 
-    public List<Integer> filtrarPorFactibles(List<Integer> listaIndices, Individuo individuo) {
-        double espacio = sacarEspacios(individuo);
+    /**
+     * obtiene un subconjunto de listaIndices, tal que cada indice cabe en
+     * mochila sin cobrepasar su capacidad.
+     *
+     * @param listaIndices
+     * @param mochila
+     * @return
+     */
+    public List<Integer> filtrarPorFactibles(List<Integer> listaIndices, Individuo mochila) {
+        double espacio = sacarEspacios(mochila);
         List<Integer> listaFactibles = new ArrayList(listaIndices);
         listaFactibles.removeIf((Integer t1) -> {
             return espacio < vectorPesos[t1];
         });
         return listaFactibles;
-    }
-
-    /**
-     * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
-     *
-     * @param mochila
-     * @return
-     */
-    public double sacarEspacios(Individuo mochila) {
-        return capacidad - obtenerPeso(mochila, vectorPesos);
     }
 
     /**
@@ -173,9 +181,14 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @return
      */
     boolean swapFactible(int pos_add, int pos_sacar, Individuo individuo) {
+        if (!(individuo.get(pos_add) == 0 && individuo.get(pos_sacar) == 1)) {
+            throw new InvalidParameterException(
+                    "pos_add debe ser de un elemento no seleccionado, y"
+                    + " pos_sacar de un elemento seleccionado");
+        }
+
         double espacio = sacarEspacios(individuo);
-        espacio -= vectorPesos[pos_sacar];
-        return capacidad > (espacio + vectorPesos[pos_add]);
+        return espacio >= (vectorPesos[pos_add] - vectorPesos[pos_sacar]);
     }
 
     ////////////////////////////////////////////////////////////////

@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Individuo;
 import org.junit.After;
@@ -30,40 +31,50 @@ import static org.junit.Assert.*;
  * @author debian
  */
 public class FuncionMochilaHyperplaneExplorationTest {
-    
+
+    FuncionMochilaHyperplaneExploration instanceFuncion;
+
     public FuncionMochilaHyperplaneExplorationTest() {
+        double[][] matrizbeneficio = new double[][]{
+            {1, 2, 3, 4},
+            {0, 1, 2, 4},
+            {0, 0, 1, 2},
+            {0, 0, 0, 1}
+        };
+        double capacidad = 5;
+        double[] vectorPesos = new double[]{1, 2, 3, 4};
+        instanceFuncion = new FuncionMochilaHyperplaneExploration(matrizbeneficio, capacidad, vectorPesos, null);
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of contribucion method, of class FuncionMochilaHyperplaneExploration.
+     * Test of contribucion method, of class
+     * FuncionMochilaHyperplaneExploration.
      */
     @Test
     public void testContribucion() {
         System.out.println("contribucion");
-        int indice = 0;
-        Individuo mochila = null;
-        FuncionMochilaHyperplaneExploration instance = null;
-        double expResult = 0.0;
-        double result = instance.contribucion(indice, mochila);
+        int indice = 1;
+        Individuo mochila = new Individuo(instanceFuncion, new double[]{1, 0, 0, 1});
+
+        double expResult = 7;
+        double result = instanceFuncion.contribucion(indice, mochila);
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -72,40 +83,23 @@ public class FuncionMochilaHyperplaneExplorationTest {
     @Test
     public void testDensidad() {
         System.out.println("densidad");
-        int indice = 0;
-        Individuo mochila = null;
-        FuncionMochilaHyperplaneExploration instance = null;
-        double expResult = 0.0;
-        double result = instance.densidad(indice, mochila);
+        int indice = 1;
+        Individuo mochila = new Individuo(instanceFuncion, new double[]{1, 0, 0, 1});
+        double expResult = 7 / 2.0;
+        double result = instanceFuncion.densidad(indice, mochila);
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of toString method, of class FuncionMochilaHyperplaneExploration.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        FuncionMochilaHyperplaneExploration instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of optener_lb_ub method, of class FuncionMochilaHyperplaneExploration.
+     * Test of optener_lb_ub method, of class
+     * FuncionMochilaHyperplaneExploration.
      */
     @Test
     public void testOptener_lb_ub() {
         System.out.println("optener_lb_ub");
-        FuncionMochilaHyperplaneExploration instance = null;
-        instance.optener_lb_ub();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int[] expResult = new int[]{1, 2};
+        int[] result = instanceFuncion.optener_lb_ub();
+        assertArrayEquals(expResult, result);
     }
 
     /**
@@ -114,12 +108,9 @@ public class FuncionMochilaHyperplaneExplorationTest {
     @Test
     public void testObtener_lb() {
         System.out.println("obtener_lb");
-        FuncionMochilaHyperplaneExploration instance = null;
-        int expResult = 0;
-        int result = instance.obtener_lb();
+        int expResult = 1;
+        int result = instanceFuncion.obtener_lb();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -128,106 +119,99 @@ public class FuncionMochilaHyperplaneExplorationTest {
     @Test
     public void testObtener_ub() {
         System.out.println("obtener_ub");
-        FuncionMochilaHyperplaneExploration instance = null;
-        int expResult = 0;
-        int result = instance.obtener_ub();
+        int expResult = 2;
+        int result = instanceFuncion.obtener_ub();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of violacionDeCapacidad method, of class FuncionMochilaHyperplaneExploration.
+     * Test of violacionDeCapacidad method, of class
+     * FuncionMochilaHyperplaneExploration.
      */
     @Test
     public void testViolacionDeCapacidad() {
         System.out.println("violacionDeCapacidad");
-        Individuo individuo = null;
-        FuncionMochilaHyperplaneExploration instance = null;
+        Individuo individuo = new Individuo(instanceFuncion, new double[]{1, 0, 0, 1});
         double expResult = 0.0;
-        double result = instance.violacionDeCapacidad(individuo);
+        double result = instanceFuncion.violacionDeCapacidad(individuo);
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        individuo.set(1, 1);
+        expResult = -2;
+        result = instanceFuncion.violacionDeCapacidad(individuo);
+        assertEquals(expResult, result, 0.0);
+
     }
 
     /**
-     * Test of filtrarPorFactibles method, of class FuncionMochilaHyperplaneExploration.
+     * Test of filtrarPorFactibles method, of class
+     * FuncionMochilaHyperplaneExploration.
      */
     @Test
     public void testFiltrarPorFactibles() {
         System.out.println("filtrarPorFactibles");
-        List<Integer> listaIndices = null;
-        Individuo individuo = null;
-        FuncionMochilaHyperplaneExploration instance = null;
-        List<Integer> expResult = null;
-        List<Integer> result = instance.filtrarPorFactibles(listaIndices, individuo);
+        List<Integer> listaIndices = new ArrayList();
+        listaIndices.add(0);
+        listaIndices.add(2);
+        listaIndices.add(3);
+        Individuo individuo = new Individuo(instanceFuncion, new double[]{0, 1, 0, 0});
+        List<Integer> expResult = new ArrayList();
+        expResult.add(0);
+        expResult.add(2);
+        List<Integer> result = instanceFuncion.filtrarPorFactibles(listaIndices, individuo);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotSame(expResult, result);
     }
 
     /**
-     * Test of sacarEspacios method, of class FuncionMochilaHyperplaneExploration.
-     */
-    @Test
-    public void testSacarEspacios() {
-        System.out.println("sacarEspacios");
-        Individuo mochila = null;
-        FuncionMochilaHyperplaneExploration instance = null;
-        double expResult = 0.0;
-        double result = instance.sacarEspacios(mochila);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of swapFactible method, of class FuncionMochilaHyperplaneExploration.
+     * Test of swapFactible method, of class
+     * FuncionMochilaHyperplaneExploration.
      */
     @Test
     public void testSwapFactible() {
         System.out.println("swapFactible");
-        int pos_add = 0;
-        int pos_sacar = 0;
-        Individuo individuo = null;
-        FuncionMochilaHyperplaneExploration instance = null;
-        boolean expResult = false;
-        boolean result = instance.swapFactible(pos_add, pos_sacar, individuo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        Individuo individuo = new Individuo(instanceFuncion, new double[]{0, 1, 1, 0});
 
-    /**
-     * Test of limitarInferiormente method, of class FuncionMochilaHyperplaneExploration.
-     */
-    @Test
-    public void testLimitarInferiormente() {
-        System.out.println("limitarInferiormente");
-        Individuo mochila = null;
-        List<Integer> listaOrdenada = null;
-        FuncionMochilaHyperplaneExploration instance = null;
-        Individuo expResult = null;
-        Individuo result = instance.limitarInferiormente(mochila, listaOrdenada);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        boolean result = instanceFuncion.swapFactible(0, 2, individuo);
+        assertTrue(result);
 
+        result = instanceFuncion.swapFactible(3, 2, individuo);
+        assertFalse(result);
+
+        result = instanceFuncion.swapFactible(3, 1, individuo);
+        assertFalse(result);
+
+        result = instanceFuncion.swapFactible(0, 1, individuo);
+        assertTrue(result);
+        try {
+            instanceFuncion.swapFactible(0, 0, individuo);
+            fail("fallo por no exception");
+        } catch (java.security.InvalidParameterException e) {
+
+        }
+
+    }
+    
     /**
      * Test of beneficio method, of class FuncionMochilaHyperplaneExploration.
      */
     @Test
     public void testBeneficio() {
         System.out.println("beneficio");
-        int indice = 0;
-        FuncionMochilaHyperplaneExploration instance = null;
-        double expResult = 0.0;
-        double result = instance.beneficio(indice);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        int indice = 0;
+//        double expResult = 1;
+//        double result = instanceFuncion.beneficio(indice);
+//        assertEquals(expResult, result, 0.0);
     }
-    
+
+    /**
+     * Test of toString method, of class FuncionMochilaHyperplaneExploration.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+//        String expResult = "";
+//        String result = instanceFuncion.toString();
+//        assertEquals(expResult, result);
+    }
 }
