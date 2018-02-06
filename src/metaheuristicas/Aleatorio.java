@@ -25,12 +25,13 @@ import java.util.Random;
 public class Aleatorio {
 
     private static Random rand;
+    private static int semilla = 3;
 
     private Aleatorio() {
     }
 
     static {
-        rand = new Random(3);
+        rand = new Random(semilla);
     }
 
     public static double nextDouble() {

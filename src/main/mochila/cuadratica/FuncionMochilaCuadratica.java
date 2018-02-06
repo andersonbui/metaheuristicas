@@ -29,7 +29,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
         this.matrizBeneficios = matrizBeneficios;
         this.capacidad = capacidad;
         this.vectorPesos = vectorPesos;
-        this.maxGlobal = maxGlobal;
+        this.maxGlobal = maxGlobal == null ? Double.POSITIVE_INFINITY : maxGlobal;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
         cadena += obtenerPeso(individuo, vectorPesos) + ";";
         return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
     }
-    
+
     /**
      * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
      *
