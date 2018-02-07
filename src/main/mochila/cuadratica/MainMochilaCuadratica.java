@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import main.Ejecutor;
+import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.FuncionGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.Grasp;
@@ -79,6 +80,7 @@ public class MainMochilaCuadratica {
         System.out.println("nombre instancia: " + nombreInstancia);
         System.out.println("dimension: " + tamPoblacion);
         System.out.println("capacidad: " + capacidad);
+        
         Funcion funcionGreedy = new FuncionGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        FuncionMochilaHyperplaneExploration funcionHyperplanos = new FuncionMochilaHyperplaneExploration(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
@@ -86,7 +88,7 @@ public class MainMochilaCuadratica {
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
 //        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
-//        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(10));
+        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(10, funcionEDG));
         listaAlgoritmos.add(new Grasp("(Grasp+tabu)r", (FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
 
         List<Funcion> listaFunciones = new ArrayList();

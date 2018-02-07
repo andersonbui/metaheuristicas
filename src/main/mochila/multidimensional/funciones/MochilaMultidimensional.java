@@ -59,7 +59,7 @@ public abstract class MochilaMultidimensional extends FuncionMochila {
         return espacios;
     }
 
-    public Individuo limitar(Individuo mochila, double[] pesos, double capacidad, int[] pos_articulos) {
+    protected Individuo limitar(Individuo mochila, double[] pesos, double capacidad, int[] pos_articulos) {
         limitarInferiormente(mochila, pesos, capacidad, pos_articulos);
         limitarSuperiormente(mochila, pesos, capacidad);
         return mochila;

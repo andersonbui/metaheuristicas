@@ -54,7 +54,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
 
     public void set(int posicion, double valor) {
         this.valores[posicion] = valor;
-        evaluar();
+//        evaluar();
     }
 
     public int getDimension() {

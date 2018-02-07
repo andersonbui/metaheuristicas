@@ -1,7 +1,6 @@
 package main.mochila.cuadratica;
 
 import main.mochila.FuncionMochila;
-import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
 import metaheuristicas.Individuo;
 
 /**

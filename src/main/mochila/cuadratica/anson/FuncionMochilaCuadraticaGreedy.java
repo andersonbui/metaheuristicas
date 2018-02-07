@@ -2,18 +2,15 @@ package main.mochila.cuadratica.anson;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.multidimensional.funciones.MochilaMultidimensional;
+import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.Individuo;
 
 /**
  *
  * @author debian
  */
-public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
+public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
 
-    private final double[][] matrizBeneficios;
-    private final double capacidad;
-    private final double[] vectorPesos;
     private int[] pos_articulos;
     List<Integer> posiciones;
 
@@ -27,13 +24,10 @@ public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
      * @param maxGlobal
      */
     public FuncionMochilaCuadraticaGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super("Cuadratica", vectorPesos.length, 0);
-        
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+
         prob_ceros = 0.650;
 //        prob_ceros = 0.70;
-        this.matrizBeneficios = matrizBeneficios;
-        this.capacidad = capacidad;
-        this.vectorPesos = vectorPesos;
         pos_articulos = new int[vectorPesos.length];
         posiciones = new ArrayList();
 
@@ -83,32 +77,6 @@ public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
         return (suma + matrizBeneficios[indice][indice] * 3) / vectorPesos[indice];
     }
 
-    @Override
-    public double evaluar(Individuo mochila) {
-        super.evaluar(mochila);
-        limitar(mochila, vectorPesos, capacidad, pos_articulos);
-        double result = obtenerPrecio(mochila);
-        mochila.setCalidad(result);
-        return result;
-    }
-
-    public double obtenerPrecio(Individuo mochila) {
-        double sumaPrecios = 0;
-        for (int i = 0; i < mochila.getDimension(); i++) {
-            for (int j = i; j < mochila.getDimension(); j++) {
-                sumaPrecios += mochila.get(i) * mochila.get(j) * matrizBeneficios[i][j];
-            }
-        }
-        return sumaPrecios;
-    }
-
-    @Override
-    public String toString(Individuo individuo) {
-        String cadena = "";
-        cadena += obtenerPeso(individuo, vectorPesos) + ";";
-        return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
-    }
-
     /**
      * optiene la posicion del elemento dentro de la mochila que causa mayor
      * perjuicio
@@ -117,15 +85,14 @@ public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
      * @param pesos
      * @return
      */
-    @Override
     public int mayorPerjuicio(Individuo mochila, double[] pesos) {
-        super.mayorPerjuicio(mochila, pesos);
         int posMayor = 0;
         double valorMayor = -Double.MAX_VALUE;
         double valor;
         // para cada elemento que podria ir en la mochila
         for (int k = 0; k < mochila.getDimension(); k++) {
             // para indicePeso-esimo caracteristica(peso) del elemento k-esimo
+//            valor = (mochila.get(k) * pesos[k]);
             valor = (mochila.get(k) * pesos[k]) / beneficio(mochila, k);
             if (valorMayor < valor) {
                 posMayor = k;
@@ -153,7 +120,15 @@ public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
             suma += matrizBeneficios[indice][k] * mochila.get(k) * mochila.get(indice);
             contador += (mochila.get(k) * mochila.get(indice) != 0 ? 1 : 0);
         }
-        return (suma + matrizBeneficios[indice][indice]*(contador/vectorPesos.length)) ;
+        return (suma + matrizBeneficios[indice][indice] * (contador / vectorPesos.length));
+    }
+
+    @Override
+    public void limitar(Individuo mochila) {
+//        super.limitar(mochila);
+        limitarInferiormente(mochila, vectorPesos, capacidad, pos_articulos);
+        limitarSuperiormente(mochila, vectorPesos, capacidad);
+//        return mochila;
     }
 
     /**
@@ -164,20 +139,9 @@ public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
      * @param pos_articulos
      * @return
      */
-    @Override
     public Individuo limitarInferiormente(Individuo IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
         Individuo mochila = (Individuo) IndMochila;
         double espacios = sacarEspacios(mochila, pesos, capacidad);
-//        //
-//        posiciones.sort((Integer o1, Integer o2) -> {
-//            /**
-//             * comparar los indices, segun su beneficio //
-//             */
-//            Double aptotudO1 = beneficio(mochila, o1);
-//            Double aptotudO2 = beneficio(mochila, o2);
-//            return aptotudO2.compareTo(aptotudO1);
-//        });
-//        pos_articulos = listToArray(posiciones);
         // en todos los articulos
         for (int pos : pos_articulos) {
             if (mochila.get(pos) == 0) {
@@ -189,5 +153,38 @@ public class FuncionMochilaCuadraticaGreedy extends MochilaMultidimensional {
             }
         }
         return IndMochila;
+    }
+
+    /**
+     * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
+     *
+     * @param mochila
+     * @param pesos
+     * @param capacidad
+     * @return
+     */
+    public double sacarEspacios(Individuo mochila, double[] pesos, double capacidad) {
+        double espacios = capacidad - obtenerPeso(mochila, pesos);
+        return espacios;
+    }
+
+    /**
+     * Si los elementos eleccionados superan la capacidad de la mochila, se
+     * deseleccionan elementos (los que mas generan mayor perjuicio) suficientes
+     * para no supera la capacidad.
+     *
+     * @param mochila
+     * @param pesos
+     * @param capacidad
+     * @return
+     */
+    public Individuo limitarSuperiormente(Individuo mochila, double[] pesos, double capacidad) {
+        int posicion;
+        // para cada caracteristica(peso) del elemento
+        while (obtenerPeso(mochila, pesos) > capacidad) {
+            posicion = mayorPerjuicio(mochila, pesos);
+            mochila.set(posicion, 0);
+        }
+        return mochila;
     }
 }

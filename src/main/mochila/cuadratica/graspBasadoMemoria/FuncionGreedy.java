@@ -36,20 +36,20 @@ public class FuncionGreedy extends FuncionMochilaCuadratica {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
     }
 
-    @Override
-    /**
-     * Obj(S): el valor de la funcion objetivo con respecto a S
-     */
-    public double evaluar(Individuo mochila) {
-        super.evaluar(mochila);
-        double sumaBeneficiosTotal = 0;
-        for (int i = 0; i < mochila.getDimension(); i++) {
-            for (int j = i; j < mochila.getDimension(); j++) {
-                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
-            }
-        }
-        return sumaBeneficiosTotal;
-    }
+//    @Override
+//    /**
+//     * Obj(S): el valor de la funcion objetivo con respecto a S
+//     */
+//    public double evaluar(Individuo mochila) {
+//        super.evaluar(mochila);
+//        double sumaBeneficiosTotal = 0;
+//        for (int i = 0; i < mochila.getDimension(); i++) {
+//            for (int j = i; j < mochila.getDimension(); j++) {
+//                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
+//            }
+//        }
+//        return sumaBeneficiosTotal;
+//    }
 
     /**
      * beneficio del elemento en la posicion: indice no seleccionado
