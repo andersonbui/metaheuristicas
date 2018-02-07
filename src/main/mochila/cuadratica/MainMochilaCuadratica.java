@@ -24,7 +24,8 @@ import main.Ejecutor;
 import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.FuncionGreedy;
-import main.mochila.cuadratica.graspBasadoMemoria.Grasp;
+import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
+import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -53,25 +54,26 @@ public class MainMochilaCuadratica {
         // limite de las funciones
         limite = 20;
         // numero de individuos porpoblacion
-        tamPoblacion = 4;// 20 ó 50 resultan buenos
+        tamPoblacion = 20;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        iteraciones = 300;
+        iteraciones = 200;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
         //lim,15,0.99,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_1.txt");
-        //lim,15,0.99,20
+        //lim,15,0.99,10
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
         //no,15,0.99,20,32
         //si,15,0.90-93,20,31
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_8.txt");
-        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
-        //lim,15,0.99,4->,1
+        //lim,15,0.99,5->,1
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
+
         // dimension de los puntos;
         String nombreInstancia = (String) listaParametros.remove(0);
         double[][] matrizBeneficios = (double[][]) listaParametros.remove(0);
@@ -96,7 +98,8 @@ public class MainMochilaCuadratica {
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
 //        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
-        listaAlgoritmos.add(new Grasp("(Grasp+tabu)r", (FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
+        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
+        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
 
         List<Funcion> listaFunciones = new ArrayList();
 //        listaFunciones.add(FuncionMochilaCuadraticaGreedy);

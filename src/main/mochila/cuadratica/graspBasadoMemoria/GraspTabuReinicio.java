@@ -28,7 +28,7 @@ import metaheuristicas.Individuo;
  *
  * @author debian
  */
-public class Grasp extends AlgoritmoMetaheuristico {
+public class GraspTabuReinicio extends AlgoritmoMetaheuristico {
 
     /**
      * almacena los optimos de cada iteracion de Grasp
@@ -50,20 +50,19 @@ public class Grasp extends AlgoritmoMetaheuristico {
     protected int k;
     protected final int sigma;
     protected final int lamda;
-    private final int gama;
-    private final int beta;
+    protected final int gama;
+    protected final int beta;
 
     /**
      *
-     * @param nombre
      * @param funcionGreedy
      * @param sigma
      * @param lamda
      * @param gama
      * @param beta
      */
-    public Grasp(String nombre, FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta) {
-        super(nombre);
+    public GraspTabuReinicio(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta) {
+        super("(Grasp+Tabu)r");
         this.funcionGreedy = funcionGreedy;
         Q = new ArrayList();
         s_sup_i = new ArrayList();

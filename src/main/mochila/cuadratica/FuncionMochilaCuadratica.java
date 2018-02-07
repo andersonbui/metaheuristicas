@@ -51,7 +51,6 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     @Override
     public double evaluar(Individuo p) {
         super.evaluar(p);
-        p.setPeso(obtenerPeso(p, vectorPesos));
         return obtenerPrecio(p);
     }
 
