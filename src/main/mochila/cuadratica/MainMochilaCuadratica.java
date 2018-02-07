@@ -53,18 +53,25 @@ public class MainMochilaCuadratica {
         // limite de las funciones
         limite = 20;
         // numero de individuos porpoblacion
-        tamPoblacion = 20;// 20 ó 50 resultan buenos
+        tamPoblacion = 4;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        iteraciones = 40;
+        iteraciones = 300;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
-
+        //lim,rango,prob_ceros,poblacion, iteraciones
+        //lim,20,0.90,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+        //lim,15,0.99,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
+        //si-no,15,0.99,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_1.txt");
-        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
+        //lim,15,0.99,20
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
+        //no,15,0.99,20,32
+        //si,15,0.90-93,20,31
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_8.txt");
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
+        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
+        //lim,15,0.99,4->,1
         // dimension de los puntos;
         String nombreInstancia = (String) listaParametros.remove(0);
         double[][] matrizBeneficios = (double[][]) listaParametros.remove(0);
@@ -80,7 +87,7 @@ public class MainMochilaCuadratica {
         System.out.println("nombre instancia: " + nombreInstancia);
         System.out.println("dimension: " + tamPoblacion);
         System.out.println("capacidad: " + capacidad);
-        
+
         Funcion funcionGreedy = new FuncionGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        FuncionMochilaHyperplaneExploration funcionHyperplanos = new FuncionMochilaHyperplaneExploration(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
@@ -88,7 +95,7 @@ public class MainMochilaCuadratica {
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
 //        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
-        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(10, funcionEDG));
+        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
         listaAlgoritmos.add(new Grasp("(Grasp+tabu)r", (FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
 
         List<Funcion> listaFunciones = new ArrayList();

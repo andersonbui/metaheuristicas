@@ -47,12 +47,15 @@ public abstract class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
         poblacion = generarPoblacion(funcion);
         Individuo mejor = poblacion.getMejor();
         List<Individuo> recorrido = new ArrayList();
-        recorrido.add(mejor);
-        for (iteraciones = 0; iteraciones < maxIteraciones && !funcion.suficiente(mejor); iteraciones++) {
+//        recorrido.add(mejor);
+        for (iteraciones = 0; iteraciones < maxIteraciones ; iteraciones++) {
             poblacion = siguienteGeneracion(1);
             mejor = poblacion.getMejor();
 
             recorrido.add(mejor);
+            if (funcion.suficiente(mejor)) {
+                break;
+            }
         }
         return recorrido;
     }

@@ -73,7 +73,9 @@ public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucion
 //            p = funcion.generarIndividuo();
             p = funcionGreedy.generarIndividuo();
             p.setFuncion(funcion);
+            funcionGreedy.limitar(p); // comentado 
             p.evaluar();
+            
             unaPoblacion.add(p);
         }
         return unaPoblacion;

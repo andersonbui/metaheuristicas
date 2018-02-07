@@ -3,6 +3,7 @@ package main.mochila.cuadratica.anson;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
 
 /**
@@ -13,6 +14,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
 
     private int[] pos_articulos;
     List<Integer> posiciones;
+    private int rango;
 
     /**
      *
@@ -25,8 +27,11 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      */
     public FuncionMochilaCuadraticaGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-
-        prob_ceros = 0.650;
+        rango = 15;
+        prob_ceros = 0.99;
+//        prob_ceros = 0.93;
+//        prob_ceros = 0.95;
+//        prob_ceros = 0.650;
 //        prob_ceros = 0.70;
         pos_articulos = new int[vectorPesos.length];
         posiciones = new ArrayList();
@@ -123,15 +128,20 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
         return (suma + matrizBeneficios[indice][indice] * (contador / vectorPesos.length));
     }
 
+    /**
+     *
+     * @param mochila
+     */
     @Override
     public void limitar(Individuo mochila) {
-//        super.limitar(mochila);
+        super.limitar(mochila);
         limitarInferiormente(mochila, vectorPesos, capacidad, pos_articulos);
         limitarSuperiormente(mochila, vectorPesos, capacidad);
-//        return mochila;
     }
 
     /**
+     * Si hay espacio en la mochila se seleccionan elementos, que generen mayor
+     * beneficio, hasta que no le quepa ningun elemento mas.
      *
      * @param IndMochila
      * @param pesos
@@ -141,16 +151,26 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      */
     public Individuo limitarInferiormente(Individuo IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
         Individuo mochila = (Individuo) IndMochila;
-        double espacios = sacarEspacios(mochila, pesos, capacidad);
+        double espacios;
+        List<Integer> individuos = new ArrayList();
         // en todos los articulos
         for (int pos : pos_articulos) {
-            if (mochila.get(pos) == 0) {
-                // dimension de la mochila
-                if (espacios > pesos[pos]) {
-                    mochila.set(pos, 1);
-                    espacios = sacarEspacios(mochila, pesos, capacidad);
-                }
+            individuos.add(pos);
+        }
+
+        espacios = sacarEspacios(mochila, pesos, capacidad);
+        int pos;
+        int aleatorio;
+        while (true) {
+            rango = Math.min(rango, individuos.size());
+            aleatorio = Aleatorio.nextInt(rango);
+            pos = individuos.remove(aleatorio);
+            espacios -= pesos[pos];
+            // dimension de la mochila
+            if (espacios < 0) {
+                break;
             }
+            mochila.set(pos, 1);
         }
         return IndMochila;
     }
