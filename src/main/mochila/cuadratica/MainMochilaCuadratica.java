@@ -26,6 +26,7 @@ import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy_MM;
 import main.mochila.cuadratica.graspBasadoMemoria.FuncionGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
+import main.mochila.cuadratica.graspBasadoMemoria.GraspReinicio;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
@@ -52,7 +53,7 @@ public class MainMochilaCuadratica {
 //        graficaRecorrido3D = true;
         graficaDispercion2D = true;
         // numero de individuos porpoblacion
-        tamPoblacion = 20;// 20 ó 50 resultan buenos
+        tamPoblacion = 15;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
         iteraciones = 500;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
@@ -100,8 +101,9 @@ public class MainMochilaCuadratica {
 //        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG_2));
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
-//        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
-//        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
+        listaAlgoritmos.add(new GraspReinicio((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
+        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
+        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
 
         List<Funcion> listaFunciones = new ArrayList();
 //        listaFunciones.add(FuncionMochilaCuadraticaGreedy);

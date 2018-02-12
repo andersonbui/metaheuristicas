@@ -28,7 +28,7 @@ import metaheuristicas.Individuo;
  *
  * @author debian
  */
-public class GraspFundamental extends GraspTabuReinicio {
+public class GraspFundamental extends GraspReinicio {
 
     /**
      *
