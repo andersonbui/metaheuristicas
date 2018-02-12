@@ -47,6 +47,7 @@ public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucion
      */
     @Override
     public Poblacion siguienteGeneracion(int numIndividuosElitismo) {
+        
         Poblacion siguienteGeneracion = poblacion.clone();
         siguienteGeneracion.aumentarGeneracion();
         siguienteGeneracion.clear();
@@ -67,6 +68,7 @@ public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucion
 
     @Override
     public Poblacion generarPoblacion(Funcion funcion) {
+        funcion.setNombre(funcionGreedy.getNombre());
         Poblacion unaPoblacion = new Poblacion(funcion, tamPoblacion);
         Individuo p;
         for (int i = 0; i < tamPoblacion; i++) {

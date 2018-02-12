@@ -52,6 +52,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     @Override
     public List<Individuo> ejecutar(Funcion funcion) {
         this.funcion = funcion;
+        this.funcion.setNombre(funcionIHEA.getNombre());
         iterateHiperplaneExploration(L, rcl, maxIteraciones);
         return null;
     }
@@ -550,3 +551,4 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         return listaIndices;
     }
 }
+

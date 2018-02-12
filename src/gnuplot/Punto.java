@@ -16,10 +16,23 @@
  */
 package gnuplot;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  */
-public abstract class Punto {
+public abstract class Punto implements Cloneable {
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone(); //To change body of generated methods, choose Tools | Templates.
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Punto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     @Override
     public abstract String toString();

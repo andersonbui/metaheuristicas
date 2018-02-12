@@ -23,6 +23,7 @@ import java.util.List;
 import main.Ejecutor;
 import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
+import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy_MM;
 import main.mochila.cuadratica.graspBasadoMemoria.FuncionGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
@@ -43,7 +44,6 @@ import metaheuristicas.simple.Hill_Climbing;
 public class MainMochilaCuadratica {
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        double limite;
         int tamPoblacion;
         int iteraciones;
         int numMuestras;
@@ -51,22 +51,22 @@ public class MainMochilaCuadratica {
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
         graficaDispercion2D = true;
-        // limite de las funciones
-        limite = 20;
         // numero de individuos porpoblacion
         tamPoblacion = 20;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        iteraciones = 200;
+        iteraciones = 500;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20
-        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
+        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
+//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
         //lim,15,0.99,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_1.txt");
-        //lim,15,0.99,10
+        //lim,15,0.99,10,14
 //        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
         //no,15,0.99,20,32
         //si,15,0.90-93,20,31
@@ -87,19 +87,21 @@ public class MainMochilaCuadratica {
         }
         // tamPoblacion = listaParametros.size();
         System.out.println("nombre instancia: " + nombreInstancia);
-        System.out.println("dimension: " + tamPoblacion);
+        System.out.println("dimension: " + vectorPesos.length);
         System.out.println("capacidad: " + capacidad);
 
         Funcion funcionGreedy = new FuncionGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        FuncionMochilaHyperplaneExploration funcionHyperplanos = new FuncionMochilaHyperplaneExploration(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        FuncionMochilaCuadraticaGreedy funcionEDG_2 = new FuncionMochilaCuadraticaGreedy_MM(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
 //        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
+//        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG_2));
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
-        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
-        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
+//        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGreedy) funcionGreedy, 10, 50, 5, 4));
+//        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, iteraciones, 50, 5, 4));
 
         List<Funcion> listaFunciones = new ArrayList();
 //        listaFunciones.add(FuncionMochilaCuadraticaGreedy);
@@ -110,3 +112,26 @@ public class MainMochilaCuadratica {
     }
 
 }
+
+
+//    public int mayorBeneficio(Individuo mochila){
+//        
+//        int posMayor = 0;
+//        int posAnterior = 0;
+//        double valorMayor = -Double.MAX_VALUE;
+//        double valor;
+//        // para cada elemento que podria ir en la mochila
+//        for (int k = 0; k < mochila.getDimension(); k++) {
+//            // para indicePeso-esimo caracteristica(peso) del elemento k-esimo
+////            valor = (mochila.get(k) * pesos[k]);
+//            valor = beneficio(mochila, k);
+////            valor = (mochila.get(k) * pesos[k]) / beneficio(mochila, k);
+//            if (valorMayor > valor) {
+//                posAnterior = posMayor;
+//
+//                posMayor = k;
+//                valorMayor = valor;
+//            }
+//        }
+//        return posMayor;
+//    }

@@ -46,4 +46,9 @@ public class Aleatorio {
         return rand.nextInt(bound);
     }
 
+    public static boolean nextBoolean() {
+        return rand.nextBoolean();
+    }
+
+    
 }

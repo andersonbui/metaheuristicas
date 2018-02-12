@@ -12,9 +12,9 @@ import metaheuristicas.Individuo;
  */
 public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
 
-    private int[] pos_articulos;
+    protected int[] pos_articulos;
     List<Integer> posiciones;
-    private int rango;
+    protected int rango;
 
     /**
      *
@@ -27,7 +27,8 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      */
     public FuncionMochilaCuadraticaGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        rango = 15;
+        nombre="FMCG";
+        rango = 20;
         prob_ceros = 0.99;
 //        prob_ceros = 0.93;
 //        prob_ceros = 0.95;
@@ -52,6 +53,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
         this.maxGlobal = maxGlobal;
     }
 
+    
     /**
      *
      * @param lista
@@ -79,7 +81,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
         for (int k = indice + 1; k < vectorPesos.length; k++) {
             suma += matrizBeneficios[indice][k];
         }
-        return (suma + matrizBeneficios[indice][indice] * 3) / vectorPesos[indice];
+        return (suma + matrizBeneficios[indice][indice] * 2) / vectorPesos[indice];
     }
 
     /**
@@ -92,6 +94,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      */
     public int mayorPerjuicio(Individuo mochila, double[] pesos) {
         int posMayor = 0;
+        int posAnterior = 0;
         double valorMayor = -Double.MAX_VALUE;
         double valor;
         // para cada elemento que podria ir en la mochila
@@ -100,10 +103,13 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
 //            valor = (mochila.get(k) * pesos[k]);
             valor = (mochila.get(k) * pesos[k]) / beneficio(mochila, k);
             if (valorMayor < valor) {
+                posAnterior = posMayor;
+
                 posMayor = k;
                 valorMayor = valor;
             }
         }
+//        return (Aleatorio.nextBoolean() ? posMayor : posAnterior);
         return posMayor;
     }
 
