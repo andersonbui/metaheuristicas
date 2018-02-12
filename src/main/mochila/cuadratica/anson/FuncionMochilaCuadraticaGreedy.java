@@ -28,8 +28,8 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
     public FuncionMochilaCuadraticaGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         rango = 15;
-        prob_ceros = 0.99;
-//        prob_ceros = 0.93;
+//        prob_ceros = 0.99;
+        prob_ceros = 0.93;
 //        prob_ceros = 0.95;
 //        prob_ceros = 0.650;
 //        prob_ceros = 0.70;
