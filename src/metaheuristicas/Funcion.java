@@ -35,7 +35,6 @@ public abstract class Funcion {
 //        this.error = 0.001;
 //        contadorEvaluaciones = 0;
 //    }
-
     /**
      *
      * @param nombre
@@ -71,6 +70,14 @@ public abstract class Funcion {
         return Math.abs(individuo.getCalidad() - maxmin) < error;
     }
 
+    public double getOptimo() {
+        if (maximizar) {
+            return maxGlobal;
+        } else {
+            return minGlobal;
+        }
+    }
+
     public double evaluar(Individuo p) {
         contadorEvaluaciones++;
         return 0;
@@ -100,8 +107,8 @@ public abstract class Funcion {
         this.nombre = nombre;
     }
 
-    public void limitar(Individuo individuo){
-        
+    public void limitar(Individuo individuo) {
+
     }
 
     public abstract Individuo generarIndividuo();

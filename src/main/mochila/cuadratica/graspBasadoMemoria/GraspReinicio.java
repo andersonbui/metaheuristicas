@@ -19,7 +19,6 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Funcion;
@@ -63,7 +62,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param beta
      */
     public GraspReinicio(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta) {
-        super("(GraspReinicio");
+        super("GraspReinicio");
         this.funcionGreedy = funcionGreedy;
         Q = new ArrayList();
         s_sup_i = new ArrayList();
@@ -71,37 +70,25 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         this.lamda = lamda;
         this.gama = gama;
         this.beta = beta;
+        
     }
 
-    @Override
-
-//    public List<Individuo> ejecutar(Funcion funcion) {
-//        Individuo individuo = null;
-//        Individuo best = null;
-//        int maxLen=0,minLen=0;
-//        List<Individuo> listaRecorrido = new ArrayList();
-//        for (k = 0; k < iteraciones; k++) {
-//            individuo = faseConstruccion(minLen, maxLen, individuo);
-//            individuo = faseBusquedaLocal(individuo);
-//            if (best == null || best.compareTo(individuo) < 0) {
-//                best = individuo;
-//            }
-//            listaRecorrido.add(best);
-//        }
-//        return listaRecorrido;
-//    }   
     /**
      * GRASP CON REINICIOS BASADO EN LA MEMORIA
      *
      * numLanda es el numero de reinicios usados para intentar mejorar bestLB
      * numDelta es el numero de iteraciones GRASp
      *
+     * @param funcion
+     * @return
      */
+    @Override
     public List<Individuo> ejecutar(Funcion funcion) {
         //linea 1:
         Individuo LB = null;
         Individuo S = null;
         Individuo solParcialS = new Individuo(funcion);
+        solParcialS.evaluar();
         Individuo bestLB = solParcialS;
 
         int cont = 0, m = 0;
@@ -116,8 +103,8 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
                 //Linea 4:
                 S = faseConstruccion(minLen, maxLen, solParcialS);
                 //Linea 5:
+
                 S = faseBusquedaLocal(S);
-                S.evaluar();
                 s_sup_i.add(S);
                 //Linea 6:
                 if (bestLB == null || bestLB.compareTo(S) < 0) {
@@ -125,6 +112,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
                 }
                 //Linea 7:
             }
+            bestLB = busquedaAdicional(bestLB);
             //Linea 8:
             if (LB == null || bestLB.compareTo(LB) < 0) {
                 //Linea 9:
@@ -141,10 +129,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
             }
             //linea 16: 
             solParcialS = definicionSolParcialS(funcion, m, sigma, Q);
+            solParcialS.evaluar();
             m++;
             listaRecorrido.add(bestLB);
         }
-        iteraciones = m;
+        iteraciones += k;
         return listaRecorrido;
     }
 
@@ -170,6 +159,14 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
             }
         }
         return individuo;
+    }
+
+    protected Individuo busquedaAdicional(Individuo bestLB) {
+        return bestLB;
+    }
+
+    private double obtenerPeso(Individuo S) {
+        return funcionGreedy.obtenerPeso(S);
     }
 
     /**
@@ -215,11 +212,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         //Linea 1:
         Individuo S = solParcialS;
         int l = 1;
-        int len = 0;
+        int len;
         //Qk es un vector de enteros con la suma de los optimos locales s^i obtenido en el k-1 para k>1 iteraciones GRASP
         calculoQk();
         //R(S): noSeleccionadosRS es el conjunto de indece de elementos no seleccionados que caben en la mochila con respecto a S
-        List<Integer> noSeleccionadosRS = obtenerItemNoSelecionado(S);
+        List<Integer> noSeleccionadosRS = obtenerItemsNoSelecionados(S);
         //
         List<ItemCalidad> itemsCalidadNoSeleccionados = new ArrayList();
         //
@@ -227,11 +224,12 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         //Linea 2:
         while (!noSeleccionadosRS.isEmpty()) {
             itemsCalidadNoSeleccionados.clear();
+            double obj_S = S.getCalidad();
+            double w_S = obtenerPeso(S);
             //Linea 3
             for (Integer pos : noSeleccionadosRS) {
                 //Linea 4: Evalua la calidad de cada uno de los j-esimo elementos que pertenecen a R(S) con f2(Sj)
-
-                itemsCalidadNoSeleccionados.add(new ItemCalidad(pos, funcionGreedy.voraz(S, pos)));
+                itemsCalidadNoSeleccionados.add(new ItemCalidad(pos, funcionGreedy.voraz(S, pos, obj_S, w_S)));
             }
             //linea 6: Selecciona el tamaño de la LRC aleatoriamente Len del rango [MinLen, MaxLen];
             len = minLen + Aleatorio.nextInt(maxLen - minLen);
@@ -243,10 +241,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
             double[] qkl = probabilidadSeleccionLRC(listaLRC, Qkl);
             //linea 12:
             S.set(seleccionItemDeLRC(Qkl, qkl, listaLRC).indice, 1);
+            S.evaluar();
             //linea 13:
             l++;
 
-            noSeleccionadosRS = obtenerItemNoSelecionado(S);
+            noSeleccionadosRS = obtenerItemsNoSelecionados(S);
         }
         return S;
     }
@@ -258,25 +257,27 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      */
     protected Individuo faseBusquedaLocal(Individuo s) {
         //Linea 1:
-        double solucionS = funcionGreedy.evaluar(s), solucionShift = 0, solucionSwap = 0;
+        Individuo solucionShift;
+        Individuo solucionSwap;
         //Linea 2:
         boolean termina = false;
         //Linea 3:
         while (termina != false) {
             //Linea 4: Explora el vecindario de S con movimientos Shift y swap 
-            shift(s);
-            solucionShift = funcionGreedy.evaluar(shift(s));
-            swap(s);
-            solucionSwap = funcionGreedy.evaluar(swap(s));
+            solucionShift = shift(s.clone());
+            solucionShift.evaluar();
+
+            solucionSwap = swap(s.clone());
+            solucionSwap.evaluar();
             //Linea 5: si encuentra una mejora realiza el mejor movimiento Shift o Swap  
-            if (solucionShift > solucionS) {
-                if (solucionShift > solucionSwap) {
-                    s = shift(s);
+            if (solucionShift.compareTo(s) > 0) {
+                if (solucionShift.compareTo(solucionSwap) > 0) {
+                    s = solucionShift;
+                } else {
+                    s = solucionSwap;
                 }
-            } else if (solucionSwap > solucionS) {
-                if (solucionSwap > solucionS) {
-                    s = swap(s);
-                }
+            } else if (solucionSwap.compareTo(s) > 0) {
+                s = solucionSwap;
             } //Linea 7: 
             else {
                 termina = true;
@@ -314,7 +315,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param mochila
      * @return
      */
-    protected List<Integer> obtenerItemNoSelecionado(Individuo mochila) {
+    protected List<Integer> obtenerItemsNoSelecionados(Individuo mochila) {
         List<Integer> itemsNoSeleccionado = new ArrayList();
         for (int i = 0; i < mochila.getDimension(); i++) {
             if (mochila.get(i) == 0) {
@@ -331,7 +332,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param individuo
      * @return
      */
-    protected List<Integer> obtenerItemSelecionado(Individuo individuo) {
+    protected List<Integer> obtenerItemsSelecionados(Individuo individuo) {
         List<Integer> itemsSeleccionado = new ArrayList();
         for (int i = 0; i < individuo.getDimension(); i++) {
             if (individuo.get(i) == 1) {
@@ -387,7 +388,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      */
     protected double[] probabilidadSeleccionLRC(List<ItemCalidad> listaLRC, int Qkl) {
         double[] qkl = new double[listaLRC.size()];
-        double div = 1.0 / listaLRC.size();
+        double div = 1.0 / listaLRC.size();//misma porcentaje de eleccion para Qkl==0
         for (int j = 0; j < listaLRC.size(); j++) {
             if (Qkl == 0) {
                 qkl[j] = div;
@@ -431,12 +432,15 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @return
      */
     protected Individuo shift(Individuo individuo) {
-        int aleatorio = 0, maxLen = individuo.getDimension();
+        int aleatorio;
+        int maxLen = individuo.getDimension();
         aleatorio = Aleatorio.nextInt(maxLen);
         if (individuo.get(aleatorio) == 1) {
             individuo.set(aleatorio, 0);
         } else {
-            individuo.set(aleatorio, 1);
+            if (funcionGreedy.cabe(individuo, aleatorio)) {
+                individuo.set(aleatorio, 1);
+            }
         }
 
         return individuo;
@@ -450,21 +454,10 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @return
      */
     protected Individuo swap(Individuo individuo) {
-        List<Integer> listaItemNoSelect = new ArrayList();
-        List<Integer> listaItemSelect = new ArrayList();
-        for (int i = 0; i < individuo.getDimension(); i++) {
-            if (individuo.get(i) == 0) {
-                listaItemNoSelect.add(i);
-            } else {
-                listaItemSelect.add(i);
-            }
-        }
+        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
+        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
         int maxLenNS = listaItemNoSelect.size();
         int maxLenS = listaItemSelect.size();
-        //[1,0,1,0]
-        if(maxLenNS<1){
-            System.out.println("");
-        }
         int aleatrioNS = Aleatorio.nextInt(maxLenNS);
         int aleatrioS = Aleatorio.nextInt(maxLenS);
 

@@ -17,11 +17,8 @@
 package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
 
 /**
@@ -30,88 +27,80 @@ import metaheuristicas.Individuo;
  */
 public class GraspTabuReinicio extends GraspReinicio {
 
-    public GraspTabuReinicio(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta) {
+    protected final int t_min;
+    protected final int t_max;
+
+    /**
+     *
+     * @param funcionGreedy
+     * @param sigma
+     * @param lamda
+     * @param gama
+     * @param beta
+     * @param t_min
+     * @param t_max
+     */
+    public GraspTabuReinicio(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta, int t_min, int t_max) {
         super(funcionGreedy, sigma, lamda, gama, beta);
-        nombre = "TabuReinicio";
+        nombre = "GraspTabuReinicio";
+        this.t_min = t_min;
+        this.t_max = t_max;
     }
 
-    public List<Individuo> ejecutar(Funcion funcion) {
-        //linea 1:
-        Individuo LB = null;
-        Individuo S = null;
-        Individuo solParcialS = new Individuo(funcion);
-        Individuo bestLB = solParcialS;
-        //l: Tamaño maximo de la lista Tabu
-        int t_min = 10;
-        int t_max = 20;
-        int cont = 0, m = 0;
-        int minLen = gama;
-        int maxLen = gama + beta;
-        List<Individuo> listaRecorrido = new ArrayList();
-        //Linea 2:
-        while (cont != lamda && !funcion.suficiente(bestLB)) {
-            //Linea 3: maxIteraciones
-
-            for (k = m * sigma + 1; k <= (m + 1) * sigma; k++) {
-                //Linea 4:
-                S = faseConstruccion(minLen, maxLen, solParcialS);
-                //Linea 5:
-                S = faseBusquedaLocal(S);
-                S.evaluar();
-                s_sup_i.add(S);
-                //Linea 6:
-                if (bestLB == null || bestLB.compareTo(S) < 0) {
-                    bestLB = S;
-                }
-                //Linea 7:
-            }
-            bestLB = busquedaTabu(bestLB, t_min, t_max);
-            //Linea 8:
-            if (LB == null || bestLB.compareTo(LB) < 0) {
-                //Linea 9:
-                LB = bestLB;
-                //Linea 10:
-                cont = 0;
-            } else {
-                //Linea 12:
-                cont++;
-                //Linea 13:
-                minLen = maxLen + 1;
-                //Linea 14:
-                maxLen = maxLen + beta;
-            }
-            //linea 16: 
-            solParcialS = definicionSolParcialS(funcion, m, sigma, Q);
-            m++;
-            listaRecorrido.add(bestLB);
-        }
-        iteraciones = m;
-        return listaRecorrido;
+    @Override
+    protected Individuo busquedaAdicional(Individuo bestLB) {
+        return busquedaTabu(bestLB, t_min, t_max);
     }
 
     public class ItemTabu {
 
-        Individuo individuo;
+        int indice_elemento;
         int edadTabu;
 
-        public ItemTabu(Individuo individuo, int edadTabu) {
-            this.individuo = individuo;
+        public ItemTabu(int indice_elemento, int edadTabu) {
+            this.indice_elemento = indice_elemento;
             this.edadTabu = edadTabu;
         }
     }
 
-    private boolean estaEnLista(List<ItemTabu> listaTabu, Individuo w) {
+    public class IndividuoElemento {
+
+        int indice_entro;
+        int indice_salio;
+        Individuo individuo;
+
+        public IndividuoElemento(int indice_entro, int indice_salio, Individuo individuo) {
+            this.indice_entro = indice_entro;
+            this.indice_salio = indice_salio;
+            this.individuo = individuo;
+        }
+    }
+
+    /**
+     *
+     * @param listaTabu
+     * @param indice indice de un elemento
+     * @return
+     */
+    private boolean estaEnLista(List<ItemTabu> listaTabu, int indice) {
         for (ItemTabu itemTabu : listaTabu) {
-            if (itemTabu.individuo.equals(w)) {
+            if (itemTabu.indice_elemento == indice) {
                 return true;
             }
         }
         return false;
     }
 
-    private void agregarAListaTabu(List<ItemTabu> listaTabu, Individuo s, int t_min, int t_max) {
+    /**
+     *
+     * @param listaTabu
+     * @param indice_elemento
+     * @param t_min
+     * @param t_max
+     */
+    private void agregarAListaTabu(List<ItemTabu> listaTabu, int indice_elemento, int t_min, int t_max) {
         int edad = t_min + Aleatorio.nextInt(t_max - t_min);
-        listaTabu.add(new ItemTabu(s, edad));
+        listaTabu.add(new ItemTabu(indice_elemento, edad));
     }
 
     /**
@@ -124,33 +113,52 @@ public class GraspTabuReinicio extends GraspReinicio {
     protected Individuo busquedaTabu(Individuo s, int t_min, int t_max) {
         //Linea 1:
         Individuo best = s;
-        Individuo r = null;
-        Individuo w = null;
+        Individuo r;
+        Individuo w;
+        IndividuoElemento rTweak_r;
+        IndividuoElemento rTweak_w;
+        int numTweaks = 15;
+        int maxIteraciones = 10; //500
 
         List<ItemTabu> listaTabu = new ArrayList();
-        agregarAListaTabu(listaTabu, s, t_min, t_max);
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < maxIteraciones;) {
             listaTabu.removeIf((ItemTabu itemIndividuo) -> {
 
                 return itemIndividuo.edadTabu < 1;
             });
-            r = tweak(s);
+            rTweak_r = tweak(s);
+            r = rTweak_r.individuo;
+            for (int j = 0; j < numTweaks; j++) {
+                rTweak_w = tweak(s);
+                w = rTweak_w.individuo;
 
-            for (int j = 0; j < listaTabu.size(); j++) {
-                w = tweak(s);
-
-                if (!estaEnLista(listaTabu, w) && w.compareTo(r) > 0 || estaEnLista(listaTabu, r)) {
+                if ((!estaEnLista(listaTabu, rTweak_w.indice_entro)
+                        && !estaEnLista(listaTabu, rTweak_w.indice_salio)
+                        && w.compareTo(r) > 0)
+                        || (estaEnLista(listaTabu, rTweak_r.indice_entro)
+                        && estaEnLista(listaTabu, rTweak_r.indice_salio))) {
                     r = w;
                 }
             }
-            if (!estaEnLista(listaTabu, r) && r.compareTo(s) > 0) {
+            if (!(estaEnLista(listaTabu, rTweak_r.indice_entro)
+                    && estaEnLista(listaTabu, rTweak_r.indice_salio))
+                    && r.compareTo(s) > 0) {
                 s = r;
-                agregarAListaTabu(listaTabu, s, t_min, t_max);
+                if (rTweak_r.indice_entro >= 0) {
+                    agregarAListaTabu(listaTabu, rTweak_r.indice_entro, t_min, t_max);
+                }
+                if (s.compareTo(best) > 0) {
+                    best = s;
+                    i = 0;
+                } else {
+                    i++;
+                }
             }
-            if (s.compareTo(best) > 0) {
-                best = s;
+            for (ItemTabu itemTabu : listaTabu) {
+                itemTabu.edadTabu--;
             }
         }
+        iteraciones += k;
         return best;
     }
 
@@ -159,23 +167,86 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param s
      * @return
      */
-    private Individuo tweak(Individuo s) {
+    private IndividuoElemento tweak(Individuo s) {
         Individuo individuoShift;
         Individuo individuoSwap;
 
         individuoShift = s.clone();
-        shift(individuoShift);
+        int i_shift = shift2(individuoShift);
 
         individuoSwap = s.clone();
-        swap(individuoSwap);
+        int[] i_swap = swap2(individuoSwap);
 
         individuoShift.evaluar();
         individuoSwap.evaluar();
-        if (individuoShift.compareTo(individuoSwap) > 0 ) {
-            return individuoShift;
-        } else {
-            return individuoSwap;
+
+        if (individuoShift.compareTo(individuoSwap) > 0 && i_shift > 0) {
+            if (individuoShift.compareTo(s) > 0) {
+                return new IndividuoElemento(i_shift, -1, individuoShift);
+            }
+        } else if (individuoSwap.compareTo(s) > 0 && i_swap[0] > 0 && i_swap[1] > 0) {
+            return new IndividuoElemento(i_swap[0], i_swap[1], individuoSwap);
         }
+        return new IndividuoElemento(-1, -1, s);
     }
 
+    /**
+     * El movimient Shift adicina un elemento no seleccionado a la solución
+     * actual o remueve un elemento seleccionado de esta.
+     *
+     * @param individuo
+     * @return indice del elemento modificado
+     */
+    protected int shift2(Individuo individuo) {
+        int aleatorio;
+        int maxLen = individuo.getDimension();
+        int posModificado = -1;
+        aleatorio = Aleatorio.nextInt(maxLen);
+        // el elemento esta agregado?
+        if (individuo.get(aleatorio) == 1) {
+            individuo.set(aleatorio, 0);
+            posModificado = aleatorio;
+        } else { //3135231933
+            // verificar que el elemento no sobrepase la capacidad de la mochila
+            if (funcionGreedy.cabe(individuo, aleatorio)) {
+                individuo.set(aleatorio, 1);
+                posModificado = aleatorio;
+            }
+        }
+
+        return posModificado;
+    }
+
+    /**
+     * El movimiento Swap reemplaza un elemento seleccionado por uno no
+     * seleccionado
+     *
+     * @param individuo
+     * @return int[]{posAgregado, posSalio};
+     */
+    protected int[] swap2(Individuo individuo) {
+        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
+        int maxLenS = listaItemSelect.size();
+        int aleatrioS = Aleatorio.nextInt(maxLenS);
+
+        individuo.set(listaItemSelect.get(aleatrioS), 0);
+
+        int posAgregado = -1;
+        int posSalio = -1;
+
+        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
+        int maxLenNS = listaItemNoSelect.size();
+        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
+
+        if (funcionGreedy.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
+            posAgregado = listaItemNoSelect.get(aleatrioNS);
+            posSalio = listaItemSelect.get(aleatrioS);
+            individuo.set(posAgregado, 1);
+        } else {
+            individuo.set(listaItemSelect.get(aleatrioS), 1);
+        }
+//            lisNS[0,1,3]-> 1
+//            [0,0,1,0,1]->2
+        return new int[]{posAgregado, posSalio};
+    }
 }

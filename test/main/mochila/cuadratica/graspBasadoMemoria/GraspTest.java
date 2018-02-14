@@ -172,7 +172,7 @@ public class GraspTest {
         List<Integer> expResult = new ArrayList();
         expResult.add(0);
         expResult.add(2);
-        List<Integer> result = instanceGrasp.obtenerItemNoSelecionado(individuo);
+        List<Integer> result = instanceGrasp.obtenerItemsNoSelecionados(individuo);
         assertEquals(expResult, result);
     }
 
@@ -186,7 +186,7 @@ public class GraspTest {
         List<Integer> expResult = new ArrayList();
         expResult.add(1);
         expResult.add(3);
-        List<Integer> result = instanceGrasp.obtenerItemSelecionado(individuo);
+        List<Integer> result = instanceGrasp.obtenerItemsSelecionados(individuo);
         assertEquals(expResult, result);
     }
 

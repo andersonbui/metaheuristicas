@@ -14,6 +14,7 @@ public abstract class AlgoritmoMetaheuristico {
 
     public AlgoritmoMetaheuristico(String nombre) {
         this.nombre = nombre;
+        iteraciones = 0;
     }
 
     public abstract List<Individuo> ejecutar(Funcion funcion);
@@ -25,9 +26,9 @@ public abstract class AlgoritmoMetaheuristico {
     public boolean haySiguiente() {
         return false;
     }
-    
-    public void reiniciar(){
-        
+
+    public void reiniciar() {
+
     }
 
     public String getNombre() {

@@ -50,29 +50,27 @@ public class FuncionGreedy extends FuncionMochilaCuadratica {
 //        }
 //        return sumaBeneficiosTotal;
 //    }
-
     /**
      * beneficio del elemento en la posicion: indice no seleccionado
      *
      * @param mochila
      * @param indice indice del elemento
+     * @param obj_S
+     * @param w_S
      * @return
      */
-    public double voraz(Individuo mochila, int indice) {
-        double sumaBeneficiosTotal;
-        double sumaPeso = 0;
+    public double voraz(Individuo mochila, int indice, double obj_S, double w_S) {
 
         if (mochila.get(indice) == 1) {
             throw new IllegalArgumentException("El elemento en la posicion indice ya se encuentra en la mochila");
         }
-        sumaBeneficiosTotal = evaluar(mochila);
         for (int i = 0; i < indice; i++) {
-            sumaBeneficiosTotal += matrizBeneficios[i][indice] * mochila.get(i) * mochila.get(indice);
+            obj_S += matrizBeneficios[i][indice] * mochila.get(i);
         }
         for (int k = indice + 1; k < vectorPesos.length; k++) {
-            sumaBeneficiosTotal += matrizBeneficios[indice][k] * mochila.get(k) * mochila.get(indice);
+            obj_S += matrizBeneficios[indice][k] * mochila.get(k);
         }
-        return (sumaBeneficiosTotal + matrizBeneficios[indice][indice]) / (sumaPeso + vectorPesos[indice]);
+        return (obj_S + matrizBeneficios[indice][indice]) / (w_S + vectorPesos[indice]);
     }
 
     @Override
@@ -90,6 +88,15 @@ public class FuncionGreedy extends FuncionMochilaCuadratica {
      */
     public boolean cabe(Individuo mochila, int indice) {
         return (capacidad - obtenerPeso(mochila, vectorPesos) - vectorPesos[indice]) >= 0;
+    }
+
+    /**
+     *
+     * @param mochila
+     * @return
+     */
+    public double obtenerPeso(Individuo mochila) {
+        return super.obtenerPeso(mochila, vectorPesos); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

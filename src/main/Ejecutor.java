@@ -20,9 +20,7 @@ import metaheuristicas.Funcion;
 import gnuplot.GraficoGnuPlot;
 import gnuplot.Punto;
 import gnuplot.Punto2D;
-import gnuplot.Punto3D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Individuo;
@@ -34,7 +32,7 @@ import metaheuristicas.Individuo;
 public class Ejecutor {
 
     public static String FORMATO_DOUBLE = "E";
-    public static int NUM_DECIMALES = 4;
+    public static int NUM_DECIMALES = 6;
 
     GraficoGnuPlot gnuplot;
 
@@ -135,6 +133,8 @@ public class Ejecutor {
         List<Individuo> optimos = new ArrayList<>();
         List<List<Individuo>> listaRecorridosPruebas = new ArrayList();
         Individuo optimo;
+        Double promedioIteraciones = 0.;
+        Double tasaDeExito = 0.;
 
         algoritmo.setMaxIteraciones(iteraciones);
         long tiempo_inicial = System.currentTimeMillis();
@@ -147,6 +147,8 @@ public class Ejecutor {
         Individuo mejorOptimo = null;
         for (List<Individuo> recorrIndiItem : listaRecorridosPruebas) {
             optimo = recorrIndiItem.get(recorrIndiItem.size() - 1);
+            tasaDeExito += funcion.suficiente(optimo) ? 1 : 0;
+            promedioIteraciones += recorrIndiItem.size();
             if (mejorOptimo == null
                     || mejorOptimo.compareTo(optimo) < 0) {
                 mejorRecorrido = recorrIndiItem;
@@ -163,11 +165,11 @@ public class Ejecutor {
                 funcion.getNombre(),
                 algoritmo.getNombre(),
                 "" + funcion.getDimension(),
-                "" + mejorRecorrido.size(),
+                "" + String.format("%.2f", promedioIteraciones / numeroPruebas),
+                "" + tasaDeExito,
                 "" + formatear(optimo.getCalidad()),
-                "" + formatear(peorOptimo.getCalidad()),
-                "" + formatear(promedioCalidad),
-                "" + formatear(calcularDesviacion(optimos, promedioCalidad)),
+                "" + String.format("%.2f", promedioCalidad),
+                "" + String.format("%.4f", ((funcion.getOptimo() - optimo.getCalidad()) / funcion.getOptimo()) * 100),
                 "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
                 "" + funcion.getContadorEvaluaciones() / numeroPruebas);
         //implimir mejor optimo
@@ -230,8 +232,15 @@ public class Ejecutor {
             int numeroPruebas, int iteraciones) {
 
 //        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
-        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "PROM. ITERACIONES", "MEJOR OPTIMO", "PEOR OPTIMO",
-                "PROM OPTIMOS", "DESVIACION OPT", "TIEMPO PROM (ms)", "EVALUACIONES");
+        System.out.println("----------------------------------------------------------.");
+        System.out.println("NPI: Numero iteraciones promedio.");
+        System.out.println("TP: Tiempo Promedio.");
+        System.out.println("TE: Tasa de exito.");
+        System.out.println("DPR: Desviación porcentual relativa.");
+        System.out.println("----------------------------------------------------------.");
+
+        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
+                "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         List<Recorrido> listaRecorridos; // para grafica de convergencia
         String titulo;
         for (Funcion funcion : l_funciones) {
@@ -240,7 +249,6 @@ public class Ejecutor {
                 /**
                  * ciclo para los diferentes planteamientos de una misma funcion
                  */
-
                 titulo = "(" + funcion.getNombre() + ")";
                 for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
 
@@ -279,7 +287,7 @@ public class Ejecutor {
 
     public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
             String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio, String numEvaluaciones) {
-        System.out.format("%-20s|%-30s|%-10s|%-18s|%-13s|%-12s|%-12s|%-14s|%-16s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
+        System.out.format("%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio, numEvaluaciones);
     }
 
@@ -294,7 +302,11 @@ public class Ejecutor {
     }
 
     public static String formatear(double valor) {
-        return String.format("%." + NUM_DECIMALES + FORMATO_DOUBLE + "", valor);
+//        if (valor > 100000) {
+        return String.format("%-2." + NUM_DECIMALES + FORMATO_DOUBLE + "", valor);
+//        } else {
+//            return String.format("%.4f" + "", valor);
+//        }
     }
 
 }
