@@ -40,7 +40,7 @@ public class GraspFundamental extends GraspReinicio {
      * @param beta
      */
     public GraspFundamental(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta) {
-        super(funcionGreedy, sigma, lamda, gama, beta);
+        super(funcionGreedy, lamda, gama, beta);
         nombre = "GraspFund";
 
     }

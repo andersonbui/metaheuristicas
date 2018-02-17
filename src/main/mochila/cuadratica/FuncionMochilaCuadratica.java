@@ -1,5 +1,7 @@
 package main.mochila.cuadratica;
 
+import java.util.ArrayList;
+import java.util.List;
 import main.mochila.FuncionMochila;
 import metaheuristicas.Individuo;
 
@@ -54,6 +56,31 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
         return obtenerPrecio(p);
     }
 
+    public int upperBound(){
+        int v;
+        List<Integer> listaIndices = new ArrayList();
+        for (int i = 0; i < vectorPesos.length; i++) {
+            listaIndices.add(i);
+        }
+        //ordenacionde elementos
+        listaIndices.sort((Integer o1, Integer o2) -> {
+            Double peso1 = vectorPesos[o1];
+            Double peso2 = vectorPesos[o2];
+            // orden creciente
+            return peso1.compareTo(peso2);
+        });
+        v = 0;
+        int suma_V = 0;
+        for (int i = 0; i < listaIndices.size(); i++) {
+            suma_V += vectorPesos[listaIndices.get(i)];
+            if (suma_V <= capacidad) {
+                v++;
+            } else {
+                break;
+            }
+        }
+        return v;
+    }
     public double obtenerPrecio(Individuo mochila) {
         double sumaPrecios = 0;
         int dim = mochila.getDimension();

@@ -61,13 +61,13 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param gama
      * @param beta
      */
-    public GraspReinicio(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta) {
+    public GraspReinicio(FuncionGraspTabuR funcionGreedy, int lamda, int gama, int beta) {
         super();
         nombre = "GraspReinicio";
         this.funcionGreedy = funcionGreedy;
         Q = new ArrayList();
         s_sup_i = new ArrayList();
-        this.sigma = sigma;
+        this.sigma = calculo_Sigma();
         this.lamda = lamda;
         this.gama = gama;
         this.beta = beta;
@@ -138,37 +138,19 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         funcionOriginal.setContadorEvaluaciones(funcion.getContadorEvaluaciones());
         return listaRecorrido;
     }
-    
-    
+
     /**
-     *
-     * @param vectorPesos
-     * @param capacidad
-     * @return 
+     * Calculo sigma es utilizada para inicializar el parametro numero de
+     * iteraciones GRASP (sigma) segun el paper
+     * @return
      */
     
-    public int calculo_Sigma(double[] vectorPesos, double capacidad, int n) {
-        int v;
-        List<Integer> listaIndices = new ArrayList();
-        for (int i = 0; i < vectorPesos.length; i++) {
-            listaIndices.add(i);
-        }
-        //ordenacionde elementos
-        listaIndices.sort((Integer o1, Integer o2) -> {
-            Double peso1 = vectorPesos[o1];
-            Double peso2 = vectorPesos[o2];
-            // orden creciente
-            return peso1.compareTo(peso2);
-        });
-        v = 0;
-        int suma_V = 0;
-        for (int i = 0; i < listaIndices.size(); i++) {
-            suma_V += vectorPesos[listaIndices.get(i)];
-            if (suma_V <= capacidad) {
-                v++;
-            }
-        }
-        return Math.max((Math.min(v,n-v)),n/4);
+    public int calculo_Sigma() {
+        //Numero de variables 
+        int n= funcionGreedy.getDimension();
+        //Obtencion de Upper Bound
+        int v = funcionGreedy.upperBound();
+        return Math.max((Math.min(v, n - v)), n / 4);
     }
 
     /**
@@ -471,10 +453,8 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         aleatorio = Aleatorio.nextInt(maxLen);
         if (individuo.get(aleatorio) == 1) {
             individuo.set(aleatorio, 0);
-        } else {
-            if (funcionGreedy.cabe(individuo, aleatorio)) {
-                individuo.set(aleatorio, 1);
-            }
+        } else if (funcionGreedy.cabe(individuo, aleatorio)) {
+            individuo.set(aleatorio, 1);
         }
 
         return individuo;

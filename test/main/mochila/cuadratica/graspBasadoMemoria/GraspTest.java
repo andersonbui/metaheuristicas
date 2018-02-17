@@ -76,7 +76,7 @@ public class GraspTest {
         double capacidad = 5;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
         funcion = new FuncionGraspTabuR(matrizbeneficio, capacidad, vectorPesos, null);
-        instanceGrasp = new GraspReinicio(funcion, 2, 2, 2, 2);
+        instanceGrasp = new GraspReinicio(funcion, 2, 2, 2);
     }
 
     @After

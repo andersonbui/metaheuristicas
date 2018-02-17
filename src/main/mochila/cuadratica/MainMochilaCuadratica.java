@@ -106,7 +106,7 @@ public class MainMochilaCuadratica {
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
 //        listaAlgoritmos.add(new GraspReinicio((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4));
 //        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4));
-        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, maxIteraciones, 50, 5, 4, 10, 20));
+        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, 50, 5, 4, 10, 20));
 
         List<Funcion> listaFunciones = new ArrayList();
         listaFunciones.add(funcionGreedy);
