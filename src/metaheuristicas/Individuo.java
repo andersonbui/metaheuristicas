@@ -126,12 +126,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
         cadena += (int) calidad;
         return cadena;
     }
-    public double peso;
 
-    public void setPeso(double peso) {
-        this.peso = peso;
-    }
-    
     public double evaluar() {
         calidad = funcion.evaluar(this);
         return calidad;

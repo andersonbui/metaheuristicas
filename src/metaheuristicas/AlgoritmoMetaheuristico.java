@@ -19,8 +19,12 @@ public abstract class AlgoritmoMetaheuristico {
 
     public abstract List<Individuo> ejecutar(Funcion funcion);
 
+    /**
+     * permite hacer pequeñas modificaciones y que se ejecuten con estas por
+     * cada iteracionde siguiente. Por ejemplo el cambio de un parametro en un
+     * rango
+     */
     public void siguiente() {
-
     }
 
     public boolean haySiguiente() {
@@ -28,7 +32,6 @@ public abstract class AlgoritmoMetaheuristico {
     }
 
     public void reiniciar() {
-
     }
 
     public String getNombre() {

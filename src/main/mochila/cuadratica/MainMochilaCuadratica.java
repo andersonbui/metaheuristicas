@@ -24,7 +24,7 @@ import main.Ejecutor;
 import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy_MM;
-import main.mochila.cuadratica.graspBasadoMemoria.FuncionGreedy;
+import main.mochila.cuadratica.graspBasadoMemoria.FuncionGraspTabuR;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspReinicio;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
@@ -58,24 +58,24 @@ public class MainMochilaCuadratica {
         maxIteraciones = 100;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
+        List listaParametros;
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
+//        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
+        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
 //        lim,15,0.99,20
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_2.txt");
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_2.txt");
         //lim,15,0.99,10,14
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
         //no,15,0.99,20,32
         //si,15,0.90-93,20,31
-        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_1.txt");
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_1.txt");
         //lim,15,0.99,5->,1
-//        List listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
-
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/r_10_100_13.txt");
         // dimension de los puntos;
         String nombreInstancia = (String) listaParametros.remove(0);
         double[][] matrizBeneficios = (double[][]) listaParametros.remove(0);
@@ -94,7 +94,7 @@ public class MainMochilaCuadratica {
         System.out.println("max iteraciones: " + maxIteraciones);
         System.out.println("numero de pruebas: " + numMuestras);
 
-        Funcion funcionGreedy = new FuncionGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        Funcion funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        FuncionMochilaHyperplaneExploration funcionHyperplanos = new FuncionMochilaHyperplaneExploration(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         FuncionMochilaCuadraticaGreedy funcionEDG_2 = new FuncionMochilaCuadraticaGreedy_MM(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
@@ -106,7 +106,7 @@ public class MainMochilaCuadratica {
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
 //        listaAlgoritmos.add(new GraspReinicio((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4));
 //        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4));
-        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4, 10, 20));
+        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, maxIteraciones, 50, 5, 4, 10, 20));
 
         List<Funcion> listaFunciones = new ArrayList();
         listaFunciones.add(funcionGreedy);

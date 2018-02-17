@@ -87,6 +87,10 @@ public abstract class Funcion {
         return contadorEvaluaciones;
     }
 
+    public void setContadorEvaluaciones(int contadorEvaluaciones) {
+        this.contadorEvaluaciones = contadorEvaluaciones;
+    }
+
     public void reiniciarContadorEvaluaciones() {
         this.contadorEvaluaciones = 0;
     }

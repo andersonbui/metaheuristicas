@@ -17,13 +17,14 @@
 package main.mochila.cuadratica.graspBasadoMemoria;
 
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
 
 /**
  *
  * @author JUAN
  */
-public class FuncionGreedy extends FuncionMochilaCuadratica {
+public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
 
     /**
      *
@@ -32,24 +33,10 @@ public class FuncionGreedy extends FuncionMochilaCuadratica {
      * @param vectorPesos
      * @param maxGlobal
      */
-    public FuncionGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+    public FuncionGraspTabuR(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
     }
 
-//    @Override
-//    /**
-//     * Obj(S): el valor de la funcion objetivo con respecto a S
-//     */
-//    public double evaluar(Individuo mochila) {
-//        super.evaluar(mochila);
-//        double sumaBeneficiosTotal = 0;
-//        for (int i = 0; i < mochila.getDimension(); i++) {
-//            for (int j = i; j < mochila.getDimension(); j++) {
-//                sumaBeneficiosTotal += matrizBeneficios[i][j] * mochila.get(j) * mochila.get(i);
-//            }
-//        }
-//        return sumaBeneficiosTotal;
-//    }
     /**
      * beneficio del elemento en la posicion: indice no seleccionado
      *
@@ -87,7 +74,7 @@ public class FuncionGreedy extends FuncionMochilaCuadratica {
      * @return
      */
     public boolean cabe(Individuo mochila, int indice) {
-        return (capacidad - obtenerPeso(mochila, vectorPesos) - vectorPesos[indice]) >= 0;
+        return (capacidad - obtenerPeso(mochila) - vectorPesos[indice]) >= 0;
     }
 
     /**
@@ -96,7 +83,78 @@ public class FuncionGreedy extends FuncionMochilaCuadratica {
      * @return
      */
     public double obtenerPeso(Individuo mochila) {
+        if (mochila instanceof IndividuoMochila) {
+            return ((IndividuoMochila) mochila).getPeso();
+        }
         return super.obtenerPeso(mochila, vectorPesos); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    /**
+     * Obj(S): el valor de la funcion objetivo con respecto a S
+     */
+    public double evaluar(Individuo mochila) {
+
+        if (mochila instanceof IndividuoMochila) {
+            return ((IndividuoMochila) mochila).getCalidad();
+        }
+        return super.evaluar(mochila);
+    }
+
+    @Override
+    public Individuo generarIndividuo() {
+        Individuo nuevop = new Individuo(this);
+        return nuevop;
+    }
+
+    public class IndividuoMochila extends Individuo {
+
+        private double peso;
+
+        public IndividuoMochila(Funcion funcion) {
+            super(funcion);
+            peso = 0;
+        }
+
+        public double getPeso() {
+            return peso;
+        }
+
+        @Override
+        public void set(int indice, double valor) {
+
+            double valAnterior = get(indice);
+            if (valAnterior == valor) {
+                return;
+            }
+            double valorPeso;
+            double contribucion = 0;
+            //contribucion en la fila
+            for (int i = 0; i < indice; i++) {
+                contribucion += matrizBeneficios[i][indice] * get(i);
+            }
+            //contribucion en la columna
+            for (int k = indice + 1; k < vectorPesos.length; k++) {
+                contribucion += matrizBeneficios[indice][k] * get(k);
+            }
+            //contribucion por si solo
+            contribucion += matrizBeneficios[indice][indice];
+            // peso del articulo
+            valorPeso = vectorPesos[indice];
+
+            // incluir beneficio
+            calidad = (-valAnterior + valor) * contribucion;
+            // incluir peso del elemento
+            peso = (-valAnterior + valor) * valorPeso;
+
+            super.set(indice, valor);
+        }
+
+        @Override
+        public Individuo clone() {
+            IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
+            return ind;
+        }
+
+    }
 }
