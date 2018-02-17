@@ -33,8 +33,8 @@ public class Grasp extends AlgoritmoMetaheuristico {
     FuncionMochilaGreedy funcionGreedy;
 
     public Grasp(int tamPoblacion, FuncionMochilaGreedy funcionGreedy) {
-        super("Grasp");
-
+        super();
+        nombre = "Grasp";
         for (int i = 0; i < funcionGreedy.getDimension(); i++) {
             articulos.add(i);//i:indices de los articulos 
         }

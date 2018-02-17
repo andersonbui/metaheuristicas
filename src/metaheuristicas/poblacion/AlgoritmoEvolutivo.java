@@ -37,9 +37,10 @@ public abstract class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
      * @param numDescendientes
      */
     public AlgoritmoEvolutivo(int tamPoblacion, int numDescendientes) {
-        super("Evolutivo");
+        super();
         this.tamPoblacion = tamPoblacion;
         this.numDescendientes = numDescendientes;
+        nombre = "Evolutivo";
     }
 
     @Override
@@ -48,7 +49,7 @@ public abstract class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
         Individuo mejor = poblacion.getMejor();
         List<Individuo> recorrido = new ArrayList();
 //        recorrido.add(mejor);
-        for (iteraciones = 0; iteraciones < maxIteraciones ; iteraciones++) {
+        for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
             poblacion = siguienteGeneracion(1);
             mejor = poblacion.getMejor();
 

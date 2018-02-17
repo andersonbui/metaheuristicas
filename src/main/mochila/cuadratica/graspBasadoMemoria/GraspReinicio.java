@@ -43,7 +43,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * f2(S,j): funcion de criterio de ordenamiento de los elementos no
      * seleccionados
      */
-    FuncionGreedy funcionGreedy;
+    FuncionGraspTabuR funcionGreedy;
     /**
      * contador de iteraciones
      */
@@ -61,8 +61,9 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param gama
      * @param beta
      */
-    public GraspReinicio(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta) {
-        super("GraspReinicio");
+    public GraspReinicio(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta) {
+        super();
+        nombre = "GraspReinicio";
         this.funcionGreedy = funcionGreedy;
         Q = new ArrayList();
         s_sup_i = new ArrayList();
@@ -70,7 +71,6 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         this.lamda = lamda;
         this.gama = gama;
         this.beta = beta;
-        
     }
 
     /**
@@ -79,15 +79,16 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * numLanda es el numero de reinicios usados para intentar mejorar bestLB
      * numDelta es el numero de iteraciones GRASp
      *
-     * @param funcion
+     * @param funcionOriginal
      * @return
      */
     @Override
-    public List<Individuo> ejecutar(Funcion funcion) {
+    public List<Individuo> ejecutar(Funcion funcionOriginal) {
+        funcion = funcionGreedy;
         //linea 1:
         Individuo LB = null;
         Individuo S = null;
-        Individuo solParcialS = new Individuo(funcion);
+        Individuo solParcialS = funcion.generarIndividuo();
         solParcialS.evaluar();
         Individuo bestLB = solParcialS;
 
@@ -134,6 +135,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
             listaRecorrido.add(bestLB);
         }
         iteraciones += k;
+        funcionOriginal.setContadorEvaluaciones(funcion.getContadorEvaluaciones());
         return listaRecorrido;
     }
     
@@ -181,7 +183,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
     protected Individuo definicionSolParcialS(Funcion funcion, int m, int sigma, List<int[]> lista_Q) {
 
         int u = m * sigma;
-        Individuo individuo = new Individuo(funcion);
+        Individuo individuo = funcion.generarIndividuo();
         int[] Q_u1 = lista_Q.get(u + 1);
         if (u != 0) {// modificacion
             for (int i = 0; i < individuo.getDimension(); i++) {
@@ -245,7 +247,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         Individuo S = solParcialS;
         int l = 1;
         int len;
-        //Qk es un vector de enteros con la suma de los optimos locales s^i obtenido en el k-1 para k>1 iteraciones GRASP
+        //Qk es un vector de enteros con la suma de los optimos locales s^i obtenido en el k-1 para k>1 iteraciones GRASP;
         calculoQk();
         //R(S): noSeleccionadosRS es el conjunto de indece de elementos no seleccionados que caben en la mochila con respecto a S
         List<Integer> noSeleccionadosRS = obtenerItemsNoSelecionados(S);
@@ -265,11 +267,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
             }
             //linea 6: Selecciona el tamaño de la LRC aleatoriamente Len del rango [MinLen, MaxLen];
             len = minLen + Aleatorio.nextInt(maxLen - minLen);
-            //linea 7: Define RCL^kl as the subset of RCL con los elementos de de mayor calidad de R(S)
+            //linea 7: Define RCL^kl as the subset of RCL con los elementos de de mayor calidad de R(S);
             listaLRC = obtenerLRC(itemsCalidadNoSeleccionados, len);
-            //linea 8: Qkl escalar utilizado para garantizar que la sumatoria de la probabilidad qkl sub j sea =1
+            //linea 8: Qkl escalar utilizado para garantizar que la sumatoria de la probabilidad qkl sub j sea =1;
             int Qkl = calcularQkl(listaLRC);
-            //linea 9-11: qkl es la probabilidad de seleccion del j-esimo elemento de la LRC
+            //linea 9-11: qkl es la probabilidad de seleccion del j-esimo elemento de la LRC;
             double[] qkl = probabilidadSeleccionLRC(listaLRC, Qkl);
             //linea 12:
             S.set(seleccionItemDeLRC(Qkl, qkl, listaLRC).indice, 1);

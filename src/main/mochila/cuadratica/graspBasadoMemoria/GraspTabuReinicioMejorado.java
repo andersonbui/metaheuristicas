@@ -38,7 +38,7 @@ public class GraspTabuReinicioMejorado extends GraspTabuReinicio {
      * @param t_min
      * @param t_max
      */
-    public GraspTabuReinicioMejorado(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta, int t_min, int t_max) {
+    public GraspTabuReinicioMejorado(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta, int t_min, int t_max) {
         super(funcionGreedy, sigma, lamda, gama, beta, t_min, t_max);
         nombre = "GraspTabuReinicio";
     }

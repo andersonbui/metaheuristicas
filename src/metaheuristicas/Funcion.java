@@ -70,7 +70,7 @@ public abstract class Funcion {
         return Math.abs(individuo.getCalidad() - maxmin) < error;
     }
 
-    public double getOptimo() {
+    public double getOptimoGlobal() {
         if (maximizar) {
             return maxGlobal;
         } else {
@@ -85,6 +85,10 @@ public abstract class Funcion {
 
     public int getContadorEvaluaciones() {
         return contadorEvaluaciones;
+    }
+
+    public void setContadorEvaluaciones(int contadorEvaluaciones) {
+        this.contadorEvaluaciones = contadorEvaluaciones;
     }
 
     public void reiniciarContadorEvaluaciones() {

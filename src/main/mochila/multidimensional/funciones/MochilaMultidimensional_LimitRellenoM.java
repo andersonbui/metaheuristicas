@@ -124,7 +124,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
 
     @Override
     public Individuo generarIndividuo() {
-        Individuo nuevop = new IndividuoMochila(this, isMaximizar());
+        Individuo nuevop = new IndividuoMochila(this);
         for (int i = 0; i < nuevop.getDimension(); i++) {
             if (Aleatorio.nextDouble() > prob_ceros) {
                 nuevop.set(i, 1);
@@ -138,7 +138,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
         private double[] pesos;
         private double[] espacios;
 
-        public IndividuoMochila(Funcion funcion, boolean maximizar) {
+        public IndividuoMochila(Funcion funcion) {
             super(funcion);
             pesos = new double[capacidades.length];
             espacios = new double[capacidades.length];

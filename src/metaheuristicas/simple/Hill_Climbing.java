@@ -30,7 +30,8 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
      * @param ancho
      */
     public Hill_Climbing(double ancho) {
-        super("HC");
+        super();
+        nombre = "HC";
         this.tweaks = new Tweak[]{new Tweak_1(1.5), new Tweak_1(1), new Tweak_1(4), new Tweak_1(0.6)};
         contadorTweak = 0;
         tweak = tweaks[contadorTweak];
@@ -62,7 +63,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
 
     @Override
     public boolean haySiguiente() {
-        return tweaks.length > contadorTweak+1;
+        return tweaks.length > contadorTweak + 1;
     }
 
     @Override

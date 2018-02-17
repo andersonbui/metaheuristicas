@@ -169,7 +169,7 @@ public class Ejecutor {
                 "" + tasaDeExito,
                 "" + formatear(optimo.getCalidad()),
                 "" + String.format("%.2f", promedioCalidad),
-                "" + String.format("%.4f", ((funcion.getOptimo() - optimo.getCalidad()) / funcion.getOptimo()) * 100),
+                "" + String.format("%.4f", ((funcion.getOptimoGlobal() - optimo.getCalidad()) / funcion.getOptimoGlobal()) * 100),
                 "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
                 "" + funcion.getContadorEvaluaciones() / numeroPruebas);
         //implimir mejor optimo

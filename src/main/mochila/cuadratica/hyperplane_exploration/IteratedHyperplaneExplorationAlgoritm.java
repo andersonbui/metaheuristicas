@@ -39,7 +39,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     protected Funcion funcion;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaHyperplaneExploration funcionIHEA) {
-        super("IHEA");
+        super();
+        nombre = "IHEA";
         this.funcionIHEA = funcionIHEA;
         lb = funcionIHEA.obtener_lb();
         t = 1;
@@ -551,4 +552,3 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         return listaIndices;
     }
 }
-

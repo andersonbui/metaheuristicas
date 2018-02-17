@@ -40,7 +40,7 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param t_min
      * @param t_max
      */
-    public GraspTabuReinicio(FuncionGreedy funcionGreedy, int sigma, int lamda, int gama, int beta, int t_min, int t_max) {
+    public GraspTabuReinicio(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta, int t_min, int t_max) {
         super(funcionGreedy, sigma, lamda, gama, beta);
         nombre = "GraspTabuReinicio";
         this.t_min = t_min;
@@ -118,10 +118,10 @@ public class GraspTabuReinicio extends GraspReinicio {
         IndividuoElemento rTweak_r;
         IndividuoElemento rTweak_w;
         int numTweaks = 15;
-        int maxIteraciones = 10; //500
+        int iterTabu = 500; //500
 
         List<ItemTabu> listaTabu = new ArrayList();
-        for (int i = 0; i < maxIteraciones;) {
+        for (int i = 0; i < iterTabu; ) {
             listaTabu.removeIf((ItemTabu itemIndividuo) -> {
 
                 return itemIndividuo.edadTabu < 1;
@@ -136,12 +136,13 @@ public class GraspTabuReinicio extends GraspReinicio {
                         && !estaEnLista(listaTabu, rTweak_w.indice_salio)
                         && w.compareTo(r) > 0)
                         || (estaEnLista(listaTabu, rTweak_r.indice_entro)
-                        && estaEnLista(listaTabu, rTweak_r.indice_salio))) {
-                    r = w;
+                       || estaEnLista(listaTabu, rTweak_r.indice_salio))) {
+                    rTweak_r = rTweak_w;
+                    r=w;
                 }
             }
             if (!(estaEnLista(listaTabu, rTweak_r.indice_entro)
-                    && estaEnLista(listaTabu, rTweak_r.indice_salio))
+                    || estaEnLista(listaTabu, rTweak_r.indice_salio))
                     && r.compareTo(s) > 0) {
                 s = r;
                 if (rTweak_r.indice_entro >= 0) {
@@ -153,6 +154,8 @@ public class GraspTabuReinicio extends GraspReinicio {
                 } else {
                     i++;
                 }
+            } else {
+                i++;
             }
             for (ItemTabu itemTabu : listaTabu) {
                 itemTabu.edadTabu--;

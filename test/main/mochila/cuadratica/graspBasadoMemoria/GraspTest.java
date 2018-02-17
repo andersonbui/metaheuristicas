@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
  */
 public class GraspTest {
 
-    FuncionGreedy funcion;
+    FuncionGraspTabuR funcion;
     GraspReinicio instanceGrasp;
     List<int[]> lista_Q;
     List<GraspReinicio.ItemCalidad> LRC;
@@ -75,7 +75,7 @@ public class GraspTest {
         };
         double capacidad = 5;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
-        funcion = new FuncionGreedy(matrizbeneficio, capacidad, vectorPesos, null);
+        funcion = new FuncionGraspTabuR(matrizbeneficio, capacidad, vectorPesos, null);
         instanceGrasp = new GraspReinicio(funcion, 2, 2, 2, 2);
     }
 
