@@ -62,13 +62,13 @@ public class MainMochilaCuadratica {
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
-        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
+//        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
 //        lim,15,0.99,20
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
-//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_2.txt");
+         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_2.txt");
         //lim,15,0.99,10,14
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
         //no,15,0.99,20,32

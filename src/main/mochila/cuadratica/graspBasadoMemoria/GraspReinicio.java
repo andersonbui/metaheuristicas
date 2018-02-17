@@ -62,7 +62,8 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param beta
      */
     public GraspReinicio(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta) {
-        super("GraspReinicio");
+        super();
+        nombre = "GraspReinicio";
         this.funcionGreedy = funcionGreedy;
         Q = new ArrayList();
         s_sup_i = new ArrayList();
@@ -70,7 +71,6 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         this.lamda = lamda;
         this.gama = gama;
         this.beta = beta;
-
     }
 
     /**
@@ -79,12 +79,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * numLanda es el numero de reinicios usados para intentar mejorar bestLB
      * numDelta es el numero de iteraciones GRASp
      *
-     * @param funcion
+     * @param funcionOriginal
      * @return
      */
     @Override
-    public List<Individuo> ejecutar(Funcion funcion) {
-        Funcion funcionOriginal  = funcion;
+    public List<Individuo> ejecutar(Funcion funcionOriginal) {
         funcion = funcionGreedy;
         //linea 1:
         Individuo LB = null;
@@ -152,7 +151,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
     protected Individuo definicionSolParcialS(Funcion funcion, int m, int sigma, List<int[]> lista_Q) {
 
         int u = m * sigma;
-        Individuo individuo = new Individuo(funcion);
+        Individuo individuo = funcion.generarIndividuo();
         int[] Q_u1 = lista_Q.get(u + 1);
         if (u != 0) {// modificacion
             for (int i = 0; i < individuo.getDimension(); i++) {

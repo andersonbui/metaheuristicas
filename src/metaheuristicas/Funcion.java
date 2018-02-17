@@ -70,7 +70,7 @@ public abstract class Funcion {
         return Math.abs(individuo.getCalidad() - maxmin) < error;
     }
 
-    public double getOptimo() {
+    public double getOptimoGlobal() {
         if (maximizar) {
             return maxGlobal;
         } else {
