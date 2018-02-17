@@ -138,6 +138,38 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         funcionOriginal.setContadorEvaluaciones(funcion.getContadorEvaluaciones());
         return listaRecorrido;
     }
+    
+    
+    /**
+     *
+     * @param vectorPesos
+     * @param capacidad
+     * @return 
+     */
+    
+    public int calculo_Sigma(double[] vectorPesos, double capacidad, int n) {
+        int v;
+        List<Integer> listaIndices = new ArrayList();
+        for (int i = 0; i < vectorPesos.length; i++) {
+            listaIndices.add(i);
+        }
+        //ordenacionde elementos
+        listaIndices.sort((Integer o1, Integer o2) -> {
+            Double peso1 = vectorPesos[o1];
+            Double peso2 = vectorPesos[o2];
+            // orden creciente
+            return peso1.compareTo(peso2);
+        });
+        v = 0;
+        int suma_V = 0;
+        for (int i = 0; i < listaIndices.size(); i++) {
+            suma_V += vectorPesos[listaIndices.get(i)];
+            if (suma_V <= capacidad) {
+                v++;
+            }
+        }
+        return Math.max((Math.min(v,n-v)),n/4);
+    }
 
     /**
      * Definicion de la solucion parcial S- linea 16 GRASP(r)

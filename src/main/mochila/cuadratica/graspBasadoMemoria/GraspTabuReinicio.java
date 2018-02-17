@@ -166,6 +166,9 @@ public class GraspTabuReinicio extends GraspReinicio {
     }
 
     /**
+     * Tweak realiza el movimiento Shift o Swap a un individuo y compara el
+     * resultado de ambos movimientos para retornanr el mejor individuo,
+     * resultado de dichos movimientos.
      *
      * @param s
      * @return
@@ -209,8 +212,9 @@ public class GraspTabuReinicio extends GraspReinicio {
         if (individuo.get(aleatorio) == 1) {
             individuo.set(aleatorio, 0);
             posModificado = aleatorio;
-        } else { //3135231933
-            // verificar que el elemento no sobrepase la capacidad de la mochila
+        } else //3135231933
+        // verificar que el elemento no sobrepase la capacidad de la mochila
+        {
             if (funcionGreedy.cabe(individuo, aleatorio)) {
                 individuo.set(aleatorio, 1);
                 posModificado = aleatorio;
