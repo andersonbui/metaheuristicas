@@ -64,7 +64,7 @@ public class MainMochilaCuadratica {
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
-         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_75_6.txt");
 //        lim,15,0.99,20
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
@@ -109,7 +109,7 @@ public class MainMochilaCuadratica {
         listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, maxIteraciones, 50, 5, 4, 10, 20));
 
         List<Funcion> listaFunciones = new ArrayList();
-        listaFunciones.add(funcionGreedy);
+        listaFunciones.add(new FuncionMochilaCuadratica(matrizBeneficios, capacidad, vectorPesos, maxGlobal));
         // EJECUTAR ANALISIS
         (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, maxIteraciones);
     }

@@ -74,7 +74,7 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     public boolean cabe(Individuo mochila, int indice) {
-        return (capacidad - obtenerPeso(mochila) - vectorPesos[indice]) >= 0;
+        return (capacidad - obtenerPeso(mochila, vectorPesos) - vectorPesos[indice]) >= 0;
     }
 
     /**
@@ -83,10 +83,11 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     public double obtenerPeso(Individuo mochila) {
-        if (mochila instanceof IndividuoMochila) {
+//        if (mochila instanceof IndividuoMochila) {
             return ((IndividuoMochila) mochila).getPeso();
-        }
-        return super.obtenerPeso(mochila, vectorPesos); //To change body of generated methods, choose Tools | Templates.
+//        } else {
+//            return super.obtenerPeso(mochila, vectorPesos);
+//        }
     }
 
     @Override
@@ -94,15 +95,16 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * Obj(S): el valor de la funcion objetivo con respecto a S
      */
     public double evaluar(Individuo mochila) {
-        if (mochila instanceof IndividuoMochila) {
+//        if (mochila instanceof IndividuoMochila) {
             return ((IndividuoMochila) mochila).getCalidad();
-        }
-        return super.evaluar(mochila);
+//        } else {
+//            return super.evaluar(mochila);
+//        }
     }
 
     @Override
     public Individuo generarIndividuo() {
-        Individuo nuevop = new Individuo(this);
+        Individuo nuevop = new IndividuoMochila(this);
         return nuevop;
     }
 
@@ -142,19 +144,15 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
             valorPeso = vectorPesos[indice];
 
             // incluir beneficio
-            calidad = (-valAnterior + valor) * contribucion;
+            calidad += (-valAnterior + valor) * contribucion;
             // incluir peso del elemento
-            peso = (-valAnterior + valor) * valorPeso;
+            peso += (-valAnterior + valor) * valorPeso;
 
             super.set(indice, valor);
         }
 
         @Override
         public Individuo clone() {
-//            IndividuoMochila ind = (new IndividuoMochila(funcion));
-//            ind.valores = this.valores.clone();
-//            ind.calidad = this.calidad;
-//            ind.peso = this.peso;
             IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
             return ind;
         }
