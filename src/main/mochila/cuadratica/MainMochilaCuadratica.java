@@ -55,7 +55,7 @@ public class MainMochilaCuadratica {
         // numero de individuos porpoblacion
         tamPoblacion = 20;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 100;
+        maxIteraciones = 200;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
         List listaParametros;
@@ -64,11 +64,11 @@ public class MainMochilaCuadratica {
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
-//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_100_1.txt");
+         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_75_6.txt");
 //        lim,15,0.99,20
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
-         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_2.txt");
+//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_50_2.txt");
         //lim,15,0.99,10,14
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_100_25_2.txt");
         //no,15,0.99,20,32
@@ -109,7 +109,7 @@ public class MainMochilaCuadratica {
         listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, 50, 5, 4, 10, 20));
 
         List<Funcion> listaFunciones = new ArrayList();
-        listaFunciones.add(funcionGreedy);
+        listaFunciones.add(new FuncionMochilaCuadratica(matrizBeneficios, capacidad, vectorPesos, maxGlobal));
         // EJECUTAR ANALISIS
         (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, maxIteraciones);
     }

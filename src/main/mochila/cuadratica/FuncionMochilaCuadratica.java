@@ -108,4 +108,9 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     public double sacarEspacios(Individuo mochila) {
         return capacidad - obtenerPeso(mochila, vectorPesos);
     }
+
+    public double peso(int indice) {
+        return vectorPesos[indice];
+    }
+
 }
