@@ -94,7 +94,6 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * Obj(S): el valor de la funcion objetivo con respecto a S
      */
     public double evaluar(Individuo mochila) {
-
         if (mochila instanceof IndividuoMochila) {
             return ((IndividuoMochila) mochila).getCalidad();
         }
@@ -152,6 +151,10 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
 
         @Override
         public Individuo clone() {
+//            IndividuoMochila ind = (new IndividuoMochila(funcion));
+//            ind.valores = this.valores.clone();
+//            ind.calidad = this.calidad;
+//            ind.peso = this.peso;
             IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
             return ind;
         }
