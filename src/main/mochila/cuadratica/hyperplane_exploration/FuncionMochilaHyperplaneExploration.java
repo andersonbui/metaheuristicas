@@ -92,6 +92,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
         for (int i = 0; i < this.vectorPesos.length; i++) {
             listaIndices.add(i);
         }
+        //ordenacionde elementos
         listaIndices.sort((Integer o1, Integer o2) -> {
             Double peso1 = vectorPesos[o1];
             Double peso2 = vectorPesos[o2];
