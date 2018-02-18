@@ -34,15 +34,14 @@ public class GraspTabuReinicio extends GraspReinicio {
     /**
      *
      * @param funcionGreedy
-     * @param sigma
      * @param lamda
      * @param gama
      * @param beta
      * @param t_min
      * @param t_max
      */
-    public GraspTabuReinicio(FuncionGraspTabuR funcionGreedy, int sigma, int lamda, int gama, int beta, int t_min, int t_max) {
-        super(funcionGreedy, sigma, lamda, gama, beta);
+    public GraspTabuReinicio(FuncionGraspTabuR funcionGreedy, int lamda, int gama, int beta, int t_min, int t_max) {
+        super(funcionGreedy, lamda, gama, beta);
         nombre = "GraspTabuReinicio";
         this.t_min = t_min;
         this.t_max = t_max;
