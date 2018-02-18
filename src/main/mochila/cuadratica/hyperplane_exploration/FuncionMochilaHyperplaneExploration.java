@@ -277,19 +277,20 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
     }
 
     public void fijarVariables(Individuo individuo, int[] varFijas) {
-        IndividuoMochila indi = ((IndividuoMochila) individuo);
-        indi.fijarVariables(varFijas);
+        for (int varFija : varFijas) {
+            variablesFijas.add(varFija);
+        }
     }
 
-    public void reiniciarVijarVariables(Individuo individuo) {
-        IndividuoMochila indi = ((IndividuoMochila) individuo);
-        indi.variablesFijas.clear();
+    public void reiniciarVijarVariables() {
+        variablesFijas.clear();
     }
+
+    private List<Integer> variablesFijas;
 
     public class IndividuoMochila extends Individuo {
 
         private double peso;
-        private List<Integer> variablesFijas;
         private List<Integer> I1;
         private List<Integer> I0;
 
@@ -334,12 +335,6 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
             return peso;
         }
 
-        public void fijarVariables(int[] varFijas) {
-            for (int varFija : varFijas) {
-                variablesFijas.add(varFija);
-            }
-        }
-
         @Override
         public void set(int indice, double valor) {
             double valAnterior = get(indice);
@@ -379,7 +374,6 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
         @Override
         public Individuo clone() {
             IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
-            ind.variablesFijas = new ArrayList(ind.variablesFijas);
             ind.I0 = new ArrayList(ind.I0);
             ind.I1 = new ArrayList(ind.I1);
             return ind;

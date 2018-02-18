@@ -82,18 +82,18 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         /**
          * linea 5: x' = x0. x' represents the current solution.
          */
-        Individuo x_prima = x_inicial;
+        Individuo x_prima = x_inicial.clone();
         // linea 6: iter = 0
         iteraciones = 0;
         /**
          * linea 7: xb= x'. Xb records the best solution found in current round
          * of hyperplane exploration.
          */
-        Individuo x_mejorRondaHyper = x_prima;
+        Individuo x_mejorRondaHyper = x_prima.clone();
         /**
          * linea 8: x* = xb. x* records the global best solution.
          */
-        Individuo x_mejorGlobal = x_mejorRondaHyper;
+        Individuo x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
         for (; iteraciones < maxIter; iteraciones++) {
             // linea 10:
@@ -116,11 +116,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 if (x_bestSolution.compareTo(x_mejorRondaHyper) > 0) {
                     // linea 19:
                     x_mejorRondaHyper = x_bestSolution;
-                    // linea 20:
-                    k++;
                     // linea 21
-                    x_prima = x_mejorRondaHyper;
+                    x_prima = x_mejorRondaHyper.clone();
                     int pos = add(x_prima);
+                    // linea 20:
+                    k = dimensionHiperplano(x_prima);
                     // linea 22: construct constrain problem CQKP[k]
                     cqkp_k = new CQKP();
                 } else {
@@ -128,7 +128,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     solucionEncontrada = false;
                 }
             }
-//            funcionIHEA.
+            funcionIHEA.reiniciarVijarVariables();
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {
                 // linea 28:
