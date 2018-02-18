@@ -18,6 +18,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
 
@@ -121,7 +122,7 @@ public class GraspTabuReinicio extends GraspReinicio {
         int iterTabu = 500; //500
 
         List<ItemTabu> listaTabu = new ArrayList();
-        for (int i = 0; i < iterTabu; ) {
+        for (int i = 0; i < iterTabu;) {
             listaTabu.removeIf((ItemTabu itemIndividuo) -> {
 
                 return itemIndividuo.edadTabu < 1;
@@ -136,9 +137,9 @@ public class GraspTabuReinicio extends GraspReinicio {
                         && !estaEnLista(listaTabu, rTweak_w.indice_salio)
                         && w.compareTo(r) > 0)
                         || (estaEnLista(listaTabu, rTweak_r.indice_entro)
-                       || estaEnLista(listaTabu, rTweak_r.indice_salio))) {
+                        || estaEnLista(listaTabu, rTweak_r.indice_salio))) {
                     rTweak_r = rTweak_w;
-                    r=w;
+                    r = w;
                 }
             }
             if (!(estaEnLista(listaTabu, rTweak_r.indice_entro)
@@ -182,15 +183,18 @@ public class GraspTabuReinicio extends GraspReinicio {
 
         individuoSwap = s.clone();
         int[] i_swap = swap2(individuoSwap);
+        if (i_shift > 0) {
+            individuoShift.evaluar();
+        }
+        if (i_swap[0] > 0) {
+            individuoSwap.evaluar();
+        }
 
-        individuoShift.evaluar();
-        individuoSwap.evaluar();
-
-        if (individuoShift.compareTo(individuoSwap) > 0 && i_shift > 0) {
+        if (i_shift > 0 && individuoShift.compareTo(individuoSwap) > 0) {
             if (individuoShift.compareTo(s) > 0) {
                 return new IndividuoElemento(i_shift, -1, individuoShift);
             }
-        } else if (individuoSwap.compareTo(s) > 0 && i_swap[0] > 0 && i_swap[1] > 0) {
+        } else if (i_swap[0] > 0 && i_swap[1] > 0 && individuoSwap.compareTo(s) > 0) {
             return new IndividuoElemento(i_swap[0], i_swap[1], individuoSwap);
         }
         return new IndividuoElemento(-1, -1, s);
@@ -244,7 +248,9 @@ public class GraspTabuReinicio extends GraspReinicio {
         List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
         int maxLenNS = listaItemNoSelect.size();
         int aleatrioNS = Aleatorio.nextInt(maxLenNS);
-
+        if (listaItemNoSelect.size() < 2 || Objects.equals(listaItemSelect.get(aleatrioS), listaItemNoSelect.get(aleatrioNS))) {
+            return new int[]{-1, -1};
+        }
         if (funcionGreedy.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
             posAgregado = listaItemNoSelect.get(aleatrioNS);
             posSalio = listaItemSelect.get(aleatrioS);

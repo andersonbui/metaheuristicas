@@ -265,6 +265,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
                 //Linea 4: Evalua la calidad de cada uno de los j-esimo elementos que pertenecen a R(S) con f2(Sj)
                 itemsCalidadNoSeleccionados.add(new ItemCalidad(pos, funcionGreedy.voraz(S, pos, obj_S, w_S)));
             }
+            //luci 3148795 206
             //linea 6: Selecciona el tamaño de la LRC aleatoriamente Len del rango [MinLen, MaxLen];
             len = minLen + Aleatorio.nextInt(maxLen - minLen);
             //linea 7: Define RCL^kl as the subset of RCL con los elementos de de mayor calidad de R(S);
