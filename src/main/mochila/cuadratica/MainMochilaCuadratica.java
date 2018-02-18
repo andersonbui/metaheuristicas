@@ -55,9 +55,9 @@ public class MainMochilaCuadratica {
         // numero de individuos porpoblacion
         tamPoblacion = 20;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 50;
+        maxIteraciones = 100;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 1;
+        numMuestras = 3;
         List listaParametros;
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20

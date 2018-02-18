@@ -74,7 +74,7 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     public boolean cabe(Individuo mochila, int indice) {
-        return (capacidad - obtenerPeso(mochila, vectorPesos) - vectorPesos[indice]) >= 0;
+        return (capacidad - obtenerPeso(mochila) - vectorPesos[indice]) >= 0;
     }
 
     /**
@@ -84,19 +84,21 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      */
     public double obtenerPeso(Individuo mochila) {
 //        if (mochila instanceof IndividuoMochila) {
-            return ((IndividuoMochila) mochila).getPeso();
+        return ((IndividuoMochila) mochila).getPeso();
 //        } else {
 //            return super.obtenerPeso(mochila, vectorPesos);
 //        }
     }
 
-    @Override
     /**
      * Obj(S): el valor de la funcion objetivo con respecto a S
+     * @param mochila
+     * @return 
      */
+    @Override
     public double evaluar(Individuo mochila) {
 //        if (mochila instanceof IndividuoMochila) {
-            return ((IndividuoMochila) mochila).getCalidad();
+        return ((IndividuoMochila) mochila).getCalidad();
 //        } else {
 //            return super.evaluar(mochila);
 //        }
