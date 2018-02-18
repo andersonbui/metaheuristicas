@@ -54,11 +54,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     public List<Individuo> ejecutar(Funcion funcion) {
         this.funcion = funcion;
         this.funcion.setNombre(funcionIHEA.getNombre());
-        iterateHiperplaneExploration(L, rcl, maxIteraciones);
-        return null;
+        return iterateHiperplaneExploration(L, rcl, maxIteraciones);
     }
 
     protected List<Individuo> iterateHiperplaneExploration(int L, int rcl, int maxIter) {
+
+        List<Individuo> recorrido = new ArrayList();
         /**
          * maximo tamanio de la lista de ejecución(lista que guarda todos los
          * atributos de los movimientos implementados), que sirve como condicion
@@ -127,6 +128,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     solucionEncontrada = false;
                 }
             }
+//            funcionIHEA.
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {
                 // linea 28:
@@ -139,8 +141,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_prima = descent(x_prima);
             // linea 33:
             x_mejorRondaHyper = x_prima;
+            recorrido.add(x_prima);
         }
-        return null;
+        return recorrido;
     }
 
     /**
@@ -175,6 +178,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * acuerdo al parametro ascendente, por densidad (p/w).
      *
      * @param individuo
+     * @param ascendente
      * @return
      */
     protected List<Integer> listaIndicesOrdenadosPorDensidad(Individuo individuo, boolean ascendente) {
@@ -206,7 +210,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     protected void construirProblemaRestringidoReducido(int[] varFijas, CQKP cqkp_k, Individuo x_actual) {
-
+        funcionIHEA.fijarVariables(x_actual, varFijas);
     }
 
     protected Individuo tabuSearchEngine(int L, Individuo x_inicial, Individuo x_referencia) {
@@ -234,13 +238,15 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int j_aster = 0;
         // linea 8:
         int iterTabu = 1;
-        while (vmin != Double.POSITIVE_INFINITY || erl < L) {
+        while (vmin != Double.POSITIVE_INFINITY && erl < L) {
             //linea9:
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
 
-            List<Integer> I0 = obtener_I0(x);
-            List<Integer> I1 = obtener_I1(x);
+            List<Integer> I0;
+            List<Integer> I1;
+            I0 = obtener_I0(x);
+            I1 = obtener_I1(x);
             // linea 10:
             for (Integer i : I0) {
                 // linea 11:
@@ -275,7 +281,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 x.set(j_aster, 0);
                 x.evaluar();
                 // linea 23:
-                if (vmin == 0) {
+                if (vmin >= 0) {
                     // linea 24:
                     erl = 0;
                     frx = rawFuncion(x);
@@ -367,27 +373,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     /**
-     * procedimeinto que obtiene la lista de elementos no seleccionados (I0) y
-     * los elementos seleccionados (I1).
-     *
-     * @param individuo
-     * @return List[k], k=0 -> I0, K=1 -> I1
-     */
-    protected List<Integer>[] obtener_I1_I0(Individuo individuo) {
-        List<Integer> listaNS = new ArrayList(individuo.getDimension());
-        List<Integer> listaSS = new ArrayList(individuo.getDimension());
-        // Sacar listas de elementos seleccionados y no seleccionados
-        for (int i = 0; i < individuo.getDimension(); i++) {
-            if (individuo.get(i) == 0) {
-                listaNS.add(i);
-            } else {
-                listaSS.add(i);
-            }
-        }
-        return new List[]{listaNS, listaSS};
-    }
-
-    /**
      * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
      * individuo.
      *
@@ -395,8 +380,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     protected List<Integer> obtener_I1(Individuo individuo) {
-        List<Integer>[] lista = obtener_I1_I0(individuo);
-        return lista[1];
+        return funcionIHEA.obtener_I1(individuo);
     }
 
     /**
@@ -407,8 +391,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return List de indices de elementos no seleccionados
      */
     protected List<Integer> obtener_I0(Individuo individuo) {
-        List<Integer>[] lista = obtener_I1_I0(individuo);
-        return lista[0];
+        return funcionIHEA.obtener_I0(individuo);
     }
 
     /**
@@ -490,9 +473,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return int[]{indice_salio,indice_entro}
      */
     public int[] swap(Individuo individuo) {
-        List[] listas = obtener_I1_I0(individuo);
-        List<Integer> listaNS = listas[0];
-        List<Integer> listaSS = listas[1];
+        List<Integer> listaNS = obtener_I0(individuo);
+        List<Integer> listaSS = obtener_I1(individuo);
         int indice_salio = cambiarValorAleatoriamente(individuo, listaSS, 0);
         int indice_entro = adicionarItemAleatoriamente(individuo, listaNS);
 

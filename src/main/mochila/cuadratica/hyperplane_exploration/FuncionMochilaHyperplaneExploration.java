@@ -20,6 +20,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
 
 /**
@@ -222,6 +223,168 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      */
     public double beneficio(int indice) {
         return matrizBeneficios[indice][indice];
+    }
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
+     * individuo.
+     *
+     * @param individuo s * @return List de indices de elementos seleccionados
+     * @return
+     */
+    public List<Integer> obtener_I1(Individuo individuo) {
+        IndividuoMochila indi = ((IndividuoMochila) individuo);
+        return indi.obtener_I1();
+    }
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos no seleccionados (I0)
+     * en individuo.
+     *
+     * @param individuo s * @return List de indices de elementos no
+     * seleccionados
+     * @return
+     */
+    public List<Integer> obtener_I0(Individuo individuo) {
+        IndividuoMochila indi = ((IndividuoMochila) individuo);
+        return indi.obtener_I0();
+    }
+
+    /**
+     *
+     * @param mochila
+     * @return
+     */
+    public double obtenerPeso(Individuo mochila) {
+        return ((IndividuoMochila) mochila).getPeso();
+    }
+
+    /**
+     * Obj(S): el valor de la funcion objetivo con respecto a S
+     *
+     * @param mochila
+     * @return
+     */
+    @Override
+    public double evaluar(Individuo mochila) {
+        return ((IndividuoMochila) mochila).getCalidad();
+    }
+
+    @Override
+    public Individuo generarIndividuo() {
+        Individuo nuevop = new IndividuoMochila(this);
+        return nuevop;
+    }
+
+    public void fijarVariables(Individuo individuo, int[] varFijas) {
+        IndividuoMochila indi = ((IndividuoMochila) individuo);
+        indi.fijarVariables(varFijas);
+    }
+
+    public void reiniciarVijarVariables(Individuo individuo) {
+        IndividuoMochila indi = ((IndividuoMochila) individuo);
+        indi.variablesFijas.clear();
+    }
+
+    public class IndividuoMochila extends Individuo {
+
+        private double peso;
+        private List<Integer> variablesFijas;
+        private List<Integer> I1;
+        private List<Integer> I0;
+
+        public IndividuoMochila(Funcion funcion) {
+            super(funcion);
+            variablesFijas = new ArrayList();
+            peso = 0;
+            I1 = new ArrayList();
+            I0 = new ArrayList();
+            for (int i = 0; i < funcion.getDimension(); i++) {
+                I0.add(i);
+            }
+        }
+
+        /**
+         * procedimeinto que obtiene la lista de los elementos seleccionados
+         * (I1) en individuo.
+         *
+         * @return
+         */
+        public List<Integer> obtener_I0() {
+            // Sacar listas de elementos seleccionados y no seleccionados
+            List<Integer> listaI0 = new ArrayList(I0);
+            listaI0.removeAll(variablesFijas);
+            return listaI0;
+        }
+
+        /**
+         * procedimeinto que obtiene la lista de los elementos seleccionados
+         * (I1) en individuo.
+         *
+         * @return
+         */
+        public List<Integer> obtener_I1() {
+            // Sacar listas de elementos seleccionados y no seleccionados
+            List<Integer> listaI1 = new ArrayList(I1);
+            listaI1.removeAll(variablesFijas);
+            return listaI1;
+        }
+
+        public double getPeso() {
+            return peso;
+        }
+
+        public void fijarVariables(int[] varFijas) {
+            for (int varFija : varFijas) {
+                variablesFijas.add(varFija);
+            }
+        }
+
+        @Override
+        public void set(int indice, double valor) {
+            double valAnterior = get(indice);
+            if (valAnterior == valor) {
+                return;
+            }
+            if (valor == 0) {
+                boolean result = I1.remove((Integer) indice);
+                I0.add((Integer) indice);
+            } else {
+                boolean result = I0.remove((Integer) indice);
+                I1.add((Integer) indice);
+            }
+            double valorPeso;
+            double contribucion = 0;
+            //contribucion en la fila
+            for (int i = 0; i < indice; i++) {
+                contribucion += matrizBeneficios[i][indice] * get(i);
+            }
+            //contribucion en la columna
+            for (int k = indice + 1; k < vectorPesos.length; k++) {
+                contribucion += matrizBeneficios[indice][k] * get(k);
+            }
+            //contribucion por si solo
+            contribucion += matrizBeneficios[indice][indice];
+            // peso del articulo
+            valorPeso = vectorPesos[indice];
+
+            // incluir beneficio
+            calidad += (-valAnterior + valor) * contribucion;
+            // incluir peso del elemento
+            peso += (-valAnterior + valor) * valorPeso;
+
+            super.set(indice, valor);
+        }
+
+        @Override
+        public Individuo clone() {
+            IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
+            ind.variablesFijas = new ArrayList(ind.variablesFijas);
+            ind.I0 = new ArrayList(ind.I0);
+            ind.I1 = new ArrayList(ind.I1);
+            return ind;
+        }
+
     }
 
 }

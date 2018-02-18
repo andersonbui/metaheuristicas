@@ -56,7 +56,6 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
     /**
      *
      * @param funcionGreedy
-     * @param sigma: numero de reinicios
      * @param lamda: numero de iteraciones GRASP
      * @param gama
      * @param beta

@@ -249,16 +249,17 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     public void testObtener_I1_I0() {
         System.out.println("obtener_I1_I0");
         Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
-        List[] expResult = new List[2];
-        expResult[0] = new ArrayList();
-        expResult[0].add(2);
-        expResult[1] = new ArrayList();
-        expResult[1].add(0);
-        expResult[1].add(1);
-        expResult[1].add(3);
+        List<Integer> I0 = new ArrayList();
+        I0.add(2);
+        List I1 = new ArrayList();
+        I1.add(0);
+        I1.add(1);
+        I1.add(3);
 
-        List[] result = instanceAlgoritmo.obtener_I1_I0(individuo);
-        assertArrayEquals(expResult, result);
+        List resultI0 = instanceAlgoritmo.obtener_I0(individuo);
+        List resultI1 = instanceAlgoritmo.obtener_I1(individuo);
+        assertEquals(I0, resultI0);
+        assertEquals(I1, resultI1);
     }
 
     /**

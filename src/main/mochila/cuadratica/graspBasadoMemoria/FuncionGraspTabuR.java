@@ -16,6 +16,8 @@
  */
 package main.mochila.cuadratica.graspBasadoMemoria;
 
+import java.util.ArrayList;
+import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.Funcion;
 import metaheuristicas.Individuo;
@@ -92,8 +94,9 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
 
     /**
      * Obj(S): el valor de la funcion objetivo con respecto a S
+     *
      * @param mochila
-     * @return 
+     * @return
      */
     @Override
     public double evaluar(Individuo mochila) {
