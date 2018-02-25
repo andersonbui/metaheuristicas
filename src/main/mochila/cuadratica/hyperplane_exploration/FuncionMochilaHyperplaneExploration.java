@@ -152,7 +152,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @return c - sw
      */
     public double violacionDeCapacidad(Individuo individuo) {
-        double peso = this.obtenerPeso(individuo, vectorPesos);
+        double peso = this.obtenerPeso(individuo);
         return capacidad - peso;
     }
 
@@ -208,7 +208,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
                 }
                 if (cabeArticulo) {
                     mochila.set(pos, 1);
-                    espacios = sacarEspacios(mochila);
+                    espacios -= vectorPesos[pos];
                 }
             }
         }

@@ -115,7 +115,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 18:
                 if (x_bestSolution.compareTo(x_mejorRondaHyper) > 0) {
                     // linea 19:
-                    x_mejorRondaHyper = x_bestSolution;
+                    x_mejorRondaHyper = x_bestSolution.clone();
                     // linea 21
                     x_prima = x_mejorRondaHyper.clone();
                     int pos = add(x_prima);
@@ -132,7 +132,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {
                 // linea 28:
-                x_mejorGlobal = x_mejorRondaHyper;
+                x_mejorGlobal = x_mejorRondaHyper.clone();
             }
             // linea 30: fase de perturbacion
             // linea 31:
@@ -140,8 +140,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             // linea 32:
             x_prima = descent(x_prima);
             // linea 33:
-            x_mejorRondaHyper = x_prima;
-            recorrido.add(x_prima);
+            x_mejorRondaHyper = x_prima.clone();
+            recorrido.add(x_mejorGlobal);
         }
         return recorrido;
     }
@@ -163,9 +163,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
         // vector de indices de variables fijas
         int[] varFijas = new int[nf];
+        // items seleccionados
+        List<Integer> itemsSeleccionados = obtener_I1(individuo);
 
-        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(individuo, false);
-
+        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(itemsSeleccionados, individuo, false);
+        nf = Math.min(nf, listaIndices.size());
         // obtener los primeros nf indices de los elementos más densos
         for (int i = 0; i < nf; i++) {
             varFijas[i] = listaIndices.get(i);
@@ -182,20 +184,31 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     protected List<Integer> listaIndicesOrdenadosPorDensidad(Individuo individuo, boolean ascendente) {
-        // almacen de todas las densidades
-        double[] densidades = new double[individuo.getDimension()];
         // almacen de indices
         List<Integer> listaIndices = new ArrayList();
-        // calcular densidades
-        for (int i = 0; i < densidades.length; i++) {
-            // calcular densidad solo de los elementos seleccionados
-            if (individuo.get(i) == 1) {
-                densidades[i] = funcionIHEA.densidad(i, individuo);
-            } else {
-                densidades[i] = 0;
-            }
+        for (int i = 0; i < individuo.getDimension(); i++) {
             // indices de cada elemento
             listaIndices.add(i);
+        }
+        return listaIndicesOrdenadosPorDensidad(listaIndices, individuo, ascendente);
+    }
+
+    /**
+     * obtiene la lista de indices de cada item en listaIndices, de acuerdo al
+     * parametro ascendente, por densidad (p/w).
+     *
+     * @param listaIndices
+     * @param individuo
+     * @param ascendente
+     * @return
+     */
+    protected List<Integer> listaIndicesOrdenadosPorDensidad(List<Integer> listaIndices, Individuo individuo, boolean ascendente) {
+        // almacen de todas las densidades
+        double[] densidades = new double[individuo.getDimension()];
+        // calcular densidades
+        for (int indice : listaIndices) {
+            // calcular densidad solo de los elementos en listaIndices
+            densidades[indice] = funcionIHEA.densidad(indice, individuo);
         }
         /**
          * ordenar la lista de indices de forma decreciente con respecto a la
@@ -268,7 +281,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         }
                         x.set(i, 0);
                         x.set(j, 1);
-                        x.evaluar();
                     }
                 }
             }
@@ -279,14 +291,13 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                x.evaluar();
                 // linea 23:
-                if (vmin >= 0) {
+                if (vmin >= 0) { // ############################# ==
                     // linea 24:
                     erl = 0;
                     frx = rawFuncion(x);
                     fmin = frx;
-                    x_aster = x;
+                    x_aster = x.clone();
                     // linea 25:
                 } else {
                     //linea 26: actualizar estado tabu
@@ -330,7 +341,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      */
     protected Individuo perturbacion(Individuo individuo, int iteraciones) {
         List<Integer> I1 = obtener_I1(individuo);
-        List<Integer> I0 = obtener_I0(individuo);
 
         // dimension de individuo
         int dimX = dimensionHiperplano(individuo);
@@ -341,7 +351,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         t = Math.min(10, I1.size() - nf);
         s = Math.min(3, t);
-        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(individuo, false);
+        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(I1, individuo, true);
         for (int i = 0; i < s; i++) {
             individuo.set(listaIndices.get(i), 0);
         }
@@ -366,7 +376,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     protected Individuo GreedyRandomizedConstruction(Individuo individuo, int rcl) {
-        List<Integer> listaOrdenada = listaIndicesOrdenadosPorBeneficio(individuo, false);
+        List<Integer> listaNoSeleccionados = obtener_I0(individuo);
+        List<Integer> listaOrdenada = listaIndicesOrdenadosPorBeneficio(listaNoSeleccionados,individuo, false);
         individuo = funcionIHEA.limitarInferiormente(individuo, listaOrdenada);
         individuo.evaluar();
         return individuo;
@@ -406,7 +417,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         while (true) {
             Individuo individuo = mejor.clone();
             //ADD
-            add(individuo);
+            add_factible(individuo);
 
             //SWAP
             swap(individuo);
@@ -423,13 +434,25 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     /**
+     * adiciona un item, escogido aleatoriamente, a individuo ya sea que el
+     * individuo resultante sea factible o no factible.
+     *
+     * @param individuo
+     * @return indice del elemento adicionado
+     */
+    protected int add(Individuo individuo) {
+        List<Integer> listaI0 = obtener_I0(individuo);
+        return cambiarValorAleatoriamente(individuo, listaI0, 1);
+    }
+
+    /**
      * adiciona un item, escogido aleatoriamente, a individuo de manera tal que
      * el individuo resultante sea factible
      *
      * @param individuo
      * @return indice del elemento adicionado
      */
-    protected int add(Individuo individuo) {
+    protected int add_factible(Individuo individuo) {
         List<Integer> listaI0 = obtener_I0(individuo);
         return adicionarItemAleatoriamente(individuo, listaI0);
     }
@@ -510,17 +533,29 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     private List<Integer> listaIndicesOrdenadosPorBeneficio(Individuo individuo, boolean ascendente) {
-        // almacen de todas las densidades
-        double[] densidades = new double[individuo.getDimension()];
         // almacen de indices
         List<Integer> listaIndices = new ArrayList();
-        // calcular densidades
-        for (int i = 0; i < densidades.length; i++) {
-            // calcular densidad solo de los elementos seleccionados
-            densidades[i] = funcionIHEA.densidad(i, individuo);
-//                densidades[i] = funcionIHEA.beneficio(i);
+        for (int i = 0; i < individuo.getDimension(); i++) {
             // indices de cada elemento
             listaIndices.add(i);
+        }
+        return listaIndicesOrdenadosPorBeneficio(listaIndices, individuo, ascendente);
+    }
+
+    /**
+     * obtiene la lista de indices de cada item de individuo ordenados, de
+     * acuerdo al parametro ascendente, por densidad (p/w).
+     *
+     * @param individuo
+     * @return
+     */
+    private List<Integer> listaIndicesOrdenadosPorBeneficio(List<Integer> listaIndices, Individuo individuo, boolean ascendente) {
+        // almacen de todas las densidades
+        double[] densidades = new double[individuo.getDimension()];
+        // calcular densidades
+        for (Integer indice : listaIndices) {
+            // calcular densidad solo de los elementos seleccionados
+            densidades[indice] = funcionIHEA.densidad(indice, individuo);
         }
         /**
          * ordenar la lista de indices de forma decreciente con respecto a la

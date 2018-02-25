@@ -55,16 +55,16 @@ public class MainMochilaCuadratica {
         // numero de individuos porpoblacion
         tamPoblacion = 20;// 20 ó 50 resultan buenos
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 2;
+        maxIteraciones = 7;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
         List listaParametros;
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
-        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
+//        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
-//         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_75_6.txt");
+         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_200_75_6.txt");
 //        lim,15,0.99,20
 //         listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/jeu_300_25_10.txt");
         //si-no,15,0.99,20
@@ -100,12 +100,12 @@ public class MainMochilaCuadratica {
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
-//        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
+        listaAlgoritmos.add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 //        listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG_2));
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialConGreedy(tamPoblacion, funcionEDG));
 //        listaAlgoritmos.add(new GraspReinicio((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4));
 //        listaAlgoritmos.add(new GraspFundamental((FuncionGreedy) funcionGreedy, maxIteraciones, 50, 5, 4));
-        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+//        listaAlgoritmos.add(new GraspTabuReinicio((FuncionGraspTabuR) funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 
         List<Funcion> listaFunciones = new ArrayList();
         listaFunciones.add(new FuncionMochilaCuadratica(matrizBeneficios, capacidad, vectorPesos, maxGlobal));
