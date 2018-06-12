@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 
 /**
@@ -51,11 +51,10 @@ public class GraspFundamental extends GraspReinicio {
      * numLanda es el numero de reinicios usados para intentar mejorar bestLB
      * numDelta es el numero de iteraciones GRASp
      *
-     * @param funcion
      * @return
      */
     @Override
-    public List<Individuo> ejecutar(Funcion funcion) {
+    public List<Individuo> ejecutar() {
         //linea 1:
         Individuo LB = null;
         Individuo S = null;

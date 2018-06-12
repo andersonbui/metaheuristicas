@@ -20,7 +20,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 
 /**
@@ -266,7 +266,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @return
      */
     @Override
-    public double evaluar(Individuo mochila) {
+    public double calcularPeso(Individuo mochila) {
         return ((IndividuoMochila) mochila).getCalidad();
     }
 

@@ -16,10 +16,8 @@
  */
 package main.mochila.cuadratica.graspBasadoMemoria;
 
-import java.util.ArrayList;
-import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 
 /**
@@ -99,7 +97,7 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     @Override
-    public double evaluar(Individuo mochila) {
+    public double calcularPeso(Individuo mochila) {
 //        if (mochila instanceof IndividuoMochila) {
         return ((IndividuoMochila) mochila).getCalidad();
 //        } else {

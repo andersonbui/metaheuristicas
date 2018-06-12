@@ -1,7 +1,7 @@
 package main.mochila;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Aleatorio;
 
 /**

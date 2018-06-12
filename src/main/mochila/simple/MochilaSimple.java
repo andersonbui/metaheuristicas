@@ -1,7 +1,7 @@
 package main.mochila.simple;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import java.util.List;
 import metaheuristicas.Aleatorio;
 
@@ -26,7 +26,6 @@ public class MochilaSimple extends Funcion {
 
     @Override
     public double evaluar(Individuo punto) {
-        super.evaluar(punto);
         limitar(punto);
         double result = obtenerPrecio(punto);
         return result;

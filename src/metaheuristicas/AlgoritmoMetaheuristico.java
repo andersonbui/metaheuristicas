@@ -1,42 +1,33 @@
 package metaheuristicas;
 
+import metaheuristicas.funcion.Funcion;
 import java.util.List;
 
 /**
  *
  * @author debian
+ * @param <FuncionDef>
  */
-public abstract class AlgoritmoMetaheuristico {
+public abstract class AlgoritmoMetaheuristico<FuncionDef extends Funcion> {
 
     protected int iteraciones;
     protected int maxIteraciones;
     protected String nombre;
-    protected Funcion funcion;
+    protected FuncionDef funcion;
 
     public AlgoritmoMetaheuristico() {
         this.nombre = "";
         iteraciones = 0;
     }
 
-    public abstract List<Individuo> ejecutar(Funcion funcion);
-
-    /**
-     * permite hacer pequeñas modificaciones y que se ejecuten con estas por
-     * cada iteracionde siguiente. Por ejemplo el cambio de un parametro en un
-     * rango
-     */
-    public void siguiente() {
-    }
-
-    public boolean haySiguiente() {
-        return false;
-    }
-
-    public void reiniciar() {
-    }
+    public abstract List<Individuo> ejecutar();
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void renovar() {
+        iteraciones = 0;
     }
 
     public void setNombre(String nombre) {
@@ -51,7 +42,7 @@ public abstract class AlgoritmoMetaheuristico {
         this.iteraciones = iteraciones;
     }
 
-    public void setFuncion(Funcion funcion) {
+    public void setFuncion(FuncionDef funcion) {
         this.funcion = funcion;
     }
 
@@ -59,7 +50,7 @@ public abstract class AlgoritmoMetaheuristico {
         return maxIteraciones;
     }
 
-    public Funcion getFuncion() {
+    public FuncionDef getFuncion() {
         return funcion;
     }
 

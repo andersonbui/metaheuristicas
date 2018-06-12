@@ -18,7 +18,7 @@ package main.mochila.simple;
 
 import main.Algebraicas.funciones.Ackley;
 import main.Algebraicas.funciones.Esfera;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import main.Algebraicas.funciones.Piso;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

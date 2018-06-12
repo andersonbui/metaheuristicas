@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspReinicio.ItemCalidad;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 import org.junit.After;
 import org.junit.AfterClass;

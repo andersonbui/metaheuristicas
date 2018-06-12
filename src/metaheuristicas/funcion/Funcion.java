@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package metaheuristicas;
+package metaheuristicas.funcion;
+
+import metaheuristicas.Individuo;
 
 /**
  *
@@ -70,6 +72,14 @@ public abstract class Funcion {
         return Math.abs(individuo.getCalidad() - maxmin) < error;
     }
 
+    /**
+     * obtiene el optimo grobal de acuerdo al optimo que se busca (maximo o
+     * minimo) definido por la variable local "maximizar", es decir, si
+     * mazimizar=true, entonces, return maximo_global, de lo contrario return
+     * minimo_global
+     *
+     * @return
+     */
     public double getOptimoGlobal() {
         if (maximizar) {
             return maxGlobal;
@@ -78,9 +88,11 @@ public abstract class Funcion {
         }
     }
 
-    public double evaluar(Individuo p) {
+    protected abstract double evaluar(Individuo p);
+
+    public double evaluacion(Individuo indiv) {
         contadorEvaluaciones++;
-        return 0;
+        return evaluar(indiv);
     }
 
     public int getContadorEvaluaciones() {

@@ -1,7 +1,7 @@
 package main.regresion_cuadratica;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import java.util.List;
 import main.Algebraicas.FuncionAlgebraica;
 import metaheuristicas.Aleatorio;

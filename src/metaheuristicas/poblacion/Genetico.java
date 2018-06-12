@@ -29,14 +29,12 @@ public class Genetico extends AlgoritmoEvolutivo {
     MultiGen mutacion;
     double ancho = 0.5;
     int[] mascaraCruce;
-    boolean competirPadres;
 
     private final int numPadres = 2;
 
     public Genetico(int tamPoblacion) {
         super(tamPoblacion, 2);
         nombre = "E_Genetica";
-        competirPadres = false;
     }
 
     /**
@@ -80,32 +78,14 @@ public class Genetico extends AlgoritmoEvolutivo {
             hijo.evaluar();
             nuevaGeneracion.add(hijo);
         }
-        if (competirPadres) {
-            nuevaGeneracion.add(madre);
-            nuevaGeneracion.add(padre);
-        }
+
+//        nuevaGeneracion.add(madre);
+//        nuevaGeneracion.add(padre);
     }
 
     private Individuo mutar(Individuo punto) {
         mutacion = new MultiGen(ancho);
         return mutacion.mutar(punto, punto.getFuncion().getLimite(), 0.2, true);
-    }
-
-    @Override
-    public boolean haySiguiente() {
-        setNombre("E_Genetica_padres");
-        return !competirPadres;
-    }
-
-    @Override
-    public void siguiente() {
-        competirPadres = true;
-    }
-
-    @Override
-    public void reiniciar() {
-        setNombre("E_Genetica");
-        competirPadres = false;
     }
 
 }

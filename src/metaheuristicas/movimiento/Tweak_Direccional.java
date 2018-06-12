@@ -1,6 +1,6 @@
 package metaheuristicas.movimiento;
 
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,7 +55,7 @@ public class Tweak_Direccional extends Tweak_1 {
             for (int i = 0; i < nuevoPunto.getDimension(); i++) {
                 nuevoPunto.set(i, nuevoPunto.get(i) + item[i] * vectorDireccionOriginal[i]);
             }
-            nuevoPunto.setCalidad(funcion.evaluar(nuevoPunto));
+            nuevoPunto.evaluar();
             listaPuntos.add(nuevoPunto);
         }
         return listaPuntos;

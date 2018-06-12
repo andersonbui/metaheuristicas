@@ -18,14 +18,16 @@ package main.mochila.estrategias;
 
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.poblacion.EvolucionDiferencial;
 import metaheuristicas.poblacion.Poblacion;
 
 /**
  *
  * @author debian
+ * @param <FuncionB>
  */
-public class EstrategiaEvolucionDiferencialBinariaPaper extends EvolucionDiferencial {
+public class EstrategiaEvolucionDiferencialBinariaPaper<FuncionB extends Funcion> extends EvolucionDiferencial {
 
     protected double b;
 

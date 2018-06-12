@@ -42,6 +42,7 @@ public class GraspTabuReinicio extends GraspReinicio {
      */
     public GraspTabuReinicio(FuncionGraspTabuR funcionGreedy, int lamda, int gama, int beta, int t_min, int t_max) {
         super(funcionGreedy, lamda, gama, beta);
+        setFuncion(funcionGreedy);
         nombre = "GraspTabuReinicio";
         this.t_min = t_min;
         this.t_max = t_max;
@@ -218,7 +219,7 @@ public class GraspTabuReinicio extends GraspReinicio {
         } else //3135231933
         // verificar que el elemento no sobrepase la capacidad de la mochila
         {
-            if (funcionGreedy.cabe(individuo, aleatorio)) {
+            if (funcion.cabe(individuo, aleatorio)) {
                 individuo.set(aleatorio, 1);
                 posModificado = aleatorio;
             }
@@ -250,7 +251,7 @@ public class GraspTabuReinicio extends GraspReinicio {
         if (listaItemNoSelect.size() < 2 || Objects.equals(listaItemSelect.get(aleatrioS), listaItemNoSelect.get(aleatrioNS))) {
             return new int[]{-1, -1};
         }
-        if (funcionGreedy.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
+        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
             posAgregado = listaItemNoSelect.get(aleatrioNS);
             posSalio = listaItemSelect.get(aleatrioS);
             individuo.set(posAgregado, 1);

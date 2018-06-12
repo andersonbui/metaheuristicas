@@ -47,7 +47,7 @@ public class Utilidades {
                 valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++].trim());
             }
             Individuo puntoActual = new Individuo(null, valoresPuntoActual);
-            
+
             puntoActual.setCalidad(Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++]));
             listaPuntos.add(puntoActual);
 //            System.out.println("<" + puntoActual.toString() + ">");
@@ -194,4 +194,13 @@ public class Utilidades {
         return resultado;
     }
 
+    public static double calcularDesviacion(List<Individuo> lista, double promedio) {
+        double suma = 0;
+        double diferencia;
+        for (Individuo item : lista) {
+            diferencia = item.getCalidad() - promedio;
+            suma += diferencia * diferencia;
+        }
+        return Math.sqrt(suma / (lista.size() - 1));
+    }
 }

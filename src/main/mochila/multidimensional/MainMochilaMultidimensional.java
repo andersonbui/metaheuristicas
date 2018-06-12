@@ -18,7 +18,7 @@ package main.mochila.multidimensional;
 
 import main.mochila.multidimensional.funciones.MochilaMultidimensional_LimitRellenoM;
 import main.mochila.multidimensional.funciones.MochilasMultidimensionales;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;

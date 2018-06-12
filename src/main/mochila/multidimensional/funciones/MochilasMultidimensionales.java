@@ -1,7 +1,7 @@
 package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 
 /**
  *
@@ -59,11 +59,11 @@ public class MochilasMultidimensionales extends Funcion {
     }
 
     @Override
-    public double evaluar(Individuo mochila) {
+    protected double evaluar(Individuo mochila) {
         if (funcion.getClass() == MochilaMultidimensional_LimitRellenoM.class) {
             System.out.print("");
         }
-        return funcion.evaluar(mochila);
+        return funcion.evaluacion(mochila);
     }
 
     @Override

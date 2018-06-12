@@ -1,11 +1,11 @@
 package metaheuristicas;
 
+import metaheuristicas.funcion.Funcion;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static main.Ejecutor.formatear;
-import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     public Individuo(Funcion funcion) {
         this.funcion = funcion;
 //        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
-        valores = new double[funcion.dimension];
+        valores = new double[funcion.getDimension()];
         generacion = 0;
     }
 
@@ -87,7 +87,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     @Override
     public int compareTo(Individuo otrop) {
         Double a_calidad = this.calidad;
-        int orden = funcion.maximizar ? 1 : -1;
+        int orden = funcion.isMaximizar() ? 1 : -1;
         return orden * a_calidad.compareTo(otrop.getCalidad());
     }
 
@@ -128,7 +128,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     }
 
     public double evaluar() {
-        calidad = funcion.evaluar(this);
+        calidad = funcion.evaluacion(this);
         return calidad;
     }
 

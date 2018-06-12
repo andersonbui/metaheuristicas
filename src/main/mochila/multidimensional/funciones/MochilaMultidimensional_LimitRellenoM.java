@@ -4,7 +4,7 @@ import metaheuristicas.Individuo;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 
 /**
  *

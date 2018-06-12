@@ -5,7 +5,7 @@
  */
 package metaheuristicas.simple;
 
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Individuo> ejecutar(Funcion funcion) {
+    public List<Individuo> ejecutar() {
         List<Individuo> optimos = new ArrayList();
         Individuo s = funcion.generarIndividuo();
         s.evaluar();
@@ -54,22 +54,4 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
         }
         return optimos;
     }
-
-    @Override
-    public void siguiente() {
-        tweak = tweaks[++contadorTweak];
-        nombre = "HC" + tweak;
-    }
-
-    @Override
-    public boolean haySiguiente() {
-        return tweaks.length > contadorTweak + 1;
-    }
-
-    @Override
-    public void reiniciar() {
-        nombre = "HC";
-        contadorTweak = 0;
-    }
-
 }

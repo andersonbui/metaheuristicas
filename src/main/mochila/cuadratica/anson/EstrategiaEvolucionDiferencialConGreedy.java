@@ -17,25 +17,25 @@
 package main.mochila.cuadratica.anson;
 
 import main.mochila.estrategias.*;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 import metaheuristicas.poblacion.Poblacion;
 
 /**
  *
  * @author debian
+ * @param <FuncionGreddy>
  */
-public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucionDiferencialBinariaPaper {
+public class EstrategiaEvolucionDiferencialConGreedy<FuncionGreddy extends FuncionMochilaCuadraticaGreedy> extends EstrategiaEvolucionDiferencialBinariaPaper<FuncionGreddy> {
 
-    FuncionMochilaCuadraticaGreedy funcionGreedy;
-
-    public EstrategiaEvolucionDiferencialConGreedy(int tamPoblacion, FuncionMochilaCuadraticaGreedy funcionGreedy) {
+    public EstrategiaEvolucionDiferencialConGreedy(FuncionMochilaCuadraticaGreedy funcion, int maxIteraciones, int tamPoblacion) {
         super(tamPoblacion);
         nombre = "EstrategiaEDB_PaperMM";
+        setMaxIteraciones(maxIteraciones);
         cr = 0.2;
         alfa = 0.8;
         b = 20;
-        this.funcionGreedy = funcionGreedy;
+        this.funcion = funcion;
     }
 
     /**
@@ -47,7 +47,7 @@ public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucion
      */
     @Override
     public Poblacion siguienteGeneracion(int numIndividuosElitismo) {
-        
+
         Poblacion siguienteGeneracion = poblacion.clone();
         siguienteGeneracion.aumentarGeneracion();
         siguienteGeneracion.clear();
@@ -58,7 +58,7 @@ public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucion
             // CRUCE -> generacion del vector prueba
             Individuo individuoPrueba = cruce(objetivo, mutado, k);
             // SELECCION
-            funcionGreedy.limitar(individuoPrueba);
+            funcion.limitar(individuoPrueba);
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
 //            siguienteGeneracion.add(objetivo);
@@ -68,16 +68,15 @@ public class EstrategiaEvolucionDiferencialConGreedy extends EstrategiaEvolucion
 
     @Override
     public Poblacion generarPoblacion(Funcion funcion) {
-        funcion.setNombre(funcionGreedy.getNombre());
         Poblacion unaPoblacion = new Poblacion(funcion, tamPoblacion);
         Individuo p;
         for (int i = 0; i < tamPoblacion; i++) {
 //            p = funcion.generarIndividuo();
-            p = funcionGreedy.generarIndividuo();
+            p = funcion.generarIndividuo();
             p.setFuncion(funcion);
-            funcionGreedy.limitar(p); // comentado 
+            funcion.limitar(p); // comentado 
             p.evaluar();
-            
+
             unaPoblacion.add(p);
         }
         return unaPoblacion;

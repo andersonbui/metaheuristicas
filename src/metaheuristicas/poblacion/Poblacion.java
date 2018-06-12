@@ -16,7 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Individuo;

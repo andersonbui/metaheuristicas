@@ -1,6 +1,6 @@
 package metaheuristicas.movimiento;
 
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
 

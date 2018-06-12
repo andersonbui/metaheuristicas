@@ -1,7 +1,7 @@
 package main.mochila.multidimensional.funciones;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.Funcion;
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -35,7 +35,6 @@ public class MochilaMultidimensionalOriginal extends Funcion {
 
     @Override
     public double evaluar(Individuo mochila) {
-        super.evaluar(mochila);
         limitar(mochila);
         double result = obtenerPrecio(mochila);
         return result;

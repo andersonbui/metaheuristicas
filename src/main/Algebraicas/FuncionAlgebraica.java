@@ -5,6 +5,7 @@
  */
 package main.Algebraicas;
 
+import metaheuristicas.funcion.Funcion;
 import metaheuristicas.*;
 
 /**
