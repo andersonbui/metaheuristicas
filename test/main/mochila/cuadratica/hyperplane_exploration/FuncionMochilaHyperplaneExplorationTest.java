@@ -18,6 +18,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.IndividuoMochila;
 import metaheuristicas.Individuo;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -70,7 +71,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     public void testContribucion() {
         System.out.println("contribucion");
         int indice = 1;
-        Individuo mochila = new Individuo(instanceFuncion, new double[]{1, 0, 0, 1});
+        IndividuoMochila mochila = new IndividuoMochila(instanceFuncion, new double[]{1, 0, 0, 1});
 
         double expResult = 7;
         double result = instanceFuncion.contribucion(indice, mochila);
@@ -84,7 +85,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     public void testDensidad() {
         System.out.println("densidad");
         int indice = 1;
-        Individuo mochila = new Individuo(instanceFuncion, new double[]{1, 0, 0, 1});
+        IndividuoMochila mochila = new IndividuoMochila(instanceFuncion, new double[]{1, 0, 0, 1});
         double expResult = 7 / 2.0;
         double result = instanceFuncion.densidad(indice, mochila);
         assertEquals(expResult, result, 0.0);
@@ -131,7 +132,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     @Test
     public void testViolacionDeCapacidad() {
         System.out.println("violacionDeCapacidad");
-        Individuo individuo = new Individuo(instanceFuncion, new double[]{1, 0, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(instanceFuncion, new double[]{1, 0, 0, 1});
         double expResult = 0.0;
         double result = instanceFuncion.violacionDeCapacidad(individuo);
         assertEquals(expResult, result, 0.0);
@@ -154,7 +155,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
         listaIndices.add(0);
         listaIndices.add(2);
         listaIndices.add(3);
-        Individuo individuo = new Individuo(instanceFuncion, new double[]{0, 1, 0, 0});
+        IndividuoMochila individuo = new IndividuoMochila(instanceFuncion, new double[]{0, 1, 0, 0});
         List<Integer> expResult = new ArrayList();
         expResult.add(0);
         expResult.add(2);
@@ -170,7 +171,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     @Test
     public void testSwapFactible() {
         System.out.println("swapFactible");
-        Individuo individuo = new Individuo(instanceFuncion, new double[]{0, 1, 1, 0});
+        IndividuoMochila individuo = new IndividuoMochila(instanceFuncion, new double[]{0, 1, 1, 0});
 
         boolean result = instanceFuncion.swapFactible(0, 2, individuo);
         assertTrue(result);

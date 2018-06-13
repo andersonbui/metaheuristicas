@@ -17,21 +17,31 @@
 package main.mochila;
 
 import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
 
 /**
  *
  * @author debian
  */
-public class IndividuoMochila extends Individuo {
+public class IndividuoMochila extends Individuo<FuncionMochila> {
 
     double peso;
 
-    public IndividuoMochila(Funcion funcion) {
+    public IndividuoMochila(FuncionMochila funcion) {
         super(funcion);
     }
 
+    public IndividuoMochila(FuncionMochila funcion, double[] valores) {
+        super(funcion, valores);
+    }
+
+    @Override
+    public IndividuoMochila clone() {
+        IndividuoMochila punto = (IndividuoMochila) super.clone();
+        punto.valores = valores.clone();
+        return punto;
+    }
+
     public double pesar() {
-        return peso;
+        return funcion.obtenerPeso(this, funcion.vectorPesos);
     }
 }

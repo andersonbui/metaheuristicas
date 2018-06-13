@@ -16,9 +16,9 @@
  */
 package main.mochila.cuadratica.sgvns;
 
+import main.mochila.FuncionMochila;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
 
 /**
  *
@@ -31,20 +31,21 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
     }
 
     @Override
-    public Individuo generarIndividuo() {
-        Individuo nuevop = new IndividuoVNS(this);
+    public IndividuoMochila generarIndividuo() {
+        IndividuoMochila nuevop = new IndividuoVNS(this);
         return nuevop;
     }
 
-    public class IndividuoVNS extends Individuo {
+    public class IndividuoVNS extends IndividuoMochila {
 
         private double peso;
 
-        public IndividuoVNS(Funcion funcion) {
+        public IndividuoVNS(FuncionMochila funcion) {
             super(funcion);
             peso = 0;
         }
 
+        @Override
         public double pesar() {
             return peso;
         }
@@ -85,7 +86,7 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
         }
 
         @Override
-        public Individuo clone() {
+        public IndividuoMochila clone() {
             IndividuoVNS ind = (IndividuoVNS) super.clone(); //To change body of generated methods, choose Tools | Templates.
             return ind;
         }

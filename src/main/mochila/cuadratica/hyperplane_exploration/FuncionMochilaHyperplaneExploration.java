@@ -19,6 +19,8 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.FuncionMochila;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
@@ -53,7 +55,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param mochila
      * @return
      */
-    protected double contribucion(int indice, Individuo mochila) {
+    protected double contribucion(int indice, IndividuoMochila mochila) {
         double suma = 0;
         for (int i = 0; i < indice; i++) {
             suma += matrizBeneficios[i][indice] * mochila.get(i);
@@ -72,7 +74,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param mochila
      * @return beneficio-elemento/peso-elemento
      */
-    public double densidad(int indice, Individuo mochila) {
+    public double densidad(int indice, IndividuoMochila mochila) {
         return contribucion(indice, mochila) / vectorPesos[indice];
     }
 
@@ -151,7 +153,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param individuo
      * @return c - sw
      */
-    public double violacionDeCapacidad(Individuo individuo) {
+    public double violacionDeCapacidad(IndividuoMochila individuo) {
         double peso = this.obtenerPeso(individuo);
         return capacidad - peso;
     }
@@ -164,7 +166,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param mochila
      * @return
      */
-    public List<Integer> filtrarPorFactibles(List<Integer> listaIndices, Individuo mochila) {
+    public List<Integer> filtrarPorFactibles(List<Integer> listaIndices, IndividuoMochila mochila) {
         double espacio = sacarEspacios(mochila);
         List<Integer> listaFactibles = new ArrayList(listaIndices);
         listaFactibles.removeIf((Integer t1) -> {
@@ -182,7 +184,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param individuo
      * @return
      */
-    boolean swapFactible(int pos_add, int pos_sacar, Individuo individuo) {
+    boolean swapFactible(int pos_add, int pos_sacar, IndividuoMochila individuo) {
         if (!(individuo.get(pos_add) == 0 && individuo.get(pos_sacar) == 1)) {
             throw new InvalidParameterException(
                     "pos_add debe ser de un elemento no seleccionado, y"
@@ -194,7 +196,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
     }
 
     ////////////////////////////////////////////////////////////////
-    public Individuo limitarInferiormente(Individuo mochila, List<Integer> listaOrdenada) {
+    public IndividuoMochila limitarInferiormente(IndividuoMochila mochila, List<Integer> listaOrdenada) {
         double espacios = sacarEspacios(mochila);
         boolean cabeArticulo;
         // en todos los articulos
@@ -232,8 +234,8 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param individuo s * @return List de indices de elementos seleccionados
      * @return
      */
-    public List<Integer> obtener_I1(Individuo individuo) {
-        IndividuoMochila indi = ((IndividuoMochila) individuo);
+    public List<Integer> obtener_I1(IndividuoMochila individuo) {
+        IndividuoMochila2 indi = ((IndividuoMochila2) individuo);
         return indi.obtener_I1();
     }
 
@@ -245,8 +247,8 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * seleccionados
      * @return
      */
-    public List<Integer> obtener_I0(Individuo individuo) {
-        IndividuoMochila indi = ((IndividuoMochila) individuo);
+    public List<Integer> obtener_I0(IndividuoMochila individuo) {
+        IndividuoMochila2 indi = ((IndividuoMochila2) individuo);
         return indi.obtener_I0();
     }
 
@@ -255,8 +257,8 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @param mochila
      * @return
      */
-    public double obtenerPeso(Individuo mochila) {
-        return ((IndividuoMochila) mochila).getPeso();
+    public double obtenerPeso(IndividuoMochila mochila) {
+        return ((IndividuoMochila2) mochila).getPeso();
     }
 
     /**
@@ -266,17 +268,17 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @return
      */
     @Override
-    public double calcularBeneficio(Individuo mochila) {
-        return ((IndividuoMochila) mochila).getCalidad();
+    public double calcularBeneficio(IndividuoMochila mochila) {
+        return ((IndividuoMochila2) mochila).getCalidad();
     }
 
     @Override
-    public Individuo generarIndividuo() {
-        Individuo nuevop = new IndividuoMochila(this);
+    public IndividuoMochila generarIndividuo() {
+        IndividuoMochila nuevop = new IndividuoMochila2(this);
         return nuevop;
     }
 
-    public void fijarVariables(Individuo individuo, int[] varFijas) {
+    public void fijarVariables(IndividuoMochila individuo, int[] varFijas) {
         for (int varFija : varFijas) {
             variablesFijas.add(varFija);
         }
@@ -288,13 +290,13 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
 
     private List<Integer> variablesFijas;
 
-    public class IndividuoMochila extends Individuo {
+    public class IndividuoMochila2 extends IndividuoMochila {
 
         private double peso;
         private List<Integer> I1;
         private List<Integer> I0;
 
-        public IndividuoMochila(Funcion funcion) {
+        public IndividuoMochila2(FuncionMochila funcion) {
             super(funcion);
             variablesFijas = new ArrayList();
             peso = 0;
@@ -372,8 +374,8 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
         }
 
         @Override
-        public Individuo clone() {
-            IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
+        public IndividuoMochila clone() {
+            IndividuoMochila2 ind = (IndividuoMochila2) super.clone(); //To change body of generated methods, choose Tools | Templates.
             ind.I0 = new ArrayList(ind.I0);
             ind.I1 = new ArrayList(ind.I1);
             return ind;

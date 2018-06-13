@@ -10,25 +10,26 @@ import static main.Ejecutor.formatear;
 /**
  *
  * @author debian
+ * @param <FuncionM>
  */
-public class Individuo implements Iterable<Double>, Comparable<Individuo>, Cloneable {
+public class Individuo<FuncionM extends Funcion> implements Iterable<Double>, Comparable<Individuo>, Cloneable {
 
     protected double[] valores;
     protected double calidad;
-    protected Funcion funcion;
+    protected FuncionM funcion;
     protected int generacion;
 
     /**
      * @param funcion
      */
-    public Individuo(Funcion funcion) {
+    public Individuo(FuncionM funcion) {
         this.funcion = funcion;
 //        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
         valores = new double[funcion.getDimension()];
         generacion = 0;
     }
 
-    public Individuo(Funcion funcion, double[] valores) {
+    public Individuo(FuncionM funcion, double[] valores) {
         this.funcion = funcion;
         this.valores = valores;
 //        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
@@ -135,7 +136,7 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
         return funcion;
     }
 
-    public void setFuncion(Funcion funcion) {
+    public void setFuncion(FuncionM funcion) {
         this.funcion = funcion;
     }
 

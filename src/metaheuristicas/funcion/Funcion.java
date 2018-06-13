@@ -5,13 +5,12 @@
  */
 package metaheuristicas.funcion;
 
-import metaheuristicas.Individuo;
-
 /**
  *
  * @author debian
+ * @param <Individuo>
  */
-public abstract class Funcion {
+public abstract class Funcion<Individuo extends metaheuristicas.Individuo> {
 
     protected String nombre;
     protected int dimension;

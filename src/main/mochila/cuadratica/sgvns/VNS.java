@@ -18,6 +18,7 @@ package main.mochila.cuadratica.sgvns;
 
 import java.util.List;
 import java.util.Random;
+import main.mochila.IndividuoMochila;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Individuo;
 
@@ -47,7 +48,7 @@ public class VNS<funcionVNS extends FuncionSGVNS> extends AlgoritmoMetaheuristic
     }
 
     public Individuo solucionInicial() {
-        Individuo individuo = funcion.generarIndividuo();
+        IndividuoMochila individuo = funcion.generarIndividuo();
         individuo.getDimension();
         Random rand = new Random();
         
@@ -55,7 +56,7 @@ public class VNS<funcionVNS extends FuncionSGVNS> extends AlgoritmoMetaheuristic
         for (int i = 0; i < 10000000; i++) {
             individuo.set(rand.nextInt(funcion.getDimension()), i);
             individuo.evaluar();
-            funcion.calcularPeso(individuo);
+            individuo.pesar();
         }
         long tiempo_final = System.currentTimeMillis();
         System.out.println("tiempo: " + (tiempo_final - tiempo_inicial));

@@ -16,6 +16,8 @@
  */
 package main.mochila.cuadratica.graspBasadoMemoria;
 
+import main.mochila.FuncionMochila;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
@@ -83,8 +85,8 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     public double obtenerPeso(Individuo mochila) {
-//        if (mochila instanceof IndividuoMochila) {
-        return ((IndividuoMochila) mochila).getPeso();
+//        if (mochila instanceof IndividuoMochilaGrasp) {
+        return ((IndividuoMochilaGrasp) mochila).getPeso();
 //        } else {
 //            return super.obtenerPeso(mochila, vectorPesos);
 //        }
@@ -97,25 +99,25 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     @Override
-    public double calcularBeneficio(Individuo mochila) {
-//        if (mochila instanceof IndividuoMochila) {
-        return ((IndividuoMochila) mochila).getCalidad();
+    public double calcularBeneficio(IndividuoMochila mochila) {
+//        if (mochila instanceof IndividuoMochilaGrasp) {
+        return ((IndividuoMochilaGrasp) mochila).getCalidad();
 //        } else {
 //            return super.evaluar(mochila);
 //        }
     }
 
     @Override
-    public Individuo generarIndividuo() {
-        Individuo nuevop = new IndividuoMochila(this);
+    public IndividuoMochila generarIndividuo() {
+        IndividuoMochila nuevop = new IndividuoMochilaGrasp(this);
         return nuevop;
     }
 
-    public class IndividuoMochila extends Individuo {
+    public class IndividuoMochilaGrasp extends IndividuoMochila {
 
         private double peso;
 
-        public IndividuoMochila(Funcion funcion) {
+        public IndividuoMochilaGrasp(FuncionMochila funcion) {
             super(funcion);
             peso = 0;
         }
@@ -155,8 +157,8 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
         }
 
         @Override
-        public Individuo clone() {
-            IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
+        public IndividuoMochila clone() {
+            IndividuoMochilaGrasp ind = (IndividuoMochilaGrasp) super.clone(); //To change body of generated methods, choose Tools | Templates.
             return ind;
         }
 

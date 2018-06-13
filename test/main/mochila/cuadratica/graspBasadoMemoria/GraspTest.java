@@ -18,6 +18,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspReinicio.ItemCalidad;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.funcion.Funcion;
@@ -260,7 +261,7 @@ public class GraspTest {
     public void testSwap() {
         System.out.println("swap");
         
-        Individuo individuo = new Individuo(funcion, new double[]{1, 0, 1, 0});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 0, 1, 0});
         List<GraspReinicio.ItemCalidad> listItemNoSeleccionados = new ArrayList();
         listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(1, 10.2));
         listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(3, 8.2));

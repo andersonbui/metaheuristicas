@@ -2,6 +2,7 @@ package main.mochila.cuadratica.anson;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
@@ -139,7 +140,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param mochila
      */
     @Override
-    public void limitar(Individuo mochila) {
+    public void limitar(IndividuoMochila mochila) {
         super.limitar(mochila);
         limitarInferiormente(mochila, vectorPesos, capacidad, pos_articulos);
         limitarSuperiormente(mochila, vectorPesos, capacidad);

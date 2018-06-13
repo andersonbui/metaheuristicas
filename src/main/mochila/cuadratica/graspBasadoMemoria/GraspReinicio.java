@@ -19,9 +19,10 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import main.mochila.FuncionMochila;
+import main.mochila.IndividuoMochila;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.funcion.Funcion;
 import metaheuristicas.Individuo;
 
 /**
@@ -83,11 +84,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
     @Override
     public List<Individuo> ejecutar() {
         //linea 1:
-        Individuo LB = null;
-        Individuo S = null;
-        Individuo solParcialS = funcion.generarIndividuo();
+        IndividuoMochila LB = null;
+        IndividuoMochila S = null;
+        IndividuoMochila solParcialS = funcion.generarIndividuo();
         solParcialS.evaluar();
-        Individuo bestLB = solParcialS;
+        IndividuoMochila bestLB = solParcialS;
 
         int cont = 0, m = 0;
         int minLen = gama;
@@ -160,10 +161,10 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param lista_Q
      * @return
      */
-    protected Individuo definicionSolParcialS(Funcion funcion, int m, int sigma, List<int[]> lista_Q) {
+    protected IndividuoMochila definicionSolParcialS(FuncionMochila funcion, int m, int sigma, List<int[]> lista_Q) {
 
         int u = m * sigma;
-        Individuo individuo = funcion.generarIndividuo();
+        IndividuoMochila individuo = funcion.generarIndividuo();
         int[] Q_u1 = lista_Q.get(u + 1);
         if (u != 0) {// modificacion
             for (int i = 0; i < individuo.getDimension(); i++) {
@@ -175,11 +176,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
         return individuo;
     }
 
-    protected Individuo busquedaAdicional(Individuo bestLB) {
+    protected IndividuoMochila busquedaAdicional(IndividuoMochila bestLB) {
         return bestLB;
     }
 
-    private double obtenerPeso(Individuo S) {
+    private double obtenerPeso(IndividuoMochila S) {
         return funcion.obtenerPeso(S);
     }
 
@@ -222,9 +223,9 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param solParcialS
      * @return
      */
-    protected Individuo faseConstruccion(int minLen, int maxLen, Individuo solParcialS) {
+    protected IndividuoMochila faseConstruccion(int minLen, int maxLen, IndividuoMochila solParcialS) {
         //Linea 1:
-        Individuo S = solParcialS;
+        IndividuoMochila S = solParcialS;
         int l = 1;
         int len;
         //Qk es un vector de enteros con la suma de los optimos locales s^i obtenido en el k-1 para k>1 iteraciones GRASP;
@@ -270,10 +271,10 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param s
      * @return
      */
-    protected Individuo faseBusquedaLocal(Individuo s) {
+    protected IndividuoMochila faseBusquedaLocal(IndividuoMochila s) {
         //Linea 1:
-        Individuo solucionShift;
-        Individuo solucionSwap;
+        IndividuoMochila solucionShift;
+        IndividuoMochila solucionSwap;
         //Linea 2:
         boolean termina = false;
         //Linea 3:
@@ -446,7 +447,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param individuo
      * @return
      */
-    protected Individuo shift(Individuo individuo) {
+    protected IndividuoMochila shift(IndividuoMochila individuo) {
         int aleatorio;
         int maxLen = individuo.getDimension();
         aleatorio = Aleatorio.nextInt(maxLen);
@@ -466,7 +467,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico {
      * @param individuo
      * @return
      */
-    protected Individuo swap(Individuo individuo) {
+    protected IndividuoMochila swap(IndividuoMochila individuo) {
         List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
         List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
         int maxLenNS = listaItemNoSelect.size();

@@ -17,7 +17,7 @@
 package main.mochila.cuadratica.sgvns;
 
 import java.util.Random;
-import metaheuristicas.Individuo;
+import main.mochila.IndividuoMochila;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -71,10 +71,10 @@ public class FuncionSGVNSIT {
 
         FuncionSGVNS instance = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, 100.);
         double[] valores = new double[tamanio];
-        Individuo indEsperado = new Individuo(instance, valores);
+        IndividuoMochila indEsperado = new IndividuoMochila(instance, valores);
 
         System.out.println("generarIndividuo");
-        Individuo result = instance.generarIndividuo();
+        IndividuoMochila result = instance.generarIndividuo();
         assertArrayEquals(indEsperado.getValores(), result.getValores(), 0);
         Random rand = new Random();
         int posicion;

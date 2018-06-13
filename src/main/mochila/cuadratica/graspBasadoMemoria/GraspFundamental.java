@@ -17,11 +17,8 @@
 package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import metaheuristicas.Aleatorio;
-import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.funcion.Funcion;
+import main.mochila.IndividuoMochila;
 import metaheuristicas.Individuo;
 
 /**
@@ -32,7 +29,6 @@ public class GraspFundamental extends GraspReinicio {
 
     /**
      *
-     * @param nombre
      * @param funcionGreedy
      * @param sigma
      * @param lamda
@@ -56,10 +52,10 @@ public class GraspFundamental extends GraspReinicio {
     @Override
     public List<Individuo> ejecutar() {
         //linea 1:
-        Individuo LB = null;
-        Individuo S = null;
-        Individuo solParcialS = new Individuo(funcion);
-        Individuo bestLB = solParcialS;
+        IndividuoMochila LB = null;
+        IndividuoMochila S = null;
+        IndividuoMochila solParcialS = new IndividuoMochila(funcion);
+        IndividuoMochila bestLB = solParcialS;
         int cont = 0;
         int m = 0;
         int minLen = gama;

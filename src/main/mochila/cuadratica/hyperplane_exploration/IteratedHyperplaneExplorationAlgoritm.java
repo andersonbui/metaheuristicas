@@ -18,6 +18,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.IndividuoMochila;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.Individuo;
@@ -25,9 +26,9 @@ import metaheuristicas.Individuo;
 /**
  *
  * @author debian
- * @param <funcionIHEA>
+ * @param <FuncionMochila>
  */
-public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMochilaHyperplaneExploration> extends AlgoritmoMetaheuristico<funcionIHEA> {
+public class IteratedHyperplaneExplorationAlgoritm<FuncionMochila extends FuncionMochilaHyperplaneExploration> extends AlgoritmoMetaheuristico<FuncionMochila> {
 
     int rcl;
     int lb;
@@ -35,7 +36,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
     int s;
     int L;
 
-    public IteratedHyperplaneExplorationAlgoritm(funcionIHEA funcion) {
+    public IteratedHyperplaneExplorationAlgoritm(FuncionMochila funcion) {
         super();
         setFuncion(funcion);
         nombre = "IHEA";
@@ -52,7 +53,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
         return iterateHiperplaneExploration(L, rcl, maxIteraciones);
     }
 
-    protected List<Individuo> iterateHiperplaneExploration(int L, int rcl, int maxIter) {
+    protected List<Individuo > iterateHiperplaneExploration(int L, int rcl, int maxIter) {
 
         List<Individuo> recorrido = new ArrayList();
         /**
@@ -69,7 +70,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
         /**
          * linea 3: x0 = GreedyRandomizedConstruction(rcl). solucion inicial
          */
-        Individuo x_inicial = GreedyRandomizedConstruction(rcl);
+        IndividuoMochila  x_inicial = GreedyRandomizedConstruction(rcl);
         /**
          * linea 4: x0 = descent(x0). mejoramiento de la solución inicial
          */
@@ -77,18 +78,18 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
         /**
          * linea 5: x' = x0. x' represents the current solution.
          */
-        Individuo x_prima = x_inicial.clone();
+        IndividuoMochila  x_prima = x_inicial.clone();
         // linea 6: iter = 0
         iteraciones = 0;
         /**
          * linea 7: xb= x'. Xb records the best solution found in current round
          * of hyperplane exploration.
          */
-        Individuo x_mejorRondaHyper = x_prima.clone();
+        IndividuoMochila  x_mejorRondaHyper = x_prima.clone();
         /**
          * linea 8: x* = xb. x* records the global best solution.
          */
-        Individuo x_mejorGlobal = x_mejorRondaHyper.clone();
+        IndividuoMochila  x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
         for (; iteraciones < maxIter; iteraciones++) {
             // linea 10:
@@ -105,7 +106,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(VarFijas, cqkp_k, x_prima);
                 // linea 17: run tabu serach engine (L,x',xb)
-                Individuo x_bestSolution = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
+                IndividuoMochila  x_bestSolution = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
                 x_bestSolution.evaluar();
                 // linea 18:
                 if (x_bestSolution.compareTo(x_mejorRondaHyper) > 0) {
@@ -149,7 +150,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param lowerb
      * @return
      */
-    protected int[] determinarVariablesFijas(int dimensionHyp, Individuo individuo, int lowerb) {
+    protected int[] determinarVariablesFijas(int dimensionHyp, IndividuoMochila  individuo, int lowerb) {
         // dimension de individuo
         int dimX = dimensionHyp;
         // tamaño de la mochila
@@ -178,7 +179,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param ascendente
      * @return
      */
-    protected List<Integer> listaIndicesOrdenadosPorDensidad(Individuo individuo, boolean ascendente) {
+    protected List<Integer> listaIndicesOrdenadosPorDensidad(IndividuoMochila  individuo, boolean ascendente) {
         // almacen de indices
         List<Integer> listaIndices = new ArrayList();
         for (int i = 0; i < individuo.getDimension(); i++) {
@@ -197,7 +198,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param ascendente
      * @return
      */
-    protected List<Integer> listaIndicesOrdenadosPorDensidad(List<Integer> listaIndices, Individuo individuo, boolean ascendente) {
+    protected List<Integer> listaIndicesOrdenadosPorDensidad(List<Integer> listaIndices, IndividuoMochila  individuo, boolean ascendente) {
         // almacen de todas las densidades
         double[] densidades = new double[individuo.getDimension()];
         // calcular densidades
@@ -217,11 +218,11 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
         return listaIndices;
     }
 
-    protected void construirProblemaRestringidoReducido(int[] varFijas, CQKP cqkp_k, Individuo x_actual) {
+    protected void construirProblemaRestringidoReducido(int[] varFijas, CQKP cqkp_k, IndividuoMochila  x_actual) {
         funcion.fijarVariables(x_actual, varFijas);
     }
 
-    protected Individuo tabuSearchEngine(int L, Individuo x_inicial, Individuo x_referencia) {
+    protected IndividuoMochila  tabuSearchEngine(int L, IndividuoMochila  x_inicial, IndividuoMochila  x_referencia) {
 
         // almacenamiento de valores tabu
         int[][] tabu;
@@ -237,11 +238,11 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
         // almacena el valor de la funcion objetivo de la actual mejor solución factible
         double fmin = x_referencia.evaluar();
         // x*: recuerda la mejor solucion encontrada hasta el momento
-        Individuo x_aster = x_referencia;
+        IndividuoMochila  x_aster = x_referencia;
         // linea 6;
         int erl = 0;
         // linea 7:
-        Individuo x = x_inicial.clone();
+        IndividuoMochila  x = x_inicial.clone();
         int i_aster = 0;
         int j_aster = 0;
         // linea 8:
@@ -330,7 +331,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
         return x_aster;
     }
 
-    protected double rawFuncion(Individuo individuo) {
+    protected double rawFuncion(IndividuoMochila  individuo) {
         return individuo.evaluar();
     }
 
@@ -340,7 +341,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param iteraciones
      * @return
      */
-    protected Individuo perturbacion(Individuo individuo, int iteraciones) {
+    protected IndividuoMochila  perturbacion(IndividuoMochila  individuo, int iteraciones) {
         List<Integer> I1 = obtener_I1(individuo);
 
         // dimension de individuo
@@ -364,19 +365,19 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
 
     }
 
-    protected CQKP construirCQKP(int numVarFijas, CQKP cqkp, Individuo x_individuo) {
+    protected CQKP construirCQKP(int numVarFijas, CQKP cqkp, IndividuoMochila  x_individuo) {
 
         return cqkp;
 
     }
 
-    protected Individuo GreedyRandomizedConstruction(int rcl) {
-        Individuo individuo = funcion.generarIndividuo();
+    protected IndividuoMochila  GreedyRandomizedConstruction(int rcl) {
+        IndividuoMochila  individuo = funcion.generarIndividuo ();
         individuo = GreedyRandomizedConstruction(individuo, rcl);
         return individuo;
     }
 
-    protected Individuo GreedyRandomizedConstruction(Individuo individuo, int rcl) {
+    protected IndividuoMochila  GreedyRandomizedConstruction(IndividuoMochila  individuo, int rcl) {
         List<Integer> listaNoSeleccionados = obtener_I0(individuo);
         List<Integer> listaOrdenada = listaIndicesOrdenadosPorBeneficio(listaNoSeleccionados, individuo, false);
         individuo = funcion.limitarInferiormente(individuo, listaOrdenada);
@@ -391,7 +392,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo s * @return List de indices de elementos seleccionados
      * @return
      */
-    protected List<Integer> obtener_I1(Individuo individuo) {
+    protected List<Integer> obtener_I1(IndividuoMochila  individuo) {
         return funcion.obtener_I1(individuo);
     }
 
@@ -402,7 +403,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return List de indices de elementos no seleccionados
      */
-    protected List<Integer> obtener_I0(Individuo individuo) {
+    protected List<Integer> obtener_I0(IndividuoMochila  individuo) {
         return funcion.obtener_I0(individuo);
     }
 
@@ -412,11 +413,11 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param original
      * @return
      */
-    protected Individuo descent(Individuo original) { ////////////OPCION DE MEJORAR EN TIEMPO (for)
-        Individuo mejor = original.clone();
+    protected IndividuoMochila  descent(IndividuoMochila  original) { ////////////OPCION DE MEJORAR EN TIEMPO (for)
+        IndividuoMochila  mejor = original.clone();
 
         while (true) {
-            Individuo individuo = mejor.clone();
+            IndividuoMochila  individuo = mejor.clone();
             //ADD
             add_factible(individuo);
 
@@ -441,7 +442,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return indice del elemento adicionado
      */
-    protected int add(Individuo individuo) {
+    protected int add(IndividuoMochila  individuo) {
         List<Integer> listaI0 = obtener_I0(individuo);
         return cambiarValorAleatoriamente(individuo, listaI0, 1);
     }
@@ -453,7 +454,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return indice del elemento adicionado
      */
-    protected int add_factible(Individuo individuo) {
+    protected int add_factible(IndividuoMochila  individuo) {
         List<Integer> listaI0 = obtener_I0(individuo);
         return adicionarItemAleatoriamente(individuo, listaI0);
     }
@@ -467,7 +468,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @return indice del elemento adicionado
      *
      */
-    private int adicionarItemAleatoriamente(Individuo individuo, List<Integer> listaI0) {
+    private int adicionarItemAleatoriamente(IndividuoMochila  individuo, List<Integer> listaI0) {
         List<Integer> listaFactibles = funcion.filtrarPorFactibles(listaI0, individuo);
         return cambiarValorAleatoriamente(individuo, listaFactibles, 1);
     }
@@ -481,7 +482,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param valor
      * @return indice del elemento escogido aleatoriamente de listaIndices
      */
-    private int cambiarValorAleatoriamente(Individuo individuo, List<Integer> listaIndices, int valor) {
+    private int cambiarValorAleatoriamente(IndividuoMochila  individuo, List<Integer> listaIndices, int valor) {
         if (listaIndices.isEmpty()) {
             return -1;
         }
@@ -496,7 +497,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return int[]{indice_salio,indice_entro}
      */
-    public int[] swap(Individuo individuo) {
+    public int[] swap(IndividuoMochila  individuo) {
         List<Integer> listaNS = obtener_I0(individuo);
         List<Integer> listaSS = obtener_I1(individuo);
         int indice_salio = cambiarValorAleatoriamente(individuo, listaSS, 0);
@@ -518,9 +519,9 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return
      */
-    protected int dimensionHiperplano(Individuo individuo) {
+    protected int dimensionHiperplano(IndividuoMochila  individuo) {
         int suma = 0;
-        for (Double item : individuo) {
+        for (Double item : individuo.getValores()) {
             suma += item;
         }
         return suma;
@@ -533,7 +534,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return
      */
-    private List<Integer> listaIndicesOrdenadosPorBeneficio(Individuo individuo, boolean ascendente) {
+    private List<Integer> listaIndicesOrdenadosPorBeneficio(IndividuoMochila  individuo, boolean ascendente) {
         // almacen de indices
         List<Integer> listaIndices = new ArrayList();
         for (int i = 0; i < individuo.getDimension(); i++) {
@@ -550,7 +551,7 @@ public class IteratedHyperplaneExplorationAlgoritm<funcionIHEA extends FuncionMo
      * @param individuo
      * @return
      */
-    private List<Integer> listaIndicesOrdenadosPorBeneficio(List<Integer> listaIndices, Individuo individuo, boolean ascendente) {
+    private List<Integer> listaIndicesOrdenadosPorBeneficio(List<Integer> listaIndices, IndividuoMochila  individuo, boolean ascendente) {
         // almacen de todas las densidades
         double[] densidades = new double[individuo.getDimension()];
         // calcular densidades

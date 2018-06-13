@@ -18,7 +18,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
-import metaheuristicas.Individuo;
+import main.mochila.IndividuoMochila;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -101,7 +101,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         System.out.println("determinarVariablesFijas");
         int dimension = 2;
         int lb = 2;
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         int[] expResult = {0, 1};
         int[] result = instanceAlgoritmo.determinarVariablesFijas(dimension, individuo, lb);
         assertArrayEquals(expResult, result);
@@ -114,7 +114,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testListaIndicesOrdenadosPorDensidad() {
         System.out.println("listaIndicesOrdenadosPorDensidad");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         boolean ascendente = false;
         List<Integer> expResult = new ArrayList();
         expResult.add(0);
@@ -168,7 +168,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testRawFuncion() {
         System.out.println("rawFuncion");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         double expResult = 13;
         double result = instanceAlgoritmo.rawFuncion(individuo);
         assertEquals(expResult, result, 0.0);
@@ -181,11 +181,11 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
 //    @Test
 //    public void testPerturbacion() {
 //        System.out.println("perturbacion");
-//        Individuo individuo = null;
+//        IndividuoMochila individuo = null;
 //        int iteraciones = 0;
 //        IteratedHyperplaneExplorationAlgoritm instanceAlgoritmo = null;
-//        Individuo expResult = null;
-//        Individuo result = instanceAlgoritmo.perturbacion(individuo, iteraciones);
+//        IndividuoMochila expResult = null;
+//        IndividuoMochila result = instanceAlgoritmo.perturbacion(individuo, iteraciones);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -200,7 +200,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
 //        System.out.println("construirCQKP");
 //        int numVarFijas = 0;
 //        IteratedHyperplaneExplorationAlgoritm.CQKP cqkp = null;
-//        Individuo x_individuo = null;
+//        IndividuoMochila x_individuo = null;
 //        IteratedHyperplaneExplorationAlgoritm instanceAlgoritmo = null;
 //        IteratedHyperplaneExplorationAlgoritm.CQKP expResult = null;
 //        IteratedHyperplaneExplorationAlgoritm.CQKP result = instanceAlgoritmo.construirCQKP(numVarFijas, cqkp, x_individuo);
@@ -218,8 +218,8 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
 //        System.out.println("GreedyRandomizedConstruction");
 //        int rcl = 0;
 //        IteratedHyperplaneExplorationAlgoritm instanceAlgoritmo = null;
-//        Individuo expResult = null;
-//        Individuo result = instanceAlgoritmo.GreedyRandomizedConstruction(rcl);
+//        IndividuoMochila expResult = null;
+//        IndividuoMochila result = instanceAlgoritmo.GreedyRandomizedConstruction(rcl);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -232,11 +232,11 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
 //    @Test
 //    public void testGreedyRandomizedConstruction_Individuo_int() {
 //        System.out.println("GreedyRandomizedConstruction");
-//        Individuo individuo = null;
+//        IndividuoMochila individuo = null;
 //        int rcl = 0;
 //        IteratedHyperplaneExplorationAlgoritm instanceAlgoritmo = null;
-//        Individuo expResult = null;
-//        Individuo result = instanceAlgoritmo.GreedyRandomizedConstruction(individuo, rcl);
+//        IndividuoMochila expResult = null;
+//        IndividuoMochila result = instanceAlgoritmo.GreedyRandomizedConstruction(individuo, rcl);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -248,7 +248,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testObtener_I1_I0() {
         System.out.println("obtener_I1_I0");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         List<Integer> I0 = new ArrayList();
         I0.add(2);
         List I1 = new ArrayList();
@@ -269,7 +269,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testObtener_I1() {
         System.out.println("obtener_I1");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         List<Integer> expResult = new ArrayList();
         expResult.add(0);
         expResult.add(1);
@@ -285,7 +285,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testObtener_I0() {
         System.out.println("obtener_I0");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 1});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         List<Integer> expResult = new ArrayList();
         expResult.add(2);
         List<Integer> result = instanceAlgoritmo.obtener_I0(individuo);
@@ -298,10 +298,10 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
 //    @Test
 //    public void testDescent() {
 //        System.out.println("descent");
-//        Individuo original = null;
+//        IndividuoMochila original = null;
 //        IteratedHyperplaneExplorationAlgoritm instanceAlgoritmo = null;
-//        Individuo expResult = null;
-//        Individuo result = instanceAlgoritmo.descent(original);
+//        IndividuoMochila expResult = null;
+//        IndividuoMochila result = instanceAlgoritmo.descent(original);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -312,12 +312,12 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testAdd() {
         System.out.println("add");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 0}); // 
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 0}); // 
         int expResult = -1;
         int result = instanceAlgoritmo.add(individuo);
         assertEquals(expResult, result);
 
-        individuo = new Individuo(funcion, new double[]{0, 0, 0, 1});
+        individuo = new IndividuoMochila(funcion, new double[]{0, 0, 0, 1});
         expResult = 0;
         result = instanceAlgoritmo.add(individuo);
         assertEquals(expResult, result);
@@ -330,7 +330,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
 //    @Test
 //    public void testSwap() {
 //        System.out.println("swap");
-//        Individuo individuo = new Individuo(funcion, new double[]{0, 0, 1, 1});
+//        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{0, 0, 1, 1});
 //        int[] expResult = new int[]{2, 0};
 //        int[] result = instanceAlgoritmo.swap(individuo);
 //        assertArrayEquals(expResult, result);
@@ -342,7 +342,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testDimensionHiperplano() {
         System.out.println("dimensionHiperplano");
-        Individuo individuo = new Individuo(funcion, new double[]{1, 1, 0, 0});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 0});
         int expResult = 2;
         int result = instanceAlgoritmo.dimensionHiperplano(individuo);
         assertEquals(expResult, result);

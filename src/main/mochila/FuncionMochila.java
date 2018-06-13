@@ -7,9 +7,10 @@ import metaheuristicas.Aleatorio;
 /**
  * @author debian
  */
-public abstract class FuncionMochila extends Funcion {
+public abstract class FuncionMochila extends Funcion<IndividuoMochila> {
 
     protected double prob_ceros;
+    protected double[] vectorPesos;
 
     /**
      *
@@ -37,8 +38,8 @@ public abstract class FuncionMochila extends Funcion {
     }
 
     @Override
-    public Individuo generarIndividuo() {
-        Individuo nuevop = new Individuo(this);
+    public IndividuoMochila generarIndividuo() {
+        IndividuoMochila nuevop = new IndividuoMochila(this);
         for (int i = 0; i < nuevop.getDimension(); i++) {
             if (Aleatorio.nextDouble() > prob_ceros) {
                 nuevop.set(i, 1);

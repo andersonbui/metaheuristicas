@@ -19,6 +19,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import main.mochila.IndividuoMochila;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.Individuo;
 
@@ -49,7 +50,7 @@ public class GraspTabuReinicio extends GraspReinicio {
     }
 
     @Override
-    protected Individuo busquedaAdicional(Individuo bestLB) {
+    protected IndividuoMochila busquedaAdicional(IndividuoMochila bestLB) {
         return busquedaTabu(bestLB, t_min, t_max);
     }
 
@@ -68,9 +69,9 @@ public class GraspTabuReinicio extends GraspReinicio {
 
         int indice_entro;
         int indice_salio;
-        Individuo individuo;
+        IndividuoMochila individuo;
 
-        public IndividuoElemento(int indice_entro, int indice_salio, Individuo individuo) {
+        public IndividuoElemento(int indice_entro, int indice_salio, IndividuoMochila individuo) {
             this.indice_entro = indice_entro;
             this.indice_salio = indice_salio;
             this.individuo = individuo;
@@ -111,11 +112,11 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param t_min
      * @return
      */
-    protected Individuo busquedaTabu(Individuo s, int t_min, int t_max) {
+    protected IndividuoMochila busquedaTabu(IndividuoMochila s, int t_min, int t_max) {
         //Linea 1:
-        Individuo best = s;
-        Individuo r;
-        Individuo w;
+        IndividuoMochila best = s;
+        IndividuoMochila r;
+        IndividuoMochila w;
         IndividuoElemento rTweak_r;
         IndividuoElemento rTweak_w;
         int numTweaks = 15;
@@ -174,9 +175,9 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param s
      * @return
      */
-    private IndividuoElemento tweak(Individuo s) {
-        Individuo individuoShift;
-        Individuo individuoSwap;
+    private IndividuoElemento tweak(IndividuoMochila s) {
+        IndividuoMochila individuoShift;
+        IndividuoMochila individuoSwap;
 
         individuoShift = s.clone();
         int i_shift = shift2(individuoShift);

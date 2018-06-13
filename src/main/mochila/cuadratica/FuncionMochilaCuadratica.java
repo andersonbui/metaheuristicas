@@ -3,7 +3,7 @@ package main.mochila.cuadratica;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.FuncionMochila;
-import metaheuristicas.Individuo;
+import main.mochila.IndividuoMochila;
 
 /**
  *
@@ -13,7 +13,6 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
 
     protected final double[][] matrizBeneficios;
     protected final double capacidad;
-    protected final double[] vectorPesos;
 
     /**
      *
@@ -52,7 +51,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     }
 
     @Override
-    final protected double evaluar(Individuo p) {
+    final protected double evaluar(IndividuoMochila p) {
         return calcularBeneficio(p);
     }
 
@@ -89,7 +88,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
      * @param mochila
      * @return
      */
-    public double calcularPeso(Individuo mochila) {
+    public double calcularPeso(IndividuoMochila mochila) {
         double totalPeso = 0;
         int dim = mochila.getDimension();
         for (int i = 0; i < dim; i++) {
@@ -99,7 +98,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
         return totalPeso;
     }
 
-    public double calcularBeneficio(Individuo mochila) {
+    public double calcularBeneficio(IndividuoMochila mochila) {
         double totalBeneficio = 0;
         int dim = mochila.getDimension();
         for (int i = 0; i < dim; i++) {
@@ -111,7 +110,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     }
 
     @Override
-    public String toString(Individuo individuo) {
+    public String toString(IndividuoMochila individuo) {
         String cadena = "";
         cadena += obtenerPeso(individuo, vectorPesos) + ";";
         return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
@@ -123,7 +122,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
      * @param mochila
      * @return
      */
-    public double sacarEspacios(Individuo mochila) {
+    public double sacarEspacios(IndividuoMochila mochila) {
         return capacidad - obtenerPeso(mochila, vectorPesos);
     }
 
