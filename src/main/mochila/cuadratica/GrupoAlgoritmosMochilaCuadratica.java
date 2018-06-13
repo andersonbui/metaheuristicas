@@ -23,6 +23,8 @@ import main.mochila.cuadratica.graspBasadoMemoria.FuncionGraspTabuR;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
+import main.mochila.cuadratica.sgvns.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.VNS;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.funcion.Funcion;
 
@@ -57,10 +59,13 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 
         FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+
+        FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        add(new VNS(funcionVns));
 
     }
 

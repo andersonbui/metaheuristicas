@@ -97,7 +97,7 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @return
      */
     @Override
-    public double calcularPeso(Individuo mochila) {
+    public double calcularBeneficio(Individuo mochila) {
 //        if (mochila instanceof IndividuoMochila) {
         return ((IndividuoMochila) mochila).getCalidad();
 //        } else {

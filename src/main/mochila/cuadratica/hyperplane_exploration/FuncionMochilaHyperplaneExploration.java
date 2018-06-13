@@ -266,7 +266,7 @@ public class FuncionMochilaHyperplaneExploration extends FuncionMochilaCuadratic
      * @return
      */
     @Override
-    public double calcularPeso(Individuo mochila) {
+    public double calcularBeneficio(Individuo mochila) {
         return ((IndividuoMochila) mochila).getCalidad();
     }
 

@@ -14,7 +14,7 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     protected final double[][] matrizBeneficios;
     protected final double capacidad;
     protected final double[] vectorPesos;
-    
+
     /**
      *
      * @param matrizBeneficios ganancia de cada elemento.
@@ -52,8 +52,8 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     }
 
     @Override
-    final public double evaluar(Individuo p) {
-        return calcularPeso(p);
+    final protected double evaluar(Individuo p) {
+        return calcularBeneficio(p);
     }
 
     public int upperBound() {
@@ -90,14 +90,24 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
      * @return
      */
     public double calcularPeso(Individuo mochila) {
-        double sumaPrecios = 0;
+        double totalPeso = 0;
+        int dim = mochila.getDimension();
+        for (int i = 0; i < dim; i++) {
+            totalPeso += mochila.get(i) * vectorPesos[i];
+
+        }
+        return totalPeso;
+    }
+
+    public double calcularBeneficio(Individuo mochila) {
+        double totalBeneficio = 0;
         int dim = mochila.getDimension();
         for (int i = 0; i < dim; i++) {
             for (int j = i; j < dim; j++) {
-                sumaPrecios += mochila.get(i) * mochila.get(j) * matrizBeneficios[i][j];
+                totalBeneficio += mochila.get(i) * mochila.get(j) * matrizBeneficios[i][j];
             }
         }
-        return sumaPrecios;
+        return totalBeneficio;
     }
 
     @Override

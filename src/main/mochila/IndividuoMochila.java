@@ -14,19 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.sgvns;
+package main.mochila;
 
-import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import metaheuristicas.Individuo;
+import metaheuristicas.funcion.Funcion;
 
 /**
  *
  * @author debian
  */
-public class funcionSGVNS extends FuncionMochilaCuadratica {
+public class IndividuoMochila extends Individuo {
 
+    double peso;
 
-    public funcionSGVNS(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
+    public IndividuoMochila(Funcion funcion) {
+        super(funcion);
     }
-    
+
+    public double pesar() {
+        return peso;
+    }
 }

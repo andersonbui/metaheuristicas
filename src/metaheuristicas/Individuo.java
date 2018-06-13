@@ -19,7 +19,6 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
     protected int generacion;
 
     /**
-     *
      * @param funcion
      */
     public Individuo(Funcion funcion) {
@@ -175,7 +174,5 @@ public class Individuo implements Iterable<Double>, Comparable<Individuo>, Clone
         }
         return true;
     }
-    
-    
 
 }

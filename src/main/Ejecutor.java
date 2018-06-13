@@ -141,44 +141,50 @@ public class Ejecutor {
         long tiempo_inicial = System.currentTimeMillis();
         for (int i = 0; i < numeroPruebas; i++) {
             recorridoIndividuos = algoritmo.ejecutar();
-            listaRecorridosPruebas.add(recorridoIndividuos);
+            if (recorridoIndividuos != null) {
+                listaRecorridosPruebas.add(recorridoIndividuos);
+            }
         }
         Funcion funcion = algoritmo.getFuncion();
         long tiempo_final = System.currentTimeMillis();
         //obtener mejor recorridoIndividuo
         Individuo mejorOptimo = null;
-        for (List<Individuo> recorrIndiItem : listaRecorridosPruebas) {
-            optimo = recorrIndiItem.get(recorrIndiItem.size() - 1);
-            tasaDeExito += funcion.suficiente(optimo) ? 1 : 0;
-            promedioIteraciones += recorrIndiItem.size();
-            if (mejorOptimo == null
-                    || mejorOptimo.compareTo(optimo) < 0) {
-                mejorRecorrido = recorrIndiItem;
-                mejorOptimo = optimo;
+        if (!listaRecorridosPruebas.isEmpty()) {
+            for (List<Individuo> recorrIndiItem : listaRecorridosPruebas) {
+                optimo = recorrIndiItem.get(recorrIndiItem.size() - 1);
+                tasaDeExito += funcion.suficiente(optimo) ? 1 : 0;
+                promedioIteraciones += recorrIndiItem.size();
+                if (mejorOptimo == null
+                        || mejorOptimo.compareTo(optimo) < 0) {
+                    mejorRecorrido = recorrIndiItem;
+                    mejorOptimo = optimo;
+                }
+                optimos.add(optimo);
+                promedioCalidad += optimo.getCalidad();
             }
-            optimos.add(optimo);
-            promedioCalidad += optimo.getCalidad();
-        }
-        optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
-        promedioCalidad = promedioCalidad / numeroPruebas;
-        Individuo peorOptimo = mejorRecorrido.get(0);
 
-        imprimirConFormato(
-                funcion.getNombre(),
-                algoritmo.getNombre(),
-                "" + funcion.getDimension(),
-                "" + String.format("%.2f", promedioIteraciones / numeroPruebas),
-                "" + tasaDeExito,
-                "" + formatear(optimo.getCalidad()),
-                "" + String.format("%.2f", promedioCalidad),
-                "" + String.format("%.4f", ((funcion.getOptimoGlobal() - optimo.getCalidad()) / funcion.getOptimoGlobal()) * 100),
-                "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
-                "" + funcion.getContadorEvaluaciones() / numeroPruebas);
-        //implimir mejor optimo
-        System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
+            optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
+            promedioCalidad = promedioCalidad / numeroPruebas;
+            Individuo peorOptimo = mejorRecorrido.get(0);
+
+            imprimirConFormato(
+                    funcion.getNombre(),
+                    algoritmo.getNombre(),
+                    "" + funcion.getDimension(),
+                    "" + String.format("%.2f", promedioIteraciones / numeroPruebas),
+                    "" + tasaDeExito,
+                    "" + formatear(optimo.getCalidad()),
+                    "" + String.format("%.2f", promedioCalidad),
+                    "" + String.format("%.4f", ((funcion.getOptimoGlobal() - optimo.getCalidad()) / funcion.getOptimoGlobal()) * 100),
+                    "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
+                    "" + funcion.getContadorEvaluaciones() / numeroPruebas);
+            //implimir mejor optimo
+            System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
 //        System.out.println("Mejor: " + optimo.toStringInt()+"\n");
 
-        return new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
+            return new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
+        }
+        return null;
 //        return new Recorrido(convertirCD(mejorRecorrido), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
     }
 

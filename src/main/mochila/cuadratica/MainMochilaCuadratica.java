@@ -30,9 +30,9 @@ public class MainMochilaCuadratica {
         int maxIteraciones;
         int numMuestras;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
-        boolean graficaDispercion2D = true; // true para graficas de dispersion con gnuplot
+        boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
-        graficaDispercion2D = true;
+//        graficaDispercion2D = true;
         // numero de individuos porpoblacion
         // iteraciones realizadas por los algoritmos
         maxIteraciones = 20;
