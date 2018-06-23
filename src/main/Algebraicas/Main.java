@@ -9,7 +9,7 @@ import main.Algebraicas.funciones.Schwefel;
 import main.Algebraicas.funciones.Rastrigin;
 import main.Algebraicas.funciones.Styblinski_Tang;
 import main.Algebraicas.funciones.Montana;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class Main {
 //        listaAlgoritmos.add(new Hill_Climbing_HO(paso));
 //        listaAlgoritmos.add(new Simulated_Annealing(paso));
 //        listaAlgoritmos.add(new B_Hill_Climbing(new Tweak_B_HC(paso)));
-        List<Funcion> listaFunciones = new ArrayList();
+        List<FuncionGen> listaFunciones = new ArrayList();
 // 2D
 //        listaFunciones.add(new GoldsteinAndPrice(limite, dimension, maximizar));
 //        listaFunciones.add(new Cross_in_tray(limite, dimension, maximizar));

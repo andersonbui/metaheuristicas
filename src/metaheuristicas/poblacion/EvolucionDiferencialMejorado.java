@@ -16,7 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.seleccion.Ruleta;
 
 /**
@@ -33,11 +33,11 @@ public class EvolucionDiferencialMejorado extends EvolucionDiferencial {
     }
 
     @Override
-    protected Individuo mutar(Poblacion poblacion) {
+    protected IndividuoGen mutar(Poblacion poblacion) {
 
-        Individuo x1 = Ruleta.seleccionar(poblacion);
-        Individuo x2 = Ruleta.seleccionar(poblacion);
-        Individuo x3 = Ruleta.seleccionar(poblacion);
+        IndividuoGen x1 = Ruleta.seleccionar(poblacion);
+        IndividuoGen x2 = Ruleta.seleccionar(poblacion);
+        IndividuoGen x3 = Ruleta.seleccionar(poblacion);
         poblacion.add(x1);
         poblacion.add(x2);
         poblacion.add(x3);
@@ -47,9 +47,9 @@ public class EvolucionDiferencialMejorado extends EvolucionDiferencial {
 //            x1 = x2;
 //            x2 = aux;
 //        }
-        Individuo diferenciaX1X2 = resta(x1, x2);
-        Individuo productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
-        Individuo mutado = suma(x3, productoEscalar);
+        IndividuoGen diferenciaX1X2 = resta(x1, x2);
+        IndividuoGen productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
+        IndividuoGen mutado = suma(x3, productoEscalar);
 //        mutado.evaluar();
         return mutado;
     }

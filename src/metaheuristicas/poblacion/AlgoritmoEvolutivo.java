@@ -17,11 +17,11 @@
 package metaheuristicas.poblacion;
 
 import java.security.InvalidParameterException;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  * @author debian
@@ -44,10 +44,10 @@ public abstract class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Individuo> ejecutar() {
+    public List<IndividuoGen> ejecutar() {
         poblacion = generarPoblacion(funcion);
-        Individuo mejor = poblacion.getMejor();
-        List<Individuo> recorrido = new ArrayList();
+        IndividuoGen mejor = poblacion.getMejor();
+        List<IndividuoGen> recorrido = new ArrayList();
 //        recorrido.add(mejor);
         for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
             poblacion = siguienteGeneracion(1);
@@ -61,9 +61,9 @@ public abstract class AlgoritmoEvolutivo extends AlgoritmoMetaheuristico {
         return recorrido;
     }
 
-    public Poblacion generarPoblacion(Funcion funcion) {
+    public Poblacion generarPoblacion(FuncionGen funcion) {
         Poblacion unaPoblacion = new Poblacion(funcion, tamPoblacion);
-        Individuo p;
+        IndividuoGen p;
         for (int i = 0; i < tamPoblacion; i++) {
             p = funcion.generarIndividuo();
             p.evaluar();

@@ -3,13 +3,13 @@ package main.mochila.cuadratica;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.FuncionMochila;
-import main.mochila.IndividuoMochila;
 
 /**
  *
  * @author debian
+ * @param <Individuo>
  */
-public class FuncionMochilaCuadratica extends FuncionMochila {
+public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadratico> extends FuncionMochila<Individuo> {
 
     protected final double[][] matrizBeneficios;
     protected final double capacidad;
@@ -51,54 +51,11 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     }
 
     @Override
-    final protected double evaluar(IndividuoMochila p) {
+    final protected double evaluar(Individuo p) {
         return calcularBeneficio(p);
     }
 
-    public int upperBound() {
-        int v;
-        List<Integer> listaIndices = new ArrayList();
-        for (int i = 0; i < vectorPesos.length; i++) {
-            listaIndices.add(i);
-        }
-        //ordenacionde elementos
-        listaIndices.sort((Integer o1, Integer o2) -> {
-            Double peso1 = vectorPesos[o1];
-            Double peso2 = vectorPesos[o2];
-            // orden creciente
-            return peso1.compareTo(peso2);
-        });
-        v = 0;
-        int suma_V = 0;
-        for (int i = 0; i < listaIndices.size(); i++) {
-            suma_V += vectorPesos[listaIndices.get(i)];
-            if (suma_V <= capacidad) {
-                v++;
-            } else {
-                break;
-            }
-        }
-        return v;
-    }
-
-    /**
-     * obtiene el peso total de la mochila, esto es el peso de todos los
-     * elementos dentro de ella
-     *
-     * @param mochila
-     * @return
-     */
-    public double calcularPeso(IndividuoMochila mochila) {
-        double totalPeso = 0;
-        int dim = mochila.getDimension();
-        for (int i = 0; i < dim; i++) {
-            totalPeso += mochila.get(i) * vectorPesos[i];
-
-        }
-        return totalPeso;
-    }
-
-    public double calcularBeneficio(IndividuoMochila mochila) {
+    public double calcularBeneficio(Individuo mochila) {
         double totalBeneficio = 0;
         int dim = mochila.getDimension();
         for (int i = 0; i < dim; i++) {
@@ -110,24 +67,92 @@ public class FuncionMochilaCuadratica extends FuncionMochila {
     }
 
     @Override
-    public String toString(IndividuoMochila individuo) {
+    public String toString(Individuo individuo) {
         String cadena = "";
-        cadena += obtenerPeso(individuo, vectorPesos) + ";";
+        cadena += individuo.pesar() + ";";
         return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
     }
 
     /**
-     * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
+     * Beneficio total que trae el elemento ubicado en indice dentro de mochila
      *
+     * @param indice
      * @param mochila
      * @return
      */
-    public double sacarEspacios(IndividuoMochila mochila) {
-        return capacidad - obtenerPeso(mochila, vectorPesos);
+    public double contribucion(int indice, Individuo mochila) {
+        double suma = 0;
+
+        for (int i = 0; i < vectorPesos.length; i++) {
+            if (mochila.get(i) != 0 && i < indice) {
+                suma += matrizBeneficios[i][indice];
+            } else if (mochila.get(i) != 0 && i > indice) {
+                suma += matrizBeneficios[indice][i];
+            }
+        }
+
+        return suma + matrizBeneficios[indice][indice];
     }
 
-    public double peso(int indice) {
-        return vectorPesos[indice];
+    /**
+     * Calcula la densidad de beneficio de adicionar el elemento de la posicion
+     * indice en la mochila, sobre el peso del elemento
+     *
+     * @param indice indice del objeto a adicionar
+     * @param mochila
+     * @return beneficio-elemento/peso-elemento
+     */
+    public double densidad(int indice, Individuo mochila) {
+        return contribucion(indice, mochila) / vectorPesos[indice];
+    }
+
+    /**
+     * Verifica si el elemento en la posicion indice cabe en la mochila. true si
+     * cabe, false si no.
+     *
+     * @param mochila
+     * @param indice
+     * @return
+     */
+    public boolean cabe(Individuo mochila, int indice) {
+        return (capacidad - mochila.pesar() - vectorPesos[indice]) >= 0;
+    }
+
+    /**
+     * obtiene un subconjunto de listaIndices, tal que cada indice cabe en
+     * mochila sin cobrepasar su capacidad.
+     *
+     * @param listaIndices
+     * @param mochila
+     * @return
+     */
+    public List<Integer> filtrarPorFactibles(List<Integer> listaIndices, Individuo mochila) {
+        List<Integer> nuevaLista = new ArrayList(listaIndices);
+        nuevaLista.removeIf((Integer t) -> {
+            return !cabe(mochila, t);
+        });
+        return nuevaLista;
+    }
+
+    public double getCapacidad() {
+        return capacidad;
+    }
+
+    /**
+     * obtiene el beneficio desde la matriz de beneficios
+     *
+     * @param i
+     * @param j
+     * @return
+     */
+    public double beneficio(int i, int j) {
+        return matrizBeneficios[i][j];
+    }
+
+    @Override
+    public Individuo generarIndividuo() {
+        Individuo nuevop = (Individuo) new IndividuoCuadratico(this);
+        return nuevop;
     }
 
 }

@@ -16,11 +16,11 @@
  */
 package main.mochila.cuadratica.graspBasadoMemoria;
 
-import main.mochila.FuncionMochila;
-import main.mochila.IndividuoMochila;
+import java.util.ArrayList;
+import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
-import metaheuristicas.funcion.Funcion;
-import metaheuristicas.Individuo;
+import main.mochila.cuadratica.IndividuoCuadratico;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -48,7 +48,7 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
      * @param w_S
      * @return
      */
-    public double voraz(Individuo mochila, int indice, double obj_S, double w_S) {
+    public double voraz(IndividuoGen mochila, int indice, double obj_S, double w_S) {
 
         if (mochila.get(indice) == 1) {
             throw new IllegalArgumentException("El elemento en la posicion indice ya se encuentra en la mochila");
@@ -67,100 +67,36 @@ public class FuncionGraspTabuR extends FuncionMochilaCuadratica {
         return nombre;
     }
 
-    /**
-     * Verifica si el elemento en la posicion indice cabe en la mochila. true si
-     * cabe, false si no.
-     *
-     * @param mochila
-     * @param indice
-     * @return
-     */
-    public boolean cabe(Individuo mochila, int indice) {
-        return (capacidad - obtenerPeso(mochila) - vectorPesos[indice]) >= 0;
-    }
-
-    /**
-     *
-     * @param mochila
-     * @return
-     */
-    public double obtenerPeso(Individuo mochila) {
-//        if (mochila instanceof IndividuoMochilaGrasp) {
-        return ((IndividuoMochilaGrasp) mochila).getPeso();
-//        } else {
-//            return super.obtenerPeso(mochila, vectorPesos);
-//        }
-    }
-
-    /**
-     * Obj(S): el valor de la funcion objetivo con respecto a S
-     *
-     * @param mochila
-     * @return
-     */
-    @Override
-    public double calcularBeneficio(IndividuoMochila mochila) {
-//        if (mochila instanceof IndividuoMochilaGrasp) {
-        return ((IndividuoMochilaGrasp) mochila).getCalidad();
-//        } else {
-//            return super.evaluar(mochila);
-//        }
+    public int upperBound() {
+        int v;
+        List<Integer> listaIndices = new ArrayList();
+        for (int i = 0; i < vectorPesos.length; i++) {
+            listaIndices.add(i);
+        }
+        //ordenacionde elementos
+        listaIndices.sort((Integer o1, Integer o2) -> {
+            Double peso1 = vectorPesos[o1];
+            Double peso2 = vectorPesos[o2];
+            // orden creciente
+            return peso1.compareTo(peso2);
+        });
+        v = 0;
+        int suma_V = 0;
+        for (int i = 0; i < listaIndices.size(); i++) {
+            suma_V += vectorPesos[listaIndices.get(i)];
+            if (suma_V <= capacidad) {
+                v++;
+            } else {
+                break;
+            }
+        }
+        return v;
     }
 
     @Override
-    public IndividuoMochila generarIndividuo() {
-        IndividuoMochila nuevop = new IndividuoMochilaGrasp(this);
+    public IndividuoCuadratico generarIndividuo() {
+        IndividuoCuadratico nuevop = new IndividuoMochilaGraps(this);
         return nuevop;
     }
 
-    public class IndividuoMochilaGrasp extends IndividuoMochila {
-
-        private double peso;
-
-        public IndividuoMochilaGrasp(FuncionMochila funcion) {
-            super(funcion);
-            peso = 0;
-        }
-
-        public double getPeso() {
-            return peso;
-        }
-
-        @Override
-        public void set(int indice, double valor) {
-
-            double valAnterior = get(indice);
-            if (valAnterior == valor) {
-                return;
-            }
-            double valorPeso;
-            double contribucion = 0;
-            //contribucion en la fila
-            for (int i = 0; i < indice; i++) {
-                contribucion += matrizBeneficios[i][indice] * get(i);
-            }
-            //contribucion en la columna
-            for (int k = indice + 1; k < vectorPesos.length; k++) {
-                contribucion += matrizBeneficios[indice][k] * get(k);
-            }
-            //contribucion por si solo
-            contribucion += matrizBeneficios[indice][indice];
-            // peso del articulo
-            valorPeso = vectorPesos[indice];
-
-            // incluir beneficio
-            calidad += (-valAnterior + valor) * contribucion;
-            // incluir peso del elemento
-            peso += (-valAnterior + valor) * valorPeso;
-
-            super.set(indice, valor);
-        }
-
-        @Override
-        public IndividuoMochila clone() {
-            IndividuoMochilaGrasp ind = (IndividuoMochilaGrasp) super.clone(); //To change body of generated methods, choose Tools | Templates.
-            return ind;
-        }
-
-    }
 }

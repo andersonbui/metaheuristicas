@@ -10,7 +10,7 @@ package metaheuristicas.funcion;
  * @author debian
  * @param <Individuo>
  */
-public abstract class Funcion<Individuo extends metaheuristicas.Individuo> {
+public abstract class FuncionGen<Individuo extends metaheuristicas.IndividuoGen> {
 
     protected String nombre;
     protected int dimension;
@@ -27,7 +27,7 @@ public abstract class Funcion<Individuo extends metaheuristicas.Individuo> {
 //     * @param dimension
 //     * @param maximizar
 //     */
-//    public Funcion(String nombre, double limite, int dimension, boolean maximizar) {
+//    public FuncionGen(String nombre, double limite, int dimension, boolean maximizar) {
 //        this.nombre = nombre;
 //        this.dimension = dimension;
 //        this.maximizar = maximizar;
@@ -42,7 +42,7 @@ public abstract class Funcion<Individuo extends metaheuristicas.Individuo> {
      * @param dimension
      * @param maximizar
      */
-    public Funcion(String nombre, int dimension, boolean maximizar) {
+    public FuncionGen(String nombre, int dimension, boolean maximizar) {
         this.nombre = nombre;
         this.dimension = dimension;
         this.maximizar = maximizar;

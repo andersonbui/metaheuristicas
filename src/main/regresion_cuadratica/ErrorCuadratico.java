@@ -1,7 +1,7 @@
 package main.regresion_cuadratica;
 
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.IndividuoGen;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.List;
 import main.Algebraicas.FuncionAlgebraica;
 import metaheuristicas.Aleatorio;
@@ -12,10 +12,10 @@ import metaheuristicas.Aleatorio;
  */
 public class ErrorCuadratico extends FuncionAlgebraica {
 
-    private final List<Individuo> puntosReferencia;
+    private final List<IndividuoGen> puntosReferencia;
     private final double prob_ceros = 0.8;
 
-    public ErrorCuadratico(double limite, int dimension, List<Individuo> puntosReferencia, boolean maximizar) {
+    public ErrorCuadratico(double limite, int dimension, List<IndividuoGen> puntosReferencia, boolean maximizar) {
         super("ERROR CUADRATICO", limite, dimension, maximizar);
         this.puntosReferencia = puntosReferencia;
     }
@@ -27,7 +27,7 @@ public class ErrorCuadratico extends FuncionAlgebraica {
      * @return
      */
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         super.evaluar(punto);
         punto = getPuntoFitnessErrorCuadratico(puntosReferencia, punto);
         double resultado = 0;
@@ -51,14 +51,14 @@ public class ErrorCuadratico extends FuncionAlgebraica {
      * @param coeficientes
      * @return
      */
-    public Individuo getPuntoFitnessErrorCuadratico(List<Individuo> listPuntos, Individuo coeficientes) {
+    public IndividuoGen getPuntoFitnessErrorCuadratico(List<IndividuoGen> listPuntos, IndividuoGen coeficientes) {
         double[] valoresFitness = new double[listPuntos.size()];
         for (int i = 0; i < listPuntos.size(); i++) {
 
-            Individuo punto = listPuntos.get(i);
+            IndividuoGen punto = listPuntos.get(i);
             valoresFitness[i] = punto.getCalidad() - funcionPolinomio(punto, coeficientes);
         }
-        return new Individuo(this, valoresFitness);
+        return new IndividuoGen(this, valoresFitness);
     }
 
     /**
@@ -69,7 +69,7 @@ public class ErrorCuadratico extends FuncionAlgebraica {
      * @param coeficientes coeficientes delpolinomio de grado 2
      * @return
      */
-    public double funcionPolinomio(Individuo punto, Individuo coeficientes) {
+    public double funcionPolinomio(IndividuoGen punto, IndividuoGen coeficientes) {
         // 
         double[] valoresX = punto.getValores();
         double[] valoresCoeficientes = coeficientes.getValores();
@@ -85,8 +85,8 @@ public class ErrorCuadratico extends FuncionAlgebraica {
         return sumaTotal;
     }
 
-    public Individuo generarPunto(Funcion funcion) {
-        Individuo nuevop = funcion.generarIndividuo();
+    public IndividuoGen generarPunto(FuncionGen funcion) {
+        IndividuoGen nuevop = funcion.generarIndividuo();
         double[] valores = nuevop.getValores();
         for (int i = 0; i < valores.length; i++) {
             if (Aleatorio.nextDouble() < prob_ceros) {

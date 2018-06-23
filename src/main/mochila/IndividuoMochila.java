@@ -16,21 +16,23 @@
  */
 package main.mochila;
 
-import metaheuristicas.Individuo;
+import java.util.List;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
  * @author debian
+ * @param <Funcion>
  */
-public class IndividuoMochila extends Individuo<FuncionMochila> {
+public abstract class IndividuoMochila<Funcion extends FuncionMochila> extends IndividuoGen<Funcion> {
 
-    double peso;
+    protected double peso;
 
-    public IndividuoMochila(FuncionMochila funcion) {
+    public IndividuoMochila(Funcion funcion) {
         super(funcion);
     }
 
-    public IndividuoMochila(FuncionMochila funcion, double[] valores) {
+    public IndividuoMochila(Funcion funcion, double[] valores) {
         super(funcion, valores);
     }
 
@@ -42,6 +44,28 @@ public class IndividuoMochila extends Individuo<FuncionMochila> {
     }
 
     public double pesar() {
-        return funcion.obtenerPeso(this, funcion.vectorPesos);
+        return funcion.obtenerPeso(this);
     }
+
+    @Override
+    public String toString() {
+        return "IndividuoMochila{" + "calidad=" + this.calidad + "peso=" + pesar() + '}';
+    }
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
+     * individuo.
+     *
+     * @return
+     */
+    public abstract List<Integer> elementosSeleccionados();
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos no seleccionados (I1)
+     * en individuo.
+     *
+     * @return List de indices de elementos no seleccionados
+     */
+    public abstract List<Integer> elementosNoSeleccionados();
+
 }

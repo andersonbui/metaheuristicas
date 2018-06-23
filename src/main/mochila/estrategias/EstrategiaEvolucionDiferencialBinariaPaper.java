@@ -17,8 +17,8 @@
 package main.mochila.estrategias;
 
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.IndividuoGen;
+import metaheuristicas.funcion.FuncionGen;
 import metaheuristicas.poblacion.EvolucionDiferencial;
 import metaheuristicas.poblacion.Poblacion;
 
@@ -27,7 +27,7 @@ import metaheuristicas.poblacion.Poblacion;
  * @author debian
  * @param <FuncionB>
  */
-public class EstrategiaEvolucionDiferencialBinariaPaper<FuncionB extends Funcion> extends EvolucionDiferencial {
+public class EstrategiaEvolucionDiferencialBinariaPaper<FuncionB extends FuncionGen> extends EvolucionDiferencial {
 
     protected double b;
 
@@ -40,14 +40,14 @@ public class EstrategiaEvolucionDiferencialBinariaPaper<FuncionB extends Funcion
     }
 
     @Override
-    protected Individuo mutar(Poblacion poblacion) {
-        Individuo mutado = super.mutar(poblacion);
+    protected IndividuoGen mutar(Poblacion poblacion) {
+        IndividuoGen mutado = super.mutar(poblacion);
         //variacion para problema de la mochila
         normalizar(mutado);
         return mutado;
     }
 
-    public void normalizar(Individuo punto) {
+    public void normalizar(IndividuoGen punto) {
         for (int i = 0; i < punto.getDimension(); i++) {
             double valor = punto.get(i);
             valor = Aleatorio.nextDouble() <= sig(valor) ? 1 : 0;

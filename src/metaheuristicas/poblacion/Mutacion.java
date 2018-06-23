@@ -16,7 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.movimiento.Tweak;
 import metaheuristicas.movimiento.Tweak_Explotacion;
 
@@ -53,13 +53,13 @@ public class Mutacion extends AlgoritmoEvolutivo {
         return pob;
     }
 
-    private void genDescendientes(Individuo padre, Poblacion nuevaGeneracion) {
+    private void genDescendientes(IndividuoGen padre, Poblacion nuevaGeneracion) {
         for (int i = 0; i < numDescendientes; i++) {
             nuevaGeneracion.add(mutar(padre));
         }
     }
 
-    public Individuo mutar(Individuo punto) {
+    public IndividuoGen mutar(IndividuoGen punto) {
         tweak = new Tweak_Explotacion(ancho);
         return tweak.tweak(punto);
     }

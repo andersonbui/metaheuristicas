@@ -1,14 +1,14 @@
 package main.mochila.multidimensional.funciones;
 
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.IndividuoGen;
+import metaheuristicas.funcion.FuncionGen;
 import metaheuristicas.Aleatorio;
 
 /**
  *
  * @author debian
  */
-public class MochilaMultidimensionalOriginal extends Funcion {
+public class MochilaMultidimensionalOriginal extends FuncionGen {
 
     protected final double[] capacidades;
     protected double prob_ceros;
@@ -34,13 +34,13 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     }
 
     @Override
-    public double evaluar(Individuo mochila) {
+    public double evaluar(IndividuoGen mochila) {
         limitar(mochila);
         double result = obtenerPrecio(mochila);
         return result;
     }
 
-    public double obtenerPrecio(Individuo mochila) {
+    public double obtenerPrecio(IndividuoGen mochila) {
         double sumPX = 0;
         for (int i = 0; i < mochila.getDimension(); i++) {
             sumPX += mochila.get(i) * beneficios[i];
@@ -48,7 +48,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
         return sumPX;
     }
 
-    public double obtenerPeso(Individuo mochila, int indicePeso) {
+    public double obtenerPeso(IndividuoGen mochila, int indicePeso) {
         double sumWX = 0;
         // para cada elemento que podria ir en la mochila
         for (int i = 0; i < mochila.getDimension(); i++) {
@@ -58,7 +58,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     }
 
     @Override
-    public void limitar(Individuo mochila) {
+    public void limitar(IndividuoGen mochila) {
         int posicion;
         // para cada caracteristica(peso) del elemento
         for (int i = 0; i < capacidades.length; i++) {
@@ -79,7 +79,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
      * @param indiceRestriccion tipo de restriccion (tipo de peso)
      * @return
      */
-    public int mayorPerjuicio(Individuo mochila, int indiceRestriccion) {
+    public int mayorPerjuicio(IndividuoGen mochila, int indiceRestriccion) {
         int posMayor = 0;
         double valorMayor = -Double.MAX_VALUE;
         double valor;
@@ -101,7 +101,7 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     }
 
     @Override
-    public String toString(Individuo individuo) {
+    public String toString(IndividuoGen individuo) {
         String cadena = "";
         for (int i = 0; i < capacidades.length; i++) {
             cadena += "[" + i + "]" + obtenerPeso(individuo, i) + ";";
@@ -110,8 +110,8 @@ public class MochilaMultidimensionalOriginal extends Funcion {
     }
 
     @Override
-    public Individuo generarIndividuo() {
-        Individuo nuevop = new Individuo(this);
+    public IndividuoGen generarIndividuo() {
+        IndividuoGen nuevop = new IndividuoGen(this);
         for (int i = 0; i < nuevop.getDimension(); i++) {
             if (Aleatorio.nextDouble() > prob_ceros) {
                 nuevop.set(i, 1);

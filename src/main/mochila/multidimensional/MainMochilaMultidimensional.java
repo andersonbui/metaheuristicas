@@ -18,7 +18,7 @@ package main.mochila.multidimensional;
 
 import main.mochila.multidimensional.funciones.MochilaMultidimensional_LimitRellenoM;
 import main.mochila.multidimensional.funciones.MochilasMultidimensionales;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,13 +79,13 @@ public class MainMochilaMultidimensional {
         System.out.println("dimension: " + tamPoblacion);
         System.out.println("capacidades: " + Arrays.toString(capacidades));
         System.out.println("nombre: " + nombreInstancia);
-        Funcion funcionGreedy = new FuncionMochilaGreedy(VectorPesosMochilasElementos, beneficios, capacidades);
+        FuncionGen funcionGreedy = new FuncionMochilaGreedy(VectorPesosMochilasElementos, beneficios, capacidades);
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaper(tamPoblacion));
         listaAlgoritmos.add(new EstrategiaEvolucionDiferencialBinariaPaperMejorado(tamPoblacion));
 //        listaAlgoritmos.add(new Grasp(10, (FuncionMochilaGreedy) funcionGreedy));
 
-        List<Funcion> listaFunciones = new ArrayList();
+        List<FuncionGen> listaFunciones = new ArrayList();
         MochilasMultidimensionales funcionMochila = new MochilasMultidimensionales(VectorPesosMochilasElementos, beneficios, capacidades);
         listaFunciones.add(funcionMochila);
 //        listaFunciones.add(funcionGreedy);

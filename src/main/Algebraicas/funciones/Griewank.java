@@ -1,6 +1,6 @@
 package main.Algebraicas.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import main.Algebraicas.FuncionAlgebraica;
 
 /**
@@ -14,7 +14,7 @@ public class Griewank extends FuncionAlgebraica {
     }
 
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         super.evaluar(punto);
         double suma = 0;
         double producto = 1;

@@ -17,7 +17,7 @@
 package metaheuristicas.movimiento;
 
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -25,7 +25,7 @@ import metaheuristicas.Individuo;
  */
 public abstract class Tweak {
 
-    public abstract Individuo tweak(Individuo punto);
+    public abstract IndividuoGen tweak(IndividuoGen punto);
 
     /**
      * variacion de un i entre [-ancho, ancho]

@@ -1,19 +1,20 @@
 package metaheuristicas;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.List;
 
 /**
  *
  * @author debian
- * @param <FuncionDef>
+ * @param <Funcion>
+ * @param <Individuo>
  */
-public abstract class AlgoritmoMetaheuristico<FuncionDef extends Funcion> {
+public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Individuo extends IndividuoGen> {
 
     protected int iteraciones;
     protected int maxIteraciones;
     protected String nombre;
-    protected FuncionDef funcion;
+    protected Funcion funcion;
 
     public AlgoritmoMetaheuristico() {
         this.nombre = "";
@@ -42,7 +43,7 @@ public abstract class AlgoritmoMetaheuristico<FuncionDef extends Funcion> {
         this.iteraciones = iteraciones;
     }
 
-    public void setFuncion(FuncionDef funcion) {
+    public void setFuncion(Funcion funcion) {
         this.funcion = funcion;
     }
 
@@ -50,7 +51,7 @@ public abstract class AlgoritmoMetaheuristico<FuncionDef extends Funcion> {
         return maxIteraciones;
     }
 
-    public FuncionDef getFuncion() {
+    public Funcion getFuncion() {
         return funcion;
     }
 

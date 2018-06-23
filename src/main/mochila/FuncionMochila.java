@@ -1,13 +1,12 @@
 package main.mochila;
 
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
-import metaheuristicas.Aleatorio;
+import metaheuristicas.funcion.FuncionGen;
 
 /**
  * @author debian
+ * @param <Individuo>
  */
-public abstract class FuncionMochila extends Funcion<IndividuoMochila> {
+public abstract class FuncionMochila<Individuo extends IndividuoMochila> extends FuncionGen<Individuo> {
 
     protected double prob_ceros;
     protected double[] vectorPesos;
@@ -23,6 +22,7 @@ public abstract class FuncionMochila extends Funcion<IndividuoMochila> {
         this.prob_ceros = prob_ceros;
     }
 
+    @Deprecated
     protected double obtenerPeso(Individuo mochila, double[] pesos) {
         double sumPesos = 0;
         // para cada elemento que podria ir en la mochila
@@ -32,20 +32,35 @@ public abstract class FuncionMochila extends Funcion<IndividuoMochila> {
         return sumPesos;
     }
 
-    @Override
-    public String toString() {
-        return nombre;
+    /**
+     * obtiene el peso del i-esimo elemento
+     *
+     * @param i
+     * @return
+     */
+    public double peso(int i) {
+        return vectorPesos[i];
+    }
+
+    /**
+     * obtiene el peso de la mochila completa, es decir, la suma de los pesos de
+     * todos los elementos dentro de ella.
+     *
+     * @param mochila
+     * @return
+     */
+    protected double obtenerPeso(Individuo mochila) {
+        double sumPesos = 0;
+        // para cada elemento que podria ir en la mochila
+        for (int i = 0; i < mochila.getDimension(); i++) {
+            sumPesos += mochila.get(i) * vectorPesos[i];
+        }
+        return sumPesos;
     }
 
     @Override
-    public IndividuoMochila generarIndividuo() {
-        IndividuoMochila nuevop = new IndividuoMochila(this);
-        for (int i = 0; i < nuevop.getDimension(); i++) {
-            if (Aleatorio.nextDouble() > prob_ceros) {
-                nuevop.set(i, 1);
-            }
-        }
-        return nuevop;
+    public String toString() {
+        return nombre;
     }
 
 }

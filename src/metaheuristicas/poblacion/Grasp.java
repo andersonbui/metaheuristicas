@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.multidimensional.funciones.FuncionMochilaGreedy;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.funcion.Funcion;
-import metaheuristicas.Individuo;
+import metaheuristicas.funcion.FuncionGen;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -56,7 +56,7 @@ public class Grasp extends AlgoritmoMetaheuristico {
         });
     }
 
-    public Individuo voraz(Individuo individuo) {
+    public IndividuoGen voraz(IndividuoGen individuo) {
         for (int i = 0; i < articulos.size() && !funcionGreedy.suficiente(individuo); i++) {
             int posMejor = articulos.get(i);
             individuo.set(posMejor, 1);
@@ -69,8 +69,8 @@ public class Grasp extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Individuo> ejecutar() {
-        Individuo individuo = funcionGreedy.generarPunto(0);
+    public List<IndividuoGen> ejecutar() {
+        IndividuoGen individuo = funcionGreedy.generarPunto(0);
         voraz(individuo);
         Byte c = 1;
         return null;

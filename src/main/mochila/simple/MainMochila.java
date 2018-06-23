@@ -18,7 +18,7 @@ package main.mochila.simple;
 
 import main.Algebraicas.funciones.Ackley;
 import main.Algebraicas.funciones.Esfera;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import main.Algebraicas.funciones.Piso;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import main.Ejecutor;
 import main.Utilidades;
 import main.mochila.multidimensional.UtilMultid;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EvolucionDiferencial;
 import metaheuristicas.poblacion.EvolucionDiferencialBinaria;
@@ -72,7 +72,7 @@ public class MainMochila {
         List<AlgoritmoMetaheuristico> listaAlgoritmos = new ArrayList();
         listaAlgoritmos.add(new EvolucionDiferencialBinaria(tamPoblacion));
 
-        List<Funcion> listaFunciones = new ArrayList();
+        List<FuncionGen> listaFunciones = new ArrayList();
 //        listaFunciones.add(new Esfera(limite, dimension));
 //        listaFunciones.add(new Mochila(63, new double[][]{{12,23}, {15,24}, {13,43}, {23,20}, {24,35}, {13,65}, {21,41}, {13,37}, {12,22}, {6,3}}));
         MochilaSimple funcionMochila = new MochilaSimple(limite, listaPuntos, maximizar);
@@ -80,7 +80,7 @@ public class MainMochila {
 
         // EJECUTAR ANALISIS
         (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
-        Individuo mejor = funcionMochila.getMejor();
+        IndividuoGen mejor = funcionMochila.getMejor();
         System.out.println("Peso: " + funcionMochila.obtenerPeso(mejor));
         System.out.println("Precio: " + funcionMochila.obtenerPrecio(mejor));
 

@@ -19,7 +19,7 @@ package metaheuristicas.poblacion;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.movimiento.Tweak;
 import metaheuristicas.movimiento.Tweak_Explotacion;
 
@@ -59,21 +59,21 @@ public class MLamda extends AlgoritmoEvolutivo {
     public Poblacion siguienteGeneracion(int numIndividuosElitismo) {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
-        List<Individuo> padresEscogidos = escogerPadres(getMiu(), poblacion);
+        List<IndividuoGen> padresEscogidos = escogerPadres(getMiu(), poblacion);
         genDescendientes(padresEscogidos, nuevaGeneracion);
         return nuevaGeneracion;
     }
 
-    private Poblacion mezclar(Poblacion poblacion, List<Individuo> genDescendientes) {
+    private Poblacion mezclar(Poblacion poblacion, List<IndividuoGen> genDescendientes) {
         Poblacion pob = poblacion;
-        for (Individuo descen : genDescendientes) {
+        for (IndividuoGen descen : genDescendientes) {
             poblacion.add(descen);
         }
         return pob;
     }
 
-    private void genDescendientes(List<Individuo> padres, Poblacion nuevaGeneracion) {
-        for (Individuo padre : padres) {
+    private void genDescendientes(List<IndividuoGen> padres, Poblacion nuevaGeneracion) {
+        for (IndividuoGen padre : padres) {
             for (int i = 0; i < getLamda() / getMiu(); i++) {
                 nuevaGeneracion.add(mutar(padre));
             }
@@ -81,22 +81,22 @@ public class MLamda extends AlgoritmoEvolutivo {
         }
     }
 
-    public Individuo mutar(Individuo punto) {
+    public IndividuoGen mutar(IndividuoGen punto) {
         tweak = new Tweak_Explotacion(ancho);
         return tweak.tweak(punto);
     }
 
-    private List<Individuo> escogerPadres(int miu, Poblacion poblacion) {
+    private List<IndividuoGen> escogerPadres(int miu, Poblacion poblacion) {
 //        List<Punto> padres = poblacion.getPoblacion().subList(0, miu);
         //Los cromosomas con mayor valor de aptitud tendran mayor probabilidad de ser seleccionados
         double totalCalidad = 0;
         double[] acomuladoPuntos = new double[poblacion.size()];
         int i = 0;
-        for (Individuo punto : poblacion) {
+        for (IndividuoGen punto : poblacion) {
             acomuladoPuntos[i++] = totalCalidad;
             totalCalidad += punto.getCalidad();
         }
-        List<Individuo> padres = new ArrayList();
+        List<IndividuoGen> padres = new ArrayList();
         for (int k = 0; k < miu; k++) {
             double valorAleatorio = Aleatorio.nextDouble() * totalCalidad;
             for (int j = 0; j < acomuladoPuntos.length; j++) {

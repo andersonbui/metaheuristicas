@@ -1,8 +1,8 @@
 package metaheuristicas.movimiento;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -21,10 +21,10 @@ public class Tweak_B_HC extends Tweak {
     }
 
     @Override
-    public Individuo tweak(Individuo punto) {
+    public IndividuoGen tweak(IndividuoGen punto) {
 
-        Individuo nuevop = (Individuo) punto.clone();
-        Funcion funcion = punto.getFuncion();
+        IndividuoGen nuevop = (IndividuoGen) punto.clone();
+        FuncionGen funcion = punto.getFuncion();
         double[] valores = nuevop.getValores();
         // improve
         int index = Aleatorio.nextInt(valores.length);

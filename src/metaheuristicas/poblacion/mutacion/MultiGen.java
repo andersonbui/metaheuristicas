@@ -1,7 +1,7 @@
 package metaheuristicas.poblacion.mutacion;
 
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -15,7 +15,7 @@ public class MultiGen {
         this.ancho = ancho;
     }
 
-    public Individuo mutar(Individuo punto, double limite, double probabilidad, boolean conBase) {
+    public IndividuoGen mutar(IndividuoGen punto, double limite, double probabilidad, boolean conBase) {
         double valor;
         for (int i = 0; i < punto.getDimension(); i++) {
             if (probabilidad > Aleatorio.nextDouble()) {

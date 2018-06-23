@@ -17,7 +17,7 @@
 package metaheuristicas.poblacion;
 
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -33,14 +33,14 @@ public class EvolucionDiferencialBinaria extends EvolucionDiferencial {
     }
 
     @Override
-    protected Individuo mutar(Poblacion poblacion) {
-        Individuo mutado = super.mutar(poblacion);
+    protected IndividuoGen mutar(Poblacion poblacion) {
+        IndividuoGen mutado = super.mutar(poblacion);
         //variacion para problema de la mochila
         normalizar(mutado);
         return mutado;
     }
 
-    public void normalizar(Individuo punto) {
+    public void normalizar(IndividuoGen punto) {
         for (int i = 0; i < punto.getDimension(); i++) {
             double valor = punto.get(i);
             valor = Aleatorio.nextDouble() <= sig(valor) ? 1 : 0;

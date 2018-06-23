@@ -17,8 +17,8 @@
 package main.mochila.cuadratica.anson;
 
 import main.mochila.estrategias.*;
-import metaheuristicas.funcion.Funcion;
-import metaheuristicas.Individuo;
+import metaheuristicas.funcion.FuncionGen;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.Poblacion;
 
 /**
@@ -52,11 +52,11 @@ public class EstrategiaEvolucionDiferencialConGreedy<FuncionGreddy extends Funci
         siguienteGeneracion.aumentarGeneracion();
         siguienteGeneracion.clear();
         for (int k = 0; k < poblacion.size(); k++) {
-            Individuo objetivo = poblacion.remove(k);
+            IndividuoGen objetivo = poblacion.remove(k);
             // MUTACION
-            Individuo mutado = mutar(poblacion);
+            IndividuoGen mutado = mutar(poblacion);
             // CRUCE -> generacion del vector prueba
-            Individuo individuoPrueba = cruce(objetivo, mutado, k);
+            IndividuoGen individuoPrueba = cruce(objetivo, mutado, k);
             // SELECCION
             funcion.limitar(individuoPrueba);
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
@@ -67,9 +67,9 @@ public class EstrategiaEvolucionDiferencialConGreedy<FuncionGreddy extends Funci
     }
 
     @Override
-    public Poblacion generarPoblacion(Funcion funcion) {
+    public Poblacion generarPoblacion(FuncionGen funcion) {
         Poblacion unaPoblacion = new Poblacion(funcion, tamPoblacion);
-        Individuo p;
+        IndividuoGen p;
         for (int i = 0; i < tamPoblacion; i++) {
 //            p = funcion.generarIndividuo();
             p = funcion.generarIndividuo();

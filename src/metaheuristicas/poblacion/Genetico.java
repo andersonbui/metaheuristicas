@@ -16,7 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.cruce.Cruce;
 import metaheuristicas.poblacion.mutacion.MultiGen;
 
@@ -53,14 +53,14 @@ public class Genetico extends AlgoritmoEvolutivo {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
         while (!poblacion.isEmpty()) {
-            Individuo[] padres = seleccionPadreMadre(poblacion);
+            IndividuoGen[] padres = seleccionPadreMadre(poblacion);
             genDescendientes(padres[0], padres[1], nuevaGeneracion);
         }
         return nuevaGeneracion;
     }
 
-    public Individuo[] seleccionPadreMadre(Poblacion poblacion) {
-        Individuo[] padres = new Individuo[numPadres];
+    public IndividuoGen[] seleccionPadreMadre(Poblacion poblacion) {
+        IndividuoGen[] padres = new IndividuoGen[numPadres];
         padres[0] = poblacion.remove(0);
         if (!poblacion.isEmpty()) {
             padres[1] = poblacion.remove(0);
@@ -71,9 +71,9 @@ public class Genetico extends AlgoritmoEvolutivo {
         return padres;
     }
 
-    private void genDescendientes(Individuo padre, Individuo madre, Poblacion nuevaGeneracion) {
-        Individuo[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
-        for (Individuo hijo : hijos) {
+    private void genDescendientes(IndividuoGen padre, IndividuoGen madre, Poblacion nuevaGeneracion) {
+        IndividuoGen[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
+        for (IndividuoGen hijo : hijos) {
             mutar(hijo);
             hijo.evaluar();
             nuevaGeneracion.add(hijo);
@@ -83,7 +83,7 @@ public class Genetico extends AlgoritmoEvolutivo {
 //        nuevaGeneracion.add(padre);
     }
 
-    private Individuo mutar(Individuo punto) {
+    private IndividuoGen mutar(IndividuoGen punto) {
         mutacion = new MultiGen(ancho);
         return mutacion.mutar(punto, punto.getFuncion().getLimite(), 0.2, true);
     }

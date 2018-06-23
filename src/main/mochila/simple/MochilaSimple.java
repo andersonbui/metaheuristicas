@@ -1,20 +1,20 @@
 package main.mochila.simple;
 
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.IndividuoGen;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.List;
 import metaheuristicas.Aleatorio;
 
 /**
  * @author debian
  */
-public class MochilaSimple extends Funcion {
+public class MochilaSimple extends FuncionGen {
 
     private final List<double[]> w;
     private final double L;
     private final double capacidad;
     private final double prob_ceros;
-    private Individuo mejor;
+    private IndividuoGen mejor;
 
     public MochilaSimple(double capacidad, List<double[]> w, boolean maximizar) {
         super("MOCHILA", w.size(), maximizar);
@@ -25,13 +25,13 @@ public class MochilaSimple extends Funcion {
     }
 
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         limitar(punto);
         double result = obtenerPrecio(punto);
         return result;
     }
 
-    public double obtenerPrecio(Individuo punto) {
+    public double obtenerPrecio(IndividuoGen punto) {
         double sumWX = 0;
         double sumPX = 0;
         double result = 0;
@@ -49,7 +49,7 @@ public class MochilaSimple extends Funcion {
         return result;
     }
 
-    public double obtenerPeso(Individuo punto) {
+    public double obtenerPeso(IndividuoGen punto) {
         double sumWX = 0;
         for (int i = 0; i < punto.getDimension(); i++) {
             sumWX += punto.get(i) * w.get(i)[0];
@@ -58,7 +58,7 @@ public class MochilaSimple extends Funcion {
     }
 
     @Override
-    public void limitar(Individuo punto) {
+    public void limitar(IndividuoGen punto) {
         int posicion;
         while (obtenerPeso(punto) > capacidad) {
             posicion = mayor(punto);
@@ -66,7 +66,7 @@ public class MochilaSimple extends Funcion {
         }
     }
 
-    public int mayor(Individuo punto) {
+    public int mayor(IndividuoGen punto) {
         int mayor = 0;
         for (int i = 1; i < punto.getDimension(); i++) {
             if (mayor < 0 || punto.get(mayor) * w.get(mayor)[0] < punto.get(i) * w.get(i)[0]) {
@@ -82,21 +82,21 @@ public class MochilaSimple extends Funcion {
     }
 
     @Override
-    public Individuo generarIndividuo() {
+    public IndividuoGen generarIndividuo() {
         double[] valores = new double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
             valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : 1);
         }
-        Individuo nuevop = new Individuo(this, valores);
+        IndividuoGen nuevop = new IndividuoGen(this, valores);
         nuevop.evaluar();
         return nuevop;
     }
 
-    public Individuo getMejor() {
+    public IndividuoGen getMejor() {
         return mejor;
     }
 
-    public void setMejor(Individuo mejor) {
+    public void setMejor(IndividuoGen mejor) {
         this.mejor = mejor;
     }
 

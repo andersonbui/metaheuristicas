@@ -18,7 +18,7 @@ package metaheuristicas.poblacion.seleccion;
 
 import java.util.List;
 import java.util.Random;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -26,6 +26,6 @@ import metaheuristicas.Individuo;
  */
 public interface Seleccion {
 
-    public Individuo seleccionar(List<Individuo> poblacion, Random rand);
+    public IndividuoGen seleccionar(List<IndividuoGen> poblacion, Random rand);
 
 }

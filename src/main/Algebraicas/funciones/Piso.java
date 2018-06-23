@@ -16,7 +16,7 @@
  */
 package main.Algebraicas.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import main.Algebraicas.FuncionAlgebraica;
 
 /**
@@ -31,7 +31,7 @@ public class Piso extends FuncionAlgebraica {
     double num = 0.5;
 
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         super.evaluar(punto);
         int resultado = 0;
         double[] valores = punto.getValores();

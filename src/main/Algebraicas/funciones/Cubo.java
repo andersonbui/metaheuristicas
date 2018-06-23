@@ -1,6 +1,6 @@
 package main.Algebraicas.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import main.Algebraicas.FuncionAlgebraica;
 
 /**
@@ -16,7 +16,7 @@ public class Cubo extends FuncionAlgebraica {
     }
 
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         super.evaluar(punto);
         double resultado = 1;
         double[] valores = punto.getValores();

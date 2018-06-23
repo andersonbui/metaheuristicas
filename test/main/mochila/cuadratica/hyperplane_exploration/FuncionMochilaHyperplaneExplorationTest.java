@@ -19,7 +19,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  */
 public class FuncionMochilaHyperplaneExplorationTest {
 
-    FuncionMochilaHyperplaneExploration instanceFuncion;
+    FuncionMochilaIHEA instanceFuncion;
 
     public FuncionMochilaHyperplaneExplorationTest() {
         double[][] matrizbeneficio = new double[][]{
@@ -44,7 +44,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
         };
         double capacidad = 5;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
-        instanceFuncion = new FuncionMochilaHyperplaneExploration(matrizbeneficio, capacidad, vectorPesos, null);
+        instanceFuncion = new FuncionMochilaIHEA(matrizbeneficio, capacidad, vectorPesos, null);
     }
 
     @BeforeClass
@@ -65,7 +65,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
 
     /**
      * Test of contribucion method, of class
-     * FuncionMochilaHyperplaneExploration.
+ FuncionMochilaIHEA.
      */
     @Test
     public void testContribucion() {
@@ -79,7 +79,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     }
 
     /**
-     * Test of densidad method, of class FuncionMochilaHyperplaneExploration.
+     * Test of densidad method, of class FuncionMochilaIHEA.
      */
     @Test
     public void testDensidad() {
@@ -92,42 +92,42 @@ public class FuncionMochilaHyperplaneExplorationTest {
     }
 
     /**
-     * Test of optener_lb_ub method, of class
-     * FuncionMochilaHyperplaneExploration.
+     * Test of optenerLowerUpper_Bound method, of class
+ FuncionMochilaIHEA.
      */
     @Test
     public void testOptener_lb_ub() {
         System.out.println("optener_lb_ub");
         int[] expResult = new int[]{1, 2};
-        int[] result = instanceFuncion.optener_lb_ub();
+        int[] result = instanceFuncion.optenerLowerUpper_Bound();
         assertArrayEquals(expResult, result);
     }
 
     /**
-     * Test of obtener_lb method, of class FuncionMochilaHyperplaneExploration.
+     * Test of obtener_lb method, of class FuncionMochilaIHEA.
      */
     @Test
     public void testObtener_lb() {
         System.out.println("obtener_lb");
         int expResult = 1;
-        int result = instanceFuncion.obtener_lb();
+        int result = instanceFuncion.obtenerLowerBound();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of obtener_ub method, of class FuncionMochilaHyperplaneExploration.
+     * Test of obtener_ub method, of class FuncionMochilaIHEA.
      */
     @Test
     public void testObtener_ub() {
         System.out.println("obtener_ub");
         int expResult = 2;
-        int result = instanceFuncion.obtener_ub();
+        int result = instanceFuncion.obtenerUpperBound();
         assertEquals(expResult, result);
     }
 
     /**
      * Test of violacionDeCapacidad method, of class
-     * FuncionMochilaHyperplaneExploration.
+ FuncionMochilaIHEA.
      */
     @Test
     public void testViolacionDeCapacidad() {
@@ -146,7 +146,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
 
     /**
      * Test of filtrarPorFactibles method, of class
-     * FuncionMochilaHyperplaneExploration.
+ FuncionMochilaIHEA.
      */
     @Test
     public void testFiltrarPorFactibles() {
@@ -166,7 +166,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
 
     /**
      * Test of swapFactible method, of class
-     * FuncionMochilaHyperplaneExploration.
+ FuncionMochilaIHEA.
      */
     @Test
     public void testSwapFactible() {
@@ -194,7 +194,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     }
     
     /**
-     * Test of beneficio method, of class FuncionMochilaHyperplaneExploration.
+     * Test of beneficio method, of class FuncionMochilaIHEA.
      */
     @Test
     public void testBeneficio() {
@@ -206,7 +206,7 @@ public class FuncionMochilaHyperplaneExplorationTest {
     }
 
     /**
-     * Test of toString method, of class FuncionMochilaHyperplaneExploration.
+     * Test of toString method, of class FuncionMochilaIHEA.
      */
     @Test
     public void testToString() {

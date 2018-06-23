@@ -5,14 +5,14 @@
  */
 package main.Algebraicas;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import metaheuristicas.*;
 
 /**
  *
  * @author debian
  */
-public abstract class FuncionAlgebraica extends Funcion {
+public abstract class FuncionAlgebraica extends FuncionGen {
 
     protected double limite;
 
@@ -28,7 +28,7 @@ public abstract class FuncionAlgebraica extends Funcion {
     }
 
     @Override
-    public double evaluar(Individuo p) {
+    public double evaluar(IndividuoGen p) {
         contadorEvaluaciones++;
         return 0;
     }
@@ -47,7 +47,7 @@ public abstract class FuncionAlgebraica extends Funcion {
      * @param punto
      */
     @Override
-    public void limitar(Individuo punto) {
+    public void limitar(IndividuoGen punto) {
         double[] valores = punto.getValores();
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(valores[i]);
@@ -68,12 +68,12 @@ public abstract class FuncionAlgebraica extends Funcion {
      * @return
      */
     @Override
-    public Individuo generarIndividuo() {
+    public IndividuoGen generarIndividuo() {
         double[] valores = new double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
             valores[i] = limitar(Aleatorio.nextDouble() * getLimite() * 2 - getLimite());
         }
-        Individuo individuo = new Individuo(this, valores);
+        IndividuoGen individuo = new IndividuoGen(this, valores);
         return individuo;
     }
 

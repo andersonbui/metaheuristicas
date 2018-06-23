@@ -1,6 +1,6 @@
 package main.mochila.multidimensional.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *

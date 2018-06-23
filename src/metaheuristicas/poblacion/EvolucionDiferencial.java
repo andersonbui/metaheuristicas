@@ -17,7 +17,7 @@
 package metaheuristicas.poblacion;
 
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.seleccion.Ruleta;
 
 /**
@@ -49,11 +49,11 @@ public class EvolucionDiferencial extends AlgoritmoEvolutivo {
         siguienteGeneracion.aumentarGeneracion();
         siguienteGeneracion.clear();
         for (int k = 0; k < poblacion.size(); k++) {
-            Individuo objetivo = poblacion.remove(k);
+            IndividuoGen objetivo = poblacion.remove(k);
             // MUTACION
-            Individuo mutado = mutar(poblacion);
+            IndividuoGen mutado = mutar(poblacion);
             // CRUCE -> generacion del vector prueba
-            Individuo individuoPrueba = cruce(objetivo, mutado, k);
+            IndividuoGen individuoPrueba = cruce(objetivo, mutado, k);
             // SELECCION
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
@@ -61,14 +61,14 @@ public class EvolucionDiferencial extends AlgoritmoEvolutivo {
         return siguienteGeneracion;
     }
 
-    protected void seleccion(Individuo objetivo, Individuo individuoPrueba, Poblacion siguienteGeneracion) {
+    protected void seleccion(IndividuoGen objetivo, IndividuoGen individuoPrueba, Poblacion siguienteGeneracion) {
         individuoPrueba.evaluar();
-        Individuo selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
+        IndividuoGen selleccionado = (individuoPrueba.compareTo(objetivo) > 0 ? individuoPrueba : objetivo);
         siguienteGeneracion.add(selleccionado);
     }
 
-    protected Individuo cruce(Individuo objetivo, Individuo mutado, int k) {
-        Individuo individuoPrueba = objetivo.clone();
+    protected IndividuoGen cruce(IndividuoGen objetivo, IndividuoGen mutado, int k) {
+        IndividuoGen individuoPrueba = objetivo.clone();
         double wi; // posicion i del punto mutado
         double vi; // posicion i del punto objetivo
         for (int i = 0; i < objetivo.getDimension(); i++) {
@@ -83,21 +83,21 @@ public class EvolucionDiferencial extends AlgoritmoEvolutivo {
         return individuoPrueba;
     }
 
-    protected Individuo mutar(Poblacion poblacion) {
-        Individuo x1 = Ruleta.seleccionar(poblacion);
-        Individuo x2 = Ruleta.seleccionar(poblacion);
-        Individuo x3 = Ruleta.seleccionar(poblacion);
+    protected IndividuoGen mutar(Poblacion poblacion) {
+        IndividuoGen x1 = Ruleta.seleccionar(poblacion);
+        IndividuoGen x2 = Ruleta.seleccionar(poblacion);
+        IndividuoGen x3 = Ruleta.seleccionar(poblacion);
         poblacion.add(x1);
         poblacion.add(x2);
         poblacion.add(x3);
-        Individuo diferenciaX1X2 = resta(x1, x2);
-        Individuo productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
-        Individuo mutado = suma(x3, productoEscalar);
+        IndividuoGen diferenciaX1X2 = resta(x1, x2);
+        IndividuoGen productoEscalar = multiplicacionPorEscalar(diferenciaX1X2, alfa);
+        IndividuoGen mutado = suma(x3, productoEscalar);
         return mutado;
     }
 
-    protected Individuo resta(Individuo minuendo, Individuo sustraendo) {
-        Individuo diferencia = minuendo.clone();
+    protected IndividuoGen resta(IndividuoGen minuendo, IndividuoGen sustraendo) {
+        IndividuoGen diferencia = minuendo.clone();
         double resta;
         for (int i = 0; i < diferencia.getDimension(); i++) {
             resta = minuendo.get(i) - sustraendo.get(i);
@@ -106,8 +106,8 @@ public class EvolucionDiferencial extends AlgoritmoEvolutivo {
         return diferencia;
     }
 
-    protected Individuo suma(Individuo sumando, Individuo sumando2) {
-        Individuo resultado = (Individuo) sumando.clone();
+    protected IndividuoGen suma(IndividuoGen sumando, IndividuoGen sumando2) {
+        IndividuoGen resultado = (IndividuoGen) sumando.clone();
         double suma;
         for (int i = 0; i < resultado.getDimension(); i++) {
             suma = sumando.get(i) + sumando2.get(i);
@@ -116,8 +116,8 @@ public class EvolucionDiferencial extends AlgoritmoEvolutivo {
         return resultado;
     }
 
-    protected Individuo multiplicacionPorEscalar(Individuo punto, double escalar) {
-        Individuo result = (Individuo) punto.clone();
+    protected IndividuoGen multiplicacionPorEscalar(IndividuoGen punto, double escalar) {
+        IndividuoGen result = (IndividuoGen) punto.clone();
         double producto;
         for (int i = 0; i < result.getDimension(); i++) {
             producto = punto.get(i) * escalar;

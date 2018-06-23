@@ -16,7 +16,7 @@
  */
 package main.mochila.estrategias;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.Poblacion;
 
 /**
@@ -46,11 +46,11 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
         siguienteGeneracion.aumentarGeneracion();
         siguienteGeneracion.clear();
         for (int k = 0; k < poblacion.size(); k++) {
-            Individuo objetivo = poblacion.remove(k);
+            IndividuoGen objetivo = poblacion.remove(k);
             // MUTACION
-            Individuo mutado = mutar(poblacion);
+            IndividuoGen mutado = mutar(poblacion);
             // CRUCE -> generacion del vector prueba
-            Individuo individuoPrueba = cruce(objetivo, mutado, k);
+            IndividuoGen individuoPrueba = cruce(objetivo, mutado, k);
             // SELECCION
             seleccion(objetivo, individuoPrueba, siguienteGeneracion);
             poblacion.add(objetivo);
@@ -60,8 +60,8 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
     }
 
 //    @Override
-//    protected Individuo resta(Individuo minuendo, Individuo sustraendo) {
-//        Individuo diferencia = minuendo.clone();
+//    protected IndividuoGen resta(IndividuoGen minuendo, IndividuoGen sustraendo) {
+//        IndividuoGen diferencia = minuendo.clone();
 //        double resta;
 //        for (int i = 0; i < diferencia.getDimension(); i++) {
 //            resta = minuendo.get(i) - sustraendo.get(i);
@@ -72,8 +72,8 @@ public class EstrategiaEvolucionDiferencialBinariaPaperMejorado extends Estrateg
 //    }
 
 //    @Override
-//    protected Individuo suma(Individuo sumando, Individuo sumando2) {
-//        Individuo resultado = (Individuo) sumando.clone();
+//    protected IndividuoGen suma(IndividuoGen sumando, IndividuoGen sumando2) {
+//        IndividuoGen resultado = (IndividuoGen) sumando.clone();
 //        double suma;
 //        for (int i = 0; i < resultado.getDimension(); i++) {
 //            suma = sumando.get(i) + sumando2.get(i);

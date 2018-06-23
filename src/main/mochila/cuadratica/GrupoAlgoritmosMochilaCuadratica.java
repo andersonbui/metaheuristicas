@@ -21,12 +21,12 @@ import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.FuncionGraspTabuR;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
-import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaHyperplaneExploration;
+import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.sgvns.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.VNS;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
@@ -55,17 +55,17 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double[] vectorPesos = parametros.vectorPesos;
         double maxGlobal = parametros.maxGlobal;
 
-        FuncionMochilaHyperplaneExploration funcionHyperplanos = new FuncionMochilaHyperplaneExploration(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
+        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 
         FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 
         FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new VNS(funcionVns));
+        add(new VNS(funcionVns,maxIteraciones));
 
     }
 

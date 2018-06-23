@@ -21,8 +21,8 @@ import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspReinicio.ItemCalidad;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.funcion.Funcion;
-import metaheuristicas.Individuo;
+import metaheuristicas.funcion.FuncionGen;
+import metaheuristicas.IndividuoGen;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -90,7 +90,7 @@ public class GraspTest {
 //    @Test
 //    public void testEjecutar() {
 //        System.out.println("ejecutar");
-//        Funcion funcion = null;
+//        FuncionGen funcion = null;
 //        Grasp instance = null;
 //        List<Individuo> expResult = null;
 //        List<Individuo> result = instance.ejecutar(funcion);
@@ -108,8 +108,8 @@ public class GraspTest {
         System.out.println("definicionSolParcialS");
         int m = 1;
         int sigma = 2;
-        Individuo expResult = new Individuo(funcion, new double[]{1, 1, 0, 1});
-        Individuo result = instanceGrasp.definicionSolParcialS(funcion, m, sigma, lista_Q);
+        IndividuoGen expResult = new IndividuoGen(funcion, new double[]{1, 1, 0, 1});
+        IndividuoGen result = instanceGrasp.definicionSolParcialS(funcion, m, sigma, lista_Q);
         assertEquals(expResult, result);
     }
 //
@@ -121,10 +121,10 @@ public class GraspTest {
 //        System.out.println("faseConstruccion");
 //        int minLen = 0;
 //        int maxLen = 0;
-//        Individuo solParcialS = null;
+//        IndividuoGen solParcialS = null;
 //        Grasp instance = null;
-//        Individuo expResult = null;
-//        Individuo result = instance.faseConstruccion(minLen, maxLen, solParcialS);
+//        IndividuoGen expResult = null;
+//        IndividuoGen result = instance.faseConstruccion(minLen, maxLen, solParcialS);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -136,9 +136,9 @@ public class GraspTest {
 //    @Test
 //    public void testFaseBusquedaLocal() {
 //        System.out.println("faseBusquedaLocal");
-//        Individuo s = new Individuo(funcion, new double[]{1, 0, 1, 0});
-//        Individuo expResult = null;
-//        Individuo result = instanceGrasp.faseBusquedaLocal(s);
+//        IndividuoGen s = new IndividuoGen(funcion, new double[]{1, 0, 1, 0});
+//        IndividuoGen expResult = null;
+//        IndividuoGen result = instanceGrasp.faseBusquedaLocal(s);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -169,7 +169,7 @@ public class GraspTest {
     @Test
     public void testObtenerItemNoSelecionado() {
         System.out.println("obtenerItemNoSelecionado");
-        Individuo individuo = new Individuo(funcion, new double[]{0, 1, 0, 0});
+        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{0, 1, 0, 0});
         List<Integer> expResult = new ArrayList();
         expResult.add(0);
         expResult.add(2);
@@ -183,7 +183,7 @@ public class GraspTest {
     @Test
     public void testObtenerItemSelecionado() {
         System.out.println("obtenerItemSelecionado");
-        Individuo individuo = new Individuo(funcion, new double[]{0, 1, 0, 1});
+        IndividuoGen individuo = new IndividuoGen(funcion, new double[]{0, 1, 0, 1});
         List<Integer> expResult = new ArrayList();
         expResult.add(1);
         expResult.add(3);
@@ -248,9 +248,9 @@ public class GraspTest {
 //     */    @Test
 //    public void testShift() {
 //        System.out.println("shift");
-//        Individuo individuo = new Individuo(funcion, new double[]{0, 0, 1, 1});
-//        Individuo expResult = new Individuo(funcion, new double[]{0, 1, 1, 1});
-//        Individuo result = instanceGrasp.shift(individuo);
+//        IndividuoGen individuo = new IndividuoGen(funcion, new double[]{0, 0, 1, 1});
+//        IndividuoGen expResult = new IndividuoGen(funcion, new double[]{0, 1, 1, 1});
+//        IndividuoGen result = instanceGrasp.shift(individuo);
 //        assertEquals(expResult, result);
 //    }
     
@@ -266,8 +266,8 @@ public class GraspTest {
         listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(1, 10.2));
         listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(3, 8.2));
         
-        Individuo expResult = new Individuo(funcion, new double[]{1, 0, 0, 0});
-        Individuo result = instanceGrasp.swap(individuo);
+        IndividuoGen expResult = new IndividuoGen(funcion, new double[]{1, 0, 0, 0});
+        IndividuoGen result = instanceGrasp.swap(individuo);
         assertEquals(expResult, result);   
     }
 
@@ -277,7 +277,7 @@ public class GraspTest {
 //    @Test
 //    public void testEjecutar() {
 //        System.out.println("ejecutar");
-//        Funcion funcion = null;
+//        FuncionGen funcion = null;
 //        Grasp instance = null;
 //        List<Individuo> expResult = null;
 //        List<Individuo> result = instance.ejecutar(funcion);
@@ -294,10 +294,10 @@ public class GraspTest {
 //        System.out.println("faseConstruccion");
 //        int minLen = 0;
 //        int maxLen = 0;
-//        Individuo solParcialS = null;
+//        IndividuoGen solParcialS = null;
 //        Grasp instance = null;
-//        Individuo expResult = null;
-//        Individuo result = instance.faseConstruccion(minLen, maxLen, solParcialS);
+//        IndividuoGen expResult = null;
+//        IndividuoGen result = instance.faseConstruccion(minLen, maxLen, solParcialS);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -309,10 +309,10 @@ public class GraspTest {
 //    @Test
 //    public void testFaseBusquedaLocal() {
 //        System.out.println("faseBusquedaLocal");
-//        Individuo s = null;
+//        IndividuoGen s = null;
 //        Grasp instance = null;
-//        Individuo expResult = null;
-//        Individuo result = instance.faseBusquedaLocal(s);
+//        IndividuoGen expResult = null;
+//        IndividuoGen result = instance.faseBusquedaLocal(s);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");

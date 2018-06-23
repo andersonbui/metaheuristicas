@@ -1,7 +1,7 @@
 package main.Algebraicas.funciones;
 
 import main.Algebraicas.FuncionAlgebraica;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Ackley extends FuncionAlgebraica {
     }
 
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         super.evaluar(punto);
         double suma = 0;
         double suma2 = 0;

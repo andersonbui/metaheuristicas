@@ -16,7 +16,7 @@
  */
 package main;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import gnuplot.GraficoGnuPlot;
 import gnuplot.Punto;
 import gnuplot.Punto2D;
@@ -25,7 +25,7 @@ import java.util.List;
 import main.mochila.Grupo;
 import main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -42,7 +42,7 @@ public class Ejecutor {
         gnuplot = new GraficoGnuPlot();
     }
 
-    public void grafico3D(List<Punto> cd, String titulo, Funcion funcion) {
+    public void grafico3D(List<Punto> cd, String titulo, FuncionGen funcion) {
         if (cd == null) {
             throw new IllegalArgumentException(titulo);
         }
@@ -88,7 +88,7 @@ public class Ejecutor {
         gnuplot.limpiar();
     }
 
-    public List<Punto> convertirCD(List<Individuo> listaIndividuos) {
+    public List<Punto> convertirCD(List<IndividuoGen> listaIndividuos) {
         List<Punto> cd = new ArrayList();
         if (!(listaIndividuos == null || listaIndividuos.isEmpty())) {
             for (int i = 0; i < listaIndividuos.size(); i++) {
@@ -98,7 +98,7 @@ public class Ejecutor {
         return cd;
     }
 
-    public List<Punto> convertir3D(List<Individuo> listPuntos) {
+    public List<Punto> convertir3D(List<IndividuoGen> listPuntos) {
         List<Punto> cd = new ArrayList();
         listPuntos.forEach((individuo) -> {
             cd.add(new gnuplot.Punto3D(individuo.get(0), individuo.get(1), individuo.getCalidad()));
@@ -106,14 +106,14 @@ public class Ejecutor {
         return cd;
     }
 
-    public List<Punto> convertirCD(List<List<Individuo>> listaRecorridos, String titulo) {
+    public List<Punto> convertirCD(List<List<IndividuoGen>> listaRecorridos, String titulo) {
         int mayorTamanio = Integer.MIN_VALUE;
         for (List item : listaRecorridos) {
             mayorTamanio = Math.max(item.size(), mayorTamanio);
         }
         double[] calidades = new double[mayorTamanio];
         double calidad = 0;
-        for (List<Individuo> listaRecorrido : listaRecorridos) {
+        for (List<IndividuoGen> listaRecorrido : listaRecorridos) {
             for (int i = 0; i < mayorTamanio; i++) {
                 if (i < listaRecorrido.size()) {
                     calidad = listaRecorrido.get(i).getCalidad();
@@ -130,11 +130,11 @@ public class Ejecutor {
 
     public Recorrido ejecutar(AlgoritmoMetaheuristico algoritmo, int numeroPruebas, int maxIteraciones) {
         double promedioCalidad = 0; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
-        List<Individuo> recorridoIndividuos;// recorrido del algoritmo
-        List<Individuo> mejorRecorrido = null;// recorrido del algoritmo
-        List<Individuo> optimos = new ArrayList<>();
-        List<List<Individuo>> listaRecorridosPruebas = new ArrayList();
-        Individuo optimo;
+        List<IndividuoGen> recorridoIndividuos;// recorrido del algoritmo
+        List<IndividuoGen> mejorRecorrido = null;// recorrido del algoritmo
+        List<IndividuoGen> optimos = new ArrayList<>();
+        List<List<IndividuoGen>> listaRecorridosPruebas = new ArrayList();
+        IndividuoGen optimo;
         Double promedioIteraciones = 0.;
         Double tasaDeExito = 0.;
         algoritmo.renovar();
@@ -145,12 +145,12 @@ public class Ejecutor {
                 listaRecorridosPruebas.add(recorridoIndividuos);
             }
         }
-        Funcion funcion = algoritmo.getFuncion();
+        FuncionGen funcion = algoritmo.getFuncion();
         long tiempo_final = System.currentTimeMillis();
         //obtener mejor recorridoIndividuo
-        Individuo mejorOptimo = null;
+        IndividuoGen mejorOptimo = null;
         if (!listaRecorridosPruebas.isEmpty()) {
-            for (List<Individuo> recorrIndiItem : listaRecorridosPruebas) {
+            for (List<IndividuoGen> recorrIndiItem : listaRecorridosPruebas) {
                 optimo = recorrIndiItem.get(recorrIndiItem.size() - 1);
                 tasaDeExito += funcion.suficiente(optimo) ? 1 : 0;
                 promedioIteraciones += recorrIndiItem.size();
@@ -165,7 +165,7 @@ public class Ejecutor {
 
             optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
             promedioCalidad = promedioCalidad / numeroPruebas;
-            Individuo peorOptimo = mejorRecorrido.get(0);
+            IndividuoGen peorOptimo = mejorRecorrido.get(0);
 
             imprimirConFormato(
                     funcion.getNombre(),
@@ -236,7 +236,7 @@ public class Ejecutor {
     }
 
     public void ejecutarAlgoritmosMasFunciones(List<AlgoritmoMetaheuristico> l_amgoritmos,
-            List<Funcion> l_funciones, boolean graficaRecorrido, boolean graficaConvergencia,
+            List<FuncionGen> l_funciones, boolean graficaRecorrido, boolean graficaConvergencia,
             int numeroPruebas, int iteraciones) {
 
 //        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
@@ -251,7 +251,7 @@ public class Ejecutor {
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         List<Recorrido> listaRecorridos; // para grafica de convergencia
         String titulo;
-        for (Funcion funcion : l_funciones) {
+        for (FuncionGen funcion : l_funciones) {
             listaRecorridos = new ArrayList();
             for (;;) {
                 /**
@@ -305,7 +305,7 @@ public class Ejecutor {
         String titulo = "(" + grupo.getNombreFuncion() + ")";
         int maxIteraciones = grupo.getMaxIteraciones();
         for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
-            Funcion funcion = algoritmo.getFuncion();
+            FuncionGen funcion = algoritmo.getFuncion();
             Recorrido recorrido = ejecutar(algoritmo, numeroPruebas, maxIteraciones);
             listaRecorridos.add(recorrido);
             if (graficaRecorrido) {

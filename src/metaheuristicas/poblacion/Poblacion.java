@@ -16,19 +16,19 @@
  */
 package metaheuristicas.poblacion;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.ArrayList;
 import java.util.List;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import main.Utilidades;
 
 /**
  *
  * @author debian
  */
-public class Poblacion extends ArrayList<Individuo> {
+public class Poblacion extends ArrayList<IndividuoGen> {
 
-    private Funcion funcion;
+    private FuncionGen funcion;
     private int tamanioMaximo;
     private int generacion;
 
@@ -37,7 +37,7 @@ public class Poblacion extends ArrayList<Individuo> {
      * @param funcion
      * @param tamanioMaximo
      */
-    public Poblacion(Funcion funcion, int tamanioMaximo) {
+    public Poblacion(FuncionGen funcion, int tamanioMaximo) {
 //        mejor = null;
 //        poblacion = new ArrayList(tamanioMaximo);
         this.tamanioMaximo = tamanioMaximo;
@@ -46,7 +46,7 @@ public class Poblacion extends ArrayList<Individuo> {
     }
 
     @Override
-    public boolean add(Individuo element) {
+    public boolean add(IndividuoGen element) {
         int pos = 0;
         element.setGeneracion(generacion);
 //        if (mejor == null || mejor.compareTo(element) < 0) {
@@ -81,7 +81,7 @@ public class Poblacion extends ArrayList<Individuo> {
         this.tamanioMaximo = tamanioMaximo;
     }
 
-    public Individuo getMejor() {
+    public IndividuoGen getMejor() {
         return this.get(0);
     }
 
@@ -91,11 +91,11 @@ public class Poblacion extends ArrayList<Individuo> {
         });
     }
 
-    public Funcion getFuncion() {
+    public FuncionGen getFuncion() {
         return funcion;
     }
 
-    public void setFuncion(Funcion funcion) {
+    public void setFuncion(FuncionGen funcion) {
         this.funcion = funcion;
     }
 

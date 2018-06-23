@@ -18,7 +18,7 @@ package metaheuristicas.poblacion.mutacion;
 
 import java.util.Random;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -33,7 +33,7 @@ public class MultiBit {
      * @param probabilidad de ser mutado un bit
      * @return
      */
-    public Individuo mutar(Individuo punto, double probabilidad) {
+    public IndividuoGen mutar(IndividuoGen punto, double probabilidad) {
         int valor;
         for (int i = 0; i < punto.getDimension(); i++) {
             if (probabilidad > Aleatorio.nextDouble()) {

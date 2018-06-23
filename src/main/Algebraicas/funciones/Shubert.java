@@ -1,6 +1,6 @@
 package main.Algebraicas.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import java.security.InvalidAlgorithmParameterException;
 
 /**
@@ -16,7 +16,7 @@ public class Shubert extends Funcion2D {
     }
 
     @Override
-    public double evaluar(Individuo punto) {
+    public double evaluar(IndividuoGen punto) {
         super.evaluar(punto);
         double resultado;
         double[] valores = punto.getValores();

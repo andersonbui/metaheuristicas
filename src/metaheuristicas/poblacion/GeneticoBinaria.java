@@ -16,7 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.cruce.Cruce;
 import metaheuristicas.poblacion.mutacion.MultiBit;
 
@@ -52,14 +52,14 @@ public class GeneticoBinaria extends AlgoritmoEvolutivo {
         Poblacion nuevaGeneracion = new Poblacion(poblacion.getFuncion(), poblacion.getTamanioMaximo());
         elitismo(nuevaGeneracion, poblacion, numIndividuosElitismo);
         while (!poblacion.isEmpty()) {
-            Individuo[] padres = seleccionPadreMadre(poblacion);
+            IndividuoGen[] padres = seleccionPadreMadre(poblacion);
             genDescendientes(padres[0], padres[1], nuevaGeneracion);
         }
         return nuevaGeneracion;
     }
 
-    public Individuo[] seleccionPadreMadre(Poblacion poblacion) {
-        Individuo[] padres = new Individuo[numPadres];
+    public IndividuoGen[] seleccionPadreMadre(Poblacion poblacion) {
+        IndividuoGen[] padres = new IndividuoGen[numPadres];
         padres[0] = poblacion.remove(0);
         if (!poblacion.isEmpty()) {
             padres[1] = poblacion.remove(0);
@@ -70,23 +70,23 @@ public class GeneticoBinaria extends AlgoritmoEvolutivo {
         return padres;
     }
 
-    private void genDescendientes(Individuo padre, Individuo madre, Poblacion nuevaGeneracion) {
-        Individuo[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
-        for (Individuo hijo : hijos) {
+    private void genDescendientes(IndividuoGen padre, IndividuoGen madre, Poblacion nuevaGeneracion) {
+        IndividuoGen[] hijos = Cruce.cruzar(padre, madre, mascaraCruce);
+        for (IndividuoGen hijo : hijos) {
             mutar(hijo);
             nuevaGeneracion.add(hijo);
         }
     }
 
-    private Individuo mutar(Individuo punto) {
+    private IndividuoGen mutar(IndividuoGen punto) {
         mutacion = new MultiBit();
         return mutacion.mutar(punto, 0.2);
     }
 
 //    @Override
-//    public Poblacion generarPoblacion(Funcion funcion) {
+//    public Poblacion generarPoblacion(FuncionGen funcion) {
 //        Poblacion unaPoblacion = new Poblacion(funcion, tamPoblacion);
-//        Individuo p;
+//        IndividuoGen p;
 //        for (int i = 0; i < tamPoblacion; i++) {
 //            p = funcion.generarIndividuo();
 //            unaPoblacion.add(p);

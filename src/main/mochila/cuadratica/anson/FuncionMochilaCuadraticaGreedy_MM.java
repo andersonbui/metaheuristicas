@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -26,7 +26,7 @@ public class FuncionMochilaCuadraticaGreedy_MM extends FuncionMochilaCuadraticaG
 //     * @return
 //     */
 //    @Override
-//    public double beneficio(Individuo mochila, int indice) {
+//    public double beneficio(IndividuoGen mochila, int indice) {
 //        int contador = 0;
 //        double suma = 0;
 //        for (int i = 0; i < indice; i++) {
@@ -40,7 +40,7 @@ public class FuncionMochilaCuadraticaGreedy_MM extends FuncionMochilaCuadraticaG
 //        return (suma + matrizBeneficios[indice][indice] * (contador / vectorPesos.length));
 //    }
 //
-//    public int[] mayorBeneficio(Individuo mochila) {
+//    public int[] mayorBeneficio(IndividuoGen mochila) {
 //
 //        int posMayor = 0;
 //        int posAnterior = 0;
@@ -75,8 +75,8 @@ public class FuncionMochilaCuadraticaGreedy_MM extends FuncionMochilaCuadraticaG
 //     * @return
 //     */
 //    @Override
-//    public Individuo limitarInferiormente(Individuo IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
-//        Individuo mochila = (Individuo) IndMochila;
+//    public IndividuoGen limitarInferiormente(IndividuoGen IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
+//        IndividuoGen mochila = (IndividuoGen) IndMochila;
 //        double espacios;
 //
 //        List<Integer> individuos = new ArrayList();

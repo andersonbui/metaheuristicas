@@ -1,6 +1,6 @@
 package metaheuristicas;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -10,26 +10,30 @@ import static main.Ejecutor.formatear;
 /**
  *
  * @author debian
- * @param <FuncionM>
+ * @param <Funcion>
  */
-public class Individuo<FuncionM extends Funcion> implements Iterable<Double>, Comparable<Individuo>, Cloneable {
+public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double>, Comparable<IndividuoGen>, Cloneable {
 
     protected double[] valores;
     protected double calidad;
-    protected FuncionM funcion;
+    protected Funcion funcion;
     protected int generacion;
+
+//    public IndividuoGen() {
+//        generacion = 0;
+//    }
 
     /**
      * @param funcion
      */
-    public Individuo(FuncionM funcion) {
+    public IndividuoGen(Funcion funcion) {
         this.funcion = funcion;
 //        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
         valores = new double[funcion.getDimension()];
         generacion = 0;
     }
 
-    public Individuo(FuncionM funcion, double[] valores) {
+    public IndividuoGen(Funcion funcion, double[] valores) {
         this.funcion = funcion;
         this.valores = valores;
 //        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
@@ -73,19 +77,19 @@ public class Individuo<FuncionM extends Funcion> implements Iterable<Double>, Co
     }
 
     @Override
-    public Individuo clone() {
+    public IndividuoGen clone() {
         try {
-            Individuo punto = (Individuo) super.clone();
+            IndividuoGen punto = (IndividuoGen) super.clone();
             punto.valores = valores.clone();
             return punto;
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(Individuo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IndividuoGen.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
     @Override
-    public int compareTo(Individuo otrop) {
+    public int compareTo(IndividuoGen otrop) {
         Double a_calidad = this.calidad;
         int orden = funcion.isMaximizar() ? 1 : -1;
         return orden * a_calidad.compareTo(otrop.getCalidad());
@@ -132,11 +136,11 @@ public class Individuo<FuncionM extends Funcion> implements Iterable<Double>, Co
         return calidad;
     }
 
-    public Funcion getFuncion() {
+    public FuncionGen getFuncion() {
         return funcion;
     }
 
-    public void setFuncion(FuncionM funcion) {
+    public void setFuncion(Funcion funcion) {
         this.funcion = funcion;
     }
 
@@ -169,7 +173,7 @@ public class Individuo<FuncionM extends Funcion> implements Iterable<Double>, Co
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Individuo other = (Individuo) obj;
+        final IndividuoGen other = (IndividuoGen) obj;
         if (!Arrays.equals(this.valores, other.valores)) {
             return false;
         }

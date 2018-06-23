@@ -2,16 +2,15 @@ package main.mochila.cuadratica.anson;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.IndividuoCuadratico;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
 
 /**
  *
  * @author debian
  */
-public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
+public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<IndividuoCuadratico> {
 
     protected int[] pos_articulos;
     List<Integer> posiciones;
@@ -93,7 +92,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param pesos
      * @return
      */
-    public int mayorPerjuicio(Individuo mochila, double[] pesos) {
+    public int mayorPerjuicio(IndividuoCuadratico mochila, double[] pesos) {
         int posMayor = 0;
         int posAnterior = 0;
         double valorMayor = -Double.MAX_VALUE;
@@ -121,7 +120,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param indice indice del elemento
      * @return
      */
-    public double beneficio(Individuo mochila, int indice) {
+    public double beneficio(IndividuoCuadratico mochila, int indice) {
         int contador = 0;
         double suma = 0;
         for (int i = 0; i < indice; i++) {
@@ -140,7 +139,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param mochila
      */
     @Override
-    public void limitar(IndividuoMochila mochila) {
+    public void limitar(IndividuoCuadratico mochila) {
         super.limitar(mochila);
         limitarInferiormente(mochila, vectorPesos, capacidad, pos_articulos);
         limitarSuperiormente(mochila, vectorPesos, capacidad);
@@ -156,8 +155,8 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param pos_articulos
      * @return
      */
-    public Individuo limitarInferiormente(Individuo IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
-        Individuo mochila = (Individuo) IndMochila;
+    public IndividuoCuadratico limitarInferiormente(IndividuoCuadratico IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
+        IndividuoCuadratico mochila = (IndividuoCuadratico) IndMochila;
         double espacios;
         List<Integer> individuos = new ArrayList();
         // en todos los articulos
@@ -190,7 +189,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param capacidad
      * @return
      */
-    public double sacarEspacios(Individuo mochila, double[] pesos, double capacidad) {
+    public double sacarEspacios(IndividuoCuadratico mochila, double[] pesos, double capacidad) {
         double espacios = capacidad - obtenerPeso(mochila, pesos);
         return espacios;
     }
@@ -205,7 +204,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
      * @param capacidad
      * @return
      */
-    public Individuo limitarSuperiormente(Individuo mochila, double[] pesos, double capacidad) {
+    public IndividuoCuadratico limitarSuperiormente(IndividuoCuadratico mochila, double[] pesos, double capacidad) {
         int posicion;
         // para cada caracteristica(peso) del elemento
         while (obtenerPeso(mochila, pesos) > capacidad) {
@@ -214,4 +213,5 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica {
         }
         return mochila;
     }
+
 }

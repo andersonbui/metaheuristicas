@@ -17,7 +17,6 @@
 package main.mochila.cuadratica;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 import main.Ejecutor;
 
 /**
@@ -32,21 +31,22 @@ public class MainMochilaCuadratica {
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
-//        graficaDispercion2D = true;
+        graficaDispercion2D = true;
         // numero de individuos porpoblacion
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 20;
+        maxIteraciones = 5;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 20;
+        numMuestras = 10;
         String nombreArchivo = "";
         //lim,rango,prob_ceros,poblacion, iteraciones
         //lim,20,0.90,20
-//        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/5000_25_1.txt");
+//        nombreArchivo = "mochilaCuadratica/1000_25_1.dat";
+//        nombreArchivo = "mochilaCuadratica/5000_25_1.txt";
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
 //        nombreArchivo = "mochilaCuadratica/jeu_200_75_6.txt";
 //        //lim,15,0.99,20
-//        nombreArchivo = "mochilaCuadratica/jeu_300_25_10.txt";
+        nombreArchivo = "mochilaCuadratica/jeu_300_25_10.txt";
 //        //si-no,15,0.99,20
 //        nombreArchivo = "mochilaCuadratica/jeu_300_50_2.txt";
 //        //lim,15,0.99,10,14
@@ -55,7 +55,7 @@ public class MainMochilaCuadratica {
 //        //si,15,0.90-93,20,31
 //        nombreArchivo = "mochilaCuadratica/jeu_100_25_1.txt";
         //lim,15,0.99,5->,1
-        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
+//        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
 
         // dimension de los puntos;
         LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();

@@ -1,6 +1,6 @@
 package main.mochila.multidimensional.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -54,21 +54,21 @@ public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficioM2
     }
 
     @Override
-    public double evaluar(Individuo mochila) {
+    public double evaluar(IndividuoGen mochila) {
         super.evaluar(mochila);
         double result = obtenerPrecio(mochila);
         return result;
     }
 
-    public Individuo generarPunto(double valor) {
+    public IndividuoGen generarPunto(double valor) {
         double[] valores = new double[getDimension()];
         for (int i = 0; i < valores.length; i++) {
             valores[i] = (Aleatorio.nextDouble() <= prob_ceros ? 0. : valor);
         }
-        Individuo nuevop = new Individuo(this, valores);
+        IndividuoGen nuevop = new IndividuoGen(this, valores);
         return nuevop;
     }
-//    public int menorDensidadGananciaEnMochila(Individuo mochila) {
+//    public int menorDensidadGananciaEnMochila(IndividuoGen mochila) {
 //        int posicionMayorOptimo = 0;
 //        double densidadGMenor = Double.MAX_VALUE;
 //        double densidadGanancia;
@@ -91,7 +91,7 @@ public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficioM2
      * @param mochila
      * @return
      */
-    public boolean factible(Individuo mochila) {
+    public boolean factible(IndividuoGen mochila) {
 
         for (int i = 0; i < capacidades.length; i++) {
             if (obtenerPeso(mochila, i) > capacidades[i]) {
@@ -101,7 +101,7 @@ public class FuncionMochilaGreedy extends MochilaMultidOrdenXDensidadBeneficioM2
         return true;
     }
 
-//    public Individuo limitarInferiormente(Individuo mochila) {
+//    public IndividuoGen limitarInferiormente(IndividuoGen mochila) {
 //        double[] espacios = sacarEspacios(mochila);
 //        boolean cabeArticulo;
 //        // en todos los articulos

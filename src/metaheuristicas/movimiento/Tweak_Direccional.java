@@ -1,10 +1,10 @@
 package metaheuristicas.movimiento;
 
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -16,14 +16,14 @@ public class Tweak_Direccional extends Tweak_1 {
         super(ancho);
     }
 
-    Funcion funcion;
+    FuncionGen funcion;
 
     @Override
-    public Individuo tweak(Individuo punto) {
+    public IndividuoGen tweak(IndividuoGen punto) {
         funcion = punto.getFuncion();
-        Individuo r = punto.clone();
+        IndividuoGen r = punto.clone();
         r.evaluar();
-        List<Individuo> listaSucesores = listaPosiblesSucesoresOrtogonales(punto, r.getValores());
+        List<IndividuoGen> listaSucesores = listaPosiblesSucesoresOrtogonales(punto, r.getValores());
         Collections.sort(listaSucesores);
         // reemplazo del punto original
         punto = listaSucesores.get(listaSucesores.size() - 1);
@@ -40,14 +40,14 @@ public class Tweak_Direccional extends Tweak_1 {
      * @param vectorDireccionOriginal
      * @return
      */
-    public List<Individuo> listaPosiblesSucesoresOrtogonales(Individuo punto, double[] vectorDireccionOriginal) {
+    public List<IndividuoGen> listaPosiblesSucesoresOrtogonales(IndividuoGen punto, double[] vectorDireccionOriginal) {
 
         if (vectorDireccionOriginal.length != punto.getValores().length) {
             throw new IllegalArgumentException("error! tamanio diferente de punto y vector direccion!");
         }
-        List<Individuo> listaPuntos = new ArrayList();
+        List<IndividuoGen> listaPuntos = new ArrayList();
         List<double[]> listaRest = new ArrayList();
-        Individuo nuevoPunto;
+        IndividuoGen nuevoPunto;
         combinaciones(new double[]{-1, 1}, new double[punto.getValores().length], 0, listaRest);
 
         for (double[] item : listaRest) {

@@ -5,12 +5,12 @@
  */
 package metaheuristicas.simple;
 
-import metaheuristicas.funcion.Funcion;
-import metaheuristicas.Individuo;
+import metaheuristicas.funcion.FuncionGen;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import java.util.ArrayList;
 import java.util.List;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import metaheuristicas.movimiento.Tweak;
 import metaheuristicas.movimiento.Tweak_1;
 
@@ -38,12 +38,12 @@ public class Hill_Climbing extends AlgoritmoMetaheuristico {
     }
 
     @Override
-    public List<Individuo> ejecutar() {
-        List<Individuo> optimos = new ArrayList();
-        Individuo s = funcion.generarIndividuo();
+    public List<IndividuoGen> ejecutar() {
+        List<IndividuoGen> optimos = new ArrayList();
+        IndividuoGen s = funcion.generarIndividuo();
         s.evaluar();
         optimos.add(s);
-        Individuo r;
+        IndividuoGen r;
         for (iteraciones = 0; iteraciones < maxIteraciones && !funcion.suficiente(s); iteraciones++) {
             r = tweak.tweak(s);
             r.evaluar();

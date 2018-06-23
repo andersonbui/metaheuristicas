@@ -31,7 +31,26 @@ import static org.junit.Assert.*;
  */
 public class FuncionSGVNSIT {
 
+    FuncionSGVNS instance;
+    int tamanio = 1000;
+
+    Random rand = new Random();
+
     public FuncionSGVNSIT() {
+        tamanio = 1000;
+        double[][] matrizBeneficios = new double[tamanio][tamanio];
+        for (int i = 0; i < matrizBeneficios.length; i++) {
+            for (int k = 0; k < matrizBeneficios[0].length; k++) {
+                matrizBeneficios[i][k] = 1;
+            }
+        }
+        double capacidad = 100;
+        double[] vectorPesos = new double[tamanio];
+        for (int k = 0; k < vectorPesos.length; k++) {
+            vectorPesos[k] = 2;
+        }
+
+        instance = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, 100.);
     }
 
     @BeforeClass
@@ -56,33 +75,18 @@ public class FuncionSGVNSIT {
     @Test
     public void testGenerarIndividuo() {
 
-        int tamanio = 1000;
-        double[][] matrizBeneficios = new double[tamanio][tamanio];
-        for (int i = 0; i < matrizBeneficios.length; i++) {
-            for (int k = 0; k < matrizBeneficios[0].length; k++) {
-                matrizBeneficios[i][k] = 1;
-            }
-        }
-        double capacidad = 100;
-        double[] vectorPesos = new double[tamanio];
-        for (int k = 0; k < vectorPesos.length; k++) {
-            vectorPesos[k] = 2;
-        }
-
-        FuncionSGVNS instance = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, 100.);
         double[] valores = new double[tamanio];
         IndividuoMochila indEsperado = new IndividuoMochila(instance, valores);
 
         System.out.println("generarIndividuo");
         IndividuoMochila result = instance.generarIndividuo();
         assertArrayEquals(indEsperado.getValores(), result.getValores(), 0);
-        Random rand = new Random();
         int posicion;
         int posicion2;
         int mitad = valores.length / 2;
         double resultado;
         long tiempo_inicial = System.currentTimeMillis();
-        for (int k = 0; k < 1000; k++) {
+        for (int k = 0; k < 100000; k++) {
             posicion = rand.nextInt(mitad);
             posicion2 = mitad + rand.nextInt(mitad);
             // insertar un elemento
@@ -91,14 +95,16 @@ public class FuncionSGVNSIT {
             resultado = result.evaluar();
             assertEquals(1, resultado, 0);
             // probar el peso
-            assertEquals(2, instance.calcularPeso(result), 0);
+            assertEquals(2, result.pesar(), 0);
+//            assertEquals(2, instance.calcularPeso(result), 0);
             // insertar un nuevo elemento
             result.set(posicion2, 1);
             // probar nuevamente el beneficio
             resultado = result.evaluar();
             assertEquals(3, resultado, 0);
             // probar nuevamente el peso
-            assertEquals(4, instance.calcularPeso(result), 0);
+            assertEquals(4, result.pesar(), 0);
+//            assertEquals(4, instance.calcularPeso(result), 0);
             // sacar los elementos insertados
             result.set(posicion, 0);
             result.set(posicion2, 0);

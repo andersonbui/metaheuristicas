@@ -19,7 +19,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -49,7 +49,7 @@ public class GraspTabuReinicioMejorado extends GraspTabuReinicio {
 //     * @param w
 //     * @return
 //     */
-//    private boolean estaEnLista(List<ItemTabu> listaTabu, Individuo w) {
+//    private boolean estaEnLista(List<ItemTabu> listaTabu, IndividuoGen w) {
 //        for (ItemTabu itemTabu : listaTabu) {
 //            if (itemTabu.individuo.equals(w)) {
 //                return true;
@@ -65,7 +65,7 @@ public class GraspTabuReinicioMejorado extends GraspTabuReinicio {
 //     * @param t_min
 //     * @param t_max
 //     */
-//    private void agregarAListaTabu(List<ItemTabu> listaTabu, Individuo s, int t_min, int t_max) {
+//    private void agregarAListaTabu(List<ItemTabu> listaTabu, IndividuoGen s, int t_min, int t_max) {
 //        int edad = t_min + Aleatorio.nextInt(t_max - t_min);
 //        listaTabu.add(new ItemTabu(s, edad));
 //    }
@@ -77,11 +77,11 @@ public class GraspTabuReinicioMejorado extends GraspTabuReinicio {
 //     * @param t_min
 //     * @return
 //     */
-//    protected Individuo busquedaTabu(Individuo s, int t_min, int t_max) {
+//    protected IndividuoGen busquedaTabu(IndividuoGen s, int t_min, int t_max) {
 //        //Linea 1:
-//        Individuo best = s;
-//        Individuo r;
-//        Individuo w;
+//        IndividuoGen best = s;
+//        IndividuoGen r;
+//        IndividuoGen w;
 //
 //        List<ItemTabu> listaTabu = new ArrayList();
 //        agregarAListaTabu(listaTabu, s, t_min, t_max);
@@ -116,9 +116,9 @@ public class GraspTabuReinicioMejorado extends GraspTabuReinicio {
 //     * @param s
 //     * @return
 //     */
-//    private Individuo tweak(Individuo s) {
-//        Individuo individuoShift;
-//        Individuo individuoSwap;
+//    private IndividuoGen tweak(IndividuoGen s) {
+//        IndividuoGen individuoShift;
+//        IndividuoGen individuoSwap;
 //
 //        individuoShift = s.clone();
 //        shift(individuoShift);

@@ -19,7 +19,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -27,10 +27,10 @@ import metaheuristicas.Individuo;
  */
 public class Utilidades {
 
-    static public List<Individuo> obtenerDatosRegresion(int numDatos, String nombreArchivo, boolean maximizar) {
+    static public List<IndividuoGen> obtenerDatosRegresion(int numDatos, String nombreArchivo, boolean maximizar) {
         LeerArchivo.abrir(nombreArchivo);
         List<String> listaCadenas = LeerArchivo.leer(numDatos);
-        List<Individuo> listaPuntos = new ArrayList();
+        List<IndividuoGen> listaPuntos = new ArrayList();
         int j;
         LeerArchivo.terminar();
         for (int i = 1; i < listaCadenas.size(); i++) {
@@ -46,7 +46,7 @@ public class Utilidades {
 //                System.out.print("[" + valoresPuntoActual.length + "]<" + vectSubdivisiones[posicionSubdivisiones] + ">");
                 valoresPuntoActual[j] = Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++].trim());
             }
-            Individuo puntoActual = new Individuo(null, valoresPuntoActual);
+            IndividuoGen puntoActual = new IndividuoGen(null, valoresPuntoActual);
 
             puntoActual.setCalidad(Double.parseDouble(vectSubdivisiones[posicionSubdivisiones++]));
             listaPuntos.add(puntoActual);
@@ -194,10 +194,10 @@ public class Utilidades {
         return resultado;
     }
 
-    public static double calcularDesviacion(List<Individuo> lista, double promedio) {
+    public static double calcularDesviacion(List<IndividuoGen> lista, double promedio) {
         double suma = 0;
         double diferencia;
-        for (Individuo item : lista) {
+        for (IndividuoGen item : lista) {
             diferencia = item.getCalidad() - promedio;
             suma += diferencia * diferencia;
         }

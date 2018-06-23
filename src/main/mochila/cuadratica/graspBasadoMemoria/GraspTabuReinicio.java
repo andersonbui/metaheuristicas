@@ -19,9 +19,8 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import main.mochila.IndividuoMochila;
+import main.mochila.cuadratica.IndividuoCuadratico;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
 
 /**
  *
@@ -50,7 +49,7 @@ public class GraspTabuReinicio extends GraspReinicio {
     }
 
     @Override
-    protected IndividuoMochila busquedaAdicional(IndividuoMochila bestLB) {
+    protected IndividuoCuadratico busquedaAdicional(IndividuoCuadratico bestLB) {
         return busquedaTabu(bestLB, t_min, t_max);
     }
 
@@ -69,9 +68,9 @@ public class GraspTabuReinicio extends GraspReinicio {
 
         int indice_entro;
         int indice_salio;
-        IndividuoMochila individuo;
+        IndividuoCuadratico individuo;
 
-        public IndividuoElemento(int indice_entro, int indice_salio, IndividuoMochila individuo) {
+        public IndividuoElemento(int indice_entro, int indice_salio, IndividuoCuadratico individuo) {
             this.indice_entro = indice_entro;
             this.indice_salio = indice_salio;
             this.individuo = individuo;
@@ -112,11 +111,11 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param t_min
      * @return
      */
-    protected IndividuoMochila busquedaTabu(IndividuoMochila s, int t_min, int t_max) {
+    protected IndividuoCuadratico busquedaTabu(IndividuoCuadratico s, int t_min, int t_max) {
         //Linea 1:
-        IndividuoMochila best = s;
-        IndividuoMochila r;
-        IndividuoMochila w;
+        IndividuoCuadratico best = s;
+        IndividuoCuadratico r;
+        IndividuoCuadratico w;
         IndividuoElemento rTweak_r;
         IndividuoElemento rTweak_w;
         int numTweaks = 15;
@@ -175,9 +174,9 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param s
      * @return
      */
-    private IndividuoElemento tweak(IndividuoMochila s) {
-        IndividuoMochila individuoShift;
-        IndividuoMochila individuoSwap;
+    private IndividuoElemento tweak(IndividuoCuadratico s) {
+        IndividuoCuadratico individuoShift;
+        IndividuoCuadratico individuoSwap;
 
         individuoShift = s.clone();
         int i_shift = shift2(individuoShift);
@@ -208,7 +207,7 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param individuo
      * @return indice del elemento modificado
      */
-    protected int shift2(Individuo individuo) {
+    protected int shift2(IndividuoCuadratico individuo) {
         int aleatorio;
         int maxLen = individuo.getDimension();
         int posModificado = -1;
@@ -236,7 +235,7 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param individuo
      * @return int[]{posAgregado, posSalio};
      */
-    protected int[] swap2(Individuo individuo) {
+    protected int[] swap2(IndividuoCuadratico individuo) {
         List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
         int maxLenS = listaItemSelect.size();
         int aleatrioS = Aleatorio.nextInt(maxLenS);

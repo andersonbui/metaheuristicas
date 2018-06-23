@@ -18,7 +18,7 @@ package metaheuristicas.poblacion.seleccion;
 
 import java.util.List;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 
 /**
  *
@@ -34,23 +34,23 @@ public class Ruleta {
      * @param poblacion
      * @return
      */
-    public static Individuo seleccionar(List<Individuo> poblacion) {
+    public static IndividuoGen seleccionar(List<IndividuoGen> poblacion) {
         //Los cromosomas con mayor valor de aptitud tendran mayor probabilidad de ser seleccionados
         double totalCalidad = 0;
         double[] acomuladoPuntos = new double[poblacion.size()];
         int i = 0;
         double menor = 0;
-        for (Individuo punto : poblacion) {
+        for (IndividuoGen punto : poblacion) {
             if (menor > punto.getCalidad()) {
                 menor = punto.getCalidad();
             }
         }
         menor = menor < 0 ? -menor : 0;
-        for (Individuo punto : poblacion) {
+        for (IndividuoGen punto : poblacion) {
             totalCalidad += punto.getCalidad()+menor;
             acomuladoPuntos[i++] = totalCalidad;
         }
-        Individuo escogido = null;
+        IndividuoGen escogido = null;
         double valorAleatorio = Aleatorio.nextDouble() * totalCalidad;
         for (int j = 0; j < acomuladoPuntos.length; j++) {
             if (valorAleatorio <= acomuladoPuntos[j]) {

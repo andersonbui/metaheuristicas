@@ -1,10 +1,10 @@
 package main.mochila.multidimensional.funciones;
 
-import metaheuristicas.Individuo;
+import metaheuristicas.IndividuoGen;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
@@ -38,7 +38,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
         });
     }
 
-    public Individuo limitarSuperiormente(Individuo IndMochila) {
+    public IndividuoGen limitarSuperiormente(IndividuoGen IndMochila) {
         int posicion;
         IndividuoMochila mochila = (IndividuoMochila) IndMochila;
         // para cada caracteristica(peso) del elemento
@@ -61,7 +61,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
         return beneficios[indice];
     }
 
-    public Individuo limitarInferiormente(Individuo IndMochila) {
+    public IndividuoGen limitarInferiormente(IndividuoGen IndMochila) {
         IndividuoMochila mochila = (IndividuoMochila) IndMochila;
         double[] espacios = sacarEspacios(mochila);
         boolean cabeArticulo;
@@ -93,7 +93,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
      * @param mochila
      */
     @Override
-    public void limitar(Individuo mochila) {
+    public void limitar(IndividuoGen mochila) {
         limitarSuperiormente(mochila);
         limitarInferiormente(mochila);
     }
@@ -104,7 +104,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
      * @param mochila
      * @return
      */
-    public double[] sacarEspacios(Individuo mochila) {
+    public double[] sacarEspacios(IndividuoGen mochila) {
         double[] espacios = new double[capacidades.length];
         for (int i = 0; i < capacidades.length; i++) {
             espacios[i] = capacidades[i] - obtenerPeso(mochila, i);
@@ -113,18 +113,18 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
     }
 
     @Override
-    public double obtenerPeso(Individuo mochila, int indicePeso) {
+    public double obtenerPeso(IndividuoGen mochila, int indicePeso) {
         return ((IndividuoMochila) mochila).getPeso(indicePeso);
     }
 
     @Override
-    public double obtenerPrecio(Individuo mochila) {
+    public double obtenerPrecio(IndividuoGen mochila) {
         return ((IndividuoMochila) mochila).getCalidad();
     }
 
     @Override
-    public Individuo generarIndividuo() {
-        Individuo nuevop = new IndividuoMochila(this);
+    public IndividuoGen generarIndividuo() {
+        IndividuoGen nuevop = new IndividuoMochila(this);
         for (int i = 0; i < nuevop.getDimension(); i++) {
             if (Aleatorio.nextDouble() > prob_ceros) {
                 nuevop.set(i, 1);
@@ -133,12 +133,12 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
         return nuevop;
     }
 
-    public class IndividuoMochila extends Individuo {
+    public class IndividuoMochila extends IndividuoGen {
 
         private double[] pesos;
         private double[] espacios;
 
-        public IndividuoMochila(Funcion funcion) {
+        public IndividuoMochila(FuncionGen funcion) {
             super(funcion);
             pesos = new double[capacidades.length];
             espacios = new double[capacidades.length];
@@ -169,7 +169,7 @@ public class MochilaMultidimensional_LimitRellenoM extends MochilaMultidimension
         }
 
         @Override
-        public Individuo clone() {
+        public IndividuoGen clone() {
             IndividuoMochila ind = (IndividuoMochila) super.clone(); //To change body of generated methods, choose Tools | Templates.
             ind.pesos = pesos.clone();
             ind.espacios = espacios.clone();

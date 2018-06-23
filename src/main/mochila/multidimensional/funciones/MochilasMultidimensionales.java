@@ -1,17 +1,17 @@
 package main.mochila.multidimensional.funciones;
 
-import metaheuristicas.Individuo;
-import metaheuristicas.funcion.Funcion;
+import metaheuristicas.IndividuoGen;
+import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
  * @author debian
  */
-public class MochilasMultidimensionales extends Funcion {
+public class MochilasMultidimensionales extends FuncionGen {
 
-    protected Funcion funcion;
+    protected FuncionGen funcion;
     protected int contFuncion;
-    protected Funcion[] funciones;
+    protected FuncionGen[] funciones;
 
     /**
      *
@@ -22,7 +22,7 @@ public class MochilasMultidimensionales extends Funcion {
     public MochilasMultidimensionales(double[][] VectorRestricciones, double[] beneficios, double[] capacidades) {
         super("MOCHILA MultiD", beneficios.length, true);
         contFuncion = 0;
-        funciones = new Funcion[]{
+        funciones = new FuncionGen[]{
             //            new MochilaMultidimensionalOriginal(VectorRestricciones, beneficios, capacidades),
             new MochilaMultidimensional_LimitRellenoM(VectorRestricciones, beneficios, capacidades),
             new MochilaMultidOrdenXDensidadBeneficioM2(VectorRestricciones, beneficios, capacidades),
@@ -49,17 +49,17 @@ public class MochilasMultidimensionales extends Funcion {
     }
 
     @Override
-    public boolean suficiente(Individuo punto) {
+    public boolean suficiente(IndividuoGen punto) {
         return funcion.suficiente(punto);
     }
 
     @Override
-    public Individuo generarIndividuo() {
+    public IndividuoGen generarIndividuo() {
         return funcion.generarIndividuo();
     }
 
     @Override
-    protected double evaluar(Individuo mochila) {
+    protected double evaluar(IndividuoGen mochila) {
         if (funcion.getClass() == MochilaMultidimensional_LimitRellenoM.class) {
             System.out.print("");
         }
@@ -117,7 +117,7 @@ public class MochilasMultidimensionales extends Funcion {
     }
 
     @Override
-    public String toString(Individuo individuo) {
+    public String toString(IndividuoGen individuo) {
         return funcion.toString(individuo);
     }
 

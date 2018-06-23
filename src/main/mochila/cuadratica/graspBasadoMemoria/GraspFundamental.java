@@ -18,8 +18,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.IndividuoMochila;
-import metaheuristicas.Individuo;
+import main.mochila.cuadratica.IndividuoCuadratico;
 
 /**
  *
@@ -50,17 +49,17 @@ public class GraspFundamental extends GraspReinicio {
      * @return
      */
     @Override
-    public List<Individuo> ejecutar() {
+    public List<IndividuoCuadratico> ejecutar() {
         //linea 1:
-        IndividuoMochila LB = null;
-        IndividuoMochila S = null;
-        IndividuoMochila solParcialS = new IndividuoMochila(funcion);
-        IndividuoMochila bestLB = solParcialS;
+        IndividuoCuadratico LB = null;
+        IndividuoCuadratico S = null;
+        IndividuoCuadratico solParcialS = new IndividuoMochilaGraps(funcion);
+        IndividuoCuadratico bestLB = solParcialS;
         int cont = 0;
         int m = 0;
         int minLen = gama;
         int maxLen = gama + beta;
-        List<Individuo> listaRecorrido = new ArrayList();
+        List<IndividuoCuadratico> listaRecorrido = new ArrayList();
         for (k = m * sigma + 1; k <= (m + 1) * sigma; k++) {
             //Linea 4:
             S = faseConstruccion(minLen, maxLen, solParcialS);

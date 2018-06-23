@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  */
 public class IteratedHyperplaneExplorationAlgoritmTest {
 
-    FuncionMochilaHyperplaneExploration funcion;
+    FuncionMochilaIHEA funcion;
     IteratedHyperplaneExplorationAlgoritm instanceAlgoritmo;
 
     public IteratedHyperplaneExplorationAlgoritmTest() {
@@ -44,7 +44,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         };
         double capacidad = 5;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
-        funcion = new FuncionMochilaHyperplaneExploration(matrizbeneficio, capacidad, vectorPesos, null);
+        funcion = new FuncionMochilaIHEA(matrizbeneficio, capacidad, vectorPesos, null);
         instanceAlgoritmo = new IteratedHyperplaneExplorationAlgoritm(funcion);
     }
 
@@ -256,15 +256,15 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         I1.add(1);
         I1.add(3);
 
-        List resultI0 = instanceAlgoritmo.obtener_I0(individuo);
-        List resultI1 = instanceAlgoritmo.obtener_I1(individuo);
+        List resultI0 = instanceAlgoritmo.elementosFuera(individuo);
+        List resultI1 = instanceAlgoritmo.elementosDentro(individuo);
         assertEquals(I0, resultI0);
         assertEquals(I1, resultI1);
     }
 
     /**
-     * Test of obtener_I1 method, of class
-     * IteratedHyperplaneExplorationAlgoritm.
+     * Test of elementosDentro method, of class
+ IteratedHyperplaneExplorationAlgoritm.
      */
     @Test
     public void testObtener_I1() {
@@ -274,13 +274,13 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         expResult.add(0);
         expResult.add(1);
         expResult.add(3);
-        List<Integer> result = instanceAlgoritmo.obtener_I1(individuo);
+        List<Integer> result = instanceAlgoritmo.elementosDentro(individuo);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of obtener_I0 method, of class
-     * IteratedHyperplaneExplorationAlgoritm.
+     * Test of elementosFuera method, of class
+ IteratedHyperplaneExplorationAlgoritm.
      */
     @Test
     public void testObtener_I0() {
@@ -288,7 +288,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 1, 0, 1});
         List<Integer> expResult = new ArrayList();
         expResult.add(2);
-        List<Integer> result = instanceAlgoritmo.obtener_I0(individuo);
+        List<Integer> result = instanceAlgoritmo.elementosFuera(individuo);
         assertEquals(expResult, result);
     }
 
