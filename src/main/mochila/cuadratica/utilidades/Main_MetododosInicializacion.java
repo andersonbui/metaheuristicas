@@ -19,7 +19,6 @@ package main.mochila.cuadratica.utilidades;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import main.EscribirArchivo;
 import main.mochila.cuadratica.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.ParametrosCuadratica;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;

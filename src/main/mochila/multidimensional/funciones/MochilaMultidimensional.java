@@ -20,26 +20,26 @@ public abstract class MochilaMultidimensional extends FuncionMochila<IndividuoMo
         return sumPX;
     }
 
-    public IndividuoMochila limitarSuperiormente(IndividuoMochila mochila, double[] pesos, double capacidad) {
+    public IndividuoMochila limitarSuperiormente(IndividuoMochila mochila, double capacidad) {
         int posicion;
         // para cada caracteristica(peso) del elemento
         while (mochila.pesar() > capacidad) {
-            posicion = mayorPerjuicio(mochila, pesos);
+            posicion = mayorPerjuicio(mochila);
             mochila.set(posicion, 0);
         }
         return mochila;
     }
 
-    public IndividuoMochila limitarInferiormente(IndividuoMochila IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
+    public IndividuoMochila limitarInferiormente(IndividuoMochila IndMochila, double capacidad, int[] pos_articulos) {
         IndividuoMochila mochila = (IndividuoMochila) IndMochila;
-        double espacios = sacarEspacios(mochila, pesos, capacidad);
+        double espacios = sacarEspacios(mochila, capacidad);
         // en todos los articulos
         for (int pos : pos_articulos) {
             if (mochila.get(pos) == 0) {
                 // dimension de la mochila
-                if (espacios > pesos[pos]) {
+                if (espacios > peso(pos)) {
                     mochila.set(pos, 1);
-                    espacios = sacarEspacios(mochila, pesos, capacidad);
+                    espacios = sacarEspacios(mochila, capacidad);
                 }
             }
         }
@@ -50,18 +50,17 @@ public abstract class MochilaMultidimensional extends FuncionMochila<IndividuoMo
      * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
      *
      * @param mochila
-     * @param pesos
      * @param capacidad
      * @return
      */
-    public double sacarEspacios(IndividuoMochila mochila, double[] pesos, double capacidad) {
-        double espacios = capacidad - obtenerPeso(mochila, pesos);
+    public double sacarEspacios(IndividuoMochila mochila, double capacidad) {
+        double espacios = capacidad - obtenerPeso(mochila);
         return espacios;
     }
 
-    protected IndividuoMochila limitar(IndividuoMochila mochila, double[] pesos, double capacidad, int[] pos_articulos) {
-        limitarInferiormente(mochila, pesos, capacidad, pos_articulos);
-        limitarSuperiormente(mochila, pesos, capacidad);
+    protected IndividuoMochila limitar(IndividuoMochila mochila, double capacidad, int[] pos_articulos) {
+        limitarInferiormente(mochila, capacidad, pos_articulos);
+        limitarSuperiormente(mochila, capacidad);
         return mochila;
     }
 
@@ -70,17 +69,16 @@ public abstract class MochilaMultidimensional extends FuncionMochila<IndividuoMo
      * perjuicio indicado por el vector pesos.
      *
      * @param mochila
-     * @param pesos
      * @return
      */
-    public int mayorPerjuicio(IndividuoMochila mochila, double[] pesos) {
+    public int mayorPerjuicio(IndividuoMochila mochila) {
         int posMayor = 0;
         double valorMayor = -Double.MAX_VALUE;
         double valor;
         // para cada elemento que podria ir en la mochila
         for (int k = 0; k < mochila.getDimension(); k++) {
             // para indicePeso-esimo caracteristica(peso) del elemento k-esimo
-            valor = mochila.get(k) * pesos[k];
+            valor = mochila.get(k) * peso(k);
             if (valorMayor < valor) {
                 posMayor = k;
                 valorMayor = valor;

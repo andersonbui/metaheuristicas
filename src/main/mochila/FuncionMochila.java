@@ -22,15 +22,15 @@ public abstract class FuncionMochila<Individuo extends IndividuoMochila> extends
         this.prob_ceros = prob_ceros;
     }
 
-    @Deprecated
-    protected double obtenerPeso(Individuo mochila, double[] pesos) {
-        double sumPesos = 0;
-        // para cada elemento que podria ir en la mochila
-        for (int i = 0; i < mochila.getDimension(); i++) {
-            sumPesos += mochila.get(i) * pesos[i];
-        }
-        return sumPesos;
-    }
+//    @Deprecated
+//    protected double obtenerPeso(Individuo mochila, double[] pesos) {
+//        double sumPesos = 0;
+//        // para cada elemento que podria ir en la mochila
+//        for (int i = 0; i < mochila.getDimension(); i++) {
+//            sumPesos += mochila.get(i) * pesos[i];
+//        }
+//        return sumPesos;
+//    }
 
     /**
      * obtiene el peso del i-esimo elemento
