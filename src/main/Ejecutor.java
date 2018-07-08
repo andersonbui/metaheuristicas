@@ -21,6 +21,7 @@ import gnuplot.GraficoGnuPlot;
 import gnuplot.Punto;
 import gnuplot.Punto2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import main.mochila.Grupo;
 import main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica;
@@ -180,65 +181,19 @@ public class Ejecutor {
                     "" + funcion.getContadorEvaluaciones() / numeroPruebas);
             //implimir mejor optimo
             System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
-//        System.out.println("Mejor: " + optimo.toStringInt()+"\n");
+            System.out.println("Mejor: " + optimo.toStringInt() + "\n");
 
-            return new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
+            return new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre(), optimo);
         }
         return null;
 //        return new Recorrido(convertirCD(mejorRecorrido), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
     }
 
-    public class Recorrido {
-
-        private List<Punto> recorridoCalidad;
-        private List<Punto> recorrido3D;
-        private double promedioCalidad;
-        private String nombreRecorrido;
-
-        /**
-         *
-         * @param recorridoCalidad
-         * @param recorrido3D
-         * @param promedioCalidad
-         * @param nombreRecorrido
-         */
-        public Recorrido(List<Punto> recorridoCalidad, List<Punto> recorrido3D, double promedioCalidad, String nombreRecorrido) {
-            this.recorridoCalidad = recorridoCalidad;
-            this.recorrido3D = recorrido3D;
-            this.promedioCalidad = promedioCalidad;
-            this.nombreRecorrido = nombreRecorrido;
-        }
-
-        public List<Punto> getRecorridoCalidad() {
-            return recorridoCalidad;
-        }
-
-        public List<Punto> getRecorrido3D() {
-            return recorrido3D;
-        }
-
-        public double getPromedioCalidad() {
-            return promedioCalidad;
-        }
-
-        public void setPromedioCalidad(double promedioCalidad) {
-            this.promedioCalidad = promedioCalidad;
-        }
-
-        public String getNombreRecorrido() {
-            return nombreRecorrido;
-        }
-
-        public void setNombreRecorrido(String nombreAlgoritmo) {
-            this.nombreRecorrido = nombreAlgoritmo;
-        }
-
-    }
-
-    public void ejecutarAlgoritmosMasFunciones(List<AlgoritmoMetaheuristico> l_amgoritmos,
+    public Recorrido ejecutarAlgoritmosMasFunciones(List<AlgoritmoMetaheuristico> l_amgoritmos,
             List<FuncionGen> l_funciones, boolean graficaRecorrido, boolean graficaConvergencia,
             int numeroPruebas, int iteraciones) {
 
+        Recorrido mejorRecorrido = null;
 //        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
         System.out.println("----------------------------------------------------------.");
         System.out.println("NPI: Numero iteraciones promedio.");
@@ -284,13 +239,15 @@ public class Ejecutor {
             }
             System.out.println("");
         }
+        return mejorRecorrido;
     }
 
-    public void ejecutarAlgoritmosMasFunciones(Grupo grupo,
+    public Recorrido ejecutarAlgoritmosMasFunciones(Grupo grupo,
             boolean graficaRecorrido, boolean graficaConvergencia,
             int numeroPruebas) {
         List<AlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
 
+        Recorrido mejorRecorrido = null;
 //        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
         System.out.println("----------------------------------------------------------.");
         System.out.println("NPI: Numero iteraciones promedio.");
@@ -307,6 +264,10 @@ public class Ejecutor {
         for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
             FuncionGen funcion = algoritmo.getFuncion();
             Recorrido recorrido = ejecutar(algoritmo, numeroPruebas, maxIteraciones);
+            // guardar mejor recorrido
+            if(mejorRecorrido == null || mejorRecorrido.compareTo(recorrido)<0){
+                mejorRecorrido = recorrido;
+            }
             listaRecorridos.add(recorrido);
             if (graficaRecorrido) {
                 grafico3D(recorrido.getRecorrido3D(), titulo, funcion);
@@ -316,7 +277,7 @@ public class Ejecutor {
             grafico2D(listaRecorridos, titulo);
         }
         System.out.println("");
-//        }
+        return mejorRecorrido;
     }
 
     public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,

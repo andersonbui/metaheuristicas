@@ -68,4 +68,14 @@ public abstract class IndividuoMochila<Funcion extends FuncionMochila> extends I
      */
     public abstract List<Integer> elementosNoSeleccionados();
 
+    
+    public int parecido(IndividuoMochila individuo) {
+        int suma = 0;
+        for (int i = 0; i < valores.length; i++) {
+            if (valores[i] == individuo.valores[i] && valores[i] == 1) {
+                suma++;
+            }
+        }
+        return suma;
+    }
 }

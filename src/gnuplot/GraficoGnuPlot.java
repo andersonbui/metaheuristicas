@@ -132,7 +132,6 @@ public class GraficoGnuPlot {
         parametros.add("set view 58,228");
 //            parametros.add("set zrange [-"+20+":"+20+"]");
 //            parametros.add("set palette rgbformulae 22,13,-31");
-
     }
 
     public void plot3D(String titulo) {
@@ -171,14 +170,15 @@ public class GraficoGnuPlot {
         String nombreArchivo;
         String cds = listaFuncionesAritmeticas.isEmpty() ? "" : ",";
         int numCds = listaDeCD.size();
+        EscribirArchivo archivo = new EscribirArchivo();
         // creacion archivos recorrido
         for (int i = 0; i < numCds; i++) {
             List<Punto> cd = listaDeCD.get(i).getCd();
             nombreArchivo = carpetaTemporal + i + "-" + tipoGrafica + "-" + titulo + ".dat";
             cds += " \"" + nombreArchivo + "\" " +  " title \""+listaDeCD.get(i).getNombre()+"\" w l linewidth 2 ";
-            EscribirArchivo.abrir(nombreArchivo);
-            EscribirArchivo.escribir(cd);
-            EscribirArchivo.terminar();
+            archivo.abrir(nombreArchivo);
+            archivo.escribir(cd);
+            archivo.terminar();
             // separar los nombres de funciones por comas, sólo si hay más de una función
             if (i < numCds - 1) {
                 cds += ", ";
@@ -188,7 +188,6 @@ public class GraficoGnuPlot {
     }
 
     private void plot(String titulo) {
-
         titulo = titulo.replace('\u0020', '_');
         parametrosGenerales();
         String funciones = agregarFunciones();
@@ -202,9 +201,10 @@ public class GraficoGnuPlot {
 
         parametros.add(comandoGraficacion + " " + funciones + cds);
 
-        EscribirArchivo.abrir(nombreScript);
-        EscribirArchivo.escribir(parametros);
-        EscribirArchivo.terminar();
+        EscribirArchivo archivo = new EscribirArchivo();
+        archivo.abrir(nombreScript);
+        archivo.escribir(parametros);
+        archivo.terminar();
 
         try {
 //            out.println("splot f(x,y) w l , \"" + nombreArchivoDatos + ".dat\" title \""+2+"\" w l linewidth 2 linetype 6");

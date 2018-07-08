@@ -59,13 +59,13 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 
         FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 
         FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new VNS(funcionVns,maxIteraciones));
+        add(new VNS(funcionVns,100));
 
     }
 

@@ -35,10 +35,10 @@ import main.Utilidades;
 public class Prueba {
 
     public static void main(String[] args) throws IOException {
-        
+         
     }
 
-    public void gnuplotPlot() {
+    public static void gnuplotPlot() {
         String nombreArchivoDatos = "temp/EstrategiaGenetica-(ESFERA)";
         String titulo = "titulo";
         String funcion = "x*x+y*y";

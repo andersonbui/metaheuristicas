@@ -1,0 +1,10 @@
+set palette rgbformula -7,2,-7
+set cbrange [0:100]
+set cblabel "Score"
+unset cbtics
+
+set xrange [0.5:11]
+set yrange [-0.5:10]
+
+set view map
+splot 'matriz_beneficio.txt' matrix with image

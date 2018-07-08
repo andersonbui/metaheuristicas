@@ -26,22 +26,32 @@ public class ParametrosCuadratica {
     double[][] matrizBeneficios;
     double capacidad;
     double[] vectorPesos;
+    // mejorables
+    int[] vectorIdeal;
     Double maxGlobal;
+    // parametros para edicion de mejorables
+    int posicionIdeal;
+    int posicionMaxGlobal;
 
     /**
-     * 
+     *
      * @param nombreInstancia
      * @param matrizBeneficios
      * @param capacidad
      * @param vectorPesos
-     * @param maxGlobal 
+     * @param vectorIdeal
+     * @param maxGlobal
      */
-    public ParametrosCuadratica(String nombreInstancia, double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+    public ParametrosCuadratica(String nombreInstancia, double[][] matrizBeneficios, double capacidad, double[] vectorPesos, int[] vectorIdeal, Double maxGlobal) {
         this.nombreInstancia = nombreInstancia;
         this.matrizBeneficios = matrizBeneficios;
         this.capacidad = capacidad;
         this.vectorPesos = vectorPesos;
         this.maxGlobal = maxGlobal;
+        this.vectorIdeal = vectorIdeal;
+    }
+
+    public ParametrosCuadratica() {
     }
 
     
@@ -85,9 +95,33 @@ public class ParametrosCuadratica {
         this.maxGlobal = maxGlobal;
     }
 
+    public int[] getVectorIdeal() {
+        return vectorIdeal;
+    }
+
+    public void setVectorIdeal(int[] vectorIdeal) {
+        this.vectorIdeal = vectorIdeal;
+    }
+
+    public int getPosicionIdeal() {
+        return posicionIdeal;
+    }
+
+    public void setPosicionIdeal(int posicionIdeal) {
+        this.posicionIdeal = posicionIdeal;
+    }
+
+    public int getPosicionMaxGlobal() {
+        return posicionMaxGlobal;
+    }
+
+    public void setPosicionMaxGlobal(int posicionMaxGlobal) {
+        this.posicionMaxGlobal = posicionMaxGlobal;
+    }
+
     @Override
     public String toString() {
         return "ParametrosCuadratica{" + "\nnombreInstancia=" + nombreInstancia + ", \nmatrizBeneficios=" + matrizBeneficios + ", \ncapacidad=" + capacidad + ", \nvectorPesos=" + vectorPesos + ", \nmaxGlobal=" + maxGlobal + "\n}";
     }
-    
+
 }

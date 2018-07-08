@@ -1,4 +1,3 @@
-
 package main;
 
 import java.io.FileWriter;
@@ -14,29 +13,30 @@ import java.util.logging.Logger;
  */
 public class EscribirArchivo {
 
-    private static FileWriter fw;
-    private static PrintWriter pw;
+    private FileWriter fw;
+    private PrintWriter pw;
 
-    public static void abrir(String nombreArchivo) {
+    public void abrir(String nombreArchivo) {
         try {
-            fw = new FileWriter(nombreArchivo);
+            fw = new FileWriter(nombreArchivo, false);
             pw = new PrintWriter(fw);
         } catch (IOException ex) {
             Logger.getLogger(EscribirArchivo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void escribir(String cadena) {
+    public void escribir(String cadena) {
 
         pw.println(cadena);
     }
-    
-   public static void escribir(List lista) {
-       lista.forEach((object) -> {
-           escribir(object.toString());
+
+    public void escribir(List lista) {
+        lista.forEach((object) -> {
+            escribir(object.toString());
         });
     }
-    public static void terminar() {
+
+    public void terminar() {
         if (pw != null) {
             pw.close();
         }

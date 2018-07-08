@@ -16,8 +16,9 @@
  */
 package main.mochila.cuadratica;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+import main.EscribirArchivo;
 import main.LeerArchivo;
 import static main.Utilidades.eliminarEspaciosRepetidos;
 
@@ -28,47 +29,62 @@ import static main.Utilidades.eliminarEspaciosRepetidos;
 public class LecturaParametrosCuadratica {
 
     public LecturaParametrosCuadratica() {
-        
+
     }
 
-    public ParametrosCuadratica obtenerParametros(String nombreArchivo) {
-
-        List listaParametros = obtenerDatosMochilaCuadratica(nombreArchivo);
-        String nombreInstancia = (String) listaParametros.remove(0);
-        double[][] matrizBeneficios = (double[][]) listaParametros.remove(0);
-        double capacidad = (double) listaParametros.remove(0);
-        double[] vectorPesos = (double[]) listaParametros.remove(0);
-        Double maxGlobal = Double.NaN;
-        try {
-            maxGlobal = (double) listaParametros.remove(0);
-        } catch (java.lang.IndexOutOfBoundsException e) {
-        }
-        ParametrosCuadratica pc = new ParametrosCuadratica(nombreInstancia, matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        return pc;
-    }
-
-    private List obtenerDatosMochilaCuadratica(String nombreArchivo) {
+    public void actualizar(String nombreArchivo, ParametrosCuadratica parametros) {
         LeerArchivo.abrir(nombreArchivo);
         List<String> listaCadenas = LeerArchivo.leer();
         LeerArchivo.terminar();
-        List listaObj = new ArrayList();
+        EscribirArchivo archivo = new EscribirArchivo();
+        listaCadenas.set(parametros.posicionMaxGlobal, "" + parametros.maxGlobal);
+        listaCadenas.set(parametros.posicionIdeal, vectorAString(parametros.getVectorIdeal()));
+        archivo.abrir(nombreArchivo);
+        archivo.escribir(listaCadenas);
+        archivo.terminar();
+    }
 
-        // nombre de la instancia
-        String nombreInstancia = listaCadenas.remove(0);
-        listaObj.add(nombreInstancia);
-        // numVar: numero de elementos para la mochila
-        int numVar = Integer.parseInt(listaCadenas.remove(0).trim());
-        double[][] matrizBeneficios = new double[numVar][numVar];
-        double[] vectorPesos = new double[numVar];
+    public String vectorAString(int[] vector) {
+        StringBuilder cadena = new StringBuilder();
+        for (int i = 0; i < vector.length; i++) {
+            cadena.append(vector).append(" ");
+        }
+        return cadena.toString();
+    }
+
+    public ParametrosCuadratica obtenerParametros(String nombreArchivo) {
+//        String nombreInstancia = (String) listaParametros.remove(0);
+        double[][] matrizBeneficios;
+        int[] vectorideal = null;
+        Double maxGlobal = null;
         double capacidad;
         String cadena;
         String[] vectSubdivisiones;
+        double[] vectorPesos;
+        int numElementos;
+        ParametrosCuadratica pc = new ParametrosCuadratica();
 
-        for (int i = 0; i < numVar; i++) {
-            cadena = listaCadenas.remove(0).replace(',', '.');
+        LeerArchivo.abrir(nombreArchivo);
+        List<String> listaCadenas = LeerArchivo.leer();
+        LeerArchivo.terminar();
+//        List listaResultado = new ArrayList();
+
+        ListIterator<String> iterador = listaCadenas.listIterator();
+        // nombre de la instancia
+        String nombreInstancia = iterador.next();
+        pc.setNombreInstancia(nombreInstancia);
+
+        // obtener numero de elementos para la mochila
+        numElementos = Integer.parseInt(iterador.next().trim());
+        matrizBeneficios = new double[numElementos][numElementos];
+        vectorPesos = new double[numElementos];
+
+        // obtener matriz de beneficios
+        for (int i = 0; i < numElementos; i++) {
+            cadena = iterador.next().replace(',', '.');
             cadena = eliminarEspaciosRepetidos(cadena);
             vectSubdivisiones = cadena.split("" + '\u0020');
-            for (int k = i, j = 0; k < numVar; j++, k++) {
+            for (int k = i, j = 0; k < numElementos; j++, k++) {
                 if (i == 0) {
                     matrizBeneficios[k][k] = Double.parseDouble(vectSubdivisiones[j].trim());
                 } else {
@@ -76,27 +92,45 @@ public class LecturaParametrosCuadratica {
                 }
             }
         }
-        listaObj.add(matrizBeneficios);
-        String optimo_cad = listaCadenas.remove(0); // espacio vacio o maximo ideal
+        pc.setMatrizBeneficios(matrizBeneficios);
 
-        listaCadenas.remove(0); // 0 ó 1
-        capacidad = Double.parseDouble(listaCadenas.remove(0).trim()); // capacidad de la mochila
-        listaObj.add(capacidad);
+        // obtener maximo global - optimo
+        pc.setPosicionMaxGlobal(iterador.nextIndex());
+        String optimo_cad = iterador.next(); // espacio vacio o maximo ideal
+        try {
+            maxGlobal = Double.parseDouble(optimo_cad); // espacio vacio o maximo ideal
+        } catch (NumberFormatException e) {
+        }
+        pc.setMaxGlobal(maxGlobal);
 
-        cadena = listaCadenas.remove(0).replace(',', '.');
+        // 0 ó 1
+        iterador.next();
+        capacidad = Double.parseDouble(iterador.next().trim()); // capacidad de la mochila
+        pc.setCapacidad(capacidad);
+
+        // lectura de vector pesos
+        cadena = iterador.next().replace(',', '.');
         cadena = eliminarEspaciosRepetidos(cadena);
         vectSubdivisiones = cadena.split("" + '\u0020');
-        for (int k = 0; k < numVar; k++) {
+        for (int k = 0; k < numElementos; k++) {
             vectorPesos[k] = Double.parseDouble(vectSubdivisiones[k].trim());
         }
-        listaObj.add(vectorPesos);
+        pc.setVectorPesos(vectorPesos);
 
-        try {
-            double optimo = Double.parseDouble(optimo_cad); // espacio vacio o maximo ideal
-            listaObj.add(optimo);
-        } catch (NumberFormatException e) {
-
+        // lectura de vector individuo maximo ideal conocido
+        pc.setPosicionIdeal(iterador.nextIndex());
+        cadena = iterador.next().trim();
+        cadena = eliminarEspaciosRepetidos(cadena);
+        vectSubdivisiones = cadena.split("" + '\u0020');
+        if (vectSubdivisiones.length == numElementos) {
+            vectorideal = new int[numElementos];
+            for (int k = 0; k < numElementos; k++) {
+                vectorideal[k] = Integer.parseInt(vectSubdivisiones[k].trim());
+            }
         }
-        return listaObj;
+        pc.setVectorIdeal(vectorideal);
+
+        return pc;
     }
+
 }

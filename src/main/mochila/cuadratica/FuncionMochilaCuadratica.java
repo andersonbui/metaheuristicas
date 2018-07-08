@@ -52,10 +52,17 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
 
     @Override
     final protected double evaluar(Individuo p) {
-        return calcularBeneficio(p);
+        return beneficio(p);
     }
 
-    public double calcularBeneficio(Individuo mochila) {
+    /**
+     * calcula el total de beneficio que tiene que generan actualmente los
+     * elemetos introducidos.
+     *
+     * @param mochila
+     * @return
+     */
+    public double beneficio(Individuo mochila) {
         double totalBeneficio = 0;
         int dim = mochila.getDimension();
         for (int i = 0; i < dim; i++) {
@@ -66,11 +73,45 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
         return totalBeneficio;
     }
 
-    @Override
-    public String toString(Individuo individuo) {
-        String cadena = "";
-        cadena += individuo.pesar() + ";";
-        return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
+    /**
+     * calcula el total de beneficio que tiene el elemento con indice (a veces
+     * referenciado como "benefico crudo").
+     *
+     * @param indice indice de la posicion del elemento a calcular beneficio
+     * @return
+     */
+    public double beneficio(int indice) {
+        double suma = 0;
+
+        for (int i = 0; i < vectorPesos.length; i++) {
+            if (i < indice) {
+                suma += matrizBeneficios[i][indice];
+            } else if (i > indice) {
+                suma += matrizBeneficios[indice][i];
+            }
+        }
+        return suma + matrizBeneficios[indice][indice];
+    }
+
+    /**
+     * cuantas relaciones tiene el elemento correspodiente a indice con los
+     * demas elementos, es decir, cuantos beneficios en pareja son iguales a
+     * cero.
+     *
+     * @param indice
+     * @return
+     */
+    public double relaciones(int indice) {
+        int suma = 0;
+        for (int i = 0; i < vectorPesos.length; i++) {
+            if (matrizBeneficios[i][indice] != 0 && i < indice) {
+                suma += 1;
+            } else if (matrizBeneficios[indice][i] != 0 && i > indice) {
+                suma += 1;
+            }
+        }
+        suma += matrizBeneficios[indice][indice] != 0 ? 1 : 0;
+        return suma;
     }
 
     /**
@@ -92,6 +133,13 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
         }
 
         return suma + matrizBeneficios[indice][indice];
+    }
+
+    @Override
+    public String toString(Individuo individuo) {
+        String cadena = "";
+        cadena += individuo.pesar() + ";";
+        return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
     }
 
     /**
@@ -139,11 +187,13 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
     }
 
     /**
-     * obtiene el beneficio desde la matriz de beneficios
+     * obtiene el beneficio que en pareja realizan los elementos con indices i y
+     * j.
      *
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i idice del primer elemento
+     * @param j idice del segundo elemento
+     * @return beneficio en pareja de los dos elementos i y j
      */
     public double beneficio(int i, int j) {
         return matrizBeneficios[i][j];

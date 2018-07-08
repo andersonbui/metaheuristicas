@@ -79,7 +79,7 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
     }
 
     @Override
-    public  void set(int indice, double valor) {
+    public void set(int indice, double valor) {
 
         double valAnterior = get(indice);
         if (valAnterior == valor) {
@@ -106,8 +106,9 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
 
     @Override
     public String toString() {
-        return "IndividuoMochila{" + "calidad=" + this.calidad + "; peso=" + pesar() + "; capacidad=" + funcion.getCapacidad() +'}';
+        return "IndividuoMochila{" + "calidad=" + this.calidad + "; peso=" + pesar() + "; capacidad=" + funcion.getCapacidad() + '}';
     }
+
 }
 //    #######################
 //    public class IndividuoCuadratico extends IndividuoMochila {

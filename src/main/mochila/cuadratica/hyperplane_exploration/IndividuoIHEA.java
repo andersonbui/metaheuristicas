@@ -76,25 +76,66 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         return calidad;
     }
 
+//    @Override
+//    public void set(int indice, double valor) {
+//
+//        double valAnterior = get(indice);
+//        if (valAnterior == valor) {
+//            return;
+//        }
+//        if (valor == 0) {
+//            boolean result = I1.remove((Integer) indice);
+//            I0.add((Integer) indice);
+//        } else {
+//            boolean result = I0.remove((Integer) indice);
+//            I1.add((Integer) indice);
+//        }
+//        double valorPeso;
+//        double contribucion;
+//        //contribucion
+//        contribucion = funcion.contribucion(indice, this);
+//
+//        // peso del articulo
+//        valorPeso = funcion.peso(indice);
+//
+//        // incluir beneficio
+//        calidad += (-valAnterior + valor) * contribucion;
+//        // incluir peso del elemento
+//        peso += (-valAnterior + valor) * valorPeso;
+//
+//        this.valores[indice] = valor;
+//    }
     @Override
     public void set(int indice, double valor) {
-
         double valAnterior = get(indice);
         if (valAnterior == valor) {
             return;
         }
         if (valor == 0) {
             boolean result = I1.remove((Integer) indice);
-            I0.add((Integer) indice);
+            if (result) {
+                I0.add((Integer) indice);
+            }
         } else {
             boolean result = I0.remove((Integer) indice);
-            I1.add((Integer) indice);
+            if (result) {
+                I1.add((Integer) indice);
+            }
         }
         double valorPeso;
-        double contribucion;
-        //contribucion
-        contribucion = funcion.contribucion(indice, this);
+        double contribucion = 0;
 
+        for (int i : I1) {
+            if (i < indice) {
+                //contribucion en la fila
+                contribucion += funcion.beneficio(i, indice);
+            } else if (i > indice) {
+                //contribucion en la columna
+                contribucion += funcion.beneficio(indice, i);
+            }
+        }
+        //contribucion por si solo
+        contribucion += funcion.beneficio(indice, indice);
         // peso del articulo
         valorPeso = funcion.peso(indice);
 
@@ -102,8 +143,8 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         calidad += (-valAnterior + valor) * contribucion;
         // incluir peso del elemento
         peso += (-valAnterior + valor) * valorPeso;
-
-        this.valores[indice] = valor;
+        
+        valores[indice] = valor;
     }
 
     @Override
@@ -118,4 +159,5 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     public String toString() {
         return "IndividuoCuadratico{" + "calidad=" + this.calidad + "peso=" + pesar() + "capacidad=" + ((FuncionMochilaIHEA) funcion).getCapacidad() + '}';
     }
+
 }
