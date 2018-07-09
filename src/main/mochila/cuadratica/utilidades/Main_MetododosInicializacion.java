@@ -49,65 +49,81 @@ public class Main_MetododosInicializacion {
 //        //si,15,0.90-93,20,31
     //lim,15,0.99,5->,1
 //        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
-
-
     public static void main(String[] args) {
         String nombreArchivo = "";
         List<GrupoInstancias> instancias = new ArrayList();
-        instancias.add(new GrupoInstancias("mochilaCuadratica/jeu_100_25_%d.txt", 7));
+        double sumaTotal = 0;
+        int contador = 0;
 
-        GrupoInstancias gi = instancias.get(0);
-        for (int indice_instancia = 1; indice_instancia <= gi.cantidad; indice_instancia++) {
-            nombreArchivo = String.format(gi.base, indice_instancia);
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_100_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_25_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_50_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_75_%d.txt", 10));
 
-            LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-            ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
-            funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());
+        for (GrupoInstancias instancia : instancias) {
+            System.out.println("########################################################################");
+            for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
+                nombreArchivo = String.format(instancia.base, indice_instancia);
 
-            IndividuoIHEA indi = funcion.generarIndividuo();
-            int[] ideal = parametros.getVectorIdeal();
-            if (ideal == null) {
-                System.out.println("No hay ideal.");
-                return;
-            }
-            IndividuoIHEA indiIdeal = new IndividuoIHEA(funcion);
-            for (int i = 0; i < ideal.length; i++) {
-                if (ideal[i] == 1) {
-//                System.out.println("");
-                    indiIdeal.set(i, ideal[i]);
+                LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
+                ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
+                if (parametros == null) {
+                    System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
+                    continue;
                 }
-            }
+                funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());
 
-            // lista de indices para ordenamiento
-            List<Posicion> posiciones = new ArrayList();
-            // aumentar la matriz y relizar sumatorias por fila y columna
-            for (int i = 0; i < funcion.getDimension(); i++) {
-                double peso = funcion.peso(i);
-                double relacion = funcion.relaciones(i);
-                double beneficio = funcion.beneficio(i);
-                posiciones.add(new Posicion(i, peso, relacion, beneficio));
-            }
-            // encontrar orden
+                IndividuoIHEA indi = funcion.generarIndividuo();
+                int[] ideal = parametros.getVectorIdeal();
+                if (ideal == null) {
+                    System.out.println("No hay ideal.");
+                    continue;
+                }
+                IndividuoIHEA indiIdeal = new IndividuoIHEA(funcion);
+                for (int i = 0; i < ideal.length; i++) {
+                    if (ideal[i] == 1) {
+//                System.out.println("");
+                        indiIdeal.set(i, ideal[i]);
+                    }
+                }
 
-            Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
-                return comparar3(o1, o2);
+                // lista de indices para ordenamiento
+                List<Posicion> posiciones = new ArrayList();
+                // aumentar la matriz y relizar sumatorias por fila y columna
+                for (int i = 0; i < funcion.getDimension(); i++) {
+                    double peso = funcion.peso(i);
+                    double relacion = funcion.relaciones(i);
+                    double beneficio = funcion.beneficio(i);
+                    posiciones.add(new Posicion(i, peso, relacion, beneficio));
+                }
+                // encontrar orden
+
+                Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
+                    return comparar3(o1, o2);
 //            return -Double.compare(funcion.beneficio(o1.posicion) / funcion.peso(o1.posicion), funcion.beneficio(o2.posicion) / funcion.peso(o2.posicion));
-            });
+                });
 
-            while (funcion.cabe(indi, posiciones.get(0).posicion)) {
-                indi.set(posiciones.remove(0).posicion, 1);
+                while (funcion.cabe(indi, posiciones.get(0).posicion)) {
+                    indi.set(posiciones.remove(0).posicion, 1);
+                }
+
+                int parecido = indi.parecido(indiIdeal);
+                double porcentaje = ((double) parecido) / indiIdeal.elementosSeleccionados().size();
+                System.out.println("----------------------------------");
+                System.out.println("nombre archivo: " + nombreArchivo);
+                System.out.println("parecido: " + parecido);
+                System.out.println("calidad alcanzado: " + indi.getCalidad());
+                System.out.println("calidad ideal: " + indiIdeal.getCalidad());
+                System.out.println("porcentanje parecido: " + porcentaje);
+                sumaTotal += porcentaje;
+                contador++;
             }
-
-            int parecido = indi.parecido(indiIdeal);
-
-            System.out.println("----------------------------------");
-            System.out.println("nombre archivo: " + nombreArchivo);
-            System.out.println("parecido: " + parecido);
-            System.out.println("calidad alcanzado: " + indi.getCalidad());
-            System.out.println("calidad ideal: " + indiIdeal.getCalidad());
-            System.out.println("porcentanje parecido: " + (((double) parecido) / indiIdeal.elementosSeleccionados().size()));
-
         }
+        System.out.println("promedio porcentaje exito metodo: " + (sumaTotal / contador));
     }
 
     public static class Posicion {

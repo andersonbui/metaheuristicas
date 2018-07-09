@@ -54,7 +54,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         Double maxGlobal = parametros.maxGlobal;
 
         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
+//        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));

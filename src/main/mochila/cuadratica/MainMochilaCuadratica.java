@@ -65,10 +65,10 @@ public class MainMochilaCuadratica {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_100_%d.txt", 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_25_%d.txt", 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_50_%d.txt", 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_75_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_100_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_25_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_50_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_75_%d.txt", 10));
 
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
@@ -77,9 +77,6 @@ public class MainMochilaCuadratica {
 
                 System.out.println("---------------------------------------------------------------");
                 System.out.println("Nombre archivo: " + nombreArchivo);
-                if(nombreArchivo.equals("mochilaCuadratica/jeu_100_100_4.txt")){
-                    System.out.println("");
-                }
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
                 ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
@@ -93,7 +90,7 @@ public class MainMochilaCuadratica {
                 // EJECUTAR ANALISIS
                 IndividuoGen individuo = ejecutor.ejecutarAlgoritmosMasFunciones(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras).getMejorIndividuo();
                 // comprobar calidad de la actua instancia
-                if (parametros.maxGlobal == null || parametros.vectorIdeal == null || parametros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
+                if (parametros.maxGlobal == null || parametros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
                     parametros.setMaxGlobal(individuo.getCalidad());
                     parametros.setVectorIdeal(trans(individuo.getValores()));
                     lpc.actualizar(nombreArchivo, parametros);
