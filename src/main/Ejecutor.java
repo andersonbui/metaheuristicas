@@ -181,7 +181,7 @@ public class Ejecutor {
                     "" + funcion.getContadorEvaluaciones() / numeroPruebas);
             //implimir mejor optimo
             System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
-            System.out.println("Mejor: " + optimo.toStringInt() + "\n");
+//            System.out.println("Mejor: " + optimo.toStringInt() + "\n");
 
             return new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre(), optimo);
         }

@@ -21,12 +21,15 @@ public class LeerArchivo {
     static FileReader fr = null;
     static BufferedReader br = null;
 
-    public static void abrir(String nombreArchivo) {
+    public static boolean abrir(String nombreArchivo) {
 
         try {
             // Apertura del fichero y creacion de BufferedReader para poder
             // hacer una lectura comoda (disponer del metodo readLine()).
             archivo = new File(nombreArchivo);
+            if(!archivo.exists() || !archivo.canRead() || !archivo.isFile()){
+                return false;
+            }
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
 
@@ -35,7 +38,7 @@ public class LeerArchivo {
         } finally {
 
         }
-
+        return true;
     }
 
     /**

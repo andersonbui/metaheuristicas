@@ -17,6 +17,8 @@
 package main.mochila.cuadratica;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import main.Ejecutor;
 import metaheuristicas.IndividuoGen;
 
@@ -25,22 +27,8 @@ import metaheuristicas.IndividuoGen;
  * @author debian
  */
 public class MainMochilaCuadratica {
-
-    public void main(String[] args) throws FileNotFoundException, Exception {
-        int maxIteraciones;
-        int numMuestras;
-        boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
-        boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
-//        graficaRecorrido3D = true;
-        graficaDispercion2D = true;
-        // numero de individuos porpoblacion
-        // iteraciones realizadas por los algoritmos
-        maxIteraciones = 20;
-        // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 10;
-        String nombreArchivo = "";
-        //lim,rango,prob_ceros,poblacion, iteraciones
-        //lim,20,0.90,20
+//lim,rango,prob_ceros,poblacion, iteraciones
+    //lim,20,0.90,20
 //        nombreArchivo = "mochilaCuadratica/1000_25_1.dat";
 //        nombreArchivo = "mochilaCuadratica/5000_25_1.txt";
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
@@ -54,24 +42,71 @@ public class MainMochilaCuadratica {
 //        nombreArchivo = "mochilaCuadratica/jeu_100_25_2.txt";
 //        //no,15,0.99,20,32
 //        //si,15,0.90-93,20,31
-        nombreArchivo = "mochilaCuadratica/jeu_100_25_7.txt";
-        //lim,15,0.99,5->,1
+//        nombreArchivo = "mochilaCuadratica/jeu_100_25_7.txt";
+//        nombreArchivo = "mochilaCuadratica/jeu_100_100_1.txt";
+    //lim,15,0.99,5->,1
 //        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
-        System.out.println("Nombre archivo: " + nombreArchivo);
-        // dimension de los puntos;
-        LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-        ParametrosCuadratica paramtros = lpc.obtenerParametros(nombreArchivo);
-        GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(paramtros, maxIteraciones);
-        grupo.inicializar();
-        Ejecutor ejecutor = new Ejecutor();
-        // EJECUTAR ANALISIS
-        IndividuoGen individuo = ejecutor.ejecutarAlgoritmosMasFunciones(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras).getMejorIndividuo();
-        // comprobar calidad de la actua instancia
-        if (paramtros.maxGlobal == null || paramtros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
-            paramtros.setMaxGlobal(individuo.getCalidad());
-//            paramtros.setVectorIdeal(individuo.getValores());
-        }
+    public static void main(String[] args) throws FileNotFoundException, Exception {
 
+        int maxIteraciones;
+        int numMuestras;
+        boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
+        boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
+//        graficaRecorrido3D = true;
+//        graficaDispercion2D = true;
+        // numero de individuos porpoblacion
+        // iteraciones realizadas por los algoritmos
+        maxIteraciones = 20;
+        // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
+        numMuestras = 1;
+        String nombreArchivo;
+        List<GrupoInstancias> instancias = new ArrayList();
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_100_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_25_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_50_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo2/jeu_200_75_%d.txt", 10));
+
+        for (GrupoInstancias instancia : instancias) {
+            System.out.println("########################################################################");
+            for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
+                nombreArchivo = String.format(instancia.base, indice_instancia);
+
+                System.out.println("---------------------------------------------------------------");
+                System.out.println("Nombre archivo: " + nombreArchivo);
+                if(nombreArchivo.equals("mochilaCuadratica/jeu_100_100_4.txt")){
+                    System.out.println("");
+                }
+                // dimension de los puntos;
+                LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
+                ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
+                if (parametros == null) {
+                    System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
+                    continue;
+                }
+                GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(parametros, maxIteraciones);
+                grupo.inicializar();
+                Ejecutor ejecutor = new Ejecutor();
+                // EJECUTAR ANALISIS
+                IndividuoGen individuo = ejecutor.ejecutarAlgoritmosMasFunciones(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras).getMejorIndividuo();
+                // comprobar calidad de la actua instancia
+                if (parametros.maxGlobal == null || parametros.vectorIdeal == null || parametros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
+                    parametros.setMaxGlobal(individuo.getCalidad());
+                    parametros.setVectorIdeal(trans(individuo.getValores()));
+                    lpc.actualizar(nombreArchivo, parametros);
+                }
+            }
+        }
     }
 
+    public static int[] trans(double[] vector) {
+        int[] vectorInt = new int[vector.length];
+        for (int i = 0; i < vector.length; i++) {
+            vectorInt[i] = (int) vector[i];
+        }
+        return vectorInt;
+    }
 }

@@ -47,7 +47,7 @@ public class LecturaParametrosCuadratica {
     public String vectorAString(int[] vector) {
         StringBuilder cadena = new StringBuilder();
         for (int i = 0; i < vector.length; i++) {
-            cadena.append(vector).append(" ");
+            cadena.append(vector[i]).append(" ");
         }
         return cadena.toString();
     }
@@ -64,7 +64,9 @@ public class LecturaParametrosCuadratica {
         int numElementos;
         ParametrosCuadratica pc = new ParametrosCuadratica();
 
-        LeerArchivo.abrir(nombreArchivo);
+        if (!LeerArchivo.abrir(nombreArchivo)) {
+            return null;
+        }
         List<String> listaCadenas = LeerArchivo.leer();
         LeerArchivo.terminar();
 //        List listaResultado = new ArrayList();

@@ -27,7 +27,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
      */
     public FuncionMochilaCuadraticaGreedy(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        nombre="FMCG";
+        nombre = "FMCG";
         rango = 15;
         prob_ceros = 0.99;
 //        prob_ceros = 0.93;
@@ -50,10 +50,8 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
         });
         pos_articulos = listToArray(posiciones);
 
-        this.maxGlobal = maxGlobal;
     }
 
-    
     /**
      *
      * @param lista
@@ -92,7 +90,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
      * @param pesos
      * @return
      */
-    public int mayorPerjuicio(IndividuoCuadratico mochila, double[] pesos) {
+    public int mayorPerjuicio(IndividuoCuadratico mochila) {
         int posMayor = 0;
         int posAnterior = 0;
         double valorMayor = -Double.MAX_VALUE;
@@ -101,7 +99,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
         for (int k = 0; k < mochila.getDimension(); k++) {
             // para indicePeso-esimo caracteristica(peso) del elemento k-esimo
 //            valor = (mochila.get(k) * pesos[k]);
-            valor = (mochila.get(k) * pesos[k]) / beneficio(mochila, k);
+            valor = (mochila.get(k) * peso(k)) / beneficio(mochila, k);
             if (valorMayor < valor) {
                 posAnterior = posMayor;
 
@@ -141,8 +139,8 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
     @Override
     public void limitar(IndividuoCuadratico mochila) {
         super.limitar(mochila);
-        limitarInferiormente(mochila, vectorPesos, capacidad, pos_articulos);
-        limitarSuperiormente(mochila, vectorPesos, capacidad);
+        limitarInferiormente(mochila, capacidad, pos_articulos);
+        limitarSuperiormente(mochila, capacidad);
     }
 
     /**
@@ -155,7 +153,7 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
      * @param pos_articulos
      * @return
      */
-    public IndividuoCuadratico limitarInferiormente(IndividuoCuadratico IndMochila, double[] pesos, double capacidad, int[] pos_articulos) {
+    public IndividuoCuadratico limitarInferiormente(IndividuoCuadratico IndMochila, double capacidad, int[] pos_articulos) {
         IndividuoCuadratico mochila = (IndividuoCuadratico) IndMochila;
         double espacios;
         List<Integer> individuos = new ArrayList();
@@ -164,14 +162,14 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
             individuos.add(pos);
         }
 
-        espacios = sacarEspacios(mochila, pesos, capacidad);
+        espacios = sacarEspacios(mochila, capacidad);
         int pos;
         int aleatorio;
         while (true) {
             rango = Math.min(rango, individuos.size());
             aleatorio = Aleatorio.nextInt(rango);
             pos = individuos.remove(aleatorio);
-            espacios -= pesos[pos];
+            espacios -= peso(pos);
             // dimension de la mochila
             if (espacios < 0) {
                 break;
@@ -185,12 +183,11 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
      * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
      *
      * @param mochila
-     * @param pesos
      * @param capacidad
      * @return
      */
-    public double sacarEspacios(IndividuoCuadratico mochila, double[] pesos, double capacidad) {
-        double espacios = capacidad - obtenerPeso(mochila, pesos);
+    public double sacarEspacios(IndividuoCuadratico mochila, double capacidad) {
+        double espacios = capacidad - obtenerPeso(mochila);
         return espacios;
     }
 
@@ -204,11 +201,11 @@ public class FuncionMochilaCuadraticaGreedy extends FuncionMochilaCuadratica<Ind
      * @param capacidad
      * @return
      */
-    public IndividuoCuadratico limitarSuperiormente(IndividuoCuadratico mochila, double[] pesos, double capacidad) {
+    public IndividuoCuadratico limitarSuperiormente(IndividuoCuadratico mochila, double capacidad) {
         int posicion;
         // para cada caracteristica(peso) del elemento
-        while (obtenerPeso(mochila, pesos) > capacidad) {
-            posicion = mayorPerjuicio(mochila, pesos);
+        while (obtenerPeso(mochila) > capacidad) {
+            posicion = mayorPerjuicio(mochila);
             mochila.set(posicion, 0);
         }
         return mochila;

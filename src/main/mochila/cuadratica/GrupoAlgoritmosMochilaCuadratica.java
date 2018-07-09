@@ -25,8 +25,6 @@ import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.sgvns.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.VNS;
-import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
@@ -53,7 +51,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double[][] matrizBeneficios = parametros.matrizBeneficios;
         double capacidad = parametros.capacidad;
         double[] vectorPesos = parametros.vectorPesos;
-        double maxGlobal = parametros.maxGlobal;
+        Double maxGlobal = parametros.maxGlobal;
 
         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
@@ -65,7 +63,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 
         FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new VNS(funcionVns,100));
+        add(new VNS(funcionVns, maxIteraciones/2));
 
     }
 
