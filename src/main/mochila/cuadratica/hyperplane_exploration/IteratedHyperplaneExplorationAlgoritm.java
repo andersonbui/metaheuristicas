@@ -57,7 +57,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          * determinacion.
          */
         // indice de las variables fijas para el problema restringido
-        int[] VarFijas;
+        int[] variablesFijas;
         //variable bandera.
         boolean solucionEncontrada;
         //dimension k.
@@ -88,9 +88,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
         for (; iteraciones < maxIter; iteraciones++) {
-            if (iteraciones == 13) {
-                System.out.print("");
-            }
             // linea 10:
             solucionEncontrada = true;
             // linea 11:
@@ -100,9 +97,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             // linea 14:
             while (solucionEncontrada) {
                 // linea 14:
-                VarFijas = determinarVariablesFijas(k, x_prima, lb);
+                variablesFijas = determinarVariablesFijas(k, x_prima, lb);
                 // linea 16: construct reduce constrain problem
-                construirProblemaRestringidoReducido(VarFijas, x_prima);
+                construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 // linea 17: run tabu serach engine (L,x',xb)
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
                 // linea 18:
@@ -122,8 +119,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     solucionEncontrada = false;
                 }
 //                recorrido.add(x_mejorGlobal);
+                funcion.reiniciarVijarVariables();
             }
-            funcion.reiniciarVijarVariables();
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {
                 // linea 28:
@@ -160,8 +157,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
-        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(itemsSeleccionados, individuo, false);
-        nf = Math.min(nf, listaIndices.size());
+        nf = Math.min(nf, itemsSeleccionados.size());
+//        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(itemsSeleccionados, individuo, false);
+        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(itemsSeleccionados, individuo, nf, false);
+
         // vector de indices de variables fijas
         int[] varFijas = new int[nf];
         // obtener los primeros nf indices de los elementos más densos
@@ -175,29 +174,70 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * obtiene la lista de indices de cada item en listaIndices, de acuerdo al
      * parametro ascendente, por densidad (p/w).
      *
-     * @param listaIndices
+     * @param listaIndicesOriginal
      * @param individuo
-     * @param ascendente
+     * @param nf
+     * @param minimo
      * @return
      */
-    protected List<Integer> listaIndicesOrdenadosPorDensidad(List<Integer> listaIndices, IndividuoIHEA individuo, boolean ascendente) {
+//    protected List<Integer> listaIndicesOrdenadosPorDensidad(List<Integer> listaIndices, IndividuoIHEA individuo, boolean ascendente) {
+//        // almacen de todas las densidades
+//        double[] densidades = new double[individuo.getDimension()];
+//        // calcular densidades
+//        listaIndices.forEach((indice) -> {
+//            // calcular densidad solo de los elementos en listaIndices
+//            densidades[indice] = funcion.densidad(indice, individuo);
+//        });
+//        /**
+//         * ordenar la lista de indices de forma decreciente con respecto a la
+//         * densidad
+//         */
+//        listaIndices.sort((Integer ind1, Integer ind2) -> {
+//            Double densidad1 = densidades[ind1];
+//            Double densidad2 = densidades[ind2];
+//            return (ascendente ? 1 : -1) * densidad1.compareTo(densidad2);
+//        });
+//        return listaIndices;
+//    }
+    protected List<Integer> listaIndicesOrdenadosPorDensidad(List<Integer> listaIndicesOriginal, IndividuoIHEA individuo, int nf, boolean minimo) {
+        List<Integer> listaIndices = new ArrayList(listaIndicesOriginal);
+        List<Integer> resultado = new ArrayList();
+        int posicion = 0;
+//        ascendente = !ascendente;
+        double valor;
+
         // almacen de todas las densidades
         double[] densidades = new double[individuo.getDimension()];
+
         // calcular densidades
-        listaIndices.forEach((indice) -> {
+        listaIndicesOriginal.forEach((indice) -> {
             // calcular densidad solo de los elementos en listaIndices
             densidades[indice] = funcion.densidad(indice, individuo);
         });
-        /**
-         * ordenar la lista de indices de forma decreciente con respecto a la
-         * densidad
-         */
-        listaIndices.sort((Integer ind1, Integer ind2) -> {
-            Double densidad1 = densidades[ind1];
-            Double densidad2 = densidades[ind2];
-            return (ascendente ? 1 : -1) * densidad1.compareTo(densidad2);
-        });
-        return listaIndices;
+
+        for (int i = 0; i < nf; i++) {
+            valor = minimo ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+            for (int indice : listaIndices) {
+                if ((minimo && valor > densidades[indice]) || (!minimo && valor < densidades[indice])) {
+                    valor = densidades[indice];
+                    posicion = indice;
+                }
+            }
+            resultado.add(posicion);
+            listaIndices.remove((Integer) posicion);
+        }
+        return resultado;
+
+//        /**
+//         * ordenar la lista de indices de forma decreciente con respecto a la
+//         * densidad
+//         */
+//        listaIndices.sort((Integer ind1, Integer ind2) -> {
+//            Double densidad1 = densidades[ind1];
+//            Double densidad2 = densidades[ind2];
+//            return (ascendente ? 1 : -1) * densidad1.compareTo(densidad2);
+//        });
+//        return listaIndices;
     }
 
     protected void construirProblemaRestringidoReducido(int[] varFijas, IndividuoIHEA x_actual) {
@@ -214,6 +254,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         double fmax;
         tabu = new int[x_inicial.getDimension()][x_inicial.getDimension()];
         double frx = 0;
+        double vcx;
 
         // residual cancellation sequence list
         List<Integer> list_RCS = new ArrayList();
@@ -230,40 +271,61 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int i_aster = 0;
         int j_aster = 0;
 
-        int pos_imax = -1;
-        int pos_jmax = -1;
+        int imax = -1;
+        int jmax = -1;
         // linea 8:
         int iterTabu = 1;
+        int penalizacion = 0;
+
+        double pesoi;
+        double calidadi;
+
         while ((vmin != Double.POSITIVE_INFINITY && list_RL.size() < L)) {
+
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
-
+            imax = -1;
+            jmax = -1;
             List<Integer> I0;
             List<Integer> I1;
             I0 = elementosFuera(x);
             I1 = elementosDentro(x);
             // linea 10:
-            for (Integer i : I0) {
+            for (int i : I0) {
+
+                pesoi = funcion.getCapacidad() - x.pesar() - funcion.peso(i);
+                calidadi = x.getCalidad() + funcion.contribucion(i, x);
                 // linea 11:
-                for (Integer j : I1) {
+                for (int j : I1) {
                     // linea 12:
-                    if (tabu[i][j] != iterTabu) {
-                        // linea 13:
-                        x.set(i, 1);
-                        x.set(j, 0);
-                        // linea 14:
-                        frx = rawFuncion(x);
-                        // violación de capacidad
-                        double vcx = funcion.violacionDeCapacidad(x);
+                    if (tabu[i][j] < iterTabu) {
+
+                        //contribucion
+                        frx = calidadi - funcion.contribucion(j, x, i);
+                        // peso del articulo
+                        vcx = pesoi + funcion.peso(j);
+
+                        ////
+////                         linea 13:
+//                        x.set(i, 1);
+//                        x.set(j, 0);
+////                         linea 14:
+//                        frx = rawFuncion(x);
+//                        // violación de capacidad
+//                        double vcx = funcion.violacionDeCapacidad(x);
 //                        if ((frx > fmin) && ((vcx >= 0 && (vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                         if ((frx > fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                             i_aster = i;
                             j_aster = j;
                             vmin = vcx;
                             fmax = frx;
+                            if (vcx >= 0) {
+                                jmax = j;
+                                imax = i;
+                            }
                         }
-                        x.set(i, 0);
-                        x.set(j, 1);
+//                        x.set(i, 0);
+//                        x.set(j, 1);
                         contador++;
                     }
                 }
@@ -272,47 +334,52 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             Integer j;
             // linea 21:
             if (vmin != Double.POSITIVE_INFINITY) {
-                // linea 22:
-                x.set(i_aster, 1);
-                x.set(j_aster, 0);
-                // linea 23:
-                if (vmin == 0) { // ############################# ==
-                    // linea 24:
-                    list_RL.clear();
 
-                    frx = rawFuncion(x);
-                    fmin = frx;
+                if (imax >= 0 && true) {
+                    x.set(imax, 1);
+                    x.set(jmax, 0);
                     x_aster = x.clone();
+                    fmin = x_aster.getCalidad();
+                    list_RL.clear();
                     // linea 25:
                 } else {
-                    //linea 26: actualizar estado tabu
-                    iterTabu += 1;
-                    list_RL.add(i_aster);
-                    list_RL.add(j_aster);
-                    // linea 27:
-                    i = list_RL.size() - 1;
-                    // linea 28:
-                    list_RCS.clear();
-                    int[] pares = new int[2];
-                    while (i >= 0) {
-                        // linea 29:
-                        j = list_RL.get(i);
+// linea 22:
+                    x.set(i_aster, 1);
+                    x.set(j_aster, 0);
+                    if (vmin == 0) { // ############################# ==
+                        // linea 24:
+                        list_RL.clear();
+                        fmin = rawFuncion(x);
+                        x_aster = x.clone();
+                        // linea 25:
+                    } else {
+                        //linea 26: actualizar estado tabu
+                        iterTabu += 1;
+                        list_RL.add(i_aster);
+                        list_RL.add(j_aster);
+                        // linea 27:
+                        i = list_RL.size() - 1;
+                        // linea 28:
+                        list_RCS.clear();
+                        while (i >= 0) {
+                            // linea 29:
+                            j = list_RL.get(i);
 //                        if (i % 2 == 1) {
-//                            int pos1 = list_RL.get(i);
 //                            int pos2 = list_RL.get(i - 1);
-//                            tabu[pos1][pos2] = iterTabu;
-//                            tabu[pos2][pos1] = iterTabu;
+//                            tabu[j][pos2] = iterTabu + penalizacion;
+//                            tabu[pos2][j] = iterTabu + penalizacion;
 //                        }
-                        if (list_RCS.contains(j)) {
-                            boolean ret = list_RCS.remove(j);
-                        } else {
-                            list_RCS.add(j);
+                            if (list_RCS.contains(j)) {
+                                boolean ret = list_RCS.remove(j);
+                            } else {
+                                list_RCS.add(j);
+                            }
+                            if (list_RCS.size() == 2) {
+                                tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu + penalizacion;
+                                tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu + penalizacion;
+                            }
+                            i--;
                         }
-                        if (list_RCS.size() == 2) {
-                            tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu;
-                            tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu;
-                        }
-                        i--;
                     }
                 }
             }
@@ -343,7 +410,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         t = Math.min(10, I1.size() - nf);
         s = Math.min(3, t);
-        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(I1, individuo, true);
+        List<Integer> listaIndices = listaIndicesOrdenadosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(t);

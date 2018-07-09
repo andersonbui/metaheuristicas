@@ -30,6 +30,7 @@ public abstract class IndividuoMochila<Funcion extends FuncionMochila> extends I
 
     public IndividuoMochila(Funcion funcion) {
         super(funcion);
+        peso = 0;
     }
 
     public IndividuoMochila(Funcion funcion, double[] valores) {

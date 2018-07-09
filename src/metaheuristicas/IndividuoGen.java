@@ -19,16 +19,12 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
     protected Funcion funcion;
     protected int generacion;
 
-//    public IndividuoGen() {
-//        generacion = 0;
-//    }
-
     /**
      * @param funcion
      */
     public IndividuoGen(Funcion funcion) {
         this.funcion = funcion;
-//        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
+//        calidad = funcion.isMaximizar() ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         valores = new double[funcion.getDimension()];
         generacion = 0;
     }
@@ -36,7 +32,7 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
     public IndividuoGen(Funcion funcion, double[] valores) {
         this.funcion = funcion;
         this.valores = valores;
-//        calidad = funcion.maximizar ? Double.MIN_VALUE : Double.MAX_VALUE;
+//        calidad = funcion.isMaximizar() ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         generacion = 0;
     }
 

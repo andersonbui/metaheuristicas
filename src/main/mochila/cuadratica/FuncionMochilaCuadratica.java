@@ -123,12 +123,45 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
      */
     public double contribucion(int indice, Individuo mochila) {
         double suma = 0;
-
+//        List<Integer> listaElemSelec = mochila.elementosSeleccionadosSinFiltro();
+//        for (int i : listaElemSelec) {
+//            if (i < indice) {
+//                suma += matrizBeneficios[i][indice];
+//            } else if (i > indice) {
+//                suma += matrizBeneficios[indice][i];
+//            }
+//        }
         for (int i = 0; i < vectorPesos.length; i++) {
-            if (mochila.get(i) != 0 && i < indice) {
-                suma += matrizBeneficios[i][indice];
-            } else if (mochila.get(i) != 0 && i > indice) {
-                suma += matrizBeneficios[indice][i];
+            if (mochila.get(i) != 0) {
+                if (i < indice) {
+                    suma += matrizBeneficios[i][indice];
+                } else if (i > indice) {
+                    suma += matrizBeneficios[indice][i];
+                }
+            }
+        }
+
+        return suma + matrizBeneficios[indice][indice];
+    }
+
+    public double contribucion(int indice, Individuo mochila, Integer sin_k) {
+        double suma = 0;
+//        List<Integer> listaElemSelec = mochila.elementosSeleccionadosSinFiltro();
+//        listaElemSelec.remove(sin_k);
+//        for (int i : listaElemSelec) {
+//            if (i < indice) {
+//                suma += matrizBeneficios[i][indice];
+//            } else if (i > indice) {
+//                suma += matrizBeneficios[indice][i];
+//            }
+//        }
+        for (int i = 0; i < vectorPesos.length; i++) {
+            if (mochila.get(i) != 0 && i != sin_k) {
+                if (i < indice) {
+                    suma += matrizBeneficios[i][indice];
+                } else if (i > indice) {
+                    suma += matrizBeneficios[indice][i];
+                }
             }
         }
 

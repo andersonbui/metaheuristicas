@@ -103,7 +103,7 @@ public class Main_MetododosInicializacion {
                 // encontrar orden
 
                 Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
-                    return comparar3(o1, o2);
+                    return comparar2(o1, o2);
 //            return -Double.compare(funcion.beneficio(o1.posicion) / funcion.peso(o1.posicion), funcion.beneficio(o2.posicion) / funcion.peso(o2.posicion));
                 });
 
@@ -123,6 +123,7 @@ public class Main_MetododosInicializacion {
                 contador++;
             }
         }
+        System.out.println("\n##############################################");
         System.out.println("promedio porcentaje exito metodo: " + (sumaTotal / contador));
     }
 

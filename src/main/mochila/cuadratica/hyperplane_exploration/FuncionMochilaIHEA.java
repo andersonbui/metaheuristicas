@@ -144,33 +144,33 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
 //        double espacio = sacarEspacios(individuo);
 //        return espacio >= (vectorPesos[pos_add] - vectorPesos[pos_sacar]);
 //    }
-    /**
-     * agrega elementos al espacio sobrante de la mochila
-     *
-     * @param mochila
-     * @param listaOrdenada
-     * @return
-     */
-    public IndividuoMochila limitarInferiormente(IndividuoMochila mochila, List<Integer> listaOrdenada) {
-        double espacios = sacarEspacios((IndividuoIHEA) mochila);
-        boolean cabeArticulo;
-        // en todos los articulos
-        for (int pos : listaOrdenada) {
-            cabeArticulo = true;
-            if (mochila.get(pos) == 0) {
-                // dimension de la mochila
-                if (espacios < vectorPesos[pos]) {
-                    cabeArticulo = false;
-                    break;
-                }
-                if (cabeArticulo) {
-                    mochila.set(pos, 1);
-                    espacios -= vectorPesos[pos];
-                }
-            }
-        }
-        return mochila;
-    }
+//    /**
+//     * agrega elementos al espacio sobrante de la mochila
+//     *
+//     * @param mochila
+//     * @param listaOrdenada
+//     * @return
+//     */
+//    public IndividuoMochila limitarInferiormente(IndividuoMochila mochila, List<Integer> listaOrdenada) {
+//        double espacios = sacarEspacios((IndividuoIHEA) mochila);
+//        boolean cabeArticulo;
+//        // en todos los articulos
+//        for (int pos : listaOrdenada) {
+//            cabeArticulo = true;
+//            if (mochila.get(pos) == 0) {
+//                // dimension de la mochila
+//                if (espacios < vectorPesos[pos]) {
+//                    cabeArticulo = false;
+//                    break;
+//                }
+//                if (cabeArticulo) {
+//                    mochila.set(pos, 1);
+//                    espacios -= vectorPesos[pos];
+//                }
+//            }
+//        }
+//        return mochila;
+//    }
 
     /**
      * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
@@ -243,6 +243,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
     protected List<Integer> getVariablesFijas() {
         return variablesFijas;
     }
+
 
     
 

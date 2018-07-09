@@ -29,7 +29,6 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
 
     public IndividuoCuadratico(FuncionSGVNS funcion) {
         super(funcion);
-        peso = 0;
     }
 
     public IndividuoCuadratico(FuncionSGVNS funcion, double[] valores) {
@@ -69,6 +68,16 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
      */
     @Override
     public List elementosSeleccionados() {
+        List listaI1 = new ArrayList();
+        for (int i = 0; i < valores.length; i++) {
+            if (valores[i] == 1) {
+                listaI1.add(i);
+            }
+        }
+        return listaI1;
+    }
+    
+    public List elementosSeleccionadosSinFiltro() {
         List listaI1 = new ArrayList();
         for (int i = 0; i < valores.length; i++) {
             if (valores[i] == 1) {

@@ -56,19 +56,21 @@ public class MainMochilaCuadratica {
 //        graficaDispercion2D = true;
         // numero de individuos porpoblacion
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 20;
+        maxIteraciones = 50;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 1;
+        numMuestras = 5;
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_100_%d.txt", 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_25_%d.txt", 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_50_%d.txt", 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_75_%d.txt", 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_300_25_%d.txt", 20));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_300_50_%d.txt", 20));
 
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");

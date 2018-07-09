@@ -31,7 +31,6 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
 
     public IndividuoIHEA(FuncionMochilaIHEA funcion) {
         super(funcion);
-        peso = 0;
         I1 = new ArrayList();
         I0 = new ArrayList();
         for (int i = 0; i < funcion.getDimension(); i++) {
@@ -66,6 +65,19 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         return listaI1;
     }
 
+    /**
+     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
+     * individuo.
+     *
+     * @return
+     */
+    @Override
+    public List<Integer> elementosSeleccionadosSinFiltro() {
+        // Sacar listas de elementos seleccionados y no seleccionados
+        List<Integer> listaI1 = new ArrayList(I1);
+        return listaI1;
+    }
+
     @Override
     public double pesar() {
         return peso;
@@ -76,42 +88,14 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         return calidad;
     }
 
-//    @Override
-//    public void set(int indice, double valor) {
-//
-//        double valAnterior = get(indice);
-//        if (valAnterior == valor) {
-//            return;
-//        }
-//        if (valor == 0) {
-//            boolean result = I1.remove((Integer) indice);
-//            I0.add((Integer) indice);
-//        } else {
-//            boolean result = I0.remove((Integer) indice);
-//            I1.add((Integer) indice);
-//        }
-//        double valorPeso;
-//        double contribucion;
-//        //contribucion
-//        contribucion = funcion.contribucion(indice, this);
-//
-//        // peso del articulo
-//        valorPeso = funcion.peso(indice);
-//
-//        // incluir beneficio
-//        calidad += (-valAnterior + valor) * contribucion;
-//        // incluir peso del elemento
-//        peso += (-valAnterior + valor) * valorPeso;
-//
-//        this.valores[indice] = valor;
-//    }
     @Override
     public void set(int indice, double valor) {
+
         double valAnterior = get(indice);
         if (valAnterior == valor) {
             return;
         }
-        if (valor == 0) {
+         if (valor == 0) {
             boolean result = I1.remove((Integer) indice);
             if (result) {
                 I0.add((Integer) indice);
@@ -124,18 +108,21 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         }
         double valorPeso;
         double contribucion = 0;
+        //contribucion
+        contribucion = funcion.contribucion(indice, this);
 
-        for (int i : I1) {
-            if (i < indice) {
-                //contribucion en la fila
-                contribucion += funcion.beneficio(i, indice);
-            } else if (i > indice) {
-                //contribucion en la columna
-                contribucion += funcion.beneficio(indice, i);
-            }
-        }
-        //contribucion por si solo
-        contribucion += funcion.beneficio(indice, indice);
+//        for (int i : I1) {
+//            if (i < indice) {
+//                //contribucion en la fila
+//                contribucion += funcion.beneficio(i, indice);
+//            } else if (i > indice) {
+//                //contribucion en la columna
+//                contribucion += funcion.beneficio(indice, i);
+//            }
+//        }
+//        //contribucion por si solo
+//        contribucion += funcion.beneficio(indice, indice);
+
         // peso del articulo
         valorPeso = funcion.peso(indice);
 
@@ -143,9 +130,50 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         calidad += (-valAnterior + valor) * contribucion;
         // incluir peso del elemento
         peso += (-valAnterior + valor) * valorPeso;
-        
-        valores[indice] = valor;
+
+        this.valores[indice] = valor;
     }
+//    @Override
+//    public void set(int indice, double valor) {
+//        double valAnterior = get(indice);
+//        if (valAnterior == valor) {
+//            return;
+//        }
+//        if (valor == 0) {
+//            boolean result = I1.remove((Integer) indice);
+//            if (result) {
+//                I0.add((Integer) indice);
+//            }
+//        } else {
+//            boolean result = I0.remove((Integer) indice);
+//            if (result) {
+//                I1.add((Integer) indice);
+//            }
+//        }
+//        double valorPeso;
+//        double contribucion = 0;
+//
+//        for (int i : I1) {
+//            if (i < indice) {
+//                //contribucion en la fila
+//                contribucion += funcion.beneficio(i, indice);
+//            } else if (i > indice) {
+//                //contribucion en la columna
+//                contribucion += funcion.beneficio(indice, i);
+//            }
+//        }
+//        //contribucion por si solo
+//        contribucion += funcion.beneficio(indice, indice);
+//        // peso del articulo
+//        valorPeso = funcion.peso(indice);
+//
+//        // incluir beneficio
+//        calidad += (-valAnterior + valor) * contribucion;
+//        // incluir peso del elemento
+//        peso += (-valAnterior + valor) * valorPeso;
+//
+//        valores[indice] = valor;
+//    }
 
     @Override
     public IndividuoIHEA clone() {
