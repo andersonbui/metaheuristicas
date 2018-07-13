@@ -191,7 +191,9 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      */
     public List<Integer> obtener_I1(IndividuoMochila individuo) {
         IndividuoIHEA indi = ((IndividuoIHEA) individuo);
-        return indi.elementosSeleccionados();
+        List seleccionados =  indi.elementosSeleccionados();
+        seleccionados.removeAll(this.variablesFijas);
+        return seleccionados;
     }
 
     /**

@@ -19,6 +19,7 @@ package main.mochila.cuadratica;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
+import metaheuristicas.Aleatorio;
 
 /**
  *
@@ -76,16 +77,6 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
         }
         return listaI1;
     }
-    
-    public List elementosSeleccionadosSinFiltro() {
-        List listaI1 = new ArrayList();
-        for (int i = 0; i < valores.length; i++) {
-            if (valores[i] == 1) {
-                listaI1.add(i);
-            }
-        }
-        return listaI1;
-    }
 
     @Override
     public void set(int indice, double valor) {
@@ -104,7 +95,7 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
         // incluir peso del elemento
         peso += (-valAnterior + valor) * valorPeso;
 
-        super.set(indice, valor);
+        valores[indice] = valor;
     }
 
     @Override

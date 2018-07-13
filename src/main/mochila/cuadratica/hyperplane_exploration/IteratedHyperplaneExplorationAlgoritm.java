@@ -32,6 +32,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int t;
     int s;
     int L;
+    static int tiempototal = 0;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
@@ -39,13 +40,15 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
         rcl = 20;
-        L = 10;
+        L = 100;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
     }
 
     @Override
     public List<IndividuoIHEA> ejecutar() {
-        return iterateHiperplaneExploration(L, rcl, maxIteraciones);
+        List listaResult = iterateHiperplaneExploration(L, rcl, maxIteraciones);
+        System.out.println("===> tiempo: " + tiempototal);
+        return listaResult;
     }
 
     protected List<IndividuoIHEA> iterateHiperplaneExploration(int L, int rcl, int maxIter) {
@@ -101,7 +104,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 // linea 17: run tabu serach engine (L,x',xb)
+                long tiempo_inicial = System.currentTimeMillis();
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
+                long tiempo_final = System.currentTimeMillis();
+                tiempototal += (tiempo_final - tiempo_inicial);
                 // linea 18:
                 if (x_prima.compareTo(x_mejorRondaHyper) > 0) {
                     // linea 19:
@@ -275,7 +281,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int jmax = -1;
         // linea 8:
         int iterTabu = 1;
-        int penalizacion = 0;
+        int penalizacion = 5;
 
         double pesoi;
         double calidadi;
@@ -305,8 +311,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         // peso del articulo
                         vcx = pesoi + funcion.peso(j);
 
-                        ////
-////                         linea 13:
+//                         linea 13:
 //                        x.set(i, 1);
 //                        x.set(j, 0);
 ////                         linea 14:
@@ -335,7 +340,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             // linea 21:
             if (vmin != Double.POSITIVE_INFINITY) {
 
-                if (imax >= 0 && true) {
+                if (imax >= 0 && false) {
                     x.set(imax, 1);
                     x.set(jmax, 0);
                     x_aster = x.clone();
@@ -364,11 +369,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         while (i >= 0) {
                             // linea 29:
                             j = list_RL.get(i);
-//                        if (i % 2 == 1) {
-//                            int pos2 = list_RL.get(i - 1);
-//                            tabu[j][pos2] = iterTabu + penalizacion;
-//                            tabu[pos2][j] = iterTabu + penalizacion;
-//                        }
+                        if (i % 2 == 1) {
+                            int pos2 = list_RL.get(i - 1);
+                            tabu[j][pos2] = iterTabu + penalizacion;
+                            tabu[pos2][j] = iterTabu + penalizacion;
+                        }
                             if (list_RCS.contains(j)) {
                                 boolean ret = list_RCS.remove(j);
                             } else {
@@ -624,30 +629,30 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         return individuo.elementosSeleccionados().size();
     }
 
-    /**
-     * obtiene la lista de indices de cada item de individuo ordenados, de
-     * acuerdo al parametro ascendente, por densidad (p/w).
-     *
-     * @param individuo
-     * @return
-     */
-    private List<Integer> listaIndicesOrdenadosPorBeneficio(List<Integer> listaIndices, IndividuoIHEA individuo, boolean ascendente) {
-        // almacen de todas las densidades
-        double[] densidades = new double[individuo.getDimension()];
-        // calcular densidades
-        for (Integer indice : listaIndices) {
-            // calcular densidad solo de los elementos seleccionados
-            densidades[indice] = funcion.densidad(indice, individuo);
-        }
-        /**
-         * ordenar la lista de indices de forma decreciente con respecto a la
-         * densidad
-         */
-        listaIndices.sort((Integer ind1, Integer ind2) -> {
-            Double densidad1 = densidades[ind1];
-            Double densidad2 = densidades[ind2];
-            return (ascendente ? 1 : -1) * densidad1.compareTo(densidad2);
-        });
-        return listaIndices;
-    }
+//    /**
+//     * obtiene la lista de indices de cada item de individuo ordenados, de
+//     * acuerdo al parametro ascendente, por densidad (p/w).
+//     *
+//     * @param individuo
+//     * @return
+//     */
+//    private List<Integer> listaIndicesOrdenadosPorBeneficio(List<Integer> listaIndices, IndividuoIHEA individuo, boolean ascendente) {
+//        // almacen de todas las densidades
+//        double[] densidades = new double[individuo.getDimension()];
+//        // calcular densidades
+//        for (Integer indice : listaIndices) {
+//            // calcular densidad solo de los elementos seleccionados
+//            densidades[indice] = funcion.densidad(indice, individuo);
+//        }
+//        /**
+//         * ordenar la lista de indices de forma decreciente con respecto a la
+//         * densidad
+//         */
+//        listaIndices.sort((Integer ind1, Integer ind2) -> {
+//            Double densidad1 = densidades[ind1];
+//            Double densidad2 = densidades[ind2];
+//            return (ascendente ? 1 : -1) * densidad1.compareTo(densidad2);
+//        });
+//        return listaIndices;
+//    }
 }

@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.IndividuoCuadratico;
 import main.mochila.cuadratica.Item;
+import main.mochila.cuadratica.UtilCuadratica;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
@@ -196,7 +197,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
         //Qk es un vector de enteros con la suma de los optimos locales s^i obtenido en el k-1 para k>1 iteraciones GRASP;
         calculoQk();
         //R(S): noSeleccionadosRS es el conjunto de indece de elementos no seleccionados que caben en la mochila con respecto a S
-        List<Integer> noSeleccionadosRS = obtenerItemsNoSelecionados(S);
+        List<Integer> noSeleccionadosRS = obtenerItemsNoSelecionadosFiltrados(S);
         //
         List<Item> itemsCalidadNoSeleccionados = new ArrayList();
         //
@@ -226,7 +227,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
             //linea 13:
             l++;
 
-            noSeleccionadosRS = obtenerItemsNoSelecionados(S);
+            noSeleccionadosRS = obtenerItemsNoSelecionadosFiltrados(S);
         }
         return S;
     }
@@ -243,13 +244,11 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
         //Linea 2:
         boolean termina = false;
         //Linea 3:
-        while (termina != false) {
+        while (termina) {
             //Linea 4: Explora el vecindario de S con movimientos Shift y swap 
-            solucionShift = shift(s.clone());
-            solucionShift.evaluar();
+            solucionShift = shift(s);
 
-            solucionSwap = swap(s.clone());
-            solucionSwap.evaluar();
+            solucionSwap = UtilCuadratica.swap(s);
             //Linea 5: si encuentra una mejora realiza el mejor movimiento Shift o Swap  
             if (solucionShift.compareTo(s) > 0) {
                 if (solucionShift.compareTo(solucionSwap) > 0) {
@@ -261,7 +260,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
                 s = solucionSwap;
             } //Linea 7: 
             else {
-                termina = true;
+                break;
             }
         }
         //Linea 11:
@@ -296,7 +295,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
      * @param mochila
      * @return
      */
-    protected List<Integer> obtenerItemsNoSelecionados(IndividuoCuadratico mochila) {
+    protected List<Integer> obtenerItemsNoSelecionadosFiltrados(IndividuoCuadratico mochila) {
         List<Integer> itemsNoSeleccionado = new ArrayList();
         for (int i = 0; i < mochila.getDimension(); i++) {
             if (mochila.get(i) == 0) {
@@ -309,14 +308,15 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
     }
 
     /**
+     * Obtiene los items no seleccionados actualmente en la mochila
      *
-     * @param individuo
+     * @param mochila
      * @return
      */
-    protected List<Integer> obtenerItemsSelecionados(IndividuoCuadratico individuo) {
+    protected List<Integer> obtenerItemsSelecionados(IndividuoCuadratico mochila) {
         List<Integer> itemsSeleccionado = new ArrayList();
-        for (int i = 0; i < individuo.getDimension(); i++) {
-            if (individuo.get(i) == 1) {
+        for (int i = 0; i < mochila.getDimension(); i++) {
+            if (mochila.get(i) == 1) {
                 itemsSeleccionado.add(i);
             }
         }
@@ -345,8 +345,8 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
     /**
      * [1,1,0,0,0] [1,1,0,1,0] [0,1,0,0,0] ejemplo: qk[2,3,0,1,0];
      * Ind[0,0,1,1,0]; LRC[1,4]->i (0,1)->j; Qkl es la sumatoria de los optimos
-     * locales. Este es utilizado paragarantizar que la sumatoria de la
-     * probabilidad qkl sub j sea =1 Obtiene la suma
+     * locales. Este es utilizado para garantizar que la sumatoria de la
+     * probabilidad qkl[j] sea igual a 1 Obtiene la suma
      *
      * @param listaLRC
      * @return
@@ -413,6 +413,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
      * @return
      */
     protected IndividuoCuadratico shift(IndividuoCuadratico individuo) {
+        individuo = individuo.clone();
         int aleatorio;
         int maxLen = individuo.getDimension();
         aleatorio = Aleatorio.nextInt(maxLen);
@@ -421,34 +422,33 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
         } else if (funcion.cabe(individuo, aleatorio)) {
             individuo.set(aleatorio, 1);
         }
-
         return individuo;
     }
 
-    /**
-     * El movimiento Swap reemplaza un elemento seleccionado por uno no
-     * seleccionado
-     *
-     * @param individuo
-     * @return
-     */
-    protected IndividuoCuadratico swap(IndividuoCuadratico individuo) {
-        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
-        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
-        int maxLenNS = listaItemNoSelect.size();
-        int maxLenS = listaItemSelect.size();
-        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
-        int aleatrioS = Aleatorio.nextInt(maxLenS);
-
-        individuo.set(listaItemSelect.get(aleatrioS), 0);
-        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
-            individuo.set(listaItemNoSelect.get(aleatrioNS), 1);
-        } else {
-            individuo.set(listaItemSelect.get(aleatrioS), 1);
-        }
-//            lisNS[0,1,3]-> 1
-//            [0,0,1,0,1]->2
-        return individuo;
-    }
+//    /**
+//     * El movimiento Swap reemplaza un elemento seleccionado por uno no
+//     * seleccionado
+//     *
+//     * @param individuo
+//     * @return
+//     */
+//    protected IndividuoCuadratico swap(IndividuoCuadratico individuo) {
+//        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
+//        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
+//        int maxLenNS = listaItemNoSelect.size();
+//        int maxLenS = listaItemSelect.size();
+//        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
+//        int aleatrioS = Aleatorio.nextInt(maxLenS);
+//
+//        individuo.set(listaItemSelect.get(aleatrioS), 0);
+//        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
+//            individuo.set(listaItemNoSelect.get(aleatrioNS), 1);
+//        } else {
+//            individuo.set(listaItemSelect.get(aleatrioS), 1);
+//        }
+////            lisNS[0,1,3]-> 1
+////            [0,0,1,0,1]->2
+//        return individuo;
+//    }
 
 }

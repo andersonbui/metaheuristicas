@@ -16,10 +16,9 @@
  */
 package main.mochila.cuadratica.graspBasadoMemoria;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import main.mochila.cuadratica.IndividuoCuadratico;
+import main.mochila.cuadratica.UtilCuadratica;
+import main.mochila.cuadratica.UtilCuadratica.Movimiento;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -53,55 +52,35 @@ public class GraspTabuReinicio extends GraspReinicio {
         return busquedaTabu(bestLB, t_min, t_max);
     }
 
-    public class ItemTabu {
+    class ListaTabu {
 
-        int indice_elemento;
-        int edadTabu;
+        int[] lista;
 
-        public ItemTabu(int indice_elemento, int edadTabu) {
-            this.indice_elemento = indice_elemento;
-            this.edadTabu = edadTabu;
+        public ListaTabu(int tamanio) {
+            lista = new int[tamanio];
         }
-    }
 
-    public class IndividuoElemento {
-
-        int indice_entro;
-        int indice_salio;
-        IndividuoCuadratico individuo;
-
-        public IndividuoElemento(int indice_entro, int indice_salio, IndividuoCuadratico individuo) {
-            this.indice_entro = indice_entro;
-            this.indice_salio = indice_salio;
-            this.individuo = individuo;
+        /**
+         *
+         * @param listaTabu
+         * @param indice_elemento
+         * @param t_min
+         * @param t_max
+         */
+        private void agregar(Movimiento indice_elemento, int t_min, int t_max) {
+            int edad = t_min + Aleatorio.nextInt(t_max - t_min);
+            lista[indice_elemento.i] = edad;
         }
-    }
 
-    /**
-     *
-     * @param listaTabu
-     * @param indice indice de un elemento
-     * @return
-     */
-    private boolean estaEnLista(List<ItemTabu> listaTabu, int indice) {
-        for (ItemTabu itemTabu : listaTabu) {
-            if (itemTabu.indice_elemento == indice) {
-                return true;
-            }
+        /**
+         *
+         * @param listaTabu
+         * @param indice indice de un elemento
+         * @return
+         */
+        public boolean esTabu(Movimiento elem, int edad) {
+            return lista[elem.i] > edad || lista[elem.j] > edad;
         }
-        return false;
-    }
-
-    /**
-     *
-     * @param listaTabu
-     * @param indice_elemento
-     * @param t_min
-     * @param t_max
-     */
-    private void agregarAListaTabu(List<ItemTabu> listaTabu, int indice_elemento, int t_min, int t_max) {
-        int edad = t_min + Aleatorio.nextInt(t_max - t_min);
-        listaTabu.add(new ItemTabu(indice_elemento, edad));
     }
 
     /**
@@ -116,50 +95,40 @@ public class GraspTabuReinicio extends GraspReinicio {
         IndividuoCuadratico best = s;
         IndividuoCuadratico r;
         IndividuoCuadratico w;
-        IndividuoElemento rTweak_r;
-        IndividuoElemento rTweak_w;
+        Movimiento r_mov;
+        Movimiento w_mov;
         int numTweaks = 15;
-        int iterTabu = 500; //500
+        int maxIteracionesTabu = 500; //500
 
-        List<ItemTabu> listaTabu = new ArrayList();
-        for (int i = 0; i < iterTabu;) {
-            listaTabu.removeIf((ItemTabu itemIndividuo) -> {
+        ListaTabu ltabu = new ListaTabu(s.getDimension());
+        for (int iteracion = 1; iteracion < maxIteracionesTabu;) {
 
-                return itemIndividuo.edadTabu < 1;
-            });
-            rTweak_r = tweak(s);
-            r = rTweak_r.individuo;
+            r_mov = new Movimiento();
+            r = tweak(s, r_mov);
+            if (r == null) {
+                r = s;
+            }
             for (int j = 0; j < numTweaks; j++) {
-                rTweak_w = tweak(s);
-                w = rTweak_w.individuo;
+                w_mov = new Movimiento();
+                w = tweak(s, w_mov);
 
-                if ((!estaEnLista(listaTabu, rTweak_w.indice_entro)
-                        && !estaEnLista(listaTabu, rTweak_w.indice_salio)
-                        && w.compareTo(r) > 0)
-                        || (estaEnLista(listaTabu, rTweak_r.indice_entro)
-                        || estaEnLista(listaTabu, rTweak_r.indice_salio))) {
-                    rTweak_r = rTweak_w;
+                if (w != null && ((!ltabu.esTabu(w_mov, iteracion) && w.compareTo(r) > 0)
+                        || (r_mov.i > 0 && ltabu.esTabu(r_mov, iteracion)))) {
+                    r_mov = w_mov;
                     r = w;
                 }
             }
-            if (!(estaEnLista(listaTabu, rTweak_r.indice_entro)
-                    || estaEnLista(listaTabu, rTweak_r.indice_salio))
-                    && r.compareTo(s) > 0) {
+            if (r_mov.i >= 0 && !ltabu.esTabu(r_mov, iteracion) && r.compareTo(s) > 0) {
                 s = r;
-                if (rTweak_r.indice_entro >= 0) {
-                    agregarAListaTabu(listaTabu, rTweak_r.indice_entro, t_min, t_max);
-                }
+                ltabu.agregar(r_mov, t_min, t_max);
                 if (s.compareTo(best) > 0) {
                     best = s;
-                    i = 0;
+                    iteracion = 0;
                 } else {
-                    i++;
+                    iteracion++;
                 }
             } else {
-                i++;
-            }
-            for (ItemTabu itemTabu : listaTabu) {
-                itemTabu.edadTabu--;
+                iteracion++;
             }
         }
         iteraciones += k;
@@ -174,30 +143,27 @@ public class GraspTabuReinicio extends GraspReinicio {
      * @param s
      * @return
      */
-    private IndividuoElemento tweak(IndividuoCuadratico s) {
+    private IndividuoCuadratico tweak(IndividuoCuadratico s, Movimiento cambio) {
         IndividuoCuadratico individuoShift;
         IndividuoCuadratico individuoSwap;
+        Movimiento cambioSwap = new Movimiento();
+        Movimiento cambioShift = new Movimiento();
 
-        individuoShift = s.clone();
-        int i_shift = shift2(individuoShift);
+        individuoShift = shift(s, cambioShift);
+        individuoSwap = UtilCuadratica.swap(s, cambioSwap);
 
-        individuoSwap = s.clone();
-        int[] i_swap = swap2(individuoSwap);
-        if (i_shift > 0) {
-            individuoShift.evaluar();
-        }
-        if (i_swap[0] > 0) {
-            individuoSwap.evaluar();
-        }
-
-        if (i_shift > 0 && individuoShift.compareTo(individuoSwap) > 0) {
+        if (individuoSwap == null || (cambioShift.i > 0 && individuoShift.compareTo(individuoSwap) > 0)) {
             if (individuoShift.compareTo(s) > 0) {
-                return new IndividuoElemento(i_shift, -1, individuoShift);
+                cambio.i = cambioShift.i;
+                cambio.j = cambioShift.j;
+                return individuoShift;
             }
-        } else if (i_swap[0] > 0 && i_swap[1] > 0 && individuoSwap.compareTo(s) > 0) {
-            return new IndividuoElemento(i_swap[0], i_swap[1], individuoSwap);
+        } else if (individuoSwap.compareTo(s) > 0) {
+            cambio.i = cambioSwap.i;
+            cambio.j = cambioSwap.j;
+            return individuoSwap;
         }
-        return new IndividuoElemento(-1, -1, s);
+        return null;
     }
 
     /**
@@ -205,61 +171,62 @@ public class GraspTabuReinicio extends GraspReinicio {
      * actual o remueve un elemento seleccionado de esta.
      *
      * @param individuo
+     * @param cambio
      * @return indice del elemento modificado
      */
-    protected int shift2(IndividuoCuadratico individuo) {
+    protected IndividuoCuadratico shift(IndividuoCuadratico individuo, Movimiento cambio) {
+        individuo = individuo.clone();
         int aleatorio;
         int maxLen = individuo.getDimension();
-        int posModificado = -1;
         aleatorio = Aleatorio.nextInt(maxLen);
+        boolean cabe = funcion.cabe(individuo, aleatorio);
         // el elemento esta agregado?
-        if (individuo.get(aleatorio) == 1) {
+        if (individuo.get(aleatorio) == 1 || !cabe) {
             individuo.set(aleatorio, 0);
-            posModificado = aleatorio;
-        } else //3135231933
-        // verificar que el elemento no sobrepase la capacidad de la mochila
+            cambio.i = aleatorio;
+        } else // verificar que el elemento no sobrepase la capacidad de la mochila
         {
             if (funcion.cabe(individuo, aleatorio)) {
                 individuo.set(aleatorio, 1);
-                posModificado = aleatorio;
+                cambio.i = aleatorio;
             }
         }
 
-        return posModificado;
+        return individuo;
     }
 
-    /**
-     * El movimiento Swap reemplaza un elemento seleccionado por uno no
-     * seleccionado
-     *
-     * @param individuo
-     * @return int[]{posAgregado, posSalio};
-     */
-    protected int[] swap2(IndividuoCuadratico individuo) {
-        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
-        int maxLenS = listaItemSelect.size();
-        int aleatrioS = Aleatorio.nextInt(maxLenS);
-
-        individuo.set(listaItemSelect.get(aleatrioS), 0);
-
-        int posAgregado = -1;
-        int posSalio = -1;
-
-        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
-        int maxLenNS = listaItemNoSelect.size();
-        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
-        if (listaItemNoSelect.size() < 2 || Objects.equals(listaItemSelect.get(aleatrioS), listaItemNoSelect.get(aleatrioNS))) {
-            return new int[]{-1, -1};
-        }
-        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
-            posAgregado = listaItemNoSelect.get(aleatrioNS);
-            posSalio = listaItemSelect.get(aleatrioS);
-            individuo.set(posAgregado, 1);
-        } else {
-            individuo.set(listaItemSelect.get(aleatrioS), 1);
-        }
-//            lisNS[0,1,3]-> 1
-//            [0,0,1,0,1]->2
-        return new int[]{posAgregado, posSalio};
-    }
+//    /**
+//     * El movimiento Swap reemplaza un elemento seleccionado por uno no
+//     * seleccionado
+//     *
+//     * @param individuo
+//     * @return int[]{posAgregado, posSalio};
+//     */
+//    protected int[] swap2(IndividuoCuadratico individuo) {
+//        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
+//        int maxLenS = listaItemSelect.size();
+//        int aleatrioS = Aleatorio.nextInt(maxLenS);
+//
+//        individuo.set(listaItemSelect.get(aleatrioS), 0);
+//
+//        int posAgregado = -1;
+//        int posSalio = -1;
+//
+//        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
+//        int maxLenNS = listaItemNoSelect.size();
+//        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
+//        if (listaItemNoSelect.size() < 2 || Objects.equals(listaItemSelect.get(aleatrioS), listaItemNoSelect.get(aleatrioNS))) {
+//            return new int[]{-1, -1};
+//        }
+//        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
+//            posAgregado = listaItemNoSelect.get(aleatrioNS);
+//            posSalio = listaItemSelect.get(aleatrioS);
+//            individuo.set(posAgregado, 1);
+//        } else {
+//            individuo.set(listaItemSelect.get(aleatrioS), 1);
+//        }
+////            lisNS[0,1,3]-> 1
+////            [0,0,1,0,1]->2
+//        return new int[]{posAgregado, posSalio};
+//    }
 }

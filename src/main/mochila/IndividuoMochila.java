@@ -45,7 +45,8 @@ public abstract class IndividuoMochila<Funcion extends FuncionMochila> extends I
     }
 
     public double pesar() {
-        return funcion.obtenerPeso(this);
+        peso = funcion.obtenerPeso(this);
+        return peso;
     }
 
     @Override
@@ -69,7 +70,6 @@ public abstract class IndividuoMochila<Funcion extends FuncionMochila> extends I
      */
     public abstract List<Integer> elementosNoSeleccionados();
 
-    
     public int parecido(IndividuoMochila individuo) {
         int suma = 0;
         for (int i = 0; i < valores.length; i++) {

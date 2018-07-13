@@ -61,20 +61,6 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     public List<Integer> elementosSeleccionados() {
         // Sacar listas de elementos seleccionados y no seleccionados
         List<Integer> listaI1 = new ArrayList(I1);
-        listaI1.removeAll(funcion.getVariablesFijas());
-        return listaI1;
-    }
-
-    /**
-     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
-     * individuo.
-     *
-     * @return
-     */
-    @Override
-    public List<Integer> elementosSeleccionadosSinFiltro() {
-        // Sacar listas de elementos seleccionados y no seleccionados
-        List<Integer> listaI1 = new ArrayList(I1);
         return listaI1;
     }
 
@@ -95,7 +81,7 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         if (valAnterior == valor) {
             return;
         }
-         if (valor == 0) {
+        if (valor == 0) {
             boolean result = I1.remove((Integer) indice);
             if (result) {
                 I0.add((Integer) indice);
@@ -109,19 +95,20 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         double valorPeso;
         double contribucion = 0;
         //contribucion
-        contribucion = funcion.contribucion(indice, this);
+//        contribucion = funcion.contribucion(indice, this);
 
-//        for (int i : I1) {
-//            if (i < indice) {
-//                //contribucion en la fila
-//                contribucion += funcion.beneficio(i, indice);
-//            } else if (i > indice) {
-//                //contribucion en la columna
-//                contribucion += funcion.beneficio(indice, i);
-//            }
-//        }
-//        //contribucion por si solo
-//        contribucion += funcion.beneficio(indice, indice);
+        for (int i : I1) {
+            if (i < indice) {
+                //contribucion en la fila
+                contribucion += funcion.beneficio(i, indice);
+            } else if (i > indice) {
+                //contribucion en la columna
+                contribucion += funcion.beneficio(indice, i);
+            }
+        }
+        //contribucion por si solo
+        contribucion += funcion.beneficio(indice, indice);
+        // fin contribucion
 
         // peso del articulo
         valorPeso = funcion.peso(indice);
@@ -133,51 +120,10 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
 
         this.valores[indice] = valor;
     }
-//    @Override
-//    public void set(int indice, double valor) {
-//        double valAnterior = get(indice);
-//        if (valAnterior == valor) {
-//            return;
-//        }
-//        if (valor == 0) {
-//            boolean result = I1.remove((Integer) indice);
-//            if (result) {
-//                I0.add((Integer) indice);
-//            }
-//        } else {
-//            boolean result = I0.remove((Integer) indice);
-//            if (result) {
-//                I1.add((Integer) indice);
-//            }
-//        }
-//        double valorPeso;
-//        double contribucion = 0;
-//
-//        for (int i : I1) {
-//            if (i < indice) {
-//                //contribucion en la fila
-//                contribucion += funcion.beneficio(i, indice);
-//            } else if (i > indice) {
-//                //contribucion en la columna
-//                contribucion += funcion.beneficio(indice, i);
-//            }
-//        }
-//        //contribucion por si solo
-//        contribucion += funcion.beneficio(indice, indice);
-//        // peso del articulo
-//        valorPeso = funcion.peso(indice);
-//
-//        // incluir beneficio
-//        calidad += (-valAnterior + valor) * contribucion;
-//        // incluir peso del elemento
-//        peso += (-valAnterior + valor) * valorPeso;
-//
-//        valores[indice] = valor;
-//    }
 
     @Override
     public IndividuoIHEA clone() {
-        IndividuoIHEA ind = (IndividuoIHEA) super.clone(); //To change body of generated methods, choose Tools | Templates.
+        IndividuoIHEA ind = (IndividuoIHEA) super.clone();
         ind.I0 = new ArrayList(ind.I0);
         ind.I1 = new ArrayList(ind.I1);
         return ind;
@@ -187,5 +133,4 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     public String toString() {
         return "IndividuoCuadratico{" + "calidad=" + this.calidad + "peso=" + pesar() + "capacidad=" + ((FuncionMochilaIHEA) funcion).getCapacidad() + '}';
     }
-
 }

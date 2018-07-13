@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import main.LeerArchivo;
 import static main.Utilidades.eliminarEspaciosRepetidos;
+import metaheuristicas.Aleatorio;
+import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
@@ -78,5 +80,92 @@ public class UtilCuadratica {
 
         }
         return listaObj;
+    }
+    
+    
+    /**
+     * realiza un intercambio, agrega un elemento y remueve otro que esta fuera
+     * y dentro correspondientemente, de manera aleatoria dentro de individuo,
+     * siempre y cuando se pueda, es decir, que se pueda agragar un elemento
+     * aleatorio despues de haber removido uno, de lo cntrario no se hace nada.
+     * se hace 10 intentos de busqueda de elementos aptos para realizar el
+     * intercambio.
+     *
+     * @param individuo_original a quien se le realiza el intercambio
+     * @param movimiento almacena la variables implicadas en el movimiento
+     * @return
+     */
+    public static IndividuoCuadratico swap(IndividuoCuadratico individuo_original, Movimiento movimiento) {
+        FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) individuo_original.getFuncion();
+        IndividuoCuadratico individuo = individuo_original.clone();
+        int intentosIntercambio = 10;
+        List<Integer> listaItemFuera;
+        List<Integer> listaItemDentro;
+        boolean estaVacia;
+        int contador = intentosIntercambio;
+        Integer posicionD; // debe ser objeto Integer
+        do { // intentos de busqueda
+            listaItemDentro = individuo.elementosSeleccionados();
+            int tamLDentro = listaItemDentro.size();
+            int aleatorioD = Aleatorio.nextInt(tamLDentro);
+            posicionD = listaItemDentro.get(aleatorioD);
+            // sacar elemento dentro de la mochila
+            individuo.set(posicionD, 0);
+            // obtener lista de elementos dentro de la mochila pero que caben dentro de esta
+            listaItemFuera = individuo.elementosNoSeleccionados();
+            listaItemFuera = funcion.filtrarPorFactibles(listaItemFuera, individuo);
+//            listaItemFuera = obtenerItemsNoSelecionadosFiltrados(individuo);
+            listaItemFuera.remove(posicionD);
+            // verificar si hay elementos
+            estaVacia = listaItemFuera.isEmpty();
+            if (estaVacia) { // si no hay elementos fuera de la mochila que quepan
+                individuo.set(posicionD, 0); // agregar elemento anteriormente removido
+            }
+        } while (estaVacia && contador-- >= 0);
+        // salir si no hay elementos para intercambiar
+        if (estaVacia) {
+            return null;
+        }
+        int tamLDentro = listaItemFuera.size();
+        int aleatorioF = Aleatorio.nextInt(tamLDentro);
+        int posicionF = listaItemFuera.get(aleatorioF);
+        // agregar elemento dentro de la mochila
+        individuo.set(posicionF, 1);
+        if (movimiento != null) {
+            movimiento.i = posicionF;
+            movimiento.j = posicionD;
+        }
+        return individuo;
+    }
+
+    /**
+     * realiza un intercambio, agrega un elemento y remueve otro que esta fuera
+     * y dentro correspondientemente, de manera aleatoria dentro de individuo,
+     * siempre y cuando se pueda, es decir, que se pueda agragar un elemento
+     * aleatorio despues de haber removido uno, de lo cntrario no se hace nada.
+     * se hace 10 intentos de busqueda de elementos aptos para realizar el
+     * intercambio.
+     *
+     * @param individuo_original a quien se le realiza el intercambio
+     * @return
+     */
+    public static IndividuoCuadratico swap(IndividuoCuadratico individuo_original) {
+        return swap(individuo_original, null);
+    }
+
+    public static class Movimiento {
+
+        public int i;
+        public int j;
+
+        public Movimiento() {
+            i = -1;
+            j = -1;
+        }
+
+        public Movimiento(int indice_entro, int indice_salio) {
+            this.i = indice_entro;
+            this.j = indice_salio;
+        }
     }
 }

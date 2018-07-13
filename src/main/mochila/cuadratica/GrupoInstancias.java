@@ -24,10 +24,18 @@ public class GrupoInstancias {
 
     public String base;
     public int cantidad;
+    public  int inicio;
 
-    public GrupoInstancias(String base, int cantidad) {
+    /**
+     *
+     * @param base
+     * @param cantidad
+     * @param inicio
+     */
+    public GrupoInstancias(String base, int inicio, int cantidad) {
         this.base = base;
         this.cantidad = cantidad;
+        this.inicio = inicio;
     }
 
 }
