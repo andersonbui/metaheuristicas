@@ -18,8 +18,10 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.FuncionMochila;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.UtilCuadratica;
 
 /**
  *
@@ -52,41 +54,6 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         return nombre;
     }
 
-    /**
-     * obtiene los valores de lower bound y upper bound
-     *
-     * @return double [lower_bound, upper_bound]
-     */
-    protected int[] optenerLowerUpper_Bound() {
-        int lowerB;
-        int upperB;
-        List<Integer> listaIndices = new ArrayList();
-        for (int i = 0; i < this.vectorPesos.length; i++) {
-            listaIndices.add(i);
-        }
-        //ordenacionde elementos
-        listaIndices.sort((Integer o1, Integer o2) -> {
-            Double peso1 = vectorPesos[o1];
-            Double peso2 = vectorPesos[o2];
-            // orden decreciente
-            return -peso1.compareTo(peso2);
-        });
-        lowerB = 0;
-        int suma_lb = 0;
-        upperB = 0;
-        int suma_ub = 0;
-        for (int i = 0, j = listaIndices.size() - 1; i < listaIndices.size(); j--, i++) {
-            suma_lb += vectorPesos[listaIndices.get(i)];
-            if (suma_lb <= capacidad) {
-                lowerB++;
-            }
-            suma_ub += vectorPesos[listaIndices.get(j)];
-            if (suma_ub <= capacidad) {
-                upperB++;
-            }
-        }
-        return new int[]{lowerB, upperB};
-    }
 
     /**
      * obtiene el lower bound
@@ -95,7 +62,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      */
     public int obtenerLowerBound() {
         if (lb == -1) {
-            int[] lu_b = optenerLowerUpper_Bound();
+            int[] lu_b = UtilCuadratica.optenerLowerUpper_Bound(this);
             lb = lu_b[0];
             ub = lu_b[1];
         }
@@ -126,52 +93,6 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         return capacidad - individuo.pesar();
     }
 
-//    /**
-//     * checkea si la operacion swap que incluye a pos_add y pos_sacar como
-//     * indices de elementos en individuo, produce un individuo factible
-//     *
-//     * @param pos_add
-//     * @param pos_sacar
-//     * @param individuo
-//     * @return
-//     */
-//    boolean swapFactible(int pos_add, int pos_sacar, IndividuoIHEA individuo) {
-//        if (!(individuo.get(pos_add) == 0 && individuo.get(pos_sacar) == 1)) {
-//            throw new InvalidParameterException(
-//                    "pos_add debe ser de un elemento no seleccionado, y"
-//                    + " pos_sacar de un elemento seleccionado");
-//        }
-//        double espacio = sacarEspacios(individuo);
-//        return espacio >= (vectorPesos[pos_add] - vectorPesos[pos_sacar]);
-//    }
-//    /**
-//     * agrega elementos al espacio sobrante de la mochila
-//     *
-//     * @param mochila
-//     * @param listaOrdenada
-//     * @return
-//     */
-//    public IndividuoMochila limitarInferiormente(IndividuoMochila mochila, List<Integer> listaOrdenada) {
-//        double espacios = sacarEspacios((IndividuoIHEA) mochila);
-//        boolean cabeArticulo;
-//        // en todos los articulos
-//        for (int pos : listaOrdenada) {
-//            cabeArticulo = true;
-//            if (mochila.get(pos) == 0) {
-//                // dimension de la mochila
-//                if (espacios < vectorPesos[pos]) {
-//                    cabeArticulo = false;
-//                    break;
-//                }
-//                if (cabeArticulo) {
-//                    mochila.set(pos, 1);
-//                    espacios -= vectorPesos[pos];
-//                }
-//            }
-//        }
-//        return mochila;
-//    }
-
     /**
      * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
      *
@@ -191,7 +112,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      */
     public List<Integer> obtener_I1(IndividuoMochila individuo) {
         IndividuoIHEA indi = ((IndividuoIHEA) individuo);
-        List seleccionados =  indi.elementosSeleccionados();
+        List seleccionados = indi.elementosSeleccionados();
         seleccionados.removeAll(this.variablesFijas);
         return seleccionados;
     }
@@ -245,8 +166,5 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
     protected List<Integer> getVariablesFijas() {
         return variablesFijas;
     }
-
-
-    
 
 }

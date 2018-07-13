@@ -21,7 +21,6 @@ import java.util.List;
 import main.LeerArchivo;
 import static main.Utilidades.eliminarEspaciosRepetidos;
 import metaheuristicas.Aleatorio;
-import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
@@ -81,8 +80,7 @@ public class UtilCuadratica {
         }
         return listaObj;
     }
-    
-    
+
     /**
      * realiza un intercambio, agrega un elemento y remueve otro que esta fuera
      * y dentro correspondientemente, de manera aleatoria dentro de individuo,
@@ -167,5 +165,42 @@ public class UtilCuadratica {
             this.i = indice_entro;
             this.j = indice_salio;
         }
+    }
+
+    /**
+     * obtiene los valores de lower bound y upper bound
+     *
+     * @param funcion
+     * @return double [lower_bound, upper_bound]
+     */
+    public static int[] optenerLowerUpper_Bound(FuncionMochilaCuadratica funcion) {
+        int lowerB;
+        int upperB;
+        List<Integer> listaIndices = new ArrayList();
+        for (int i = 0; i < funcion.getDimension(); i++) {
+            listaIndices.add(i);
+        }
+        //ordenacionde elementos
+        listaIndices.sort((Integer o1, Integer o2) -> {
+            Double peso1 = funcion.peso(o1);
+            Double peso2 = funcion.peso(o2);
+            // orden decreciente
+            return -peso1.compareTo(peso2);
+        });
+        lowerB = 0;
+        int suma_lb = 0;
+        upperB = 0;
+        int suma_ub = 0;
+        for (int i = 0, j = listaIndices.size() - 1; i < listaIndices.size(); j--, i++) {
+            suma_lb += funcion.peso(listaIndices.get(i));
+            if (suma_lb <= funcion.getCapacidad()) {
+                lowerB++;
+            }
+            suma_ub += funcion.peso(listaIndices.get(j));
+            if (suma_ub <= funcion.getCapacidad()) {
+                upperB++;
+            }
+        }
+        return new int[]{lowerB, upperB};
     }
 }

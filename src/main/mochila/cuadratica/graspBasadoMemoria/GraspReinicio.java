@@ -242,7 +242,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
         IndividuoCuadratico solucionShift;
         IndividuoCuadratico solucionSwap;
         //Linea 2:
-        boolean termina = false;
+        boolean termina = true;
         //Linea 3:
         while (termina) {
             //Linea 4: Explora el vecindario de S con movimientos Shift y swap 

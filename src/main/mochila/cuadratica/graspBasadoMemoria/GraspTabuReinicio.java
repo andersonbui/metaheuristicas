@@ -113,7 +113,7 @@ public class GraspTabuReinicio extends GraspReinicio {
                 w = tweak(s, w_mov);
 
                 if (w != null && ((!ltabu.esTabu(w_mov, iteracion) && w.compareTo(r) > 0)
-                        || (r_mov.i > 0 && ltabu.esTabu(r_mov, iteracion)))) {
+                        || (r_mov.i < 0 || ltabu.esTabu(r_mov, iteracion)))) {
                     r_mov = w_mov;
                     r = w;
                 }
@@ -195,38 +195,4 @@ public class GraspTabuReinicio extends GraspReinicio {
         return individuo;
     }
 
-//    /**
-//     * El movimiento Swap reemplaza un elemento seleccionado por uno no
-//     * seleccionado
-//     *
-//     * @param individuo
-//     * @return int[]{posAgregado, posSalio};
-//     */
-//    protected int[] swap2(IndividuoCuadratico individuo) {
-//        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
-//        int maxLenS = listaItemSelect.size();
-//        int aleatrioS = Aleatorio.nextInt(maxLenS);
-//
-//        individuo.set(listaItemSelect.get(aleatrioS), 0);
-//
-//        int posAgregado = -1;
-//        int posSalio = -1;
-//
-//        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
-//        int maxLenNS = listaItemNoSelect.size();
-//        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
-//        if (listaItemNoSelect.size() < 2 || Objects.equals(listaItemSelect.get(aleatrioS), listaItemNoSelect.get(aleatrioNS))) {
-//            return new int[]{-1, -1};
-//        }
-//        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
-//            posAgregado = listaItemNoSelect.get(aleatrioNS);
-//            posSalio = listaItemSelect.get(aleatrioS);
-//            individuo.set(posAgregado, 1);
-//        } else {
-//            individuo.set(listaItemSelect.get(aleatrioS), 1);
-//        }
-////            lisNS[0,1,3]-> 1
-////            [0,0,1,0,1]->2
-//        return new int[]{posAgregado, posSalio};
-//    }
 }

@@ -108,8 +108,8 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     }
 
     /**
-     * Test of listaIndicesOrdenadosPorDensidad method, of class
-     * IteratedHyperplaneExplorationAlgoritm.
+     * Test of nPrimerosOrdenadosPorDensidad method, of class
+ IteratedHyperplaneExplorationAlgoritm.
      */
     @Test
     public void testListaIndicesOrdenadosPorDensidad() {
