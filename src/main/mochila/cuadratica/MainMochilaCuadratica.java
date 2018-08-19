@@ -76,14 +76,14 @@ public class MainMochilaCuadratica {
                 // comprobar calidad de la actua instancia
                 if (parametros.maxGlobal == null || parametros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
                     parametros.setMaxGlobal(individuo.getCalidad());
-                    parametros.setVectorIdeal(trans(individuo.getValores()));
+                    parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
                     lpc.actualizar(nombreArchivo, parametros);
                 }
             }
         }
     }
 
-    public static int[] trans(double[] vector) {
+    public static int[] vDouble_vInt(double[] vector) {
         int[] vectorInt = new int[vector.length];
         for (int i = 0; i < vector.length; i++) {
             vectorInt[i] = (int) vector[i];

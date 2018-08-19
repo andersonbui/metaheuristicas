@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
 public class VNSIT {
 
     FuncionSGVNS funcion;
-    IndividuoCuadratico mochila;
+    IndividuoVNS mochila;
     Random rand = new Random();
     int tamanio = 1000;
 
@@ -55,7 +55,7 @@ public class VNSIT {
         funcion = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, 100.);
 
         double[] valores = new double[tamanio];
-        mochila = new IndividuoCuadratico(funcion, valores);
+        mochila = new IndividuoVNS(funcion, valores);
     }
 
     @BeforeClass
@@ -206,7 +206,7 @@ public class VNSIT {
         System.out.println("solucionInicial");
         VNS instance = new VNS(funcion, 1);
 
-        IndividuoCuadratico result = instance.solucionInicial();
+        IndividuoVNS result = instance.solucionInicial();
 
         assertTrue(instance.elementosFuera(result).isEmpty());
     }

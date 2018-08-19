@@ -27,7 +27,7 @@ import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 
 /**
- *
+ * prueba de metodos de inicializacion de individuo mochila cuadratica
  * @author debian
  */
 public class Main_MetododosInicializacion {

@@ -57,20 +57,20 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
-        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
-
-        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
-        
-        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
-        
-        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
-
-        FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new VNS(funcionVns, maxIteraciones));
+//        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+//
+//        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+//        
+//        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
+//        
+//        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+////        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
+//
+//        FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new VNS(funcionVns, maxIteraciones));
 
     }
 

@@ -54,7 +54,6 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         return nombre;
     }
 
-
     /**
      * obtiene el lower bound
      *

@@ -184,7 +184,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      *
      * @param listaIndices
      * @param mochila
-     * @param n
+     * @param n n-primeros indices
      * @param minimo
      * @return
      */

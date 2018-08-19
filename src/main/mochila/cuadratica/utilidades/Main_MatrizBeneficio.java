@@ -26,11 +26,11 @@ import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 
 /**
- *
+ * Imprimir matriz de beneficios ordenada para ver grupos de unos
  * @author debian
  */
 public class Main_MatrizBeneficio {
-
+    
     public static void main(String[] args) {
         String nombreArchivo = "";
         //lim,rango,prob_ceros,poblacion, iteraciones
