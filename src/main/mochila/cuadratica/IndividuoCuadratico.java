@@ -19,7 +19,6 @@ package main.mochila.cuadratica;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
-import metaheuristicas.Aleatorio;
 
 /**
  *

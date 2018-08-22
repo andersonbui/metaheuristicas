@@ -48,12 +48,12 @@ public class Item implements Comparable<Item> {
 
     @Override
     public int compareTo(Item otroItem) {
-        return -this.caracteristica.compareTo(otroItem.caracteristica);
+        return this.caracteristica.compareTo(otroItem.caracteristica);
     }
 
     @Override
     public String toString() {
-        return "ic:[" + this.caracteristica + "," + this.indice + "]"; //To change body of generated methods, choose Tools | Templates.
+        return "ic:[c: " + this.caracteristica + ",i:" + this.indice + "]"; 
     }
 
 }

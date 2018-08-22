@@ -62,6 +62,26 @@ class Greedy {
         return LRC;
     }
 
+    protected List<Item> crearLRC2(IndividuoIHEA individuo, int rcl) {
+        List<Item> listItemNoSeleccionados = obtenerItemsNoSeleccionadosViables(individuo);
+        List<Item> LRC = new ArrayList();
+        int tamL = listItemNoSeleccionados.size();
+        int tamanio = Math.min(rcl, tamL);
+        Item item_guardado;
+        int indice_guardado = -1;
+        for (int i = 0; i < tamanio; i++) {
+            item_guardado = null;
+            for (int h = 0; h < listItemNoSeleccionados.size(); h++) {
+                if (item_guardado == null || listItemNoSeleccionados.get(h).compareTo(item_guardado) < 0) {
+                    item_guardado = listItemNoSeleccionados.get(h);
+                    indice_guardado = h;
+                }
+            }
+            LRC.add(listItemNoSeleccionados.remove(indice_guardado));
+        }
+        return LRC;
+    }
+
     /**
      * Obtiene en una lista los item no seleccionados de mochila, tal que al ser
      * seleccionado cada uno, no se exceda la capacidad de esta.

@@ -41,7 +41,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
      */
     List<int[]> Q;
     /**
-     * contador de iteraciones
+     * contador de iteraciones grasp k
      */
     protected int k;
     protected final int sigma;
@@ -344,9 +344,9 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
 
     /**
      * [1,1,0,0,0] [1,1,0,1,0] [0,1,0,0,0] ejemplo: qk[2,3,0,1,0];
-     * Ind[0,0,1,1,0]; LRC[1,4]->i (0,1)->j; Qkl es la sumatoria de los optimos
+     * Individuo[0,0,1,1,0]; LRC[1,4]->i (0,1)->j; Qkl es la sumatoria de los optimos
      * locales. Este es utilizado para garantizar que la sumatoria de la
-     * probabilidad qkl[j] sea igual a 1 Obtiene la suma
+     * probabilidad qkl[j] sea igual a 1.
      *
      * @param listaLRC
      * @return
@@ -369,13 +369,14 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
      */
     protected double[] probabilidadSeleccionLRC(List<Item> listaLRC, int Qkl) {
         double[] qkl = new double[listaLRC.size()];
-        double div = 1.0 / listaLRC.size();//misma porcentaje de eleccion para Qkl==0
+        int indice;
+        double div = 1.0 / listaLRC.size();//mismo porcentaje de eleccion para Qkl==0
         for (int j = 0; j < listaLRC.size(); j++) {
             if (Qkl == 0) {
                 qkl[j] = div;
             } else {
-                int i = listaLRC.get(j).getIndice();
-                qkl[j] = (k - Q.get(k)[i]) / (double) Qkl;
+                indice = listaLRC.get(j).getIndice();
+                qkl[j] = (k - Q.get(k)[indice]) / (double) Qkl;
             }
         }
         return qkl;
@@ -383,7 +384,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
 
     /**
      * un int m es seleccionado aletoriamente de [1,Qkl], si cumple la condición
-     * de probabilidad m/Qkl el elemento i^kl(js) es seleccionado
+     * de probabilidad m/Qkl, el elemento i^kl(js) es seleccionado
      *
      * @param Qkl
      * @param qkl

@@ -18,10 +18,8 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.IndividuoMochila;
-import main.mochila.cuadratica.graspBasadoMemoria.GraspReinicio.ItemCalidad;
-import metaheuristicas.Aleatorio;
-import metaheuristicas.funcion.FuncionGen;
+import main.mochila.cuadratica.IndividuoCuadratico;
+import main.mochila.cuadratica.Item;
 import metaheuristicas.IndividuoGen;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,7 +37,7 @@ public class GraspTest {
     FuncionGraspTabuR funcion;
     GraspReinicio instanceGrasp;
     List<int[]> lista_Q;
-    List<GraspReinicio.ItemCalidad> LRC;
+    List<Item> LRC;
 
     public GraspTest() {
     }
@@ -55,9 +53,9 @@ public class GraspTest {
     @Before
     public void setUp() {
         LRC = new ArrayList();
-        LRC.add(new GraspReinicio.ItemCalidad(2, 10.2));
-        LRC.add(new GraspReinicio.ItemCalidad(3, 8.2));
-        LRC.add(new GraspReinicio.ItemCalidad(1, 6.2));
+        LRC.add(new Item(2, 10.2));
+        LRC.add(new Item(3, 8.2));
+        LRC.add(new Item(1, 6.2));
 
         lista_Q = new ArrayList();
         lista_Q.add(new int[]{0, 0, 0, 0});//k=0
@@ -150,16 +148,16 @@ public class GraspTest {
     @Test
     public void testObtenerLRC() {
         System.out.println("obtenerLRC");
-        List<GraspReinicio.ItemCalidad> listItemNoSeleccionados = new ArrayList();
-        listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(2, 10.2));
-        listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(3, 8.2));
-        listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(5, 3.2));
-        listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(6, 1.2));
+        List<Item> listItemNoSeleccionados = new ArrayList();
+        listItemNoSeleccionados.add(new Item(2, 10.2));
+        listItemNoSeleccionados.add(new Item(3, 8.2));
+        listItemNoSeleccionados.add(new Item(5, 3.2));
+        listItemNoSeleccionados.add(new Item(6, 1.2));
         int len = 2;
-        List<GraspReinicio.ItemCalidad> expResult = new ArrayList();
+        List<Item> expResult = new ArrayList();
         expResult.add(listItemNoSeleccionados.get(0));
         expResult.add(listItemNoSeleccionados.get(1));
-        List<GraspReinicio.ItemCalidad> result = instanceGrasp.obtenerLRC(listItemNoSeleccionados, len);
+        List<Item> result = instanceGrasp.obtenerLRC(listItemNoSeleccionados, len);
         assertEquals(expResult, result);
     }
 
@@ -169,11 +167,11 @@ public class GraspTest {
     @Test
     public void testObtenerItemNoSelecionado() {
         System.out.println("obtenerItemNoSelecionado");
-        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{0, 1, 0, 0});
+        IndividuoCuadratico individuo = new IndividuoCuadratico(funcion, new double[]{0, 1, 0, 0});
         List<Integer> expResult = new ArrayList();
         expResult.add(0);
         expResult.add(2);
-        List<Integer> result = instanceGrasp.obtenerItemsNoSelecionados(individuo);
+        List<Integer> result = instanceGrasp.obtenerItemsNoSelecionadosFiltrados(individuo);
         assertEquals(expResult, result);
     }
 
@@ -183,7 +181,7 @@ public class GraspTest {
     @Test
     public void testObtenerItemSelecionado() {
         System.out.println("obtenerItemSelecionado");
-        IndividuoGen individuo = new IndividuoGen(funcion, new double[]{0, 1, 0, 1});
+        IndividuoCuadratico individuo = new IndividuoCuadratico(funcion, new double[]{0, 1, 0, 1});
         List<Integer> expResult = new ArrayList();
         expResult.add(1);
         expResult.add(3);
@@ -207,7 +205,7 @@ public class GraspTest {
     @Test
     public void testCalcularQkl() {
         System.out.println("calcularQkl");
-        List<GraspReinicio.ItemCalidad> listaLRC = LRC;
+        List<Item> listaLRC = LRC;
         int expResult = 6;
         instanceGrasp.Q = lista_Q;
         instanceGrasp.k = 4;
@@ -221,7 +219,7 @@ public class GraspTest {
     @Test
     public void testProbabilidadSeleccionLRC() {
         System.out.println("probabilidadSeleccionLRC");
-        List<GraspReinicio.ItemCalidad> listaLRC = LRC;
+        List<Item> listaLRC = LRC;
         int Qkl = 3;
         double[] expResult = new double[]{2 / 3.0, 0, 1 / 3.0};
         instanceGrasp.Q = lista_Q;
@@ -254,22 +252,6 @@ public class GraspTest {
 //        assertEquals(expResult, result);
 //    }
     
-    /**
-     * Test of swap method, of class Grasp.
-     */
-    @Test
-    public void testSwap() {
-        System.out.println("swap");
-        
-        IndividuoMochila individuo = new IndividuoMochila(funcion, new double[]{1, 0, 1, 0});
-        List<GraspReinicio.ItemCalidad> listItemNoSeleccionados = new ArrayList();
-        listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(1, 10.2));
-        listItemNoSeleccionados.add(new GraspReinicio.ItemCalidad(3, 8.2));
-        
-        IndividuoGen expResult = new IndividuoGen(funcion, new double[]{1, 0, 0, 0});
-        IndividuoGen result = instanceGrasp.swap(individuo);
-        assertEquals(expResult, result);   
-    }
 
 //    /**
 //     * Test of ejecutar method, of class Grasp.

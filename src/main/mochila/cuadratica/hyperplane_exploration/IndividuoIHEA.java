@@ -24,13 +24,25 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  *
  * @author debian
  */
-public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
+public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
 
     private List<Integer> I1;
     private List<Integer> I0;
 
     public IndividuoIHEA(FuncionMochilaIHEA funcion) {
         super(funcion);
+        InicializarI0I1();
+    }
+
+    public IndividuoIHEA(FuncionMochilaIHEA funcion, double[] valores) {
+        super(funcion);
+        InicializarI0I1();
+        for (int i = 0; i < valores.length; i++) {
+            this.set(i, valores[i]);
+        }
+    }
+
+    private void InicializarI0I1() {
         I1 = new ArrayList();
         I0 = new ArrayList();
         for (int i = 0; i < funcion.getDimension(); i++) {

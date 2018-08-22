@@ -19,6 +19,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import metaheuristicas.Aleatorio;
 import metaheuristicas.IndividuoGen;
 
 /**
@@ -88,6 +89,20 @@ public class Utilidades {
                 return inf;
             }
         }
+    }
+
+    public static int indiceOrdenadamente(List<Object> lista, Comparable punto, boolean ascendente, int limite) {
+        if (lista.isEmpty()) {
+            return 0;
+        }
+        // comprobar que el elemento este dentro de limite
+        if (ascendente && (lista.size() >= limite && punto.compareTo(lista.get(limite - 1)) > 0)) {
+            return -1;
+        }
+        if (!ascendente && (lista.size() >= limite && punto.compareTo(lista.get(limite - 1)) < 0)) {
+            return -1;
+        }
+        return indiceOrdenadamente(lista, punto, ascendente);
     }
 
     public static void resta() {
@@ -202,5 +217,31 @@ public class Utilidades {
             suma += diferencia * diferencia;
         }
         return Math.sqrt(suma / (lista.size() - 1));
+    }
+
+    //pruebas
+    public static void main(String[] args) {
+        List listaNum = new ArrayList();
+        int tamanioLista = 10;
+        for (int i = 0; i < tamanioLista; i++) {
+            listaNum.add(i);
+        }
+        int intentos = 1000;
+        int rangoAleatorios = tamanioLista * 3;
+        int indice;
+        int aleatorio;
+        long tiempo_inicial = System.currentTimeMillis();
+
+        for (int i = 0; i < intentos; i++) {
+            aleatorio = Aleatorio.nextInt(rangoAleatorios);
+//            indice = indiceOrdenadamente(listaNum, aleatorio, true, tamanioLista);
+            indice = indiceOrdenadamente(listaNum, aleatorio, true);
+            if (indice > 0) {
+                listaNum.add(indice, aleatorio);
+            }
+        }
+        long tiempo_final = System.currentTimeMillis();
+        System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double) 1));
+
     }
 }

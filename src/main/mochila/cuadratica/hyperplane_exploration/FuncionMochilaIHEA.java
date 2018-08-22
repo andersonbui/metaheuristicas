@@ -18,7 +18,6 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.FuncionMochila;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.UtilCuadratica;
@@ -43,7 +42,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
     private final List<Integer> variablesFijas;
 
     public FuncionMochilaIHEA(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         lb = -1;
         ub = -1;
         variablesFijas = new ArrayList();
@@ -152,14 +151,6 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
 
     public void reiniciarVijarVariables() {
         variablesFijas.clear();
-    }
-
-    protected int getLb() {
-        return lb;
-    }
-
-    protected int getUb() {
-        return ub;
     }
 
     protected List<Integer> getVariablesFijas() {
