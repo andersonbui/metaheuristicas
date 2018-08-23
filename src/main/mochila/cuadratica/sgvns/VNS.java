@@ -28,8 +28,8 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
     final double alpha;
-    final int intentosEncontrarMejor = 5;
-    final int intentosIntercambio = 5; // intentos de busqueda de elementos aptos para realizar intercambio
+    final int intentosEncontrarMejor = 20;
+    final int intentosIntercambio = 15; // intentos de busqueda de elementos aptos para realizar intercambio
 
     /**
      *
@@ -38,7 +38,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
      */
     public VNS(FuncionSGVNS funcion, int maxIteraciones) {
         this.funcion = funcion;
-        alpha = 1.0 / 30.;
+        alpha = 1.0 / 30.0;
         this.maxIteraciones = maxIteraciones;
     }
 
@@ -58,7 +58,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             while (h <= 5) {
                 y_p = sacudida(y, 1, h);
                 y_p2 = seq_VND(y_p);
-                if (y_p2.getCalidad() > y_best.getCalidad()) {
+                if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;
                 }
                 if (y_p2.getCalidad() > (1 - alpha * distancia(y, y_p2)) * y.getCalidad()) {
@@ -76,11 +76,11 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
     public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
         int h = 1;
         IndividuoVNS s_inicial = individuoOriginal.clone();
-        IndividuoVNS s_aux;
+        IndividuoVNS solEncontrada;
         while (h <= 2) {
-            s_aux = encontrarMejor(s_inicial, h);
-            if (s_aux.compareTo(s_inicial) > 0) {
-                s_inicial = s_aux;
+            solEncontrada = encontrarMejor(s_inicial, h);
+            if (solEncontrada.compareTo(s_inicial) > 0) {
+                s_inicial = solEncontrada;
                 h = 1;
             } else {
                 h++;
@@ -149,7 +149,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
      * realiza un intercambio, agrega un elemento y remueve otro que esta fuera
      * y dentro correspondientemente, de manera aleatoria dentro de individuo,
      * siempre y cuando se pueda, es decir, que se pueda agragar un elemento
-     * aleatorio despues de haber removido uno, de lo cntrario no se hace nada.
+     * aleatorio despues de haber removido uno, de lo contrario no se hace nada.
      * se hace 10 intentos de busqueda de elementos aptos para realizar el
      * intercambio.
      *
@@ -161,26 +161,27 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
         List<Integer> listaItemFuera;
         List<Integer> listaItemDentro;
-        boolean hayElementosF;
+        boolean noHayElementosFuera;
         int contador = intentosIntercambio;
         do { // intentos de busqueda
             listaItemDentro = elementosDentro(individuo);
             int tamLDentro = listaItemDentro.size();
             int aleatorioD = Aleatorio.nextInt(tamLDentro);
-            int posicionD = listaItemDentro.get(aleatorioD);
+            Integer posicionD = listaItemDentro.get(aleatorioD);
             // sacar elemento dentro de la mochila
             individuo.set(posicionD, 0);
             // obtener lista de elementos dentro de la mochila pero que caben dentro de esta
             listaItemFuera = elementosFuera(individuo);
+            listaItemFuera.remove(posicionD);
             // verificar si hay elementos
-            hayElementosF = listaItemFuera.isEmpty();
+            noHayElementosFuera = listaItemFuera.isEmpty();
 
-            if (hayElementosF) { // si no hay elementos fuera de la mochila que quepan
-                individuo.set(posicionD, 0); // agregar elemento anteriormente removido
+            if (noHayElementosFuera) { // si no hay elementos fuera de la mochila que quepan
+                individuo.set(posicionD, 1); // agregar elemento anteriormente removido
             }
-        } while (hayElementosF && contador-- >= 0);
+        } while (noHayElementosFuera && contador-- >= 0);
         // salir si no hay elementos para intercambiar
-        if (hayElementosF) {
+        if (noHayElementosFuera) {
             return individuo;
         }
         int tamLDentro = listaItemFuera.size();
@@ -206,13 +207,15 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
     public int buscarMayor(IndividuoVNS individuo) {
         double[] valores = individuo.getValores();
-
         double densidadMayor = Double.NEGATIVE_INFINITY;
+        double densidad;
         int posicionMayor = -1;
         for (int i = 0; i < valores.length; i++) {
             if (valores[i] == 0) {
-                if (densidadMayor < funcion.densidad(i, individuo) && funcion.cabe(individuo, i)) {
+                densidad = funcion.densidad(i, individuo);
+                if (densidadMayor < densidad && funcion.cabe(individuo, i)) {
                     posicionMayor = i;
+                    densidadMayor = densidad;
                 }
             }
         }
@@ -234,15 +237,15 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             if (mejoro) {
                 s_inicial = aux;
             }
-        } while (contador-- >= 0);
+        } while (!mejoro && contador-- >= 0);
         return s_inicial;
     }
 
-    private IndividuoVNS sacudida(IndividuoVNS s_inicial, int h, int intentos) {
+    private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
         s_inicial = s_inicial.clone();
         do {
-            if (h == 1) {
+            if (vecindario == 1) {
                 aux = intercambio(s_inicial);
             } else {
                 aux = cambio(s_inicial);
@@ -256,6 +259,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         double suma = 0;
         for (int i = 0; i < y.getDimension(); i++) {
             suma += y.get(i) - y2.get(i);
+//            suma += Math.abs(y.get(i) - y2.get(i));
         }
         return suma / y.getDimension();
     }

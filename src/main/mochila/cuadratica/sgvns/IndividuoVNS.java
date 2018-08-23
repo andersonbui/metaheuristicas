@@ -26,13 +26,41 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  */
 public class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
 
+    private List<Integer> I1;
+    private List<Integer> I0;
+
     public IndividuoVNS(FuncionSGVNS funcion) {
         super(funcion);
         peso = 0;
+        I1 = new ArrayList();
+        I0 = new ArrayList();
+        for (int i = 0; i < funcion.getDimension(); i++) {
+            I0.add(i);
+        }
     }
 
-    public IndividuoVNS(FuncionSGVNS funcion, double[] valores) {
-        super(funcion, valores);
+    /**
+     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
+     * individuo.
+     *
+     * @return
+     */
+    public List<Integer> obtener_I0() {
+        // Sacar listas de elementos seleccionados y no seleccionados
+        List<Integer> listaI0 = new ArrayList(I0);
+        return listaI0;
+    }
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
+     * individuo.
+     *
+     * @return
+     */
+    public List<Integer> obtener_I1() {
+        // Sacar listas de elementos seleccionados y no seleccionados
+        List<Integer> listaI1 = new ArrayList(I1);
+        return listaI1;
     }
 
     @Override
@@ -45,38 +73,6 @@ public class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
         return calidad;
     }
 
-    /**
-     * genera una lista de los elementos que estan fuera de la mochila
-     *
-     * @return
-     */
-    @Override
-    public List elementosNoSeleccionados() {
-        List listaI0 = new ArrayList();
-        for (int i = 0; i < valores.length; i++) {
-            if (valores[i] == 0) {
-                listaI0.add(i);
-            }
-        }
-        return listaI0;
-    }
-
-    /**
-     * genera una lista de los elementos que estan dentro de la mochila
-     *
-     * @return
-     */
-    @Override
-    public List elementosSeleccionados() {
-        List listaI1 = new ArrayList();
-        for (int i = 0; i < valores.length; i++) {
-            if (valores[i] == 1) {
-                listaI1.add(i);
-            }
-        }
-        return listaI1;
-    }
-
     @Override
     public void set(int indice, double valor) {
 
@@ -84,10 +80,37 @@ public class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
         if (valAnterior == valor) {
             return;
         }
+        if (valor == 0) {
+            boolean result = I1.remove((Integer) indice);
+            if (result) {
+                I0.add((Integer) indice);
+            }
+        } else {
+            boolean result = I0.remove((Integer) indice);
+            if (result) {
+                I1.add((Integer) indice);
+            }
+        }
+        double valorPeso;
+        double contribucion = 0;
         //contribucion
-        double contribucion = ((FuncionSGVNS) funcion).contribucion(indice, this);
+//        contribucion = funcion.contribucion(indice, this);
+
+        for (int i : I1) {
+            if (i < indice) {
+                //contribucion en la fila
+                contribucion += funcion.beneficio(i, indice);
+            } else if (i > indice) {
+                //contribucion en la columna
+                contribucion += funcion.beneficio(indice, i);
+            }
+        }
+        //contribucion por si solo
+        contribucion += funcion.beneficio(indice, indice);
+        // fin contribucion
+
         // peso del articulo
-        double valorPeso = funcion.peso(indice);
+        valorPeso = funcion.peso(indice);
 
         // incluir beneficio
         calidad += (-valAnterior + valor) * contribucion;
@@ -100,165 +123,9 @@ public class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
     @Override
     public IndividuoVNS clone() {
         IndividuoVNS ind = (IndividuoVNS) super.clone(); //To change body of generated methods, choose Tools | Templates.
+        ind.I0 = new ArrayList(ind.I0);
+        ind.I1 = new ArrayList(ind.I1);
         return ind;
     }
 
 }
-//    #######################
-//    public class IndividuoVNS extends IndividuoMochila {
-//
-//        private List<Integer> I1;
-//        private List<Integer> I0;
-//
-//        public IndividuoVNS(FuncionMochila funcion) {
-//            super(funcion);
-//            peso = 0;
-//            I1 = new ArrayList();
-//            I0 = new ArrayList();
-//            for (int i = 0; i < funcion.getDimension(); i++) {
-//                I0.add(i);
-//            }
-//        }
-//
-//        /**
-//         * procedimeinto que obtiene la lista de los elementos seleccionados
-//         * (I1) en individuo.
-//         *
-//         * @return
-//         */
-//        public List<Integer> obtener_I0() {
-//            // Sacar listas de elementos seleccionados y no seleccionados
-//            List<Integer> listaI0 = new ArrayList(I0);
-//            return listaI0;
-//        }
-//
-//        /**
-//         * procedimeinto que obtiene la lista de los elementos seleccionados
-//         * (I1) en individuo.
-//         *
-//         * @return
-//         */
-//        public List<Integer> obtener_I1() {
-//            // Sacar listas de elementos seleccionados y no seleccionados
-//            List<Integer> listaI1 = new ArrayList(I1);
-//            return listaI1;
-//        }
-//
-//        @Override
-//        public double pesar() {
-//            return peso;
-//        }
-//
-//        @Override
-//        public double evaluar() {
-//            return calidad;
-//        }
-//
-//        @Override
-//        public void set(int indice, double valor) {
-//            double valAnterior = get(indice);
-//            if (valAnterior == valor) {
-//                return;
-//            }
-//            if (valor == 0) {
-//                boolean result = I1.remove((Integer) indice);
-//                if (result) {
-//                    I0.add((Integer) indice);
-//                }
-//            } else {
-//                boolean result = I0.remove((Integer) indice);
-//                if (result) {
-//                    I1.add((Integer) indice);
-//                }
-//            }
-//            double valorPeso;
-//            double contribucion = 0;
-//
-//            for (int i : I1) {
-//                if (i < indice) {
-//                    //contribucion en la fila
-//                    contribucion += matrizBeneficios[i][indice];
-//                } else if (i > indice) {
-//                    //contribucion en la columna
-//                    contribucion += matrizBeneficios[indice][i];
-//                }
-//            }
-//            //contribucion por si solo
-//            contribucion += matrizBeneficios[indice][indice];
-//            // peso del articulo
-//            valorPeso = vectorPesos[indice];
-//
-//            // incluir beneficio
-//            calidad += (-valAnterior + valor) * contribucion;
-//            // incluir peso del elemento
-//            peso += (-valAnterior + valor) * valorPeso;
-//
-//            super.set(indice, valor);
-//        }
-//
-//        @Override
-//        public IndividuoMochila clone() {
-//            IndividuoVNS ind = (IndividuoVNS) super.clone(); //To change body of generated methods, choose Tools | Templates.
-//            ind.I0 = new ArrayList(ind.I0);
-//            ind.I1 = new ArrayList(ind.I1);
-//            return ind;
-//        }
-//
-//    }
-
-//    public class IndividuoVNS extends IndividuoMochila {
-//
-//        private double peso;
-//
-//        public IndividuoVNS(FuncionMochila funcion) {
-//            super(funcion);
-//            peso = 0;
-//        }
-//
-//        @Override
-//        public double pesar() {
-//            return peso;
-//        }
-//
-//        @Override
-//        public double evaluar() {
-//            return calidad;
-//        }
-//
-//        @Override
-//        public void set(int indice, double valor) {
-//
-//            double valAnterior = get(indice);
-//            if (valAnterior == valor) {
-//                return;
-//            }
-//            double valorPeso;
-//            double contribucion = 0;
-//            //contribucion en la fila
-//            for (int i = 0; i < indice; i++) {
-//                contribucion += matrizBeneficios[i][indice] * get(i);
-//            }
-//            //contribucion en la columna
-//            for (int k = indice + 1; k < vectorPesos.length; k++) {
-//                contribucion += matrizBeneficios[indice][k] * get(k);
-//            }
-//            //contribucion por si solo
-//            contribucion += matrizBeneficios[indice][indice];
-//            // peso del articulo
-//            valorPeso = vectorPesos[indice];
-//
-//            // incluir beneficio
-//            calidad += (-valAnterior + valor) * contribucion;
-//            // incluir peso del elemento
-//            peso += (-valAnterior + valor) * valorPeso;
-//
-//            super.set(indice, valor);
-//        }
-//
-//        @Override
-//        public IndividuoMochila clone() {
-//            IndividuoVNS ind = (IndividuoVNS) super.clone(); //To change body of generated methods, choose Tools | Templates.
-//            return ind;
-//        }
-//
-//    }

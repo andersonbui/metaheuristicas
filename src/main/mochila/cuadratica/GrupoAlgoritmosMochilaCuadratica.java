@@ -54,20 +54,20 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double[] vectorPesos = parametros.vectorPesos;
         Double maxGlobal = parametros.maxGlobal;
 
-        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
+//        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
         FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
-//
+////
 //        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        addElemento(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 //        
-//        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        addElemento(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
-//        
-//        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-////        addElemento(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
+        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
+        
+        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
 //
         FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new VNS(funcionVns, maxIteraciones));

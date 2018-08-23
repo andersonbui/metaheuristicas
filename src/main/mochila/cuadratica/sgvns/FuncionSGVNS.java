@@ -16,17 +16,72 @@
  */
 package main.mochila.cuadratica.sgvns;
 
+import java.util.List;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 
 /**
  *
  * @author debian
  */
-public class FuncionSGVNS extends FuncionMochilaCuadratica<IndividuoVNS> {
+public class FuncionSGVNS extends FuncionMochilaCuadratica {
 
     public FuncionSGVNS(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal, 1);
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         nombre = "VNS";
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
+    /**
+     * obtiene el espacio total de cada tipo de restriccion dentro de la mochila
+     *
+     * @param mochila
+     * @return
+     */
+    public double sacarEspacios(IndividuoIHEA mochila) {
+        return capacidad - mochila.pesar();
+    }
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
+     * individuo.
+     *
+     * @param individuo s * @return List de indices de elementos seleccionados
+     * @return
+     */
+    public List<Integer> obtener_I1(IndividuoMochila individuo) {
+        IndividuoIHEA indi = ((IndividuoIHEA) individuo);
+        List seleccionados = indi.elementosSeleccionados();
+        return seleccionados;
+    }
+
+    /**
+     * procedimeinto que obtiene la lista de los elementos no seleccionados (I0)
+     * en individuo.
+     *
+     * @param individuo s * @return List de indices de elementos no
+     * seleccionados
+     * @return
+     */
+    public List<Integer> obtener_I0(IndividuoMochila individuo) {
+        IndividuoIHEA indi = ((IndividuoIHEA) individuo);
+        List seleccionados = indi.elementosNoSeleccionados();
+        seleccionados = filtrarPorFactibles(seleccionados, indi);
+        return seleccionados;
+    }
+
+    /**
+     *
+     * @param mochila
+     * @return
+     */
+    public double obtenerPeso(IndividuoIHEA mochila) {
+        return mochila.pesar();
     }
 
     @Override
@@ -34,6 +89,5 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica<IndividuoVNS> {
         IndividuoVNS nuevop = new IndividuoVNS(this);
         return nuevop;
     }
-    
 
 }

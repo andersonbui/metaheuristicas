@@ -117,7 +117,7 @@ public class UtilCuadratica {
             // verificar si hay elementos
             estaVacia = listaItemFuera.isEmpty();
             if (estaVacia) { // si no hay elementos fuera de la mochila que quepan
-                individuo.set(posicionD, 0); // agregar elemento anteriormente removido
+                individuo.set(posicionD, 1); // agregar elemento anteriormente removido
             }
         } while (estaVacia && contador-- >= 0);
         // salir si no hay elementos para intercambiar
