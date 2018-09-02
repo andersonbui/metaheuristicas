@@ -22,17 +22,20 @@ package main.mochila.cuadratica;
  */
 public class GrupoInstancias {
 
+    public String ubicacion;
     public String base;
     public int cantidad;
-    public  int inicio;
+    public int inicio;
 
     /**
      *
+     * @param ubicacion
      * @param base
      * @param cantidad
      * @param inicio
      */
-    public GrupoInstancias(String base, int inicio, int cantidad) {
+    public GrupoInstancias(String ubicacion, String base, int inicio, int cantidad) {
+        this.ubicacion = ubicacion;
         this.base = base;
         this.cantidad = cantidad;
         this.inicio = inicio;

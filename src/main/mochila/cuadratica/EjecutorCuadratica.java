@@ -17,7 +17,6 @@
 package main.mochila.cuadratica;
 
 import main.Ejecutor;
-import static main.Ejecutor.imprimirConFormato;
 import main.Recorrido;
 import main.mochila.Grupo;
 
@@ -27,28 +26,28 @@ import main.mochila.Grupo;
  */
 public class EjecutorCuadratica extends Ejecutor{
     
-    public Recorrido ejecutarAlgoritmosMasFunciones(Grupo grupo,
-            boolean graficaRecorrido, boolean graficaConvergencia,
-            int numeroPruebas) {
-
-        System.out.println("----------------------------------------------------------.");
-        System.out.println("NPI: Numero iteraciones promedio. -- ");
-        System.out.print("TP: Tiempo Promedio.");
-        System.out.println("TE: Tasa de exito. -- ");
-        System.out.println("DPR: Desviación porcentual relativa.");
-        System.out.println("MAXIMO: " + grupo.getParametros().getMaxGlobal());
-        System.out.println("CAPACIDAD: " + grupo.getParametros().getCapacidad());
-        System.out.println("----------------------------------------------------------.");
-
-        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
-                "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
-        String titulo = "(" + grupo.getNombreFuncion() + ")";
-        
-        Recorrido mejorRecorrido = super.ejecutarGrupo(grupo, graficaRecorrido, graficaConvergencia, numeroPruebas, titulo);
-        
-        System.out.println("");
-        return mejorRecorrido;
-    }
+//    public Recorrido ejecutarAlgoritmosMasFunciones(Grupo grupo,
+//            boolean graficaRecorrido, boolean graficaConvergencia,
+//            int numeroPruebas) {
+//
+//        System.out.println("----------------------------------------------------------.");
+//        System.out.println("NPI: Numero iteraciones promedio. -- ");
+//        System.out.print("TP: Tiempo Promedio.");
+//        System.out.println("TE: Tasa de exito. -- ");
+//        System.out.println("DPR: Desviación porcentual relativa.");
+//        System.out.println("MAXIMO: " + grupo.getParametros().getMaxGlobal());
+//        System.out.println("CAPACIDAD: " + grupo.getParametros().getCapacidad());
+//        System.out.println("----------------------------------------------------------.");
+//
+//        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
+//                "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
+//        String titulo = "(" + grupo.getNombreFuncion() + ")";
+//        
+//        Recorrido mejorRecorrido = super.ejecutarGrupo(grupo, graficaRecorrido, graficaConvergencia, numeroPruebas, titulo);
+//        
+//        System.out.println("");
+//        return mejorRecorrido;
+//    }
 
 
 }

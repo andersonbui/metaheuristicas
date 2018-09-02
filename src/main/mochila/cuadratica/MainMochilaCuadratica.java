@@ -20,8 +20,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import main.Ejecutor;
-import static main.Ejecutor.imprimirConFormato;
+import main.Resultado;
+import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;
+import metaheuristicas.funcion.FuncionGen;
 
 /**
  *
@@ -44,16 +46,17 @@ public class MainMochilaCuadratica {
         numMuestras = 1;
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 8, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_300_25_%d.txt", 1, 20));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_300_50_%d.txt", 1, 20));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 8, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_100_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 20));
+
         System.out.println("----------------------------------------------------------.");
         System.out.println("NPI: Numero iteraciones promedio.");
         System.out.println("TP: Tiempo Promedio.");
@@ -66,10 +69,10 @@ public class MainMochilaCuadratica {
         for (GrupoInstancias instancia : instancias) {
             System.out.print("####");
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
-                nombreArchivo = String.format(instancia.base, indice_instancia);
+                nombreArchivo = String.format(instancia.ubicacion + instancia.base, indice_instancia);
 
                 System.out.print("----");
-                System.out.println("Nombre archivo: " + nombreArchivo+"----");
+                System.out.println("Nombre archivo: " + String.format(instancia.base, indice_instancia) + "----");
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
                 ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
@@ -81,7 +84,9 @@ public class MainMochilaCuadratica {
                 grupo.inicializar();
                 Ejecutor ejecutor = new Ejecutor();
                 // EJECUTAR ANALISIS
-                IndividuoGen individuo = ejecutor.ejecutarGrupo(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, "").getMejorIndividuo();
+                List<Resultado> resultado = ejecutor.ejecutarGrupo(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, "");
+                imprimirResultados(resultado);
+                IndividuoGen individuo = Ejecutor.mejorOptimo(resultado);
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
                 if (parametros.maxGlobal == null || parametros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
                     parametros.setMaxGlobal(individuo.getCalidad());
@@ -90,6 +95,7 @@ public class MainMochilaCuadratica {
                 }
             }
         }
+        
     }
 
     public static int[] vDouble_vInt(double[] vector) {
@@ -98,5 +104,48 @@ public class MainMochilaCuadratica {
             vectorInt[i] = (int) vector[i];
         }
         return vectorInt;
+    }
+
+    public static void imprimirResultados(List<Resultado> resultados) {
+        for (Resultado resultado : resultados) {
+            AlgoritmoMetaheuristico algot = resultado.algoritmo;
+            FuncionGen funcion = algot.getFuncion();
+            imprimirConFormato(
+                    funcion.getNombre(),
+                    algot.getNombre(),
+                    formatear(funcion.getDimension()),
+                    formatear(resultado.promedioIteraciones),
+                    formatear((double) resultado.exitos / resultado.numPruebas),
+                    formatear(resultado.mejorRecorrido.getMejorIndividuo().getCalidad()),
+                    formatear(resultado.promedioCalidadOptimos),
+                    formatear(resultado.desviacionCalidadOptimos),
+                    formatear(resultado.tiempoTotal / resultado.numPruebas),
+                    formatear(resultado.promedionumEvaluaciones));
+        }
+    }
+
+    public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
+            String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio, String numEvaluaciones) {
+        System.out.format("%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
+                mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio, numEvaluaciones);
+    }
+
+    public static String formatear(double valor) {
+        if (valor > 100000) {
+            return String.format("%-2.2f", valor);
+        }
+        if (valor < 10) {
+            return String.format("%-1.6f", valor);
+        } else {
+            return String.format("%.1f", valor);
+        }
+    }
+
+    public static String formatear(int valor) {
+        if (valor > 100000) {
+            return String.format("%-2E", 1.0 * valor);
+        } else {
+            return String.format("%4d" + "", valor);
+        }
     }
 }
