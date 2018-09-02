@@ -11,7 +11,7 @@ public class Rastrigin extends FuncionAlgebraica {
 
     public Rastrigin(double limite, int dimension, boolean maximizar) {
         super("RASTRIGIN", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

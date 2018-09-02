@@ -16,6 +16,7 @@
  */
 package metaheuristicas.poblacion;
 
+import main.Algebraicas.FuncionAlgebraica;
 import metaheuristicas.IndividuoGen;
 import metaheuristicas.poblacion.cruce.Cruce;
 import metaheuristicas.poblacion.mutacion.MultiGen;
@@ -85,7 +86,8 @@ public class Genetico extends AlgoritmoEvolutivo {
 
     private IndividuoGen mutar(IndividuoGen punto) {
         mutacion = new MultiGen(ancho);
-        return mutacion.mutar(punto, punto.getFuncion().getLimite(), 0.2, true);
+        FuncionAlgebraica funcion =(FuncionAlgebraica) punto.getFuncion();
+        return mutacion.mutar(punto, funcion.getLimite(), 0.2, true);
     }
 
 }

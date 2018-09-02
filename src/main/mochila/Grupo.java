@@ -79,6 +79,9 @@ public abstract class Grupo {
     public void setMaxIteraciones(int maxIteraciones) {
         this.maxIteraciones = maxIteraciones;
     }
-    
+
+    public ParametrosCuadratica getParametros() {
+        return parametros;
+    }
     
 }

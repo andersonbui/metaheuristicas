@@ -11,7 +11,7 @@ public class Bukin extends Funcion2D {
 
     public Bukin(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("Bukin", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

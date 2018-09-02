@@ -110,8 +110,8 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     }
 
     /**
-     * Test of nPrimerosOrdenadosPorDensidad method, of class
-     * IteratedHyperplaneExplorationAlgoritm.
+     * Test of primerosPorDensidad method, of class
+ IteratedHyperplaneExplorationAlgoritm.
      */
     @Test
     public void testNPrimerosOrdenadosPorDensidad() {
@@ -124,7 +124,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         boolean minimo = false;
         List<Integer> expResult = new ArrayList();
         expResult.add(2);
-        List<Integer> result = instance.nPrimerosOrdenadosPorDensidad(listaIndices, mochila, n, minimo);
+        List<Integer> result = instance.primerosPorDensidad(listaIndices, mochila, n, minimo);
         assertEquals(expResult, result);
         
     }

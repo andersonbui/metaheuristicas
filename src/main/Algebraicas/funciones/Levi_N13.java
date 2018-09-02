@@ -11,7 +11,7 @@ public class Levi_N13 extends Funcion2D {
 
     public Levi_N13(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("Levi_N13", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

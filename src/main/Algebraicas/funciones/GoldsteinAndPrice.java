@@ -12,7 +12,7 @@ public class GoldsteinAndPrice extends Funcion2D {
     public GoldsteinAndPrice(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("GOLDSTEINANDPRICE", limite, dimension, maximizar);
         error = 0.01;
-        minGlobal = 3;
+        minGlobal = 3.;
     }
 
     @Override

@@ -49,7 +49,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     @Override
     public List<IndividuoIHEA> ejecutar() {
         List listaResult = iterateHiperplaneExploration(L, rcl, maxIteraciones);
-        System.out.println("===> tiempo: " + tiempototal);
+//        System.out.println("===> tiempo: " + tiempototal);
+//        System.out.println("contador exaustiva-hiperplano: " + contador);
         return listaResult;
     }
 
@@ -143,7 +144,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
-        System.out.println("contador exaustiva-hiperplano: " + contador);
         return recorrido;
     }
 
@@ -166,8 +166,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
         nf = Math.min(nf, itemsSeleccionados.size());
-//        List<Integer> listaIndices = nPrimerosOrdenadosPorDensidad(itemsSeleccionados, individuo, false);
-        List<Integer> listaIndices = nPrimerosOrdenadosPorDensidad3(itemsSeleccionados, individuo, nf, false);
+//        List<Integer> listaIndices = primerosPorDensidad(itemsSeleccionados, individuo, false);
+        List<Integer> listaIndices = primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
 
         // vector de indices de variables fijas
         int[] varFijas = new int[nf];
@@ -190,7 +190,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @param minimo
      * @return
      */
-    protected List<Integer> nPrimerosOrdenadosPorDensidad3(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
+    protected List<Integer> primerosPorDensidad2(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
         listaIndices = new ArrayList(listaIndices);
         List<Integer> resultado = new ArrayList();
 
@@ -207,8 +207,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         }
         return resultado;
     }
-    
-    protected List<Integer> nPrimerosOrdenadosPorDensidad(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
+
+    protected List<Integer> primerosPorDensidad(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
         listaIndices = new ArrayList(listaIndices);
         List<Integer> resultado = new ArrayList();
         int indice_guardado = 0;
@@ -280,7 +280,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         double pesoi;
         double calidadi;
 
-        while ((vmin != Double.POSITIVE_INFINITY && list_RL.size() < L)) {
+        while ((vmin == Double.POSITIVE_INFINITY && list_RL.size() < L)) {
 
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
@@ -318,10 +318,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                             j_aster = j;
                             vmin = vcx;
                             fmax = frx;
-                            if (vcx >= 0) {
-                                jmax = j;
-                                imax = i;
-                            }
+//                            if (vcx >= 0) {
+//                                jmax = j;
+//                                imax = i;
+//                            }
                         }
 //                        x.set(i, 0);
 //                        x.set(j, 1);
@@ -334,53 +334,53 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             // linea 21:
             if (vmin != Double.POSITIVE_INFINITY) {
 
-                if (imax >= 0 && false) {
-                    x.set(imax, 1);
-                    x.set(jmax, 0);
-                    x_aster = x.clone();
-                    fmin = x_aster.getCalidad();
+//                if (imax >= 0 && false) {
+//                    x.set(imax, 1);
+//                    x.set(jmax, 0);
+//                    x_aster = x.clone();
+//                    fmin = x_aster.getCalidad();
+//                    list_RL.clear();
+//                    // linea 25:
+//                } else {
+// linea 22:
+                x.set(i_aster, 1);
+                x.set(j_aster, 0);
+                if (vmin == 0) { // ############################# ==
+                    // linea 24:
                     list_RL.clear();
+                    fmin = rawFuncion(x);
+                    x_aster = x.clone();
                     // linea 25:
                 } else {
-// linea 22:
-                    x.set(i_aster, 1);
-                    x.set(j_aster, 0);
-                    if (vmin == 0) { // ############################# ==
-                        // linea 24:
-                        list_RL.clear();
-                        fmin = rawFuncion(x);
-                        x_aster = x.clone();
-                        // linea 25:
-                    } else {
-                        //linea 26: actualizar estado tabu
-                        iterTabu += 1;
-                        list_RL.add(i_aster);
-                        list_RL.add(j_aster);
-                        // linea 27:
-                        i = list_RL.size() - 1;
-                        // linea 28:
-                        list_RCS.clear();
-                        while (i >= 0) {
-                            // linea 29:
-                            j = list_RL.get(i);
-                            if (i % 2 == 1) {
-                                int pos2 = list_RL.get(i - 1);
-                                tabu[j][pos2] = iterTabu + penalizacion;
-                                tabu[pos2][j] = iterTabu + penalizacion;
-                            }
-                            if (list_RCS.contains(j)) {
-                                boolean ret = list_RCS.remove(j);
-                            } else {
-                                list_RCS.add(j);
-                            }
-                            if (list_RCS.size() == 2) {
-                                tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu + penalizacion;
-                                tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu + penalizacion;
-                            }
-                            i--;
+                    //linea 26: actualizar estado tabu
+                    iterTabu += 1;
+                    list_RL.add(i_aster);
+                    list_RL.add(j_aster);
+                    // linea 27:
+                    i = list_RL.size() - 1;
+                    // linea 28:
+                    list_RCS.clear();
+                    while (i >= 0) {
+                        // linea 29:
+                        j = list_RL.get(i);
+//                            if (i % 2 == 1) {
+//                                int pos2 = list_RL.get(i - 1);
+//                                tabu[j][pos2] = iterTabu + penalizacion;
+//                                tabu[pos2][j] = iterTabu + penalizacion;
+//                            }
+                        if (list_RCS.contains(j)) {
+                            boolean ret = list_RCS.remove(j);
+                        } else {
+                            list_RCS.add(j);
                         }
+                        if (list_RCS.size() == 2) {
+                            tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu + penalizacion;
+                            tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu + penalizacion;
+                        }
+                        i--;
                     }
                 }
+//                }
             }
         }
         return x_aster;
@@ -398,6 +398,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     protected IndividuoIHEA perturbacion(IndividuoIHEA individuo, int iteraciones) {
+        individuo= individuo.clone();
         List<Integer> I1 = elementosDentro(individuo);
 
         // dimension de individuo
@@ -409,7 +410,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         t = Math.min(10, I1.size() - nf);
         s = Math.min(3, t);
-        List<Integer> listaIndices = nPrimerosOrdenadosPorDensidad(I1, individuo, t, true);
+        List<Integer> listaIndices = primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(t);
@@ -473,20 +474,21 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     protected IndividuoIHEA descent(IndividuoIHEA original) { ////////////OPCION DE MEJORAR EN TIEMPO (for)
         IndividuoIHEA mejor = (IndividuoIHEA) original.clone();
         int intentosDescent = 20;
+        IndividuoIHEA individuo1;
+        IndividuoIHEA individuo2;
         while (intentosDescent-- >= 0) {
-            IndividuoIHEA individuo = (IndividuoIHEA) mejor.clone();
             //ADD
-            add_factible(individuo);
-            if (individuo.compareTo(mejor) > 0) {
-                mejor = individuo;
+            individuo1 = add_factible(mejor);
+            if (individuo1 != null && individuo1.compareTo(mejor) > 0) {
+                mejor = individuo1;
             }
             //SWAP
-            individuo = (IndividuoIHEA) swap(mejor);
+            individuo2 = (IndividuoIHEA) swap(mejor);
 
-            if (individuo != null && individuo.compareTo(mejor) > 0) {
-                mejor = individuo;
+            if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
+                mejor = individuo2;
             } else {
-                break;
+//                break;
             }
         }
         return mejor;
@@ -501,8 +503,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      */
     protected IndividuoIHEA addElemento(IndividuoIHEA individuo) {
         individuo = individuo.clone();
-        List<Integer> listaI0 = elementosFuera(individuo);
-        cambiarValorAleatoriamente(individuo, listaI0, 1);
+        List<Integer> listaI0 = funcion.obtener_I0(individuo);
+        int indice = Aleatorio.nextInt(listaI0.size());
+        individuo.set(listaI0.get(indice), 1);
         return individuo;
     }
 
@@ -511,30 +514,19 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * el individuo resultante sea factible
      *
      * @param individuo
-     * @return indice del elemento adicionado
+     * @return el individuo con el elemento adicionado o null si no se encontro
+     * factible
      */
-    protected int add_factible(IndividuoIHEA individuo) {
-        List<Integer> listaI0 = elementosFuera(individuo);
+    protected IndividuoIHEA add_factible(IndividuoIHEA individuo) {
+        individuo = individuo.clone();
+        List<Integer> listaI0 = funcion.obtener_I0(individuo);
         listaI0 = funcion.filtrarPorFactibles(listaI0, individuo);
-        return cambiarValorAleatoriamente(individuo, listaI0, 1);
-    }
-
-    /**
-     * asigna valor al elemento con el indice, escogido aleatoriamente de
-     * listaIndices, dentro de individuo.
-     *
-     * @param individuo
-     * @param listaIndices
-     * @param valor
-     * @return indice del elemento escogido aleatoriamente de listaIndices
-     */
-    private int cambiarValorAleatoriamente(IndividuoIHEA individuo, List<Integer> listaIndices, int valor) {
-        if (listaIndices.isEmpty()) {
-            return -1;
+        if(listaI0.isEmpty()){
+            return null;
         }
-        int indice = Aleatorio.nextInt(listaIndices.size());
-        individuo.set(listaIndices.get(indice), valor);
-        return indice;
+        int indice = Aleatorio.nextInt(listaI0.size());
+        individuo.set(listaI0.get(indice), 1);
+        return individuo;
     }
 
     /**
@@ -545,7 +537,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     protected int dimensionHiperplano(IndividuoIHEA individuo) {
-        return individuo.elementosSeleccionados().size();
+        return individuo.cantidadI1();
     }
 
 }

@@ -11,7 +11,7 @@ public class SinXporCosY extends FuncionAlgebraica {
 
     public SinXporCosY(double limite, int dimension, boolean maximizar) {
         super("SinXporCosY", limite, dimension, maximizar);
-        minGlobal = -1;
+        minGlobal = -1.;
     }
 
     @Override

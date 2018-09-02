@@ -134,7 +134,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             posicion = (int) listaFuera.get(aleatorio);
             // realizar cambio
             individuo.set(posicion, 1);
-        } else {
+        } else if(!listaDentro.isEmpty()) {
             // elegir posicion aleatoria
             aleatorio = Aleatorio.nextInt(listaDentro.size());
             // posicion del elemento dentro la mochila 

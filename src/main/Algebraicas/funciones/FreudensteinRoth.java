@@ -11,7 +11,7 @@ public class FreudensteinRoth extends Funcion2D {
 
     public FreudensteinRoth(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("FREUDENSTEINROTH", limite, dimension, maximizar);
-        minGlobal = 0; // en f=(5,4),f=(11.41...,−0.8968...)
+        minGlobal = 0.; // en f=(5,4),f=(11.41...,−0.8968...)
     }
 
     @Override

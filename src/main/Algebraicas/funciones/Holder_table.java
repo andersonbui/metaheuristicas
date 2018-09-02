@@ -12,7 +12,7 @@ public class Holder_table extends Funcion2D {
     public Holder_table(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("Holder-table", limite, dimension, maximizar);
         minGlobal = -19.2085; //para limite entre [-10, 10]
-        maxGlobal = 0;
+        maxGlobal = 0.;
     }
 
     @Override

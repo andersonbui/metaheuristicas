@@ -89,7 +89,7 @@ public class PruebasRendimiento {
                 int intentos = 10000;
                 long tiempo_inicial = System.currentTimeMillis();
                 for (int i = 0; i < intentos; i++) {
-                    aIHEA.nPrimerosOrdenadosPorDensidad(listaIndices, mochila, 10, true);
+                    aIHEA.primerosPorDensidad(listaIndices, mochila, 10, true);
                 }
                 long tiempo_final = System.currentTimeMillis();
                 System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double)1));

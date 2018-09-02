@@ -12,7 +12,7 @@ public class Cross_in_tray extends Funcion2D {
     public Cross_in_tray(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("Cross-in-tray", limite, dimension, maximizar);
         minGlobal = -2.06261; //para limite entre [-10, 10]
-        maxGlobal = 0;
+        maxGlobal = 0.;
     }
 
     @Override

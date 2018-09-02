@@ -16,26 +16,10 @@ public abstract class FuncionGen<Individuo extends metaheuristicas.IndividuoGen>
     protected int dimension;
     protected boolean maximizar; //-1 minimizar, +1 maximizar
     protected int contadorEvaluaciones;
-    protected double minGlobal;
-    protected double maxGlobal;
+    protected Double minGlobal;
+    protected Double maxGlobal;
     protected double error;
 
-//    /**
-//     *
-//     * @param nombre
-//     * @param limite
-//     * @param dimension
-//     * @param maximizar
-//     */
-//    public FuncionGen(String nombre, double limite, int dimension, boolean maximizar) {
-//        this.nombre = nombre;
-//        this.dimension = dimension;
-//        this.maximizar = maximizar;
-//        this.maxGlobal = Double.MAX_VALUE;
-//        this.minGlobal = -maxGlobal;
-//        this.error = 0.001;
-//        contadorEvaluaciones = 0;
-//    }
     /**
      *
      * @param nombre
@@ -154,7 +138,7 @@ public abstract class FuncionGen<Individuo extends metaheuristicas.IndividuoGen>
         return "" + individuo.getCalidad() + "; max: " + individuo.isMaximizar();
     }
 
-    public double getLimite() {
-        return Double.MAX_VALUE;
-    }
+//    public double getLimite() {
+//        return Double.MAX_VALUE;
+//    }
 }

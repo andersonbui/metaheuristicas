@@ -33,7 +33,6 @@ public abstract class FuncionAlgebraica extends FuncionGen {
         return 0;
     }
 
-    @Override
     public double getLimite() {
         return limite;
     }

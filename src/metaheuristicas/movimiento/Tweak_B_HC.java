@@ -1,5 +1,6 @@
 package metaheuristicas.movimiento;
 
+import main.Algebraicas.FuncionAlgebraica;
 import metaheuristicas.funcion.FuncionGen;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.IndividuoGen;
@@ -24,7 +25,7 @@ public class Tweak_B_HC extends Tweak {
     public IndividuoGen tweak(IndividuoGen punto) {
 
         IndividuoGen nuevop = (IndividuoGen) punto.clone();
-        FuncionGen funcion = punto.getFuncion();
+        FuncionAlgebraica funcion = (FuncionAlgebraica) punto.getFuncion();
         double[] valores = nuevop.getValores();
         // improve
         int index = Aleatorio.nextInt(valores.length);

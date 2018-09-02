@@ -77,11 +77,6 @@ public class MochilasMultidimensionales extends FuncionGen {
     }
 
     @Override
-    public double getLimite() {
-        return funcion.getLimite();
-    }
-
-    @Override
     public int getDimension() {
         return funcion.getDimension();
     }

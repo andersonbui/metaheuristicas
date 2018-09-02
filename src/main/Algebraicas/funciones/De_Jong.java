@@ -11,7 +11,7 @@ public class De_Jong extends Funcion2D {
 
     public De_Jong(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("De_Jong", limite, dimension, maximizar);
-        minGlobal = 0;//[-2.048,2.048]
+        minGlobal = 0.;//[-2.048,2.048]
     }
 
     @Override

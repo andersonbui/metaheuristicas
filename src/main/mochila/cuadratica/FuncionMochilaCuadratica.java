@@ -144,6 +144,15 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
         return suma + matrizBeneficios[indice][indice];
     }
 
+    /**
+     * calcula la contribucion de elemento idicado con indice, dentro de una
+     * mochila, sin tener en cuenta la contribucion de sin_k.
+     *
+     * @param indice
+     * @param mochila
+     * @param sin_k indice del elemento que no se tiene en cuenta
+     * @return
+     */
     public double contribucion(int indice, Individuo mochila, Integer sin_k) {
         double suma = 0;
 //        List<Integer> listaElemSelec = mochila.elementosSeleccionados();
@@ -167,14 +176,34 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
 
         return suma + matrizBeneficios[indice][indice];
     }
-
-    @Override
-    public String toString(Individuo individuo) {
-        String cadena = "";
-        cadena += individuo.pesar() + ";";
-        return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
-    }
-
+//
+//    @Override
+//    public String toString(Individuo individuo) {
+//        String cadena = "";
+//        cadena += individuo.pesar() + ";";
+//        return "calidad:" + individuo.getCalidad() + "; pesos:" + cadena + "; maxGlobal:" + maxGlobal;
+//    }
+//
+//    public String cabeceraIndividuo() {
+//        return formatoString("capacidad", "maxGlobal", "dimension", "nombre");
+//    }
+//
+//    private String formatoStringIndividuo(String capacidad, String maxGlobal, String dimension, String nombre) {
+//        return System.out.format("%-20s|%-30s|%-10s|%-8s\n", "" + capacidad, "" + maxGlobal, "" + dimension, nombre).toString();
+//    }
+//
+//    public String string() {
+//        return formatoString("" + capacidad, "" + maxGlobal, "" + dimension, nombre);
+//    }
+//
+//    private String formatoString(String capacidad, String maxGlobal, String dimension, String nombre) {
+//        return System.out.format("%-20s|%-30s|%-10s|%-8s\n", "" + capacidad, "" + maxGlobal, "" + dimension, nombre).toString();
+//    }
+//
+//    public String cabeceraFuncion() {
+//        return formatoString("capacidad", "maxGlobal", "dimension", "nombre");
+//    }
+//
     /**
      * Calcula la densidad de beneficio de adicionar el elemento de la posicion
      * indice en la mochila, sobre el peso del elemento

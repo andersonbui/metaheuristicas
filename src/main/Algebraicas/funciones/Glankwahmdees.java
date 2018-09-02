@@ -11,7 +11,7 @@ public class Glankwahmdees extends FuncionAlgebraica {
 
     public Glankwahmdees(double limite, int dimension, boolean maximizar) {
         super("GLANKWAHMDEES", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

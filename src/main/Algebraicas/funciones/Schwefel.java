@@ -12,7 +12,7 @@ public class Schwefel extends FuncionAlgebraica {
     public Schwefel(double limite, int dimension, boolean maximizar) {
         super("SCHWEFEL", limite, dimension, maximizar);
         error = 0.01;
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

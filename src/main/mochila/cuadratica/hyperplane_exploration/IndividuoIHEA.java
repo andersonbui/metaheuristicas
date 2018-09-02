@@ -76,6 +76,10 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
         return listaI1;
     }
 
+    public int cantidadI1() {
+        return this.I1.size();
+    }
+
     @Override
     public double pesar() {
         return peso;

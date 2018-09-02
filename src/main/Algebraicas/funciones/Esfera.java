@@ -11,7 +11,7 @@ public class Esfera extends FuncionAlgebraica {
 
     public Esfera(double limite, int dimension, boolean maximizar) {
         super("ESFERA", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

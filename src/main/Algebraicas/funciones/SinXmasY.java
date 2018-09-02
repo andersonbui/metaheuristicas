@@ -12,7 +12,7 @@ public class SinXmasY extends FuncionAlgebraica {
     public SinXmasY(double limite, int dimension, boolean maximizar) {
         super("SinXmasY", limite, dimension, maximizar);
         error = 0.01;
-        minGlobal = -1;
+        minGlobal = -1.;
     }
 
     @Override

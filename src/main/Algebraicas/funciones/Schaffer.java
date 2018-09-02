@@ -12,7 +12,7 @@ public class Schaffer extends Funcion2D {
     public Schaffer(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("SCHAFFER", limite, dimension, maximizar);
         // solo para dos dimensiones
-        minGlobal = 0; //[-100,100]
+        minGlobal = 0.; //[-100,100]
     }
 
     @Override

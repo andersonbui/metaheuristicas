@@ -11,7 +11,7 @@ public class Rosenbrock extends FuncionAlgebraica {
 
     public Rosenbrock(double limite, int dimension, boolean maximizar) {
         super("ROSENBROCK", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

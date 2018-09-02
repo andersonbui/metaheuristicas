@@ -11,7 +11,7 @@ public class Ackley extends FuncionAlgebraica {
 
     public Ackley(double limite, int dimension, boolean maximizar) {
         super("ACKLEY", limite, dimension, maximizar);
-        minGlobal = 0;
+        minGlobal = 0.;
     }
 
     @Override

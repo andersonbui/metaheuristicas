@@ -21,10 +21,8 @@ import gnuplot.GraficoGnuPlot;
 import gnuplot.Punto;
 import gnuplot.Punto2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import main.mochila.Grupo;
-import main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;
 
@@ -34,7 +32,7 @@ import metaheuristicas.IndividuoGen;
  */
 public class Ejecutor {
 
-    public static String FORMATO_DOUBLE = "E";
+    public static String FORMATO_DOUBLE = "f";
     public static int NUM_DECIMALES = 6;
 
     GraficoGnuPlot gnuplot;
@@ -50,8 +48,8 @@ public class Ejecutor {
         if (!(cd.isEmpty())) {
 //                gnuplot.addFuncionAritmetica(funcion.toString());
             gnuplot.addFuncionAritmetica(funcion.toString());
-            gnuplot.setXrange(funcion.getLimite());
-            gnuplot.setYrange(funcion.getLimite());
+//            gnuplot.setXrange(funcion.getLimite());
+//            gnuplot.setYrange(funcion.getLimite());
             gnuplot.addConjuntoDatos(cd, funcion.getNombre());
             gnuplot.plot3D(titulo);
 
@@ -129,16 +127,52 @@ public class Ejecutor {
         return cd;
     }
 
-    public Recorrido ejecutar(AlgoritmoMetaheuristico algoritmo, int numeroPruebas, int maxIteraciones) {
+    class Resultado {
+
+        public String nombreFuncion;
+        public String nombreAlgo;
+        public String dimension;
+        public String promedioIteraciones;
+        public String tasaExito;
+        public String mejorCalidad;
+        public String promedioCalidad;
+        public String desviacionCalidad;
+        public String tiempo;
+        public String promedioEvaluacion;
+        public Recorrido recorrido;
+
+        public Resultado(
+                String nombreFuncion, String nombreAlgo, 
+                String dimension, String promedioIteraciones, 
+                String tasaExito, String mejorCalidad, 
+                String promedioCalidad, String desviacionCalidad, 
+                String tiempo, String promedioEvaluacion, Recorrido recorrido) {
+            this.nombreFuncion = nombreFuncion;
+            this.nombreAlgo = nombreAlgo;
+            this.dimension = dimension;
+            this.promedioIteraciones = promedioIteraciones;
+            this.tasaExito = tasaExito;
+            this.mejorCalidad = mejorCalidad;
+            this.promedioCalidad = promedioCalidad;
+            this.desviacionCalidad = desviacionCalidad;
+            this.tiempo = tiempo;
+            this.promedioEvaluacion = promedioEvaluacion;
+            this.recorrido = recorrido;
+        }
+
+    }
+
+    public final Resultado ejecutar(AlgoritmoMetaheuristico algoritmo, int numeroPruebas, int maxIteraciones) {
         double promedioCalidad = 0; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
-        List<IndividuoGen> recorridoIndividuos;// recorrido del algoritmo
         List<IndividuoGen> mejorRecorrido = null;// recorrido del algoritmo
-        List<IndividuoGen> optimos = new ArrayList<>();
-        List<List<IndividuoGen>> listaRecorridosPruebas = new ArrayList();
+//        List<IndividuoGen> optimos = new ArrayList<>();
+        List<List<IndividuoGen>> listaRecorridosPruebas = new ArrayList();;
         IndividuoGen optimo;
         Double promedioIteraciones = 0.;
         Double tasaDeExito = 0.;
-        algoritmo.renovar();
+        List<IndividuoGen> recorridoIndividuos; // recorrido del algoritmo
+        FuncionGen funcion = algoritmo.getFuncion();
+
         long tiempo_inicial = System.currentTimeMillis();
         for (int i = 0; i < numeroPruebas; i++) {
             recorridoIndividuos = algoritmo.ejecutar();
@@ -146,10 +180,12 @@ public class Ejecutor {
                 listaRecorridosPruebas.add(recorridoIndividuos);
             }
         }
-        FuncionGen funcion = algoritmo.getFuncion();
         long tiempo_final = System.currentTimeMillis();
+        long tiempo = tiempo_final - tiempo_inicial;
+
         //obtener mejor recorridoIndividuo
         IndividuoGen mejorOptimo = null;
+        IndividuoGen peorOptimo = null;
         if (!listaRecorridosPruebas.isEmpty()) {
             for (List<IndividuoGen> recorrIndiItem : listaRecorridosPruebas) {
                 optimo = recorrIndiItem.get(recorrIndiItem.size() - 1);
@@ -160,33 +196,35 @@ public class Ejecutor {
                     mejorRecorrido = recorrIndiItem;
                     mejorOptimo = optimo;
                 }
-                optimos.add(optimo);
+                if (peorOptimo == null
+                        || peorOptimo.compareTo(optimo) > 0) {
+                    peorOptimo = optimo;
+                }
+                //guardar lista de optimos
+//                optimos.add(optimo);
                 promedioCalidad += optimo.getCalidad();
             }
 
             optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
             promedioCalidad = promedioCalidad / numeroPruebas;
-            IndividuoGen peorOptimo = mejorRecorrido.get(0);
 
-            imprimirConFormato(
+            //implimir mejor optimo
+//            System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
+//            System.out.println("Mejor: " + optimo.toStringInt() + "\n");
+            return new Resultado(
                     funcion.getNombre(),
                     algoritmo.getNombre(),
                     "" + funcion.getDimension(),
                     "" + String.format("%.2f", promedioIteraciones / numeroPruebas),
                     "" + tasaDeExito,
-                    "" + formatear(optimo.getCalidad()),
+                    "" + String.format("%.2f", optimo.getCalidad()),
                     "" + String.format("%.2f", promedioCalidad),
                     "" + String.format("%.4f", ((funcion.getOptimoGlobal() - optimo.getCalidad()) / funcion.getOptimoGlobal()) * 100),
-                    "" + (tiempo_final - tiempo_inicial) / numeroPruebas,
-                    "" + funcion.getContadorEvaluaciones() / numeroPruebas);
-            //implimir mejor optimo
-            System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
-//            System.out.println("Mejor: " + optimo.toStringInt() + "\n");
-
-            return new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre(), optimo);
+                    "" + tiempo / numeroPruebas,
+                    "" + funcion.getContadorEvaluaciones() / numeroPruebas,
+                    new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre(), optimo));
         }
         return null;
-//        return new Recorrido(convertirCD(mejorRecorrido), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre());
     }
 
     public Recorrido ejecutarAlgoritmosMasFunciones(List<AlgoritmoMetaheuristico> l_amgoritmos,
@@ -195,12 +233,6 @@ public class Ejecutor {
 
         Recorrido mejorRecorrido = null;
 //        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
-        System.out.println("----------------------------------------------------------.");
-        System.out.println("NPI: Numero iteraciones promedio.");
-        System.out.println("TP: Tiempo Promedio.");
-        System.out.println("TE: Tasa de exito.");
-        System.out.println("DPR: Desviación porcentual relativa.");
-        System.out.println("----------------------------------------------------------.");
 
         imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
@@ -209,30 +241,31 @@ public class Ejecutor {
         for (FuncionGen funcion : l_funciones) {
             listaRecorridos = new ArrayList();
             for (;;) {
-                /**
-                 * ciclo para los diferentes planteamientos de una misma funcion
-                 */
-                titulo = "(" + funcion.getNombre() + ")";
-                for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
+            /**
+             * ciclo para los diferentes planteamientos de una misma funcion
+             */
+            titulo = "(" + funcion.getNombre() + ")";
+            for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
 
                     for (;;) {
-                        /**
-                         * ciclo para los diferentes modificaciones de un mismo
-                         * algoritmo
-                         */
-                        Recorrido recorrido = ejecutar(algoritmo, numeroPruebas, iteraciones);
-                        listaRecorridos.add(recorrido);
-                        if (graficaRecorrido) {
-                            grafico3D(recorrido.getRecorrido3D(), titulo, funcion);
-                        }
+                /**
+                 * ciclo para los diferentes modificaciones de un mismo
+                 * algoritmo
+                 */
+                Resultado resultado = ejecutar(algoritmo, numeroPruebas, iteraciones);
+                Recorrido recorrido = resultado.recorrido;
+                listaRecorridos.add(recorrido);
+                if (graficaRecorrido) {
+                    grafico3D(recorrido.getRecorrido3D(), titulo, funcion);
+                }
                     }
-                }
-                if (funcion.haySiguiente()) {
-                    funcion.siguiente();
-                } else {
-                    funcion.reiniciar();
-                    break;
-                }
+            }
+            if (funcion.haySiguiente()) {
+                funcion.siguiente();
+            } else {
+                funcion.reiniciar();
+                break;
+            }
             }
             if (graficaConvergencia) {
                 grafico2D(listaRecorridos, titulo);
@@ -242,30 +275,32 @@ public class Ejecutor {
         return mejorRecorrido;
     }
 
-    public Recorrido ejecutarAlgoritmosMasFunciones(Grupo grupo,
+    public final Recorrido ejecutarGrupo(Grupo grupo,
             boolean graficaRecorrido, boolean graficaConvergencia,
-            int numeroPruebas) {
+            int numeroPruebas, String titulo) {
         List<AlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
 
         Recorrido mejorRecorrido = null;
-//        System.out.println("Para modificar el numero de desimales mostrados en los resultados(por defecto 1), modificar el valor del atributo metaheuristicas.General.NUM_DECIMALES");
-        System.out.println("----------------------------------------------------------.");
-        System.out.println("NPI: Numero iteraciones promedio.");
-        System.out.println("TP: Tiempo Promedio.");
-        System.out.println("TE: Tasa de exito.");
-        System.out.println("DPR: Desviación porcentual relativa.");
-        System.out.println("----------------------------------------------------------.");
 
-        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
-                "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         List<Recorrido> listaRecorridos = new ArrayList(); // para grafica de convergencia
-        String titulo = "(" + grupo.getNombreFuncion() + ")";
         int maxIteraciones = grupo.getMaxIteraciones();
         for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
             FuncionGen funcion = algoritmo.getFuncion();
-            Recorrido recorrido = ejecutar(algoritmo, numeroPruebas, maxIteraciones);
+            Resultado resultado = ejecutar(algoritmo, numeroPruebas, maxIteraciones);
+            imprimirConFormato(
+                    resultado.nombreFuncion,
+                    resultado.nombreAlgo,
+                    resultado.dimension,
+                    resultado.promedioIteraciones,
+                    resultado.tasaExito,
+                    resultado.mejorCalidad,
+                    resultado.promedioCalidad,
+                    resultado.desviacionCalidad,
+                    resultado.tiempo,
+                    resultado.promedioEvaluacion);
+            Recorrido recorrido = resultado.recorrido;
             // guardar mejor recorrido
-            if(mejorRecorrido == null || mejorRecorrido.compareTo(recorrido)<0){
+            if (mejorRecorrido == null || mejorRecorrido.compareTo(recorrido) < 0) {
                 mejorRecorrido = recorrido;
             }
             listaRecorridos.add(recorrido);
@@ -276,7 +311,6 @@ public class Ejecutor {
         if (graficaConvergencia) {
             grafico2D(listaRecorridos, titulo);
         }
-        System.out.println("");
         return mejorRecorrido;
     }
 
@@ -287,11 +321,11 @@ public class Ejecutor {
     }
 
     public static String formatear(double valor) {
-//        if (valor > 100000) {
-        return String.format("%-2." + NUM_DECIMALES + FORMATO_DOUBLE + "", valor);
-//        } else {
-//            return String.format("%.4f" + "", valor);
-//        }
+        if (valor > 100000) {
+            return String.format("%-2." + NUM_DECIMALES + FORMATO_DOUBLE + "", valor);
+        } else {
+            return String.format("%.4f" + "", valor);
+        }
     }
 
 }

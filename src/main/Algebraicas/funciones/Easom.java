@@ -11,7 +11,7 @@ public class Easom extends Funcion2D {
 
     public Easom(double limite, int dimension, boolean maximizar) throws InvalidAlgorithmParameterException {
         super("Easom", limite, dimension, maximizar);
-        minGlobal = -1;
+        minGlobal = -1.;
     }
 
     @Override
