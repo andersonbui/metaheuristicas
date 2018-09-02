@@ -18,9 +18,11 @@ package main.mochila.cuadratica;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import main.Ejecutor;
-import main.Resultado;
+import main.ResultadoAlgoritmo;
+import main.ResultadoGrupo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;
 import metaheuristicas.funcion.FuncionGen;
@@ -84,9 +86,9 @@ public class MainMochilaCuadratica {
                 grupo.inicializar();
                 Ejecutor ejecutor = new Ejecutor();
                 // EJECUTAR ANALISIS
-                List<Resultado> resultado = ejecutor.ejecutarGrupo(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, "");
+                ResultadoGrupo resultado = ejecutor.ejecutarGrupo(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, nombreArchivo);
                 imprimirResultados(resultado);
-                IndividuoGen individuo = Ejecutor.mejorOptimo(resultado);
+                IndividuoGen individuo = resultado.getMejorIndividuo();
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
                 if (parametros.maxGlobal == null || parametros.maxGlobal.compareTo(individuo.getCalidad()) < 0) {
                     parametros.setMaxGlobal(individuo.getCalidad());
@@ -106,8 +108,10 @@ public class MainMochilaCuadratica {
         return vectorInt;
     }
 
-    public static void imprimirResultados(List<Resultado> resultados) {
-        for (Resultado resultado : resultados) {
+    public static void imprimirResultados(ResultadoGrupo resultados) {
+        
+        for (ResultadoAlgoritmo resultado : resultados) {
+            
             AlgoritmoMetaheuristico algot = resultado.algoritmo;
             FuncionGen funcion = algot.getFuncion();
             imprimirConFormato(

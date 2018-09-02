@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static main.Ejecutor.formatear;
+import static main.mochila.cuadratica.MainMochilaCuadratica.formatear;
 
 /**
  *

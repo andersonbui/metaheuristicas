@@ -23,7 +23,7 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  *
  * @author debian
  */
-public class Resultado {
+public class ResultadoAlgoritmo {
 
     public AlgoritmoMetaheuristico algoritmo;
     public double promedioIteraciones;
@@ -35,7 +35,7 @@ public class Resultado {
     public double promedionumEvaluaciones;
     public Recorrido mejorRecorrido;
 
-    public Resultado(AlgoritmoMetaheuristico algoritmo, double promedioIteraciones, int numPruebas, int exitos, double promedioCalidadOptimos, double desviacionCalidadOptimos, long tiempoTotal, double promedionumEvaluaciones, Recorrido mejorRecorrido) {
+    public ResultadoAlgoritmo(AlgoritmoMetaheuristico algoritmo, double promedioIteraciones, int numPruebas, int exitos, double promedioCalidadOptimos, double desviacionCalidadOptimos, long tiempoTotal, double promedionumEvaluaciones, Recorrido mejorRecorrido) {
         this.algoritmo = algoritmo;
         this.promedioIteraciones = promedioIteraciones;
         this.numPruebas = numPruebas;

@@ -127,7 +127,7 @@ public class Ejecutor {
         return cd;
     }
 
-    public final Resultado ejecutar(AlgoritmoMetaheuristico algoritmo, int numeroPruebas, int maxIteraciones) {
+    public final ResultadoAlgoritmo ejecutar(AlgoritmoMetaheuristico algoritmo, int numeroPruebas, int maxIteraciones) {
         double promedioCalidad = 0; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
         List<IndividuoGen> mejorRecorrido = null;// recorrido del algoritmo
 //        List<IndividuoGen> optimos = new ArrayList<>();
@@ -148,7 +148,6 @@ public class Ejecutor {
         long tiempo_final = System.currentTimeMillis();
         long tiempo = tiempo_final - tiempo_inicial;
 
-        //obtener mejor recorridoIndividuo
         IndividuoGen mejorOptimo = null;
         IndividuoGen peorOptimo = null;
         if (!listaRecorridosPruebas.isEmpty()) {
@@ -165,8 +164,6 @@ public class Ejecutor {
                         || peorOptimo.compareTo(optimo) > 0) {
                     peorOptimo = optimo;
                 }
-                //guardar lista de optimos
-//                optimos.add(optimo);
                 promedioCalidad += optimo.getCalidad();
             }
 
@@ -174,9 +171,7 @@ public class Ejecutor {
             promedioCalidad = promedioCalidad / numeroPruebas;
 
             //implimir mejor optimo
-//            System.out.println("caract Mejor: " + funcion.toString(optimo) + "\n");
-//            System.out.println("Mejor: " + optimo.toStringInt() + "\n");
-            return new Resultado(
+            return new ResultadoAlgoritmo(
                     algoritmo,
                     promedioIteraciones,
                     numeroPruebas,
@@ -215,7 +210,7 @@ public class Ejecutor {
                          * ciclo para los diferentes modificaciones de un mismo
                          * algoritmo
                          */
-                        Resultado resultado = ejecutar(algoritmo, numeroPruebas, iteraciones);
+                        ResultadoAlgoritmo resultado = ejecutar(algoritmo, numeroPruebas, iteraciones);
                         Recorrido recorrido = resultado.mejorRecorrido;
                         listaRecorridos.add(recorrido);
                         if (graficaRecorrido) {
@@ -238,19 +233,19 @@ public class Ejecutor {
         return mejorRecorrido;
     }
 
-    public final List<Resultado> ejecutarGrupo(Grupo grupo,
+    public final ResultadoGrupo ejecutarGrupo(Grupo grupo,
             boolean graficaRecorrido, boolean graficaConvergencia,
-            int numeroPruebas, String titulo) {
+            int numeroPruebas, String instancia) {
         List<AlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
-        List<Resultado> resultados = new ArrayList();
         Recorrido mejorRecorrido = null;
+        ResultadoGrupo resultadoGrupo = new ResultadoGrupo();
 
         List<Recorrido> listaRecorridos = new ArrayList(); // para grafica de convergencia
         int maxIteraciones = grupo.getMaxIteraciones();
         for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
             FuncionGen funcion = algoritmo.getFuncion();
-            Resultado resultado = ejecutar(algoritmo, numeroPruebas, maxIteraciones);
-            resultados.add(resultado);
+            ResultadoAlgoritmo resultado = ejecutar(algoritmo, numeroPruebas, maxIteraciones);
+            resultadoGrupo.add(resultado);
             Recorrido recorrido = resultado.mejorRecorrido;
             // guardar mejor recorrido
             if (mejorRecorrido == null || mejorRecorrido.compareTo(recorrido) < 0) {
@@ -258,28 +253,14 @@ public class Ejecutor {
             }
             listaRecorridos.add(recorrido);
             if (graficaRecorrido) {
-                grafico3D(recorrido.getRecorrido3D(), titulo, funcion);
+                grafico3D(recorrido.getRecorrido3D(), instancia, funcion);
             }
         }
+        resultadoGrupo.setMejorIndividuo(mejorRecorrido.getMejorIndividuo());
         if (graficaConvergencia) {
-            grafico2D(listaRecorridos, titulo);
+            grafico2D(listaRecorridos, instancia);
         }
-        return resultados;
-    }
-
-    public static IndividuoGen mejorOptimo(List<Resultado> resultados) {
-        if (resultados == null || resultados.isEmpty()) {
-            return null;
-        }
-        Recorrido mejorRecorrido = null;
-        for (Resultado resultado : resultados) {
-            Recorrido recorrido = resultado.mejorRecorrido;
-            // guardar mejor recorrido
-            if (mejorRecorrido == null || mejorRecorrido.compareTo(recorrido) < 0) {
-                mejorRecorrido = recorrido;
-            }
-        }
-        return mejorRecorrido.getMejorIndividuo();
+        return resultadoGrupo;
     }
 
 }
