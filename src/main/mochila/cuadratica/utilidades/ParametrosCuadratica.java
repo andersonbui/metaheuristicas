@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica;
+package main.mochila.cuadratica.utilidades;
 
 /**
  *
@@ -22,16 +22,16 @@ package main.mochila.cuadratica;
  */
 public class ParametrosCuadratica {
 
-    String nombreInstancia;
-    double[][] matrizBeneficios;
-    double capacidad;
-    double[] vectorPesos;
+    private String nombreInstancia;
+    private double[][] matrizBeneficios;
+    private double capacidad;
+    private double[] vectorPesos;
     // mejorables
-    int[] vectorIdeal;
-    Double maxGlobal;
+    private int[] vectorIdeal;
+    private Double maxGlobal;
     // parametros para edicion de mejorables
-    int posicionIdeal;
-    int posicionMaxGlobal;
+    private int posicionIdeal;
+    private int posicionMaxGlobal;
 
     /**
      *

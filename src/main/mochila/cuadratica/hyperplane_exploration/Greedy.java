@@ -19,7 +19,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import main.mochila.cuadratica.Item;
+import main.Item;
 import metaheuristicas.Aleatorio;
 
 /**

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import static main.Utilidades.indiceOrdenadamente;
-import main.mochila.cuadratica.Item;
+import main.utilidades.Utilidades;
+import main.Item;
 
 /**
  *
@@ -56,7 +56,7 @@ public class UtilidadesIHEA {
         for (int i = 0; i < tamListaItems; i++) {
             item = listaItems.get(i);
             //            indice = indiceOrdenadamente(listaNum, aleatorio, true, tamanio);
-            indice = indiceOrdenadamente(listaObj, item, minimo);
+            indice = Utilidades.indiceOrdenadamente(listaObj, item, minimo);
             if (indice >= 0) {
                 listaObj.add(indice, item);
             }

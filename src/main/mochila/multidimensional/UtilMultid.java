@@ -18,8 +18,8 @@ package main.mochila.multidimensional;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.LeerArchivo;
-import static main.Utilidades.eliminarEspaciosRepetidos;
+import main.utilidades.LeerArchivo;
+import static main.utilidades.Utilidades.eliminarEspaciosRepetidos;
 
 /**
  *

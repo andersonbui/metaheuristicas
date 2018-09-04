@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
-import main.mochila.cuadratica.UtilCuadratica;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
 
 /**
  *

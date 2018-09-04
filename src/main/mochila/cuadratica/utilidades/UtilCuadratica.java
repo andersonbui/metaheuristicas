@@ -14,12 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica;
+package main.mochila.cuadratica.utilidades;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.LeerArchivo;
-import static main.Utilidades.eliminarEspaciosRepetidos;
+import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.IndividuoCuadratico;
+import main.utilidades.LeerArchivo;
+import static main.utilidades.Utilidades.eliminarEspaciosRepetidos;
 import metaheuristicas.Aleatorio;
 
 /**

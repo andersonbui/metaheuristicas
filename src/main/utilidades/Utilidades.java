@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main;
+package main.utilidades;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +66,15 @@ public class Utilidades {
         return texto;
     }
 
+    /**
+     * retorna la posicion del nuevo elemento a ser adicionado en la lista
+     * ordenada, ordenado segun la variable ascendente.
+     *
+     * @param lista
+     * @param punto
+     * @param ascendente
+     * @return
+     */
     public static int indiceOrdenadamente(List<Object> lista, Comparable punto, boolean ascendente) {
         if (lista.isEmpty()) {
             return 0;
@@ -91,18 +100,30 @@ public class Utilidades {
         }
     }
 
-    public static int indiceOrdenadamente(List<Object> lista, Comparable punto, boolean ascendente, int limite) {
+    /**
+     * retorna la posicion del nuevo elemento a ser adicionado en la lista
+     * ordenada, ordenado segun la variable ascendente. La lista tendra un
+     * limite maximo hasta el cual se llenara de manera ordenada, los elementos
+     * en posiiones que sobrepasen el limite seran ignorados.
+     *
+     * @param lista
+     * @param elemento
+     * @param ascendente
+     * @param limite
+     * @return
+     */
+    public static int indiceOrdenadamente(List<Object> lista, Comparable elemento, boolean ascendente, int limite) {
         if (lista.isEmpty()) {
             return 0;
         }
         // comprobar que el elemento este dentro de limite
-        if (ascendente && (lista.size() >= limite && punto.compareTo(lista.get(limite - 1)) > 0)) {
+        if (ascendente && (lista.size() >= limite && elemento.compareTo(lista.get(limite - 1)) > 0)) {
             return -1;
         }
-        if (!ascendente && (lista.size() >= limite && punto.compareTo(lista.get(limite - 1)) < 0)) {
+        if (!ascendente && (lista.size() >= limite && elemento.compareTo(lista.get(limite - 1)) < 0)) {
             return -1;
         }
-        return indiceOrdenadamente(lista, punto, ascendente);
+        return indiceOrdenadamente(lista, elemento, ascendente);
     }
 
     public static void resta() {
@@ -219,29 +240,29 @@ public class Utilidades {
         return Math.sqrt(suma / (lista.size() - 1));
     }
 
-    //pruebas
-    public static void main(String[] args) {
-        List listaNum = new ArrayList();
-        int tamanioLista = 10;
-        for (int i = 0; i < tamanioLista; i++) {
-            listaNum.add(i);
-        }
-        int intentos = 1000;
-        int rangoAleatorios = tamanioLista * 3;
-        int indice;
-        int aleatorio;
-        long tiempo_inicial = System.currentTimeMillis();
-
-        for (int i = 0; i < intentos; i++) {
-            aleatorio = Aleatorio.nextInt(rangoAleatorios);
-//            indice = indiceOrdenadamente(listaNum, aleatorio, true, tamanioLista);
-            indice = indiceOrdenadamente(listaNum, aleatorio, true);
-            if (indice > 0) {
-                listaNum.add(indice, aleatorio);
-            }
-        }
-        long tiempo_final = System.currentTimeMillis();
-        System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double) 1));
-
-    }
+//    //pruebas
+//    public static void main(String[] args) {
+//        List listaNum = new ArrayList();
+//        int tamanioLista = 10;
+//        for (int i = 0; i < tamanioLista; i++) {
+//            listaNum.add(i);
+//        }
+//        int intentos = 1000;
+//        int rangoAleatorios = tamanioLista * 3;
+//        int indice;
+//        int aleatorio;
+//        long tiempo_inicial = System.currentTimeMillis();
+//
+//        for (int i = 0; i < intentos; i++) {
+//            aleatorio = Aleatorio.nextInt(rangoAleatorios);
+////            indice = indiceOrdenadamente(listaNum, aleatorio, true, tamanioLista);
+//            indice = indiceOrdenadamente(listaNum, aleatorio, true);
+//            if (indice > 0) {
+//                listaNum.add(indice, aleatorio);
+//            }
+//        }
+//        long tiempo_final = System.currentTimeMillis();
+//        System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double) 1));
+//
+//    }
 }

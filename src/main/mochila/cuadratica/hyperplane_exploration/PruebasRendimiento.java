@@ -20,9 +20,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica;
-import main.mochila.cuadratica.GrupoInstancias;
-import main.mochila.cuadratica.LecturaParametrosCuadratica;
-import main.mochila.cuadratica.ParametrosCuadratica;
+import main.GrupoInstancias;
+import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
+import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 
 /**
  *

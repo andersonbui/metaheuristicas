@@ -17,8 +17,8 @@
 package main.mochila.cuadratica.graspBasadoMemoria;
 
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.UtilCuadratica;
-import main.mochila.cuadratica.UtilCuadratica.Movimiento;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
+import main.mochila.cuadratica.utilidades.UtilCuadratica.Movimiento;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -98,7 +98,7 @@ public class GraspTabuReinicio extends GraspReinicio {
         Movimiento r_mov;
         Movimiento w_mov;
         int numTweaks = 15;
-        int maxIteracionesTabu = 500; //500
+        int maxIteracionesTabu = 50; //500
 
         ListaTabu ltabu = new ListaTabu(s.getDimension());
         for (int iteracion = 1; iteracion < maxIteracionesTabu;) {

@@ -29,7 +29,7 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
 
     public FuncionSGVNS(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
-        nombre = "VNS";
+        nombre = "FVNS";
     }
 
     @Override

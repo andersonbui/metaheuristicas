@@ -14,13 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica;
+package main.mochila.cuadratica.utilidades;
 
+import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import java.util.List;
 import java.util.ListIterator;
-import main.EscribirArchivo;
-import main.LeerArchivo;
-import static main.Utilidades.eliminarEspaciosRepetidos;
+import main.utilidades.EscribirArchivo;
+import main.utilidades.LeerArchivo;
+import static main.utilidades.Utilidades.eliminarEspaciosRepetidos;
 
 /**
  *
@@ -37,8 +38,8 @@ public class LecturaParametrosCuadratica {
         List<String> listaCadenas = LeerArchivo.leer();
         LeerArchivo.terminar();
         EscribirArchivo archivo = new EscribirArchivo();
-        listaCadenas.set(parametros.posicionMaxGlobal, "" + parametros.maxGlobal);
-        listaCadenas.set(parametros.posicionIdeal, vectorAString(parametros.getVectorIdeal()));
+        listaCadenas.set(parametros.getPosicionMaxGlobal(), "" + parametros.getMaxGlobal());
+        listaCadenas.set(parametros.getPosicionIdeal(), vectorAString(parametros.getVectorIdeal()));
         archivo.abrir(nombreArchivo);
         archivo.escribir(listaCadenas);
         archivo.terminar();

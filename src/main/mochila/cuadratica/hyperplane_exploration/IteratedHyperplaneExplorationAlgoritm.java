@@ -18,8 +18,8 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.Item;
-import static main.mochila.cuadratica.UtilCuadratica.swap;
+import main.Item;
+import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 

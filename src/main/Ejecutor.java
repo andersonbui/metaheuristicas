@@ -22,7 +22,6 @@ import gnuplot.Punto;
 import gnuplot.Punto2D;
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.Grupo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;
 

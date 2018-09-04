@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import main.Ejecutor;
-import main.Utilidades;
+import main.utilidades.Utilidades;
 import main.mochila.multidimensional.UtilMultid;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;

@@ -19,7 +19,7 @@ package main.mochila.cuadratica.graspBasadoMemoria;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.Item;
+import main.Item;
 import metaheuristicas.IndividuoGen;
 import org.junit.After;
 import org.junit.AfterClass;

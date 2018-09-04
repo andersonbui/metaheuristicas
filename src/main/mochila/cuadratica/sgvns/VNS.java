@@ -40,6 +40,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         this.funcion = funcion;
         alpha = 1.0 / 30.0;
         this.maxIteraciones = maxIteraciones;
+        nombre = "SGVNS";
     }
 
     /**

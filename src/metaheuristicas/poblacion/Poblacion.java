@@ -20,7 +20,7 @@ import metaheuristicas.funcion.FuncionGen;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.IndividuoGen;
-import main.Utilidades;
+import main.utilidades.Utilidades;
 
 /**
  *

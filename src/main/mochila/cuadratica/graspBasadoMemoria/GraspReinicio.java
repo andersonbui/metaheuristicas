@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.Item;
-import main.mochila.cuadratica.UtilCuadratica;
+import main.Item;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
@@ -82,7 +82,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
         IndividuoCuadratico LB = null;
         IndividuoCuadratico S = null;
         IndividuoCuadratico solParcialS = funcion.generarIndividuo();
-        solParcialS.evaluar();
+//        solParcialS.evaluar();
         IndividuoCuadratico bestLB = solParcialS;
 
         int cont = 0, m = 0;
@@ -95,6 +95,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
 
             for (k = m * sigma + 1; k <= (m + 1) * sigma; k++) {
                 //Linea 4:
+                //@TODO cosiderar una sacudida de solucion parcial
                 S = faseConstruccion(minLen, maxLen, solParcialS);
                 //Linea 5:
 
@@ -125,7 +126,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
             }
             //linea 16: 
             solParcialS = definicionSolParcialS(funcion, m, sigma, Q);
-            solParcialS.evaluar();
+//            solParcialS.evaluar();
             m++;
             listaRecorrido.add(bestLB);
         }
@@ -191,6 +192,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
      */
     protected IndividuoCuadratico faseConstruccion(int minLen, int maxLen, IndividuoCuadratico solParcialS) {
         //Linea 1:
+//        IndividuoCuadratico S = solParcialS.clone();
         IndividuoCuadratico S = solParcialS;
         int l = 1;
         int len;
@@ -210,7 +212,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
             //Linea 3
             for (Integer pos : noSeleccionadosRS) {
                 //Linea 4: Evalua la calidad de cada uno de los j-esimo elementos que pertenecen a R(S) con f2(Sj)
-                itemsCalidadNoSeleccionados.add(new Item(pos, funcion.voraz(S, pos, obj_S, w_S)));
+                itemsCalidadNoSeleccionados.add(new Item(pos, -funcion.voraz(S, pos, obj_S, w_S)));
             }
             //luci 3148795 206
             //linea 6: Selecciona el tamaño de la LRC aleatoriamente Len del rango [MinLen, MaxLen];
@@ -223,7 +225,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
             double[] qkl = probabilidadSeleccionLRC(listaLRC, Qkl);
             //linea 12:
             S.set(seleccionItemDeLRC(Qkl, qkl, listaLRC).getIndice(), 1);
-            S.evaluar();
+//            S.evaluar();
             //linea 13:
             l++;
 
@@ -250,13 +252,13 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
 
             solucionSwap = UtilCuadratica.swap(s);
             //Linea 5: si encuentra una mejora realiza el mejor movimiento Shift o Swap  
-            if (solucionShift.compareTo(s) > 0) {
+            if (solucionShift != null && solucionShift.compareTo(s) > 0) {
                 if (solucionShift.compareTo(solucionSwap) > 0) {
                     s = solucionShift;
                 } else {
                     s = solucionSwap;
                 }
-            } else if (solucionSwap.compareTo(s) > 0) {
+            } else if (solucionSwap != null && solucionSwap.compareTo(s) > 0) {
                 s = solucionSwap;
             } //Linea 7: 
             else {
@@ -278,6 +280,7 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
      */
     protected List<Item> obtenerLRC(List<Item> listItemNoSeleccionados, int len) {
         List<Item> LRC = new ArrayList();
+        //@TODO sort poco eficiente para este uso
         Collections.sort(listItemNoSeleccionados);
         int tamL = listItemNoSeleccionados.size();
         int tamanio = Math.min(len, tamL);
@@ -337,6 +340,8 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
             }
             Q.add(qk_1);
         } else {
+            Q.clear();
+            //@TODO considerar inicializar uno de estos vectores en 1 cada elemento
             Q.add(new int[funcion.getDimension()]);
             Q.add(new int[funcion.getDimension()]);
         }
@@ -344,8 +349,8 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
 
     /**
      * [1,1,0,0,0] [1,1,0,1,0] [0,1,0,0,0] ejemplo: qk[2,3,0,1,0];
-     * Individuo[0,0,1,1,0]; LRC[1,4]->i (0,1)->j; Qkl es la sumatoria de los optimos
-     * locales. Este es utilizado para garantizar que la sumatoria de la
+     * Individuo[0,0,1,1,0]; LRC[1,4]->i (0,1)->j; Qkl es la sumatoria de los
+     * optimos locales. Este es utilizado para garantizar que la sumatoria de la
      * probabilidad qkl[j] sea igual a 1.
      *
      * @param listaLRC
@@ -425,31 +430,5 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
         }
         return individuo;
     }
-
-//    /**
-//     * El movimiento Swap reemplaza un elemento seleccionado por uno no
-//     * seleccionado
-//     *
-//     * @param individuo
-//     * @return
-//     */
-//    protected IndividuoCuadratico swap(IndividuoCuadratico individuo) {
-//        List<Integer> listaItemNoSelect = obtenerItemsNoSelecionados(individuo);
-//        List<Integer> listaItemSelect = obtenerItemsSelecionados(individuo);
-//        int maxLenNS = listaItemNoSelect.size();
-//        int maxLenS = listaItemSelect.size();
-//        int aleatrioNS = Aleatorio.nextInt(maxLenNS);
-//        int aleatrioS = Aleatorio.nextInt(maxLenS);
-//
-//        individuo.set(listaItemSelect.get(aleatrioS), 0);
-//        if (funcion.cabe(individuo, listaItemNoSelect.get(aleatrioNS))) {
-//            individuo.set(listaItemNoSelect.get(aleatrioNS), 1);
-//        } else {
-//            individuo.set(listaItemSelect.get(aleatrioS), 1);
-//        }
-////            lisNS[0,1,3]-> 1
-////            [0,0,1,0,1]->2
-//        return individuo;
-//    }
 
 }

@@ -16,7 +16,8 @@
  */
 package main.mochila.cuadratica;
 
-import main.mochila.Grupo;
+import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
+import main.Grupo;
 import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
 import main.mochila.cuadratica.anson.FuncionMochilaCuadraticaGreedy;
 import main.mochila.cuadratica.graspBasadoMemoria.FuncionGraspTabuR;
@@ -49,19 +50,19 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     @Override
     public void inicializar() {
-        double[][] matrizBeneficios = parametros.matrizBeneficios;
-        double capacidad = parametros.capacidad;
-        double[] vectorPesos = parametros.vectorPesos;
-        Double maxGlobal = parametros.maxGlobal;
+        double[][] matrizBeneficios = parametros.getMatrizBeneficios();
+        double capacidad = parametros.getCapacidad();
+        double[] vectorPesos = parametros.getVectorPesos();
+        Double maxGlobal = parametros.getMaxGlobal();
 
         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
 
-//        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 ////
-//        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 //        
 //        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
