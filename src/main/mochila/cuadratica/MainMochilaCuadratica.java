@@ -47,7 +47,7 @@ public class MainMochilaCuadratica {
         // iteraciones realizadas por los algoritmos
         maxIteraciones = 50;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 1;
+        numMuestras = 2;
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
@@ -123,11 +123,11 @@ public class MainMochilaCuadratica {
                     algot.getNombre(),
                     formatear(funcion.getDimension()),
                     formatear(resultado.promedioIteraciones),
-                    formatear((double) resultado.exitos / resultado.numPruebas),
+                    formatear((double) resultado.exitos ),
                     formatear(resultado.mejorRecorrido.getMejorIndividuo().getCalidad()),
                     formatear(resultado.promedioCalidadOptimos),
                     formatear(resultado.desviacionCalidadOptimos),
-                    formatear(resultado.tiempoTotal / resultado.numPruebas),
+                    formatear(resultado.tiempoTotal ),
                     formatear(resultado.promedionumEvaluaciones));
         }
     }

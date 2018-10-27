@@ -122,7 +122,7 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
      * @return
      */
     public double contribucion(int indice, Individuo mochila) {
-        double suma = 0;
+        double suma = 0;  //sssss
 //        List<Integer> listaElemSelec = mochila.elementosSeleccionados();
 //        for (int i : listaElemSelec) {
 //            if (i < indice) {

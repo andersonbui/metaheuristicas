@@ -133,7 +133,7 @@ public class Ejecutor {
         List<List<IndividuoGen>> listaRecorridosPruebas = new ArrayList();;
         IndividuoGen optimo;
         Double promedioIteraciones = 0.;
-        int tasaDeExito = 0;
+        float tasaDeExito = 0;
         List<IndividuoGen> recorridoIndividuos; // recorrido del algoritmo
         FuncionGen funcion = algoritmo.getFuncion();
 
@@ -168,6 +168,9 @@ public class Ejecutor {
 
             optimo = mejorRecorrido.get(mejorRecorrido.size() - 1);
             promedioCalidad = promedioCalidad / numeroPruebas;
+            tasaDeExito /= numeroPruebas;
+            promedioIteraciones /= numeroPruebas;
+            tiempo /= numeroPruebas;
 
             //implimir mejor optimo
             return new ResultadoAlgoritmo(

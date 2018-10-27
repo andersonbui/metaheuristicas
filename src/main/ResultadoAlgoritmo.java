@@ -27,15 +27,15 @@ public class ResultadoAlgoritmo {
 
     public AlgoritmoMetaheuristico algoritmo;
     public double promedioIteraciones;
-    public int numPruebas;
-    public int exitos;
+    public double numPruebas;
+    public double exitos;
     public double promedioCalidadOptimos;
     public double desviacionCalidadOptimos;
-    public long tiempoTotal;
+    public double tiempoTotal;
     public double promedionumEvaluaciones;
     public Recorrido mejorRecorrido;
 
-    public ResultadoAlgoritmo(AlgoritmoMetaheuristico algoritmo, double promedioIteraciones, int numPruebas, int exitos, double promedioCalidadOptimos, double desviacionCalidadOptimos, long tiempoTotal, double promedionumEvaluaciones, Recorrido mejorRecorrido) {
+    public ResultadoAlgoritmo(AlgoritmoMetaheuristico algoritmo, double promedioIteraciones, double numPruebas, double exitos, double promedioCalidadOptimos, double desviacionCalidadOptimos, double tiempoTotal, double promedionumEvaluaciones, Recorrido mejorRecorrido) {
         this.algoritmo = algoritmo;
         this.promedioIteraciones = promedioIteraciones;
         this.numPruebas = numPruebas;
