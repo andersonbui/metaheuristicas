@@ -95,35 +95,36 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
 
         double valAnterior = get(indice);
         if (valAnterior == valor) {
+            System.out.println("valor igual al anterior");
             return;
         }
         if (valor == 0) {
             boolean result = I1.remove((Integer) indice);
             if (result) {
                 I0.add((Integer) indice);
-            }
+            }else{System.out.println("error anadiendo elemento de I1");}
         } else {
             boolean result = I0.remove((Integer) indice);
             if (result) {
                 I1.add((Integer) indice);
-            }
+            }else{System.out.println("error removiendo elemento de I0");}
         }
         double valorPeso;
         double contribucion = 0;
         //contribucion
-//        contribucion = funcion.contribucion(indice, this);
+        contribucion = funcion.contribucion(indice, this);
 
-        for (int i : I1) {
-            if (i < indice) {
-                //contribucion en la fila
-                contribucion += funcion.beneficio(i, indice);
-            } else if (i > indice) {
-                //contribucion en la columna
-                contribucion += funcion.beneficio(indice, i);
-            }
-        }
-        //contribucion por si solo
-        contribucion += funcion.beneficio(indice, indice);
+//        for (int i : I1) {
+//            if (i < indice) {
+//                //contribucion en la fila
+//                contribucion += funcion.beneficio(i, indice);
+//            } else if (i > indice) {
+//                //contribucion en la columna
+//                contribucion += funcion.beneficio(indice, i);
+//            }
+//        }
+//        //contribucion por si solo
+//        contribucion += funcion.beneficio(indice, indice);
         // fin contribucion
 
         // peso del articulo

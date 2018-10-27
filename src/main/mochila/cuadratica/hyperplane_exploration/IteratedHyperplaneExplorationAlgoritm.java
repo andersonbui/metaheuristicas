@@ -172,6 +172,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // vector de indices de variables fijas
         int[] varFijas = new int[nf];
         // obtener los primeros nf indices de los elementos más densos
+        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
         for (int i = 0; i < nf; i++) {
             varFijas[i] = listaIndices.get(i);
         }
@@ -264,8 +265,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         double fmin = x_referencia.evaluar();
         // x*: recuerda la mejor solucion encontrada hasta el momento
         IndividuoIHEA x_aster = x_referencia;
-        // linea 6;
-        int erl = 0;
+        // linea 6; tamanio lista RL
+//        int erl = 0;
         // linea 7:
         IndividuoIHEA x = x_inicial.clone();
         int i_aster = 0;
@@ -275,12 +276,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int jmax = -1;
         // linea 8:
         int iterTabu = 1;
-        int penalizacion = 5;
 
         double pesoi;
         double calidadi;
-
-        while ((vmin == Double.POSITIVE_INFINITY && list_RL.size() < L)) {
+        int iterMax = 0;
+        while (iterMax < L / 2 && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
 
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
@@ -291,62 +291,61 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             I0 = elementosFuera(x);
             I1 = elementosDentro(x);
             // linea 10:
-            for (int i : I0) {
+            for (int j : I1) {
+                pesoi = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
+                calidadi = x.getCalidad() - funcion.contribucion(j, x);
 
-                pesoi = funcion.getCapacidad() - x.pesar() - funcion.peso(i);
-                calidadi = x.getCalidad() + funcion.contribucion(i, x);
-                // linea 11:
-                for (int j : I1) {
+                for (int i : I0) {
+                    // linea 11:
                     // linea 12:
-                    if (tabu[i][j] < iterTabu) {
-
+                    if (tabu[i][j] <= iterTabu - 1) {
                         //contribucion
-                        frx = calidadi - funcion.contribucion(j, x, i);
+                        frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
-                        vcx = pesoi + funcion.peso(j);
-
-//                         linea 13:
-//                        x.set(i, 1);
-//                        x.set(j, 0);
-////                         linea 14:
-//                        frx = rawFuncion(x);
-//                        // violación de capacidad
-//                        double vcx = funcion.violacionDeCapacidad(x);
-//                        if ((frx > fmin) && ((vcx >= 0 && (vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
-                        if ((frx > fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
+                        vcx = pesoi - funcion.peso(i);
+                        if ((frx > fmin) && (((vcx > vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                             i_aster = i;
                             j_aster = j;
                             vmin = vcx;
                             fmax = frx;
-//                            if (vcx >= 0) {
-//                                jmax = j;
-//                                imax = i;
-//                            }
                         }
-//                        x.set(i, 0);
-//                        x.set(j, 1);
+
+                        if (frx > fmin && vcx >= 0) {
+                            imax = i;
+                            jmax = j;
+                            fmin=frx;
+//                            break;
+                        }
                         contador++;
                     }
                 }
+//                if(imax>=0){
+//                    break;
+//                }
             }
             int i;
             Integer j;
             // linea 21:
+            if(imax >=0 && jmax >=0){
+                 x.set(imax, 1);
+                x.set(jmax, 0);
+                 // linea 24:
+                    iterMax = 0;
+                    list_RL.clear();
+                    fmin = rawFuncion(x);
+                    x_aster = x.clone();
+                    // linea 25:
+                imax=-1;
+                jmax=-1;
+            }else
             if (vmin != Double.POSITIVE_INFINITY) {
 
-//                if (imax >= 0 && false) {
-//                    x.set(imax, 1);
-//                    x.set(jmax, 0);
-//                    x_aster = x.clone();
-//                    fmin = x_aster.getCalidad();
-//                    list_RL.clear();
-//                    // linea 25:
-//                } else {
-// linea 22:
+                // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin == 0) { // ############################# ==
+                if (vmin >= 0) { // ############################# ==
                     // linea 24:
+                    iterMax = 0;
                     list_RL.clear();
                     fmin = rawFuncion(x);
                     x_aster = x.clone();
@@ -356,6 +355,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     iterTabu += 1;
                     list_RL.add(i_aster);
                     list_RL.add(j_aster);
+                    iterMax += 2;
                     // linea 27:
                     i = list_RL.size() - 1;
                     // linea 28:
@@ -363,24 +363,20 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     while (i >= 0) {
                         // linea 29:
                         j = list_RL.get(i);
-//                            if (i % 2 == 1) {
-//                                int pos2 = list_RL.get(i - 1);
-//                                tabu[j][pos2] = iterTabu + penalizacion;
-//                                tabu[pos2][j] = iterTabu + penalizacion;
-//                            }
                         if (list_RCS.contains(j)) {
                             boolean ret = list_RCS.remove(j);
                         } else {
                             list_RCS.add(j);
                         }
                         if (list_RCS.size() == 2) {
-                            tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu + penalizacion;
-                            tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu + penalizacion;
+                            tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu;
+                            tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu;
                         }
                         i--;
                     }
                 }
-//                }
+            } else {
+                iterMax += 1;
             }
         }
         return x_aster;
@@ -398,7 +394,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     protected IndividuoIHEA perturbacion(IndividuoIHEA individuo, int iteraciones) {
-        individuo= individuo.clone();
+        individuo = individuo.clone();
         List<Integer> I1 = elementosDentro(individuo);
 
         // dimension de individuo
@@ -413,8 +409,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         List<Integer> listaIndices = primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
-            posaleatoria = Aleatorio.nextInt(t);
-            individuo.set(listaIndices.get(posaleatoria), 0);
+            posaleatoria = Aleatorio.nextInt(listaIndices.size());
+            individuo.set(listaIndices.remove(posaleatoria), 0);
         }
         individuo = GreedyRandomizedConstruction(individuo, rcl);
         return individuo;
@@ -521,7 +517,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         individuo = individuo.clone();
         List<Integer> listaI0 = funcion.obtener_I0(individuo);
         listaI0 = funcion.filtrarPorFactibles(listaI0, individuo);
-        if(listaI0.isEmpty()){
+        if (listaI0.isEmpty()) {
             return null;
         }
         int indice = Aleatorio.nextInt(listaI0.size());

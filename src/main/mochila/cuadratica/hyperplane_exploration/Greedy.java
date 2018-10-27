@@ -18,6 +18,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import main.Item;
 import metaheuristicas.Aleatorio;
@@ -29,6 +30,7 @@ import metaheuristicas.Aleatorio;
 class Greedy {
 
     protected IndividuoIHEA ejecutar(IndividuoIHEA individuo, int rcl) {
+        //TODO mejorar pasando la lista ya ordenada y no volver a ordenar
         individuo = individuo.clone();
         List<Item> LRC = crearLRC(individuo, rcl);
         while (!LRC.isEmpty()) {
@@ -53,7 +55,12 @@ class Greedy {
     protected List<Item> crearLRC(IndividuoIHEA individuo, int rcl) {
         List<Item> listItemNoSeleccionados = obtenerItemsNoSeleccionadosViables(individuo);
         List<Item> LRC = new ArrayList();
-        Collections.sort(listItemNoSeleccionados);
+        Collections.sort(listItemNoSeleccionados,new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return -o1.compareTo(o2);
+            }
+        });
         int tamL = listItemNoSeleccionados.size();
         int tamanio = Math.min(rcl, tamL);
         for (int i = 0; i < tamanio; i++) {
