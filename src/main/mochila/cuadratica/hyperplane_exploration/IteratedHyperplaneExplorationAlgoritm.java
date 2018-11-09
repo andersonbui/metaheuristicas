@@ -274,13 +274,14 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         int imax = -1;
         int jmax = -1;
+        double vmax = -1;
         // linea 8:
         int iterTabu = 1;
 
         double pesoi;
         double calidadi;
         int iterMax = 0;
-        while (iterMax < L / 2 && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
+        while ((iterMax < L / 2) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
 
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
@@ -303,7 +304,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
                         vcx = pesoi - funcion.peso(i);
-                        if ((frx > fmin) && (((vcx > vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
+                        
+                        if ((frx > fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                             i_aster = i;
                             j_aster = j;
                             vmin = vcx;
@@ -314,6 +316,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                             imax = i;
                             jmax = j;
                             fmin=frx;
+                            vmax=vcx;
 //                            break;
                         }
                         contador++;
@@ -326,24 +329,23 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             int i;
             Integer j;
             // linea 21:
-            if(imax >=0 && jmax >=0){
-                 x.set(imax, 1);
+            if (imax >= 0 && jmax >= 0) {
+                x.set(imax, 1);
                 x.set(jmax, 0);
-                 // linea 24:
-                    iterMax = 0;
-                    list_RL.clear();
-                    fmin = rawFuncion(x);
-                    x_aster = x.clone();
-                    // linea 25:
-                imax=-1;
-                jmax=-1;
-            }else
-            if (vmin != Double.POSITIVE_INFINITY) {
+                // linea 24:
+                iterMax = 0;
+                list_RL.clear();
+                fmin = rawFuncion(x);
+                x_aster = x.clone();
+                // linea 25:
+                imax = -1;
+                jmax = -1;
+            } else if (vmin != Double.POSITIVE_INFINITY) {
 
                 // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin >= 0) { // ############################# ==
+                if (vmin == 0) { // ############################# ==
                     // linea 24:
                     iterMax = 0;
                     list_RL.clear();
@@ -421,9 +423,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     protected CQKP construirCQKP(int numVarFijas, CQKP cqkp, IndividuoIHEA x_individuo) {
-
         return cqkp;
-
     }
 
     /**

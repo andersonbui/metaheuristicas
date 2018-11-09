@@ -34,9 +34,10 @@ public class LecturaParametrosCuadratica {
     }
 
     public void actualizar(String nombreArchivo, ParametrosCuadratica parametros) {
-        LeerArchivo.abrir(nombreArchivo);
-        List<String> listaCadenas = LeerArchivo.leer();
-        LeerArchivo.terminar();
+        LeerArchivo leer =new LeerArchivo();
+        leer.abrir(nombreArchivo);
+        List<String> listaCadenas = leer.leer();
+        leer.terminar();
         EscribirArchivo archivo = new EscribirArchivo();
         listaCadenas.set(parametros.getPosicionMaxGlobal(), "" + parametros.getMaxGlobal());
         listaCadenas.set(parametros.getPosicionIdeal(), vectorAString(parametros.getVectorIdeal()));
@@ -64,12 +65,12 @@ public class LecturaParametrosCuadratica {
         double[] vectorPesos;
         int numElementos;
         ParametrosCuadratica pc = new ParametrosCuadratica();
-
-        if (!LeerArchivo.abrir(nombreArchivo)) {
+        LeerArchivo leer =new LeerArchivo();
+        if (!leer.abrir(nombreArchivo)) {
             return null;
         }
-        List<String> listaCadenas = LeerArchivo.leer();
-        LeerArchivo.terminar();
+        List<String> listaCadenas = leer.leer();
+        leer.terminar();
 //        List listaResultado = new ArrayList();
 
         ListIterator<String> iterador = listaCadenas.listIterator();

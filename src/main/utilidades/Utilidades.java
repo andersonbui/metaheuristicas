@@ -29,11 +29,12 @@ import metaheuristicas.IndividuoGen;
 public class Utilidades {
 
     static public List<IndividuoGen> obtenerDatosRegresion(int numDatos, String nombreArchivo, boolean maximizar) {
-        LeerArchivo.abrir(nombreArchivo);
-        List<String> listaCadenas = LeerArchivo.leer(numDatos);
+        LeerArchivo leer =new LeerArchivo();
+        leer.abrir(nombreArchivo);
+        List<String> listaCadenas = leer.leer(numDatos);
         List<IndividuoGen> listaPuntos = new ArrayList();
         int j;
-        LeerArchivo.terminar();
+        leer.terminar();
         for (int i = 1; i < listaCadenas.size(); i++) {
             int posicionSubdivisiones = 0;
             String cadena = listaCadenas.get(i).replace(',', '.');
