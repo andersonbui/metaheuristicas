@@ -74,15 +74,16 @@ public class MainMochilaCuadratica {
         System.out.println("DPR: Desviación porcentual relativa.");
         System.out.println("----------------------------------------------------------.");
 
+        List<HiloEjecucion> hilos = new ArrayList<>();
         imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
+        String mensaje = "";
         for (GrupoInstancias instancia : instancias) {
-            System.out.print("####");
+            mensaje += "####";
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
                 nombreArchivo = String.format(instancia.ubicacion + instancia.base, indice_instancia);
 
-                System.out.print("----");
-                System.out.println("Nombre archivo: " + String.format(instancia.base, indice_instancia) + "----");
+                mensaje += "----Nombre archivo: " + String.format(instancia.base, indice_instancia) + "----\n";
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
                 ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
@@ -94,19 +95,65 @@ public class MainMochilaCuadratica {
                 grupo.inicializar();
                 Ejecutor ejecutor = new Ejecutor();
                 // EJECUTAR ANALISIS
-                ResultadoGrupo resultadoGrupo = ejecutor.ejecutarGrupo(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, nombreArchivo);
-                listResultadosGrupos.add(resultadoGrupo);
-                imprimirResultados(resultadoGrupo);
-                IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
-                // comprobar calidad de la actua instancia y actualizar los archivos de instancias
-                if (parametros.getMaxGlobal() == null || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
-                    parametros.setMaxGlobal(individuo.getCalidad());
-                    parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
-                    lpc.actualizar(nombreArchivo, parametros);
-                }
+                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, nombreArchivo);
+                // Multi-hilo
+                hilos.add(new HiloEjecucion(parametros, ejecutor,mensaje));
+                // Un hilo
+//                ResultadoGrupo resultadoGrupo = ejecutor.ejecutarGrupo();
+//                listResultadosGrupos.add(resultadoGrupo);
+//                imprimirResultados(resultadoGrupo);
+//                IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
+//                // comprobar calidad de la actua instancia y actualizar los archivos de instancias
+//                if (parametros.getMaxGlobal() == null || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+//                    parametros.setMaxGlobal(individuo.getCalidad());
+//                    parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
+//                    lpc.actualizar(nombreArchivo, parametros);
+//                }
+                mensaje = "";
             }
         }
+        for (HiloEjecucion hilo : hilos) {
+            hilo.start();
+        }
+        for (HiloEjecucion hilo : hilos) {
+            hilo.join();
+            System.out.print(hilo.mensaje);
+            
+            ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
+            ParametrosCuadratica parametros = hilo.parametros;
+            
+            listResultadosGrupos.add(resultadoGrupo);
+            LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
+            imprimirResultados(resultadoGrupo);
+            IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
+            // comprobar calidad de la actua instancia y actualizar los archivos de instancias
+            if (parametros.getMaxGlobal() == null || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+                parametros.setMaxGlobal(individuo.getCalidad());
+                parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
+                lpc.actualizar(parametros.getNombreArchivo(), parametros);
+            }
+        }
+
         imprimirResumen(listResultadosGrupos);
+    }
+    
+    static class HiloEjecucion extends Thread {
+
+        private final ParametrosCuadratica parametros;
+        private final Ejecutor ejecutor;
+        ResultadoGrupo resultadoGrupo;
+        private final String mensaje;
+
+        public HiloEjecucion(ParametrosCuadratica parametros, Ejecutor ejecutor, String mensaje) {
+            this.parametros = parametros;
+            this.ejecutor = ejecutor;
+            this.mensaje = mensaje;
+        }
+
+        @Override
+        public void run() {
+            resultadoGrupo = ejecutor.ejecutarGrupo();
+        }
     }
 
     public static int[] vDouble_vInt(double[] vector) {
@@ -128,11 +175,11 @@ public class MainMochilaCuadratica {
                     algot.getNombre(),
                     formatear(funcion.getDimension()),
                     formatear(resultado.promedioIteraciones),
-                    formatear((double) resultado.exitos ),
+                    formatear((double) resultado.exitos),
                     formatear(resultado.mejorRecorrido.getMejorIndividuo().getCalidad()),
                     formatear(resultado.promedioCalidadOptimos),
                     formatear(resultado.desviacionCalidadOptimos),
-                    formatear(resultado.tiempoTotal ),
+                    formatear(resultado.tiempoTotal),
                     formatear(resultado.promedionumEvaluaciones));
         }
     }
@@ -140,22 +187,26 @@ public class MainMochilaCuadratica {
     public static void imprimirResumen(List<ResultadoGrupo> resultadosGrupos) {
         System.out.println("--------------------RESUMEN-----------------");
         ResultadoGrupo grupoAux = resultadosGrupos.get(0);
-        int tamGrupoAux =grupoAux.size();
+        int tamGrupoAux = grupoAux.size();
         double[] aciertos = new double[tamGrupoAux];
         double[] desviacion = new double[tamGrupoAux];
+        double[] tiempos = new double[tamGrupoAux];
         for (int i = 0; i < resultadosGrupos.size(); i++) {
             ResultadoGrupo grupo = resultadosGrupos.get(i);
             for (int j = 0; j < tamGrupoAux; j++) {
                 ResultadoAlgoritmo resultado = grupo.get(j);
                 aciertos[j] += resultado.exitos;
                 desviacion[j] += resultado.desviacionCalidadOptimos;
+                tiempos[j] += resultado.tiempoTotal;
             }
         }
         for (int i = 0; i < tamGrupoAux; i++) {
-            System.out.println("aciertos[" + grupoAux.get(i).algoritmo.getNombre() + "]:" + formatear(aciertos[i]*100/(double)resultadosGrupos.size())+"%");
-            System.out.println("desviacion[" + grupoAux.get(i).algoritmo.getNombre() + "]:" + formatear(desviacion[i]/(double)resultadosGrupos.size())+"%");
+            System.out.println("Algoritmo[" + grupoAux.get(i).algoritmo.getNombre() + "]");
+            System.out.println("aciertos:" + formatear(aciertos[i] * 100 / (double) resultadosGrupos.size()) + "%");
+            System.out.println("desviacion:" + formatear(desviacion[i] / (double) resultadosGrupos.size()) + "");
+            System.out.println("tiempo promedio:" + formatear(tiempos[i] / (double) resultadosGrupos.size()) + "ms");
+            System.out.println("-------");
         }
-
     }
 
     public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,

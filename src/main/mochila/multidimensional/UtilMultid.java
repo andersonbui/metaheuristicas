@@ -28,11 +28,12 @@ import static main.utilidades.Utilidades.eliminarEspaciosRepetidos;
 public class UtilMultid {
 
     static public List obtenerDatosMochila(String nombreArchivo) {
-        LeerArchivo.abrir(nombreArchivo);
-        List<String> listaCadenas = LeerArchivo.leer();
+        LeerArchivo leer =new LeerArchivo();
+        leer.abrir(nombreArchivo);
+        List<String> listaCadenas = leer.leer();
         List listaObj = new ArrayList();
         int j;
-        LeerArchivo.terminar();
+        leer.terminar();
         for (int i = 0; i < listaCadenas.size(); i++) {
             int posicionSubdivisiones = 0;
             String cadena = listaCadenas.get(i).replace(',', '.');
@@ -56,9 +57,10 @@ public class UtilMultid {
     }
 
     static public List obtenerDatosMochilaMultidimensional(String nombreArchivo) {
-        LeerArchivo.abrir(nombreArchivo);
-        List<String> listaCadenas = LeerArchivo.leer();
-        LeerArchivo.terminar();
+        LeerArchivo leer =new LeerArchivo();
+        leer.abrir(nombreArchivo);
+        List<String> listaCadenas = leer.leer();
+        leer.terminar();
         List listaObj = new ArrayList();
         String separador = "" + '\u0020';
 

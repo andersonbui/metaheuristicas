@@ -22,6 +22,8 @@ package main.mochila.cuadratica.utilidades;
  */
 public class ParametrosCuadratica {
 
+    private String nombreArchivo;
+
     private String nombreInstancia;
     private double[][] matrizBeneficios;
     private double capacidad;
@@ -35,6 +37,7 @@ public class ParametrosCuadratica {
 
     /**
      *
+     * @param nombreArchivo
      * @param nombreInstancia
      * @param matrizBeneficios
      * @param capacidad
@@ -42,7 +45,8 @@ public class ParametrosCuadratica {
      * @param vectorIdeal
      * @param maxGlobal
      */
-    public ParametrosCuadratica(String nombreInstancia, double[][] matrizBeneficios, double capacidad, double[] vectorPesos, int[] vectorIdeal, Double maxGlobal) {
+    public ParametrosCuadratica(String nombreArchivo, String nombreInstancia, double[][] matrizBeneficios, double capacidad, double[] vectorPesos, int[] vectorIdeal, Double maxGlobal) {
+        this.nombreArchivo = nombreArchivo;
         this.nombreInstancia = nombreInstancia;
         this.matrizBeneficios = matrizBeneficios;
         this.capacidad = capacidad;
@@ -117,6 +121,14 @@ public class ParametrosCuadratica {
 
     public void setPosicionMaxGlobal(int posicionMaxGlobal) {
         this.posicionMaxGlobal = posicionMaxGlobal;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
     }
 
     @Override

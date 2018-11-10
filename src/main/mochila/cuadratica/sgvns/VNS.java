@@ -22,7 +22,7 @@ import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
 /**
- *
+ * 
  * @author debian
  */
 public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {

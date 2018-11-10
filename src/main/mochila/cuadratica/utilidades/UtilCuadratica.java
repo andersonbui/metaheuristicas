@@ -31,9 +31,10 @@ import metaheuristicas.Aleatorio;
 public class UtilCuadratica {
 
     static public List obtenerDatosMochilaCuadratica(String nombreArchivo) {
-        LeerArchivo.abrir(nombreArchivo);
-        List<String> listaCadenas = LeerArchivo.leer();
-        LeerArchivo.terminar();
+        LeerArchivo leer =new LeerArchivo();
+        leer.abrir(nombreArchivo);
+        List<String> listaCadenas = leer.leer();
+        leer.terminar();
         List listaObj = new ArrayList();
 
         // nombre de la instancia

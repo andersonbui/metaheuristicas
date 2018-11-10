@@ -17,11 +17,11 @@ import java.util.logging.Logger;
  */
 public class LeerArchivo {
 
-    static File archivo = null;
-    static FileReader fr = null;
-    static BufferedReader br = null;
+    private File archivo = null;
+    private FileReader fr = null;
+    private BufferedReader br = null;
 
-    public static boolean abrir(String nombreArchivo) {
+    public  boolean abrir(String nombreArchivo) {
 
         try {
             // Apertura del fichero y creacion de BufferedReader para poder
@@ -46,7 +46,7 @@ public class LeerArchivo {
      * @param numeroLineas
      * @return
      */
-    public static List<String> leer(int numeroLineas) {
+    public  List<String> leer(int numeroLineas) {
         List<String> listaCadenas = new ArrayList();
         // Lectura del fichero
         String linea;
@@ -61,7 +61,7 @@ public class LeerArchivo {
         return listaCadenas;
     }
 
-    public static List<String> leer() {
+    public  List<String> leer() {
         List<String> listaCadenas = new ArrayList();
         // Lectura del fichero
         String linea;
@@ -75,7 +75,7 @@ public class LeerArchivo {
         return listaCadenas;
     }
 
-    public static void terminar() {
+    public  void terminar() {
         try {
             if (null != fr) {
                 fr.close();

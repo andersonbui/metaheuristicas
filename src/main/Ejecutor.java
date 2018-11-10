@@ -35,6 +35,11 @@ public class Ejecutor {
     public static int NUM_DECIMALES = 6;
 
     GraficoGnuPlot gnuplot;
+    private Grupo grupo;
+    private boolean graficaRecorrido;
+    private boolean graficaConvergencia;
+    private int numeroPruebas;
+    private String instancia;
 
     public Ejecutor() {
         gnuplot = new GraficoGnuPlot();
@@ -235,9 +240,24 @@ public class Ejecutor {
         return mejorRecorrido;
     }
 
-    public final ResultadoGrupo ejecutarGrupo(Grupo grupo,
+//    Grupo grupo;
+//    boolean graficaRecorrido;
+//    boolean graficaConvergencia;
+//    int numeroPruebas;
+//    String instancia;
+
+    public  void setParametros(Grupo grupo,
             boolean graficaRecorrido, boolean graficaConvergencia,
             int numeroPruebas, String instancia) {
+        
+        this.grupo = grupo;
+        this.graficaRecorrido = graficaRecorrido;
+        this.graficaConvergencia = graficaConvergencia;
+        this.numeroPruebas = numeroPruebas;
+        this.instancia = instancia;
+    }
+    
+    public final ResultadoGrupo ejecutarGrupo() {
         List<AlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
         Recorrido mejorRecorrido = null;
         ResultadoGrupo resultadoGrupo = new ResultadoGrupo();
