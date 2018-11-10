@@ -28,7 +28,7 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
     final double alpha;
-    final int intentosEncontrarMejor = 20;
+    final int intentosEncontrarMejor = 100;
     final int intentosIntercambio = 15; // intentos de busqueda de elementos aptos para realizar intercambio
 
     /**

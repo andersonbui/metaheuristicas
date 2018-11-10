@@ -21,6 +21,9 @@ import java.util.List;
 import main.mochila.IndividuoMochila;
 
 /**
+ * TODO puede mejorar la compara de individuos al tener en cuenta tambien el
+ * espacio sobrante, mayor esacio sobrante es mejor individuo si la calidad es
+ * muy similar.
  *
  * @author debian
  * @param <FuncionSGVNS>
