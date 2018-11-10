@@ -32,12 +32,39 @@ public class EjecutorAlgoritmo {
 
     public static String FORMATO_DOUBLE = "f";
     public static int NUM_DECIMALES = 6;
+    private AlgoritmoMetaheuristico algoritmo;
+    private int numeroPruebas;
+    private int maxIteraciones;
 
     GraficoGnuPlot gnuplot;
+
     public EjecutorAlgoritmo() {
         gnuplot = new GraficoGnuPlot();
     }
 
+    public AlgoritmoMetaheuristico getAlgoritmo() {
+        return algoritmo;
+    }
+
+    public void setAlgoritmo(AlgoritmoMetaheuristico algoritmo) {
+        this.algoritmo = algoritmo;
+    }
+
+    public int getNumeroPruebas() {
+        return numeroPruebas;
+    }
+
+    public void setNumeroPruebas(int numeroPruebas) {
+        this.numeroPruebas = numeroPruebas;
+    }
+
+    public int getMaxIteraciones() {
+        return maxIteraciones;
+    }
+
+    public void setMaxIteraciones(int maxIteraciones) {
+        this.maxIteraciones = maxIteraciones;
+    }
 
     public List<Punto> convertirCD(List<IndividuoGen> listaIndividuos) {
         List<Punto> cd = new ArrayList();
@@ -79,7 +106,7 @@ public class EjecutorAlgoritmo {
         return cd;
     }
 
-    public final ResultadoAlgoritmo ejecutar(AlgoritmoMetaheuristico algoritmo, int numeroPruebas, int maxIteraciones) {
+    public final ResultadoAlgoritmo ejecutar() {
         double promedioCalidad = 0; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
         List<IndividuoGen> mejorRecorrido = null;// recorrido del algoritmo
 //        List<IndividuoGen> optimos = new ArrayList<>();
@@ -186,7 +213,7 @@ public class EjecutorAlgoritmo {
 //            System.out.println("");
 //        }
 //        return mejorRecorrido;
-            return null;
+        return null;
     }
 
 //    Grupo grupo;
@@ -194,25 +221,4 @@ public class EjecutorAlgoritmo {
 //    boolean graficaConvergencia;
 //    int numeroPruebas;
 //    String instancia;
-
-
-    
-//    static class HiloEjecucion2 extends Thread {
-//
-//        private final ParametrosCuadratica parametros;
-//        private final Ejecutor ejecutor;
-//        ResultadoGrupo resultadoGrupo;
-//        private final String mensaje;
-//
-//        public HiloEjecucion2(ParametrosCuadratica parametros, Ejecutor ejecutor, String mensaje) {
-//            this.parametros = parametros;
-//            this.ejecutor = ejecutor;
-//            this.mensaje = mensaje;
-//        }
-//
-//        @Override
-//        public void run() {
-//            resultadoGrupo = ejecutor.ejecutarGrupo();
-//        }
-//    }
 }
