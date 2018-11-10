@@ -20,7 +20,8 @@ import main.GrupoInstancias;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import main.Ejecutor;
+import main.EjecutarGrupo;
+import main.EjecutorAlgoritmo;
 import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
@@ -47,12 +48,13 @@ public class MainMochilaCuadratica {
         // iteraciones realizadas por los algoritmos
         maxIteraciones = 50;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 100;
+        numMuestras = 1;
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
-        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/","5000_25_%d.txt", 1, 1));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
@@ -89,11 +91,11 @@ public class MainMochilaCuadratica {
                 }
                 GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(parametros, maxIteraciones);
                 grupo.inicializar();
-                Ejecutor ejecutor = new Ejecutor();
+                EjecutarGrupo ejecutor = new EjecutarGrupo();
                 // EJECUTAR ANALISIS
                 ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, nombreArchivo);
                 // Multi-hilo
-                hilos.add(new HiloEjecucion(parametros, ejecutor,mensaje));
+                hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
                 // Un hilo
 //                ResultadoGrupo resultadoGrupo = ejecutor.ejecutarGrupo();
 //                listResultadosGrupos.add(resultadoGrupo);
@@ -136,11 +138,11 @@ public class MainMochilaCuadratica {
     static class HiloEjecucion extends Thread {
 
         private final ParametrosCuadratica parametros;
-        private final Ejecutor ejecutor;
+        private final EjecutarGrupo ejecutor;
         ResultadoGrupo resultadoGrupo;
         private final String mensaje;
 
-        public HiloEjecucion(ParametrosCuadratica parametros, Ejecutor ejecutor, String mensaje) {
+        public HiloEjecucion(ParametrosCuadratica parametros, EjecutarGrupo ejecutor, String mensaje) {
             this.parametros = parametros;
             this.ejecutor = ejecutor;
             this.mensaje = mensaje;
