@@ -41,4 +41,7 @@ public class GrupoInstancias {
         this.inicio = inicio;
     }
 
+    public String getNombreArchivo(int indice_instancia) {
+        return String.format(ubicacion + base, indice_instancia);
+    }
 }

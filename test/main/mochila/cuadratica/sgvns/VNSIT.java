@@ -102,7 +102,7 @@ public class VNSIT {
 //        fail("The test case is a prototype.");
 //    }
     /**
-     * Test of elementosFuera method, of class VNS.
+     * Test of elementosFueraYCaben method, of class VNS.
      */
     @Test
     public void testElementosFuera() {
@@ -123,7 +123,7 @@ public class VNSIT {
             }
             mochila.set(posicion, valor);
 
-            List<Integer> result = instance.elementosFuera(mochila);
+            List<Integer> result = instance.elementosFueraYCaben(mochila);
             assertTrue(expResult.containsAll(result));
             List list2 = funcion.filtrarPorFactibles(expResult, mochila);
             assertTrue(list2.containsAll(result) && result.containsAll(list2));
@@ -208,7 +208,7 @@ public class VNSIT {
 
         IndividuoVNS result = instance.solucionInicial();
 
-        assertTrue(instance.elementosFuera(result).isEmpty());
+        assertTrue(instance.elementosFueraYCaben(result).isEmpty());
     }
 
 //    /**

@@ -22,14 +22,15 @@ import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
 /**
- * 
+ *
  * @author debian
  */
 public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
     final double alpha;
-    final int intentosEncontrarMejor = 100;
-    final int intentosIntercambio = 15; // intentos de busqueda de elementos aptos para realizar intercambio
+    int intentosEncontrarMejor = 100;
+    int intentosIntercambio = 15; // intentos de busqueda de elementos aptos para realizar intercambio
+    int hMax;
 
     /**
      *
@@ -41,6 +42,27 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         alpha = 1.0 / 30.0;
         this.maxIteraciones = maxIteraciones;
         nombre = "SGVNS";
+        hMax=5;
+    }
+
+    /**
+     *
+     * @param funcion
+     * @param maxIteraciones
+     * @param alpha
+     * @param hMax
+     * @param intentosIntercambio
+     * @param nombreAdicional
+     * @param intentosEncontrarMejor
+     */
+    public VNS(FuncionSGVNS funcion, int maxIteraciones, double alpha, int hMax, int intentosIntercambio, int intentosEncontrarMejor, String nombreAdicional) {
+        this.funcion = funcion;
+        this.alpha = alpha;
+        this.maxIteraciones = maxIteraciones;
+        this.nombre = "SGVNS" + nombreAdicional;
+        this.hMax = hMax;
+        this.intentosIntercambio=intentosIntercambio;
+        this.intentosEncontrarMejor=intentosEncontrarMejor;
     }
 
     /**
@@ -56,7 +78,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             int h = 1;
             IndividuoVNS y_p;
             IndividuoVNS y_p2;
-            while (h <= 5) {
+            while (h <= hMax) {
                 y_p = sacudida(y, 1, h);
                 y_p2 = seq_VND(y_p);
                 if (y_p2.compareTo(y_best) > 0) {
@@ -97,7 +119,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
      * @param mochila
      * @return lista de elementos fuera de la mochila
      */
-    public List<Integer> elementosFuera(IndividuoVNS mochila) {
+    public List<Integer> elementosFueraYCaben(IndividuoVNS mochila) {
         List listaI0 = mochila.elementosNoSeleccionados();
         listaI0 = funcion.filtrarPorFactibles(listaI0, mochila);
         return listaI0;
@@ -123,7 +145,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
      */
     public IndividuoVNS cambio(IndividuoVNS individuo_original) {
         IndividuoVNS individuo = individuo_original.clone();
-        List listaFuera = elementosFuera(individuo);
+        List listaFuera = elementosFueraYCaben(individuo);
         List listaDentro = elementosDentro(individuo);
         int posicion;
         int aleatorio;
@@ -135,7 +157,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             posicion = (int) listaFuera.get(aleatorio);
             // realizar cambio
             individuo.set(posicion, 1);
-        } else if(!listaDentro.isEmpty()) {
+        } else if (!listaDentro.isEmpty()) {
             // elegir posicion aleatoria
             aleatorio = Aleatorio.nextInt(listaDentro.size());
             // posicion del elemento dentro la mochila 
@@ -172,7 +194,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             // sacar elemento dentro de la mochila
             individuo.set(posicionD, 0);
             // obtener lista de elementos dentro de la mochila pero que caben dentro de esta
-            listaItemFuera = elementosFuera(individuo);
+            listaItemFuera = elementosFueraYCaben(individuo);
             listaItemFuera.remove(posicionD);
             // verificar si hay elementos
             noHayElementosFuera = listaItemFuera.isEmpty();
