@@ -16,23 +16,36 @@
  */
 package main.mochila.cuadratica;
 
+import com.sun.glass.ui.View;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 
 /**
+ * TODO puede mejorar la compara de individuos al tener en cuenta tambien el
+ * espacio sobrante, mayor esacio sobrante es mejor individuo si la calidad es
+ * muy similar.
  *
  * @author debian
  * @param <FuncionSGVNS>
  */
 public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> extends IndividuoMochila<FuncionSGVNS> {
 
+    double porc_vacio;
+
     public IndividuoCuadratico(FuncionSGVNS funcion) {
         super(funcion);
+        porc_vacio = 0.5;
     }
 
     public IndividuoCuadratico(FuncionSGVNS funcion, double[] valores) {
         super(funcion, valores);
+        porc_vacio = 0.5;
+    }
+
+    public IndividuoCuadratico(FuncionSGVNS funcion, double[] valores, double porc_vacio) {
+        super(funcion, valores);
+        this.porc_vacio = porc_vacio;
     }
 
     @Override
@@ -42,7 +55,8 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
 
     @Override
     public double evaluar() {
-        return calidad;
+        double porcentajeEspacio = 1 - (pesar() / funcion.getCapacidad());
+        return calidad + calidad * porc_vacio * porcentajeEspacio;
     }
 
     /**

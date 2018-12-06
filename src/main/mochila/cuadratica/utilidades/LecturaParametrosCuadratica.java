@@ -34,7 +34,7 @@ public class LecturaParametrosCuadratica {
     }
 
     public void actualizar(String nombreArchivo, ParametrosCuadratica parametros) {
-        LeerArchivo leer =new LeerArchivo();
+        LeerArchivo leer = new LeerArchivo();
         leer.abrir(nombreArchivo);
         List<String> listaCadenas = leer.leer();
         leer.terminar();
@@ -65,6 +65,7 @@ public class LecturaParametrosCuadratica {
         double[] vectorPesos;
         int numElementos;
         ParametrosCuadratica pc = new ParametrosCuadratica();
+        pc.setNombreArchivo(nombreArchivo);
         LeerArchivo leer =new LeerArchivo();
         if (!leer.abrir(nombreArchivo)) {
             return null;

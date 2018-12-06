@@ -14,7 +14,7 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import main.Ejecutor;
+import main.EjecutorAlgoritmo;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EvolucionDiferencial;
 import metaheuristicas.poblacion.EvolucionDiferencialMejorado;
@@ -113,7 +113,7 @@ public class Main {
 //        listaFunciones.add(new Ackley(limite, dimension, maximizar));
 
         // EJECUTAR ANALISIS
-        (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
+        (new EjecutorAlgoritmo()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
 
     }
 

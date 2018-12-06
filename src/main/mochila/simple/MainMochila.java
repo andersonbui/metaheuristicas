@@ -23,7 +23,7 @@ import main.Algebraicas.funciones.Piso;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import main.Ejecutor;
+import main.EjecutorAlgoritmo;
 import main.utilidades.Utilidades;
 import main.mochila.multidimensional.UtilMultid;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -79,7 +79,7 @@ public class MainMochila {
         listaFunciones.add(funcionMochila);
 
         // EJECUTAR ANALISIS
-        (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
+        (new EjecutorAlgoritmo()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
         IndividuoGen mejor = funcionMochila.getMejor();
         System.out.println("Peso: " + funcionMochila.obtenerPeso(mejor));
         System.out.println("Precio: " + funcionMochila.obtenerPrecio(mejor));

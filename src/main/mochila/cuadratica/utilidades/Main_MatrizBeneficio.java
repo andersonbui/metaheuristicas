@@ -22,13 +22,15 @@ import java.util.List;
 import main.utilidades.EscribirArchivo;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 
 /**
  * Imprimir matriz de beneficios ordenada para ver grupos de unos
+ *
  * @author debian
  */
 public class Main_MatrizBeneficio {
-    
+
     public static void main(String[] args) {
         String nombreArchivo = "";
         //lim,rango,prob_ceros,poblacion, iteraciones
@@ -46,21 +48,27 @@ public class Main_MatrizBeneficio {
 //        nombreArchivo = "mochilaCuadratica/jeu_100_25_2.txt";
 //        //no,15,0.99,20,32
 //        //si,15,0.90-93,20,31
-        nombreArchivo = "mochilaCuadratica/jeu_100_25_3.txt";
+        nombreArchivo = "mochilaCuadratica/grupo1/jeu_100_75_1.txt";
         //lim,15,0.99,5->,1
 //        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
 
         // dimension de los puntos;
         LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-        ParametrosCuadratica paramC = pc.obtenerParametros(nombreArchivo);
+        ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
         EscribirArchivo archivoEsc = new EscribirArchivo();
         archivoEsc.abrir("matriz_beneficio.txt");
-        FuncionMochilaIHEA funcion = new FuncionMochilaIHEA(paramC.getMatrizBeneficios(), paramC.getCapacidad(), paramC.getVectorPesos(), paramC.getMaxGlobal());
+
+        double[][] matrizBeneficios = parametros.getMatrizBeneficios();
+        double capacidad = parametros.getCapacidad();
+        double[] vectorPesos = parametros.getVectorPesos();
+        Double maxGlobal = parametros.getMaxGlobal();
+
+        FuncionMochilaIHEA funcion = new FuncionMochilaIHEA(matrizBeneficios,capacidad, vectorPesos, maxGlobal);
 
         IndividuoIHEA indi = funcion.generarIndividuo();
 
-        double[][] matrizb = paramC.getMatrizBeneficios();
-        double[] mPesos = paramC.getVectorPesos();
+        double[][] matrizb = parametros.getMatrizBeneficios();
+        double[] mPesos = parametros.getVectorPesos();
         double maximo = 0;
 
         int cols = matrizb.length;

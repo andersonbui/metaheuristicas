@@ -42,7 +42,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
         rcl = 20;
-        L = 100;
+        L = 10;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
     }
 
@@ -304,7 +304,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
                         vcx = pesoi - funcion.peso(i);
-                        
+
                         if ((frx > fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                             i_aster = i;
                             j_aster = j;
@@ -315,8 +315,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         if (frx > fmin && vcx >= 0) {
                             imax = i;
                             jmax = j;
-                            fmin=frx;
-                            vmax=vcx;
+                            fmin = frx;
+                            vmax = vcx;
 //                            break;
                         }
                         contador++;
@@ -472,19 +472,19 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int intentosDescent = 20;
         IndividuoIHEA individuo1;
         IndividuoIHEA individuo2;
-        while (intentosDescent-- >= 0) {
+        boolean mejoro = false;
+        while (!mejoro && intentosDescent-- >= 0) {
+            //SWAP
+            individuo2 = (IndividuoIHEA) swap(mejor);
+            if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
+                mejor = individuo2;
+                mejoro = true;
+            }
             //ADD
             individuo1 = add_factible(mejor);
             if (individuo1 != null && individuo1.compareTo(mejor) > 0) {
                 mejor = individuo1;
-            }
-            //SWAP
-            individuo2 = (IndividuoIHEA) swap(mejor);
-
-            if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
-                mejor = individuo2;
-            } else {
-//                break;
+                mejoro = true;
             }
         }
         return mejor;
@@ -520,6 +520,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         if (listaI0.isEmpty()) {
             return null;
         }
+        // TODO puede mejorarse ordenando los elementos por mayor densidad de beneficio
         int indice = Aleatorio.nextInt(listaI0.size());
         individuo.set(listaI0.get(indice), 1);
         return individuo;

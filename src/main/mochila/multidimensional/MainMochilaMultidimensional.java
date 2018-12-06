@@ -23,7 +23,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import main.Ejecutor;
+import main.EjecutorAlgoritmo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.poblacion.AlgoritmoEvolutivo;
 import metaheuristicas.poblacion.EvolucionDiferencial;
@@ -90,7 +90,7 @@ public class MainMochilaMultidimensional {
         listaFunciones.add(funcionMochila);
 //        listaFunciones.add(funcionGreedy);
         // EJECUTAR ANALISIS
-        (new Ejecutor()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
+        (new EjecutorAlgoritmo()).ejecutarAlgoritmosMasFunciones(listaAlgoritmos, listaFunciones, graficaRecorrido3D, graficaDispercion2D, numMuestras, iteraciones);
 
     }
 
