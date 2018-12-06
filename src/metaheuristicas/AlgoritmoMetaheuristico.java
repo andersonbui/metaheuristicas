@@ -23,6 +23,10 @@ public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Indivi
 
     public abstract List<Individuo> ejecutar();
 
+    public void addNombre(String nombrecito){
+        this.nombre+=nombrecito;
+    }
+    
     public String getNombre() {
         return nombre;
     }

@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica;
 
+import java.util.Iterator;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import main.Grupo;
 import main.mochila.cuadratica.anson.EstrategiaEvolucionDiferencialConGreedy;
@@ -26,7 +27,9 @@ import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.sgvns.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.VNS;
+import metaheuristicas.AlgoritmoMetaheuristico;
 
 /**
  *
@@ -57,12 +60,10 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
 //        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
-
-        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
-
-        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+//        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+//        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 //        
 //        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
@@ -70,8 +71,42 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
 //
-        FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new VNS(funcionVns, maxIteraciones));
+        int[] vecIintentos = {20, 30, 40, 45, 50, 60};
+        for (int intentos : vecIintentos) {
+            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+            AlgoritmoMetaheuristico algot = new VNS(funcionVns, maxIteraciones);
+            algot.setIteraciones(intentos);
+            algot.addNombre("-Int[" + intentos + "]");
+            add(algot);
+
+        }
+        
+        for (int intentos : vecIintentos) {
+            FuncionSGVNS funcionVns2 = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+            AlgoritmoMetaheuristico algot = new VNS(funcionVns2, maxIteraciones * 7) {
+                @Override
+                public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
+                    int h = 1;
+                    IndividuoVNS s_inicial = individuoOriginal.clone();
+                    IndividuoVNS solEncontrada;
+                    while (h <= 2) {
+                        solEncontrada = encontrarMejor(s_inicial, h);
+                        if (solEncontrada.compareTo(s_inicial) < 0) {
+
+                            h = 1;
+                        } else {
+                            s_inicial = solEncontrada;
+                            h++;
+                        }
+                    }
+                    return s_inicial;
+                }
+            };
+            algot.setIteraciones(intentos);
+            algot.addNombre("-Martha-Int[" + intentos + "]");
+            add(algot);
+
+        }
 
     }
 
