@@ -27,9 +27,9 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  */
 public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
-    final double alpha;
-    int intentosEncontrarMejor = 100;
-    int intentosIntercambio = 15; // intentos de busqueda de elementos aptos para realizar intercambio
+    double alpha;
+    int intentosEncontrarMejor;
+    int intentosIntercambio; // intentos de busqueda de elementos aptos para realizar intercambio
     int hMax;
 
     /**
@@ -42,7 +42,34 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         alpha = 1.0 / 30.0;
         this.maxIteraciones = maxIteraciones;
         nombre = "SGVNS";
+        intentosIntercambio = 15;
+        intentosEncontrarMejor = 20;
         hMax=5;
+    }
+    
+    
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
+    }
+
+    public int getIntentosEncontrarMejor() {
+        return intentosEncontrarMejor;
+    }
+
+    public void setIntentosEncontrarMejor(int intentosEncontrarMejor) {
+        this.intentosEncontrarMejor = intentosEncontrarMejor;
+    }
+
+    public int getIntentosIntercambio() {
+        return intentosIntercambio;
+    }
+
+    public void setIntentosIntercambio(int intentosIntercambio) {
+        this.intentosIntercambio = intentosIntercambio;
     }
 
     /**
@@ -245,7 +272,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         return posicionMayor;
     }
 
-    private IndividuoVNS encontrarMejor(IndividuoVNS s_inicial, int h) {
+    protected IndividuoVNS encontrarMejor(IndividuoVNS s_inicial, int h) {
         IndividuoVNS aux;
         s_inicial = s_inicial.clone();
         boolean mejoro;
