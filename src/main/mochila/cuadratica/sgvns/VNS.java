@@ -44,10 +44,9 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         nombre = "SGVNS";
         intentosIntercambio = 15;
         intentosEncontrarMejor = 20;
-        hMax=5;
+        hMax = 5;
     }
-    
-    
+
     public double getAlpha() {
         return alpha;
     }
@@ -88,8 +87,8 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         this.maxIteraciones = maxIteraciones;
         this.nombre = "SGVNS" + nombreAdicional;
         this.hMax = hMax;
-        this.intentosIntercambio=intentosIntercambio;
-        this.intentosEncontrarMejor=intentosEncontrarMejor;
+        this.intentosIntercambio = intentosIntercambio;
+        this.intentosEncontrarMejor = intentosEncontrarMejor;
     }
 
     /**
@@ -101,12 +100,17 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         List<IndividuoVNS> recorrido = new ArrayList();
         IndividuoVNS y = solucionInicial();
         IndividuoVNS y_best = y;
+        boolean suficiente = funcion.suficiente(y_best);
+        if (suficiente) {
+            recorrido.add(y_best);
+            return recorrido;
+        }
         for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
             int h = 1;
             IndividuoVNS y_p;
             IndividuoVNS y_p2;
             while (h <= hMax) {
-                y_p = sacudida(y, 1, h);
+                y_p = sacudida(y, 2, h);
                 y_p2 = seq_VND(y_p);
                 if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;

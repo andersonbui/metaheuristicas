@@ -39,16 +39,16 @@ public class MainMochilaCuadratica {
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
         int maxIteraciones;
-        int numMuestras;
+        int numIntentos;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
         graficaDispercion2D = true;
         // numero de individuos porpoblacion
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 100;
+        maxIteraciones = 20;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 10;
+        numIntentos = 10;
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
@@ -61,7 +61,7 @@ public class MainMochilaCuadratica {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_100_%d.txt", 1, 1));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
@@ -87,7 +87,7 @@ public class MainMochilaCuadratica {
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         String mensaje = "";
         for (GrupoInstancias instancia : instancias) {
-            
+
             mensaje += "####";
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
@@ -104,10 +104,10 @@ public class MainMochilaCuadratica {
                 grupo.inicializar();
                 EjecutarGrupo ejecutor = new EjecutarGrupo();
                 // EJECUTAR ANALISIS
-                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, instancia.getNombreArchivo(indice_instancia));
+                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numIntentos, instancia.getNombreArchivo(indice_instancia));
                 // Multi-hilo
                 hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
-                
+
                 mensaje = "";
             }
         }
@@ -117,12 +117,15 @@ public class MainMochilaCuadratica {
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
             System.out.print(hilo.mensaje);
-            
+
             ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
             ParametrosCuadratica parametros = hilo.parametros;
-            
+
             listResultadosGrupos.add(resultadoGrupo);
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
+            if (resultadoGrupo == null) {
+                System.out.println("");
+            }
             imprimirResultados(resultadoGrupo);
             IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
             // comprobar calidad de la actua instancia y actualizar los archivos de instancias
@@ -135,7 +138,7 @@ public class MainMochilaCuadratica {
 
         imprimirResumen(listResultadosGrupos);
     }
-    
+
     static class HiloEjecucion extends Thread {
 
         private final ParametrosCuadratica parametros;

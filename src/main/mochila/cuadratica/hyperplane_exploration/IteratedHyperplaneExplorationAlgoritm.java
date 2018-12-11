@@ -44,6 +44,17 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         rcl = 20;
         L = 10;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
+        saltar = false;
+    }
+
+    boolean saltar;
+
+    public boolean isSaltar() {
+        return saltar;
+    }
+
+    public void setSaltar(boolean saltar) {
+        this.saltar = saltar;
     }
 
     @Override
@@ -317,14 +328,16 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                             jmax = j;
                             fmin = frx;
                             vmax = vcx;
-//                            break;
+                            if (saltar) {
+                                break;
+                            }
                         }
                         contador++;
                     }
                 }
-//                if(imax>=0){
-//                    break;
-//                }
+                if(saltar && (imax>=0)){
+                    break;
+                }
             }
             int i;
             Integer j;
@@ -333,7 +346,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 x.set(imax, 1);
                 x.set(jmax, 0);
                 // linea 24:
-                iterMax = 0;
+                //iterMax = 0;
                 list_RL.clear();
                 fmin = rawFuncion(x);
                 x_aster = x.clone();

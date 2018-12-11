@@ -159,7 +159,7 @@ public class EjecutorAlgoritmo {
                     numeroPruebas,
                     tasaDeExito,
                     promedioCalidad,
-                    ((funcion.getOptimoGlobal() - optimo.getCalidad()) / funcion.getOptimoGlobal()) * 100,
+                    ((funcion.getOptimoGlobal() - promedioCalidad) / funcion.getOptimoGlobal()) * 100,
                     tiempo,
                     funcion.getContadorEvaluaciones(),
                     new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre(), optimo));

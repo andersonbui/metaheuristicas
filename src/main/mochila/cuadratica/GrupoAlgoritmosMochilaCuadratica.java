@@ -58,8 +58,18 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double[] vectorPesos = parametros.getVectorPesos();
         Double maxGlobal = parametros.getMaxGlobal();
 
-//        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        add(new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos));
+        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        IteratedHyperplaneExplorationAlgoritm algot = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+        algot.setSaltar(false);
+        algot.addNombre("NS");
+        add(algot);
+
+        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        algot = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+        algot.setSaltar(true);
+        algot.addNombre("SS");
+        add(algot);
+
 //        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 //        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
@@ -71,43 +81,42 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
 //
-        int[] vecIintentos = {20, 30, 40, 45, 50, 60};
-        for (int intentos : vecIintentos) {
-            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-            AlgoritmoMetaheuristico algot = new VNS(funcionVns, maxIteraciones);
-            algot.setIteraciones(intentos);
-            algot.addNombre("-Int[" + intentos + "]");
-            add(algot);
-
-        }
-        
-        for (int intentos : vecIintentos) {
-            FuncionSGVNS funcionVns2 = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-            AlgoritmoMetaheuristico algot = new VNS(funcionVns2, maxIteraciones * 7) {
-                @Override
-                public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
-                    int h = 1;
-                    IndividuoVNS s_inicial = individuoOriginal.clone();
-                    IndividuoVNS solEncontrada;
-                    while (h <= 2) {
-                        solEncontrada = encontrarMejor(s_inicial, h);
-                        if (solEncontrada.compareTo(s_inicial) < 0) {
-
-                            h = 1;
-                        } else {
-                            s_inicial = solEncontrada;
-                            h++;
-                        }
-                    }
-                    return s_inicial;
-                }
-            };
-            algot.setIteraciones(intentos);
-            algot.addNombre("-Martha-Int[" + intentos + "]");
-            add(algot);
-
-        }
-
+//        int[] vecIintentos = {20, 30, 40, 45, 50, 60};
+//        for (int intentos : vecIintentos) {
+//            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//            AlgoritmoMetaheuristico algot = new VNS(funcionVns, maxIteraciones);
+//            algot.setIteraciones(intentos);
+//            algot.addNombre("-Int[" + intentos + "]");
+//            add(algot);
+//
+//        }
+//        
+//        for (int intentos : vecIintentos) {
+//            FuncionSGVNS funcionVns2 = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//            AlgoritmoMetaheuristico algot = new VNS(funcionVns2, maxIteraciones * 7) {
+//                @Override
+//                public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
+//                    int h = 1;
+//                    IndividuoVNS s_inicial = individuoOriginal.clone();
+//                    IndividuoVNS solEncontrada;
+//                    while (h <= 2) {
+//                        solEncontrada = encontrarMejor(s_inicial, h);
+//                        if (solEncontrada.compareTo(s_inicial) < 0) {
+//
+//                            h = 1;
+//                        } else {
+//                            s_inicial = solEncontrada;
+//                            h++;
+//                        }
+//                    }
+//                    return s_inicial;
+//                }
+//            };
+//            algot.setIteraciones(intentos);
+//            algot.addNombre("-Martha-Int[" + intentos + "]");
+//            add(algot);
+//
+//        }
     }
 
 }

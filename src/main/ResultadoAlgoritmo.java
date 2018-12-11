@@ -35,6 +35,18 @@ public class ResultadoAlgoritmo {
     public double promedionumEvaluaciones;
     public Recorrido mejorRecorrido;
 
+    /**
+     * 
+     * @param algoritmo
+     * @param promedioIteraciones
+     * @param numPruebas
+     * @param exitos
+     * @param promedioCalidadOptimos
+     * @param desviacionCalidadOptimos
+     * @param tiempoTotal
+     * @param promedionumEvaluaciones
+     * @param mejorRecorrido 
+     */
     public ResultadoAlgoritmo(AlgoritmoMetaheuristico algoritmo, double promedioIteraciones, double numPruebas, double exitos, double promedioCalidadOptimos, double desviacionCalidadOptimos, double tiempoTotal, double promedionumEvaluaciones, Recorrido mejorRecorrido) {
         this.algoritmo = algoritmo;
         this.promedioIteraciones = promedioIteraciones;
