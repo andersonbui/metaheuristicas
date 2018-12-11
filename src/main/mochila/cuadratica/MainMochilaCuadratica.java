@@ -43,7 +43,7 @@ public class MainMochilaCuadratica {
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
-//        graficaDispercion2D = true;
+        graficaDispercion2D = true;
         // numero de individuos porpoblacion
         // iteraciones realizadas por los algoritmos
         maxIteraciones = 100;
@@ -53,7 +53,7 @@ public class MainMochilaCuadratica {
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_50_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 5, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","5000_25_%d.txt", 1, 1));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
@@ -87,9 +87,10 @@ public class MainMochilaCuadratica {
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         String mensaje = "";
         for (GrupoInstancias instancia : instancias) {
+            
             mensaje += "####";
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
-                nombreArchivo = instancia.getNombreArchivo(indice_instancia);
+                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
 
                 mensaje += "----Nombre archivo: " + String.format(instancia.base, indice_instancia) + "----\n";
                 // dimension de los puntos;
@@ -103,7 +104,7 @@ public class MainMochilaCuadratica {
                 grupo.inicializar();
                 EjecutarGrupo ejecutor = new EjecutarGrupo();
                 // EJECUTAR ANALISIS
-                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, nombreArchivo);
+                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, instancia.getNombreArchivo(indice_instancia));
                 // Multi-hilo
                 hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
                 

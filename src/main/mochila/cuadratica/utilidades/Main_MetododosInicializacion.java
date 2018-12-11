@@ -68,7 +68,7 @@ public class Main_MetododosInicializacion {
             System.out.println("########################################################################");
             for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
                 ultimoSeleccionado = 0;
-                 nombreArchivo = instancia.getNombreArchivo(indice_instancia);
+                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
 
                 LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
                 ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
