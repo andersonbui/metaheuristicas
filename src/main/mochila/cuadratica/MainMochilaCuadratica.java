@@ -87,9 +87,10 @@ public class MainMochilaCuadratica {
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         String mensaje = "";
         for (GrupoInstancias instancia : instancias) {
+            
             mensaje += "####";
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
-                nombreArchivo = instancia.getNombreArchivo(indice_instancia);
+                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
 
                 mensaje += "----Nombre archivo: " + String.format(instancia.base, indice_instancia) + "----\n";
                 // dimension de los puntos;
@@ -103,7 +104,7 @@ public class MainMochilaCuadratica {
                 grupo.inicializar();
                 EjecutarGrupo ejecutor = new EjecutarGrupo();
                 // EJECUTAR ANALISIS
-                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, nombreArchivo);
+                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numMuestras, instancia.getNombreArchivo(indice_instancia));
                 // Multi-hilo
                 hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
                 
