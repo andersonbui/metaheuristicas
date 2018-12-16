@@ -63,13 +63,11 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        algot.setSaltar(false);
 //        algot.addNombre("NS");
 //        add(algot);
-
 //        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        algot = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
 //        algot.setSaltar(true);
 //        algot.addNombre("SS");
 //        add(algot);
-
 //        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 //        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
@@ -81,17 +79,17 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        FuncionGraspTabuR funcionGreedy3 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
 //
-//         int[] vecImayor = { 5, 10, 7, 20};
-//        for (int intentos : vecImayor) {
-//            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//            VNS algot = new VNS(funcionVns, maxIteraciones);
-//            //algot.setIntentosIntercambio(intentos);
-//            algot.setIntentosEncontrarMejor(intentos);
-//            algot.addNombre("-Int[" + intentos + "]");
-//            add(algot);
-//
-//        }
-        int[] vecIintentos = { 30, 40, 45, 50};
+         int[] vecImayor = { 5, 10, 7, 20};
+        for (int intentos : vecImayor) {
+            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+            VNS algot = new VNS(funcionVns, maxIteraciones);
+            //algot.setIntentosIntercambio(intentos);
+            algot.setIntentosEncontrarMejor(intentos);
+            algot.addNombre("-Int[" + intentos + "]");
+            add(algot);
+
+        }
+        int[] vecIintentos = {20};
         for (int intentos : vecIintentos) {
             FuncionSGVNS funcionVns2 = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
             AlgoritmoMetaheuristico algot = new VNS(funcionVns2, maxIteraciones * 7) {
@@ -116,30 +114,31 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
             algot.addNombre("-Martha-Int[" + intentos + "]");
             add(algot);
         }
-        
-        int[] vecIntentosR = { 15, 10, 7, 20};
-        
+
+        int[] vecIntentosR = {5, 10, 7, 12};
+
         for (int intentos : vecIntentosR) {
             FuncionSGVNS funcionVns2 = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-            AlgoritmoMetaheuristico algot = new VNS(funcionVns2, maxIteraciones * 7) {
+            AlgoritmoMetaheuristico algot = new VNS(funcionVns2, maxIteraciones * 2) {
                 @Override
                 public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
                     int h = 1;
                     IndividuoVNS s_inicial = individuoOriginal.clone();
                     IndividuoVNS solEncontrada;
-                    int intentosR=0;
+                    int intentosR = 0;
                     while (h <= 2) {
                         solEncontrada = encontrarMejor(s_inicial, h);
                         if (solEncontrada.compareTo(s_inicial) > 0) {
                             s_inicial = solEncontrada;
                             h = 1;
                             intentosR++;
-                            if(intentosR > intentos){
-                                h=2;
+                            if (intentosR > intentos) {
+                                h++;
+                                intentosR = 0;
                             }
                         } else {
                             h++;
-                            intentosR=0;
+                            intentosR = 0;
                         }
                     }
                     return s_inicial;
@@ -150,7 +149,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
             add(algot);
 
         }
-        
+
     }
 
 }
