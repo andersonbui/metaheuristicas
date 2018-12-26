@@ -26,6 +26,7 @@ import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
+import main.utilidades.EscribirArchivo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;
 import metaheuristicas.funcion.FuncionGen;
@@ -48,43 +49,51 @@ public class MainMochilaCuadratica {
         // iteraciones realizadas por los algoritmos
         maxIteraciones = 20;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numIntentos = 100;
+        numIntentos = 10;
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
+
+        EscribirArchivo esa = new EscribirArchivo();
+        String nombreArchivoResultado = "resultados.txt";
+        esa.abrir(nombreArchivoResultado);
+
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 5, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","5000_25_%d.txt", 1, 1));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 1));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 1));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 20));
-          instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 20));
+//          instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_100_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","r_10_100_%d.txt", 13, 13));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));//1-20
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 2));//1-20
-
-        System.out.println("----------------------------------------------------------.");
-        System.out.println("NPI: Numero iteraciones promedio.");
-        System.out.println("TP: Tiempo Promedio.");
-        System.out.println("TE: Tasa de exito.");
-        System.out.println("DPR: Desviación porcentual relativa.");
-        System.out.println("----------------------------------------------------------.");
+        StringBuilder sbCabecera = new StringBuilder();
+        sbCabecera.append("----------------------------------------------------------.\n");
+        sbCabecera.append("Numero Intentos:").append(numIntentos).append("\n");
+        sbCabecera.append("NPI: Numero iteraciones promedio.\n");
+        sbCabecera.append("TP: Tiempo Promedio.\n");
+        sbCabecera.append("TE: Tasa de exito.\n");
+        sbCabecera.append("DPR: Desviación porcentual relativa.\n");
+        sbCabecera.append("----------------------------------------------------------.\n");
 
         List<HiloEjecucion> hilos = new ArrayList<>();
-        imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
+        String campos = imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
+        sbCabecera.append(campos);
+        esa.escribir(sbCabecera.toString());
         String mensaje = "";
         for (GrupoInstancias instancia : instancias) {
 
@@ -116,27 +125,40 @@ public class MainMochilaCuadratica {
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
+            esa.escribir(hilo.mensaje);
             System.out.print(hilo.mensaje);
 
             ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
             ParametrosCuadratica parametros = hilo.parametros;
 
-            listResultadosGrupos.add(resultadoGrupo);
-            LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            if (resultadoGrupo == null) {
-                System.out.println("");
-            }
-            imprimirResultados(resultadoGrupo);
-            IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
-            // comprobar calidad de la actua instancia y actualizar los archivos de instancias
-            if (parametros.getMaxGlobal() == null || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
-                parametros.setMaxGlobal(individuo.getCalidad());
-                parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
-                lpc.actualizar(parametros.getNombreArchivo(), parametros);
+            if (resultadoGrupo != null) {
+                listResultadosGrupos.add(resultadoGrupo);
+                LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
+                
+                String stringResult = imprimirResultados(resultadoGrupo);
+                esa.escribir(stringResult);
+                IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
+                // comprobar calidad de la actua instancia y actualizar los archivos de instancias
+                if (parametros.getMaxGlobal() == null || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+                    parametros.setMaxGlobal(individuo.getCalidad());
+                    parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
+
+                    try {
+                        lpc.actualizar(parametros.getNombreArchivo(), parametros);
+                    } catch (Exception e) {
+                        System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
+                        System.out.println("---mensaje de error: \n " + e.getMessage());
+                    }
+                }
+            }else{
+                System.out.println("pailas");
             }
         }
 
-        imprimirResumen(listResultadosGrupos);
+        String resumen = imprimirResumen(listResultadosGrupos);
+        esa.escribir(resumen);
+        esa.terminar();
+
     }
 
     static class HiloEjecucion extends Thread {
@@ -166,13 +188,13 @@ public class MainMochilaCuadratica {
         return vectorInt;
     }
 
-    public static void imprimirResultados(ResultadoGrupo resultados) {
-
+    public static String imprimirResultados(ResultadoGrupo resultados) {
+        StringBuilder sb = new StringBuilder();
         for (ResultadoAlgoritmo resultado : resultados) {
 
             AlgoritmoMetaheuristico algot = resultado.algoritmo;
             FuncionGen funcion = algot.getFuncion();
-            imprimirConFormato(
+            String cad = imprimirConFormato(
                     funcion.getNombre(),
                     algot.getNombre(),
                     formatear(funcion.getDimension()),
@@ -183,11 +205,14 @@ public class MainMochilaCuadratica {
                     formatear(resultado.desviacionCalidadOptimos),
                     formatear(resultado.tiempoTotal),
                     formatear(resultado.promedionumEvaluaciones));
+            sb.append(cad);
         }
+        return sb.toString();
     }
 
-    public static void imprimirResumen(List<ResultadoGrupo> resultadosGrupos) {
-        System.out.println("--------------------RESUMEN-----------------");
+    public static String imprimirResumen(List<ResultadoGrupo> resultadosGrupos) {
+        String resumen;
+        StringBuilder sb = new StringBuilder("--------------------RESUMEN-----------------");
         ResultadoGrupo grupoAux = resultadosGrupos.get(0);
         int tamGrupoAux = grupoAux.size();
         double[] aciertos = new double[tamGrupoAux];
@@ -202,19 +227,27 @@ public class MainMochilaCuadratica {
                 tiempos[j] += resultado.tiempoTotal;
             }
         }
+        StringBuilder cadena;
         for (int i = 0; i < tamGrupoAux; i++) {
-            System.out.println("Algoritmo[" + grupoAux.get(i).algoritmo.getNombre() + "]");
-            System.out.println("aciertos:" + formatear(aciertos[i] * 100 / (double) resultadosGrupos.size()) + "%");
-            System.out.println("desviacion:" + formatear(desviacion[i] / (double) resultadosGrupos.size()) + "");
-            System.out.println("tiempo promedio:" + formatear(tiempos[i] / (double) resultadosGrupos.size()) + "ms");
-            System.out.println("-------");
+            cadena = new StringBuilder();
+            cadena.append("Algoritmo[").append(grupoAux.get(i).algoritmo.getNombre()).append("]\n");
+            cadena.append("aciertos:").append(formatear(aciertos[i] * 100 / (double) resultadosGrupos.size())).append("%\n");
+            cadena.append("desviacion:").append(formatear(desviacion[i] / (double) resultadosGrupos.size())).append("\n");
+            cadena.append("tiempo promedio:").append(formatear(tiempos[i] / (double) resultadosGrupos.size())).append("ms\n");
+            cadena.append("-----------\n");
+            sb.append(cadena.toString());
         }
+        resumen = sb.toString();
+        System.out.println(resumen);
+        return resumen;
     }
 
-    public static void imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
+    public static String imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
             String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio, String numEvaluaciones) {
-        System.out.format("%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
+        String cadena = String.format("%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio, numEvaluaciones);
+        System.out.format(cadena);
+        return cadena;
     }
 
     public static String formatear(double valor) {
