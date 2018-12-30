@@ -204,6 +204,7 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
 //        return formatoString("capacidad", "maxGlobal", "dimension", "nombre");
 //    }
 //
+
     /**
      * Calcula la densidad de beneficio de adicionar el elemento de la posicion
      * indice en la mochila, sobre el peso del elemento
@@ -213,7 +214,11 @@ public abstract class FuncionMochilaCuadratica<Individuo extends IndividuoCuadra
      * @return beneficio-elemento/peso-elemento
      */
     public double densidad(int indice, Individuo mochila) {
-        return contribucion(indice, mochila) / vectorPesos[indice];
+        double contrib = contribucion(indice, mochila);
+        if (contrib != 0) {
+            return contrib / vectorPesos[indice];
+        }
+        return -vectorPesos[indice];
     }
 
     /**

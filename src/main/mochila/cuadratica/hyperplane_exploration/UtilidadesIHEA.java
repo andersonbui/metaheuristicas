@@ -49,22 +49,39 @@ public class UtilidadesIHEA {
         List<Item> result = new ArrayList();
         int indice;
         List listaObj = result;
-        Item item;
+//        Item item;
 
         int tamListaItems = listaItems.size();
         int tamanio = Math.min(n, tamListaItems);
-        for (int i = 0; i < tamListaItems; i++) {
-            item = listaItems.get(i);
-            //            indice = indiceOrdenadamente(listaNum, aleatorio, true, tamanio);
-            indice = Utilidades.indiceOrdenadamente(listaObj, item, minimo);
+        for (Item item : listaItems) {
+            indice = Utilidades.indiceOrdenadamente(listaObj, item, minimo, tamanio);
+//            indice = Utilidades.indiceOrdenadamente(listaObj, item, minimo);
             if (indice >= 0) {
                 listaObj.add(indice, item);
+                while (listaObj.size() > tamanio) {
+                    listaObj.remove(tamanio);
+                }
             }
-            while (listaObj.size() > tamanio) {
-                listaObj.remove(tamanio);
-            }
+
         }
         return result;
+    }
+
+    public static List primeros3(List listaElementos, Comparator comparator, int n) {
+        List listaResult = new ArrayList();
+        int indice;
+        int tamListaItems = listaElementos.size();
+        int tamanio = Math.min(n, tamListaItems);
+        for (Object item : listaElementos) {
+            indice = Utilidades.indiceOrdenadamente(listaResult, item, comparator,tamanio);
+            if (indice >= 0) {
+                listaResult.add(indice, item);
+                while (listaResult.size() > tamanio) {
+                    listaResult.remove(tamanio);
+                }
+            }
+        }
+        return listaResult;
     }
 
     public static List<Item> primeros(List<Item> listaIndices, int n, boolean minimo) {
@@ -91,4 +108,5 @@ public class UtilidadesIHEA {
         }
         return resultado;
     }
+    
 }

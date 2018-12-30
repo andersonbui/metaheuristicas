@@ -45,21 +45,27 @@ public class PruebasRendimiento {
         numMuestras = 1;
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_100_%d.txt", 8, 8));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_200_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_300_25_%d.txt", 1, 20));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_300_50_%d.txt", 1, 20));
-
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 8));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
+        double porcentaje = 0;
+        int cantidadPorcentajes = 0;
+        //calculo tiempo
+        int intentos = 10000;
+        int elementosSeleccionados = 100;
+        List indices1 = null;
+        List indices2 = null;
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
-                nombreArchivo = String.format(instancia.base, indice_instancia);
+                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
 
                 System.out.println("---------------------------------------------------------------");
                 System.out.println("Nombre archivo: " + nombreArchivo);
@@ -78,23 +84,36 @@ public class PruebasRendimiento {
                 FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                 IteratedHyperplaneExplorationAlgoritm aIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
 
-                //generar individuo
+                // generar individuo
                 IndividuoIHEA mochila = aIHEA.descent(funcionHyperplanos.generarIndividuo());
                 // lista indices
                 List<Integer> listaIndices = new ArrayList();
                 for (int i = 0; i < funcionHyperplanos.getDimension(); i++) {
                     listaIndices.add(i);
                 }
-                //calculo tiempo
-                int intentos = 10000;
                 long tiempo_inicial = System.currentTimeMillis();
                 for (int i = 0; i < intentos; i++) {
-                    aIHEA.primerosPorDensidad(listaIndices, mochila, 10, true);
+                    indices1 = aIHEA.primerosPorDensidad(listaIndices, mochila, elementosSeleccionados, true);
                 }
                 long tiempo_final = System.currentTimeMillis();
-                System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double)1));
+                double promedio1 = ((tiempo_final - tiempo_inicial) / (double) intentos);
+                System.out.println("promedio: " + promedio1 + "seg");
 
+                tiempo_inicial = System.currentTimeMillis();
+                for (int i = 0; i < intentos; i++) {
+                    indices2 = aIHEA.primerosPorDensidad3(listaIndices, mochila, elementosSeleccionados, true);
+                }
+                tiempo_final = System.currentTimeMillis();
+                double promedio2 = ((tiempo_final - tiempo_inicial) / (double) intentos);
+                System.out.println("promedio: " + promedio2 + "seg");
+                porcentaje += promedio1 / promedio2;
+                System.out.println("----\nPorcentaje: " + ((promedio1 / promedio2) * 100) + " %");
+                cantidadPorcentajes++;
+                if (!indices1.containsAll(indices2)) {
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>diferentes");
+                }
             }
         }
+        System.out.println("----\nPromedio porcentaje: " + ((porcentaje / cantidadPorcentajes) * 100) + " %");
     }
 }

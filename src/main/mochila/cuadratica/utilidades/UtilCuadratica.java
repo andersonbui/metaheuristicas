@@ -31,7 +31,7 @@ import metaheuristicas.Aleatorio;
 public class UtilCuadratica {
 
     static public List obtenerDatosMochilaCuadratica(String nombreArchivo) {
-        LeerArchivo leer =new LeerArchivo();
+        LeerArchivo leer = new LeerArchivo();
         leer.abrir(nombreArchivo);
         List<String> listaCadenas = leer.leer();
         leer.terminar();
@@ -97,6 +97,9 @@ public class UtilCuadratica {
      * @return
      */
     public static IndividuoCuadratico swap(IndividuoCuadratico individuo_original, Movimiento movimiento) {
+        if (individuo_original.elementosSeleccionados().isEmpty()) {
+            return null;
+        }
         FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) individuo_original.getFuncion();
         IndividuoCuadratico individuo = individuo_original.clone();
         int intentosIntercambio = 10;

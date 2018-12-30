@@ -18,8 +18,8 @@ package main.utilidades;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import metaheuristicas.Aleatorio;
 import metaheuristicas.IndividuoGen;
 
 /**
@@ -29,7 +29,7 @@ import metaheuristicas.IndividuoGen;
 public class Utilidades {
 
     static public List<IndividuoGen> obtenerDatosRegresion(int numDatos, String nombreArchivo, boolean maximizar) {
-        LeerArchivo leer =new LeerArchivo();
+        LeerArchivo leer = new LeerArchivo();
         leer.abrir(nombreArchivo);
         List<String> listaCadenas = leer.leer(numDatos);
         List<IndividuoGen> listaPuntos = new ArrayList();
@@ -76,7 +76,7 @@ public class Utilidades {
      * @param ascendente
      * @return
      */
-    public static int indiceOrdenadamente(List<Object> lista, Comparable punto, boolean ascendente) {
+    public static int indiceOrdenadamente(List lista, Comparable punto, boolean ascendente) {
         if (lista.isEmpty()) {
             return 0;
         }
@@ -90,10 +90,10 @@ public class Utilidades {
             puntoPos = lista.get(pos);
             comparacion = punto.compareTo(puntoPos) * (ascendente ? 1 : -1);
             if (comparacion >= 0) {
-                inf = pos + (ascendente ? 1 : 1);
+                inf = pos + 1;
             } else if (comparacion < 0) {
 
-                sup = pos + (ascendente ? -1 : -1);
+                sup = pos - 1;
             }
             if (sup < inf || comparacion == 0) {
                 return inf;
@@ -118,13 +118,76 @@ public class Utilidades {
             return 0;
         }
         // comprobar que el elemento este dentro de limite
-        if (ascendente && (lista.size() >= limite && elemento.compareTo(lista.get(limite - 1)) > 0)) {
-            return -1;
-        }
-        if (!ascendente && (lista.size() >= limite && elemento.compareTo(lista.get(limite - 1)) < 0)) {
-            return -1;
+        if (lista.size() >= limite) {
+            if (ascendente) {
+                if (elemento.compareTo(lista.get(limite - 1)) > 0) {
+                    return -1;
+                }
+            } else if (elemento.compareTo(lista.get(limite - 1)) < 0) {
+                return -1;
+            }
         }
         return indiceOrdenadamente(lista, elemento, ascendente);
+    }
+
+    /**
+     * retorna la posicion del nuevo elemento a ser adicionado en la lista
+     * ordenada, ordenado segun la variable ascendente. La lista tendra un
+     * limite maximo hasta el cual se llenara de manera ordenada, los elementos
+     * en posiiones que sobrepasen el limite seran ignorados.
+     *
+     * @param lista
+     * @param elemento
+     * @param comparator
+     * @return
+     */
+    public static int indiceOrdenadamente(List lista, Object elemento, Comparator comparator) {
+        if (lista.isEmpty()) {
+            return 0;
+        }
+        int pos;
+        int sup = lista.size() - 1;
+        int inf = 0;
+        Object puntoPos;
+        int comparacion;
+        while (true) {
+            pos = inf + (sup - inf) / 2;
+            puntoPos = lista.get(pos);
+            comparacion = comparator.compare(elemento, puntoPos);
+            if (comparacion >= 0) {
+                inf = pos + 1;
+            } else if (comparacion < 0) {
+                sup = pos - 1;
+            }
+            if (sup < inf || comparacion == 0) {
+                return inf;
+            }
+        }
+    }
+
+    /**
+     * retorna la posicion del nuevo elemento a ser adicionado en la lista
+     * ordenada, ordenado segun la variable ascendente. La lista tendra un
+     * limite maximo hasta el cual se llenara de manera ordenada, los elementos
+     * en posiiones que sobrepasen el limite seran ignorados.
+     *
+     * @param lista
+     * @param elemento
+     * @param comparator
+     * @param limite
+     * @return
+     */
+    public static int indiceOrdenadamente(List lista, Object elemento, Comparator comparator, int limite) {
+        if (lista.isEmpty()) {
+            return 0;
+        }
+        // comprobar que el elemento este dentro de limite
+        if (lista.size() >= limite) {
+            if (comparator.compare(elemento, lista.get(limite - 1)) > 0) {
+                return -1;
+            }
+        }
+        return indiceOrdenadamente(lista, elemento, comparator);
     }
 
     public static void resta() {

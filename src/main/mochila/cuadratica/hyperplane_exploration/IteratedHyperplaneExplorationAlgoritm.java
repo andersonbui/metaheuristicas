@@ -17,6 +17,7 @@
 package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import main.Item;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
@@ -213,18 +214,65 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         for (Integer indice : listaIndices) {
             densidades.add(new Item(indice, funcion.densidad(indice, mochila)));
         }
-        List<Item> litems = UtilidadesIHEA.primeros(densidades, n, minimo);
-        for (Item item : litems) {
+        List<Item> litems = UtilidadesIHEA.primeros2(densidades, n, minimo);
+        litems.forEach((item) -> {
             resultado.add(item.getIndice());
-        }
+        });
         return resultado;
     }
 
+    /**
+     * obtiene los n primeros indices de los items de mayor(minimo=true) o
+     * menor(minimo=false) densidad (aporte/peso) de los elementos
+     * (listaIndicces) en la mochila.
+     *
+     * @TODO considere uso de lista ordenada
+     * @param listaIndices
+     * @param mochila
+     * @param n n-primeros indices
+     * @param minimo
+     * @return
+     */
+    protected List<Integer> primerosPorDensidad3(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
+        listaIndices = new ArrayList(listaIndices);
+        List<Integer> resultado;
+
+        // almacen de todas las densidades
+        double[] densidades = new double[mochila.getDimension()];
+
+        // calcular densidades
+        listaIndices.forEach((indice) -> {
+            // calcular densidad solo de los elementos en listaIndices
+            densidades[indice] = funcion.densidad(indice, mochila);
+        });
+        Comparator<Integer> comparator = (Integer o1, Integer o2) -> {
+            int compar = Double.compare(densidades[o1], densidades[o2]) * (minimo ? 1 : -1);
+            if(compar==0){
+                
+            }
+            return compar;
+        };
+        resultado = UtilidadesIHEA.primeros3(listaIndices, comparator, n);
+
+        return resultado;
+    }
+
+    /**
+     * obtiene los n primeros indices de los items de mayor(minimo=true) o
+     * menor(minimo=false) densidad (aporte/peso) de los elementos
+     * (listaIndicces) en la mochila. El proceso se realiza mediante
+     *
+     * @TODO considere uso de lista ordenada
+     * @param listaIndices
+     * @param mochila
+     * @param n n-primeros indices
+     * @param minimo
+     * @return
+     */
     protected List<Integer> primerosPorDensidad(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
         listaIndices = new ArrayList(listaIndices);
         List<Integer> resultado = new ArrayList();
         int indice_guardado = 0;
-//        ascendente = !ascendente;
         double valor;
 
         // almacen de todas las densidades
@@ -335,7 +383,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         contador++;
                     }
                 }
-                if(saltar && (imax>=0)){
+                if (saltar && (imax >= 0)) {
                     break;
                 }
             }
