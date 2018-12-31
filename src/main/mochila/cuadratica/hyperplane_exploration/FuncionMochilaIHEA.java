@@ -39,13 +39,13 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      */
     protected int ub;
 
-    private final List<Integer> variablesFijas;
+    private List<Integer> variablesFijas;
 
     public FuncionMochilaIHEA(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         lb = -1;
         ub = -1;
-        variablesFijas = new ArrayList();
+        variablesFijas = null;
     }
 
     @Override
@@ -111,7 +111,9 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
     public List<Integer> obtener_I1(IndividuoMochila individuo) {
         IndividuoIHEA indi = ((IndividuoIHEA) individuo);
         List seleccionados = indi.elementosSeleccionados();
-        seleccionados.removeAll(this.variablesFijas);
+        if (this.variablesFijas != null && !this.variablesFijas.isEmpty()) {
+            seleccionados.removeAll(this.variablesFijas);
+        }
         return seleccionados;
     }
 
@@ -143,10 +145,8 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         return nuevop;
     }
 
-    public void fijarVariables(IndividuoMochila individuo, int[] varFijas) {
-        for (int varFija : varFijas) {
-            variablesFijas.add(varFija);
-        }
+    public void fijarVariables(IndividuoMochila individuo, List<Integer> varFijas) {
+        variablesFijas = varFijas;
     }
 
     public void reiniciarVijarVariables() {

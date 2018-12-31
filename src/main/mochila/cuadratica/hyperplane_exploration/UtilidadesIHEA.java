@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import main.utilidades.Utilidades;
 import main.Item;
+import main.mochila.cuadratica.FuncionMochilaCuadratica;
 
 /**
  *
@@ -73,7 +74,7 @@ public class UtilidadesIHEA {
         int tamListaItems = listaElementos.size();
         int tamanio = Math.min(n, tamListaItems);
         for (Object item : listaElementos) {
-            indice = Utilidades.indiceOrdenadamente(listaResult, item, comparator,tamanio);
+            indice = Utilidades.indiceOrdenadamente(listaResult, item, comparator, tamanio);
             if (indice >= 0) {
                 listaResult.add(indice, item);
                 while (listaResult.size() > tamanio) {
@@ -108,5 +109,114 @@ public class UtilidadesIHEA {
         }
         return resultado;
     }
-    
+
+    /**
+     * obtiene los n primeros indices de los items de mayor(minimo=true) o
+     * menor(minimo=false) densidad (aporte/peso) de los elementos
+     * (listaIndicces) en la mochila.
+     *
+     * @TODO considere uso de lista ordenada
+     * @param listaIndices
+     * @param mochila
+     * @param n n-primeros indices
+     * @param minimo
+     * @return
+     */
+    protected static List<Integer> primerosPorDensidad2(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
+        listaIndices = new ArrayList(listaIndices);
+        List<Integer> resultado = new ArrayList();
+
+        // almacen de todas las densidades
+        List<Item> densidades = new ArrayList();
+
+        FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) mochila.getFuncion();
+        // calcular densidades
+        for (Integer indice : listaIndices) {
+            densidades.add(new Item(indice, funcion.densidad(indice, mochila)));
+        }
+        List<Item> litems = UtilidadesIHEA.primeros2(densidades, n, minimo);
+        litems.forEach((item) -> {
+            resultado.add(item.getIndice());
+        });
+        return resultado;
+    }
+
+    /**
+     * obtiene los n primeros indices de los items de mayor(minimo=true) o
+     * menor(minimo=false) densidad (aporte/peso) de los elementos
+     * (listaIndicces) en la mochila.
+     *
+     * @TODO considere uso de lista ordenada
+     * @param listaIndices
+     * @param mochila
+     * @param n n-primeros indices
+     * @param minimo
+     * @return
+     */
+    protected static List<Integer> primerosPorDensidad3(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
+        listaIndices = new ArrayList(listaIndices);
+        List<Integer> resultado;
+
+        // almacen de todas las densidades
+        double[] densidades = new double[mochila.getDimension()];
+
+        FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) mochila.getFuncion();
+        // calcular densidades
+        listaIndices.forEach((indice) -> {
+            // calcular densidad solo de los elementos en listaIndices
+            densidades[indice] = funcion.densidad(indice, mochila);
+        });
+        Comparator<Integer> comparator = (Integer o1, Integer o2) -> {
+            return Double.compare(densidades[o1], densidades[o2]) * (minimo ? 1 : -1);
+        };
+        resultado = UtilidadesIHEA.primeros3(listaIndices, comparator, n);
+
+        return resultado;
+    }
+
+    /**
+     * obtiene los n primeros indices de los items de mayor(minimo=true) o
+     * menor(minimo=false) densidad (aporte/peso) de los elementos
+     * (listaIndicces) en la mochila. El proceso se realiza mediante
+     *
+     * @TODO considere uso de lista ordenada
+     * @param listaIndices
+     * @param mochila
+     * @param n n-primeros indices
+     * @param minimo
+     * @return
+     */
+    protected static List<Integer> primerosPorDensidad(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
+        listaIndices = new ArrayList(listaIndices);
+        List<Integer> resultado = new ArrayList();
+        int indice_guardado = 0;
+        double valor;
+
+        // almacen de todas las densidades
+        double[] densidades = new double[mochila.getDimension()];
+        FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) mochila.getFuncion();
+        // calcular densidades
+        listaIndices.forEach((indice) -> {
+            // calcular densidad solo de los elementos en listaIndices
+            densidades[indice] = funcion.densidad(indice, mochila);
+        });
+        int posicionGuardada;
+        int indice;
+        for (int i = 0; i < n; i++) {
+            posicionGuardada = 0;
+            indice_guardado = listaIndices.get(posicionGuardada);
+            valor = densidades[indice_guardado];
+            for (int k = 1; k < listaIndices.size(); k++) {
+                indice = listaIndices.get(k);
+                if ((minimo && valor > densidades[indice]) || (!minimo && valor < densidades[indice])) {
+                    indice_guardado = indice;
+                    valor = densidades[indice_guardado];
+                    posicionGuardada = k;
+                }
+            }
+            resultado.add(indice_guardado);
+            listaIndices.remove(posicionGuardada);
+        }
+        return resultado;
+    }
 }

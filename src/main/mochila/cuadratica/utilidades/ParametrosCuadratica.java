@@ -16,6 +16,9 @@
  */
 package main.mochila.cuadratica.utilidades;
 
+import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.IndividuoCuadratico;
+
 /**
  *
  * @author debian
@@ -58,7 +61,22 @@ public class ParametrosCuadratica {
     public ParametrosCuadratica() {
     }
 
-    
+    public IndividuoCuadratico obtenerIndividuoIdeal(FuncionMochilaCuadratica funcion) {
+        IndividuoCuadratico indiIdeal = new IndividuoCuadratico(funcion);
+        // crear individuo ideal
+        int[] ideal = getVectorIdeal();
+        if (ideal == null) {
+            System.out.println("No hay ideal.");
+            return null;
+        }
+        for (int i = 0; i < ideal.length; i++) {
+            if (ideal[i] == 1) {
+                indiIdeal.set(i, 1);
+            }
+        }
+        return indiIdeal;
+    }
+
     public String getNombreInstancia() {
         return nombreInstancia;
     }

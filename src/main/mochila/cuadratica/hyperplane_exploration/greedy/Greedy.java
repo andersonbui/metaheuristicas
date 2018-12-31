@@ -14,22 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.hyperplane_exploration;
+package main.mochila.cuadratica.hyperplane_exploration.greedy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import main.Item;
+import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
+import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 import metaheuristicas.Aleatorio;
 
 /**
  *
  * @author debian
  */
-class Greedy {
+public class Greedy {
 
-    protected IndividuoIHEA ejecutar(IndividuoIHEA individuo, int rcl) {
+    public IndividuoIHEA ejecutar(IndividuoIHEA individuo, int rcl) {
         //TODO mejorar pasando la lista ya ordenada y no volver a ordenar
         individuo = individuo.clone();
         List<Item> LRC = crearLRC(individuo, rcl);
@@ -55,7 +57,7 @@ class Greedy {
     protected List<Item> crearLRC(IndividuoIHEA individuo, int rcl) {
         List<Item> listItemNoSeleccionados = obtenerItemsNoSeleccionadosViables(individuo);
         List<Item> LRC = new ArrayList();
-        Collections.sort(listItemNoSeleccionados,new Comparator<Item>() {
+        Collections.sort(listItemNoSeleccionados, new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
                 return -o1.compareTo(o2);
@@ -115,5 +117,5 @@ class Greedy {
         int posicion = Aleatorio.nextInt(tamRCL);
         return LRC.get(posicion).getIndice();
     }
-
+    
 }

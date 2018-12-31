@@ -25,6 +25,7 @@ import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 
 /**
  * prueba de metodos de inicializacion de individuo mochila cuadratica
+ *
  * @author debian
  */
 public class Main_MetododosInicializacion {
@@ -50,7 +51,9 @@ public class Main_MetododosInicializacion {
     public static void main(String[] args) {
         String nombreArchivo = "";
         List<GrupoInstancias> instancias = new ArrayList();
-        double sumaParecidoTotal = 0;
+        double sumaParecidoUpperTotal = 0;
+        double sumaParecidoLowerTotal = 0;
+        double desv_sumaParecidoLowerTotal = 0;
         double sumaUltimoUpperTotal = 0;  // suma de todos los cocientes: ultimo/upperbound
         int contador = 0;
         int ultimoSeleccionado;
@@ -58,18 +61,18 @@ public class Main_MetododosInicializacion {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
 
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
             for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
                 ultimoSeleccionado = 0;
-                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
-
+                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
+                
                 LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
                 ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
                 if (parametros == null) {
@@ -78,18 +81,17 @@ public class Main_MetododosInicializacion {
                 }
                 funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());
 
-                IndividuoIHEA indi = funcion.generarIndividuo();
-                int[] ideal = parametros.getVectorIdeal();
-                if (ideal == null) {
+                int[] valsIdeal = parametros.getVectorIdeal();
+                if (valsIdeal == null) {
                     System.out.println("No hay ideal.");
                     continue;
                 }
                 IndividuoIHEA indiIdeal = new IndividuoIHEA(funcion);
                 // crear individuo ideal
-                for (int i = 0; i < ideal.length; i++) {
-                    if (ideal[i] == 1) {
-//                System.out.println("");
-                        indiIdeal.set(i, ideal[i]);
+                for (int i = 0; i < valsIdeal.length; i++) {
+                    if (valsIdeal[i] == 1) {
+                        indiIdeal.set(i, 1);
+                        ultimoSeleccionado = i;
                     }
                 }
 
@@ -102,50 +104,69 @@ public class Main_MetododosInicializacion {
                     double beneficio = funcion.beneficio(i);
                     posiciones.add(new Posicion(i, peso, relacion, beneficio));
                 }
-                // ordenar de acuerdo a la estrctura anterior
-
-                Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
-                    return comparar2(o1, o2);
-                });
-
-                for (int i = 0; i < ideal.length; i++) {
-                    if (ideal[i] == 1) {
-//                System.out.println("");
-                        indiIdeal.set(i, ideal[i]);
-                        ultimoSeleccionado = i;
-                    }
+                if(nombreArchivo.equals("mochilaCuadratica/grupo1/jeu_200_100_7.txt")){
+                    System.out.println("ss");
                 }
+                // ordenar de acuerdo a la estrctura anterior
+                Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
+                    return comparar4(o1, o2);
+                });
+                // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
+                int cantidadSeleccionadosConsecutivos = 0;
                 for (int i = 0; i < posiciones.size(); i++) {
                     int pos = posiciones.get(i).posicion;
-                    if (ideal[pos] == 1) {
+                    if (valsIdeal[pos] == 1) {
+                        cantidadSeleccionadosConsecutivos = i;
+                    } else {
+                        break;
+                    }
+                }
+                // obtener la cantidad de unos en el individuo encontrado con respecto al ideal
+                for (int i = 0; i < posiciones.size(); i++) {
+                    int pos = posiciones.get(i).posicion;
+                    if (valsIdeal[pos] == 1) {
                         ultimoSeleccionado = i;
                     }
                 }
 
+                IndividuoIHEA indiAlcanzado = funcion.generarIndividuo();
                 // crear individuo de los n primeros elementos de la lista ordenada
-                while (funcion.cabe(indi, posiciones.get(0).posicion)) {
-                    indi.set(posiciones.remove(0).posicion, 1);
+                while (funcion.cabe(indiAlcanzado, posiciones.get(0).posicion)) {
+                    indiAlcanzado.set(posiciones.remove(0).posicion, 1);
                 }
 
-                int parecido = indi.parecido(indiIdeal);
-                double porcentaje = ((double) parecido) / indiIdeal.elementosSeleccionados().size();
-                sumaParecidoTotal += porcentaje;
+                int parecido = indiAlcanzado.parecido(indiIdeal);
+                int[] lu_bound = UtilCuadratica.optenerLowerUpper_Bound(funcion);
+                int cantidadUnosIdeal = indiIdeal.elementosSeleccionados().size();
+                double porcentaje = ((double) parecido) / cantidadUnosIdeal;
+                double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lu_bound[1];
+                sumaParecidoUpperTotal += porcentaje;
+                sumaParecidoLowerTotal += porc_csc_lb;
+                desv_sumaParecidoLowerTotal += porc_csc_lb * porc_csc_lb;
+                sumaUltimoUpperTotal += (ultimoSeleccionado / (double) lu_bound[1]);
                 System.out.println("----------------------------------");
                 System.out.println("nombre archivo: " + nombreArchivo);
-                System.out.println("parecido: " + parecido);
-                int[] lu_bound = UtilCuadratica.optenerLowerUpper_Bound(funcion);
-                sumaUltimoUpperTotal += (ultimoSeleccionado / (double)lu_bound[1]);
-                System.out.println("ultimo seleccionado: " + ultimoSeleccionado + "; %upper: " + (ultimoSeleccionado / (double)lu_bound[1]));
+                System.out.println("parecido(# unos alcanzado): " + parecido);
+                System.out.println("# unos Ideal: " + cantidadUnosIdeal);
+                System.out.println("(# unos alcanzado)/(total unos ideal): " + porcentaje);
                 System.out.println("lowerB: " + lu_bound[0] + "; upperB: " + lu_bound[1]);
-                System.out.println("calidad alcanzado: " + indi.getCalidad());
+                System.out.println("ultimo seleccionado (posicion): " + ultimoSeleccionado
+                        + ";\n (ultimo seleccionado)/upper: " + (ultimoSeleccionado / (double) lu_bound[1]));
+                System.out.println("ultimo seleccionado consecutivo (posicion): " + cantidadSeleccionadosConsecutivos
+                        + ";\n (ultimo seleccionado consecutivo)/lowerB: " + (cantidadSeleccionadosConsecutivos / (double) lu_bound[0]));
+                System.out.println("calidad alcanzado: " + indiAlcanzado.getCalidad());
                 System.out.println("calidad ideal: " + indiIdeal.getCalidad());
-                System.out.println("porcentanje parecido: " + porcentaje);
+                System.out.println("% (calidad alcanzado)/(calidad ideal): " + (indiAlcanzado.getCalidad() / indiIdeal.getCalidad()));
                 contador++;
             }
         }
         System.out.println("\n##############################################");
-        System.out.println("promedio porcentaje exito metodo: " + (sumaParecidoTotal / contador));
-        System.out.println("promedio porcentaje ultimo/upper: " + (sumaUltimoUpperTotal / contador));
+        System.out.println("promedio % exito = (# unos alcanzado)/(total unos ideal): " + (sumaParecidoUpperTotal / contador));
+        System.out.println("promedio % (ultimo seleccionado)/(upperB): " + (sumaUltimoUpperTotal / contador));
+        double promedio_sumaParecidoLowerTotal = (sumaParecidoLowerTotal / contador);
+        desv_sumaParecidoLowerTotal = Math.sqrt((1.0 / contador) * (desv_sumaParecidoLowerTotal - contador * promedio_sumaParecidoLowerTotal * promedio_sumaParecidoLowerTotal));
+        System.out.println("promedio (ultimo seleccionado consecutivo)/(lowerB): " + promedio_sumaParecidoLowerTotal);
+        System.out.println("desviacion (ultimo seleccionado consecutivo)/(lowerB): " + desv_sumaParecidoLowerTotal);
     }
 
     public static class Posicion {
@@ -180,5 +201,15 @@ public class Main_MetododosInicializacion {
         Double resultado1 = o1.beneficio / o1.peso;
         Double resultado2 = o2.beneficio / o2.peso;
         return -Double.compare(resultado1, resultado2);
+    }
+
+    public static int comparar4(Posicion o1, Posicion o2) {
+        Double resultado1 = o1.beneficio / o1.peso;
+        Double resultado2 = o2.beneficio / o2.peso;
+        int result = -Double.compare(resultado1, resultado2);
+        if (result == 0) {
+            return Double.compare(o1.peso,  o2.peso);
+        }
+        return result;
     }
 }

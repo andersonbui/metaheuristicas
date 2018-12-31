@@ -14,13 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.hyperplane_exploration;
+package main.mochila.cuadratica.hyperplane_exploration.greedy;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica;
 import main.GrupoInstancias;
+import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
+import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
+import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 
@@ -28,7 +32,7 @@ import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
  *
  * @author debian
  */
-public class PruebasRendimiento {
+public class PruebasGreedy {
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
@@ -85,35 +89,19 @@ public class PruebasRendimiento {
                 IteratedHyperplaneExplorationAlgoritm aIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
 
                 // generar individuo
-                IndividuoIHEA mochila = aIHEA.descent(funcionHyperplanos.generarIndividuo());
+                IndividuoIHEA mochila = new IndividuoIHEA(funcionHyperplanos);
+                int rcl = 5;
                 // lista indices
-                List<Integer> listaIndices = new ArrayList();
-                for (int i = 0; i < funcionHyperplanos.getDimension(); i++) {
-                    listaIndices.add(i);
-                }
                 long tiempo_inicial = System.currentTimeMillis();
-                for (int i = 0; i < intentos; i++) {
-                    indices1 = UtilidadesIHEA.primerosPorDensidad(listaIndices, mochila, elementosSeleccionados, true);
-                }
+                IndividuoIHEA individuo = (new Greedy()).ejecutar(mochila, rcl);
                 long tiempo_final = System.currentTimeMillis();
                 double promedio1 = ((tiempo_final - tiempo_inicial) / (double) intentos);
-                System.out.println("promedio: " + promedio1 + "seg");
+                System.out.println("tiempo promedio: " + promedio1 + "seg");
 
-                tiempo_inicial = System.currentTimeMillis();
-                for (int i = 0; i < intentos; i++) {
-                    indices2 = UtilidadesIHEA.primerosPorDensidad3(listaIndices, mochila, elementosSeleccionados, true);
-                }
-                tiempo_final = System.currentTimeMillis();
-                double promedio2 = ((tiempo_final - tiempo_inicial) / (double) intentos);
-                System.out.println("promedio: " + promedio2 + "seg");
-                porcentaje += promedio1 / promedio2;
-                System.out.println("----\nPorcentaje: " + ((promedio1 / promedio2) * 100) + " %");
-                cantidadPorcentajes++;
-                if (!indices1.containsAll(indices2)) {
-                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>diferentes");
-                }
+                porcentaje += promedio1 ;
+                
             }
         }
-        System.out.println("----\nPromedio porcentaje: " + ((porcentaje / cantidadPorcentajes) * 100) + " %");
+        System.out.println("----\nPromedio puntaje: " + ((porcentaje / cantidadPorcentajes) * 100) + " %");
     }
 }

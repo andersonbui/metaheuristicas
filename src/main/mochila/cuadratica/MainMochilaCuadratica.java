@@ -64,10 +64,10 @@ public class MainMochilaCuadratica {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","5000_25_%d.txt", 1, 1));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 1));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 2));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 1));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
@@ -90,10 +90,11 @@ public class MainMochilaCuadratica {
         sbCabecera.append("----------------------------------------------------------.\n");
 
         List<HiloEjecucion> hilos = new ArrayList<>();
-        String campos = imprimirConFormato("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
+        String campos = formatearCabecera("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         sbCabecera.append(campos);
         esa.escribir(sbCabecera.toString());
+        System.out.format(sbCabecera.toString());
         String mensaje = "";
         for (GrupoInstancias instancia : instancias) {
 
@@ -194,7 +195,7 @@ public class MainMochilaCuadratica {
 
             AlgoritmoMetaheuristico algot = resultado.algoritmo;
             FuncionGen funcion = algot.getFuncion();
-            String cad = imprimirConFormato(
+            String cad = formatearCabecera(
                     funcion.getNombre(),
                     algot.getNombre(),
                     formatear(funcion.getDimension()),
@@ -205,6 +206,7 @@ public class MainMochilaCuadratica {
                     formatear(resultado.desviacionCalidadOptimos),
                     formatear(resultado.tiempoTotal),
                     formatear(resultado.promedionumEvaluaciones));
+            System.out.println(cad);
             sb.append(cad);
         }
         return sb.toString();
@@ -228,6 +230,7 @@ public class MainMochilaCuadratica {
             }
         }
         StringBuilder cadena;
+        sb.append("\n");
         for (int i = 0; i < tamGrupoAux; i++) {
             cadena = new StringBuilder();
             cadena.append("Algoritmo[").append(grupoAux.get(i).algoritmo.getNombre()).append("]\n");
@@ -242,11 +245,10 @@ public class MainMochilaCuadratica {
         return resumen;
     }
 
-    public static String imprimirConFormato(String funcion, String algoritmo, String dimension, String promIteraciones,
+    public static String formatearCabecera(String funcion, String algoritmo, String dimension, String promIteraciones,
             String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio, String numEvaluaciones) {
         String cadena = String.format("%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio, numEvaluaciones);
-        System.out.format(cadena);
         return cadena;
     }
 

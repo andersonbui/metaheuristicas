@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -75,7 +76,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          * determinacion.
          */
         // indice de las variables fijas para el problema restringido
-        int[] variablesFijas;
+        List<Integer> variablesFijas;
         //variable bandera.
         boolean solucionEncontrada;
         //dimension k.
@@ -167,7 +168,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @param lowerb
      * @return
      */
-    protected int[] determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
+    protected List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
         // dimension de individuo
         int dimX = dimensionHyp;
         // tamaño de la mochila
@@ -177,131 +178,21 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
-        nf = Math.min(nf, itemsSeleccionados.size());
-//        List<Integer> listaIndices = primerosPorDensidad(itemsSeleccionados, individuo, false);
-        List<Integer> listaIndices = primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+        List<Integer> listaIndices = UtilidadesIHEA.primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
 
         // vector de indices de variables fijas
-        int[] varFijas = new int[nf];
         // obtener los primeros nf indices de los elementos más densos
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
-        for (int i = 0; i < nf; i++) {
-            varFijas[i] = listaIndices.get(i);
-        }
-        return varFijas;
+        return listaIndices;
     }
 
     /**
-     * obtiene los n primeros indices de los items de mayor(minimo=true) o
-     * menor(minimo=false) densidad (aporte/peso) de los elementos
-     * (listaIndicces) en la mochila.
      *
-     * @TODO considere uso de lista ordenada
-     * @param listaIndices
-     * @param mochila
-     * @param n n-primeros indices
-     * @param minimo
-     * @return
+     * @param varFijas
+     * @param individuoActual
      */
-    protected List<Integer> primerosPorDensidad2(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
-        listaIndices = new ArrayList(listaIndices);
-        List<Integer> resultado = new ArrayList();
-
-        // almacen de todas las densidades
-        List<Item> densidades = new ArrayList();
-
-        // calcular densidades
-        for (Integer indice : listaIndices) {
-            densidades.add(new Item(indice, funcion.densidad(indice, mochila)));
-        }
-        List<Item> litems = UtilidadesIHEA.primeros2(densidades, n, minimo);
-        litems.forEach((item) -> {
-            resultado.add(item.getIndice());
-        });
-        return resultado;
-    }
-
-    /**
-     * obtiene los n primeros indices de los items de mayor(minimo=true) o
-     * menor(minimo=false) densidad (aporte/peso) de los elementos
-     * (listaIndicces) en la mochila.
-     *
-     * @TODO considere uso de lista ordenada
-     * @param listaIndices
-     * @param mochila
-     * @param n n-primeros indices
-     * @param minimo
-     * @return
-     */
-    protected List<Integer> primerosPorDensidad3(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
-        listaIndices = new ArrayList(listaIndices);
-        List<Integer> resultado;
-
-        // almacen de todas las densidades
-        double[] densidades = new double[mochila.getDimension()];
-
-        // calcular densidades
-        listaIndices.forEach((indice) -> {
-            // calcular densidad solo de los elementos en listaIndices
-            densidades[indice] = funcion.densidad(indice, mochila);
-        });
-        Comparator<Integer> comparator = (Integer o1, Integer o2) -> {
-            int compar = Double.compare(densidades[o1], densidades[o2]) * (minimo ? 1 : -1);
-            if(compar==0){
-                
-            }
-            return compar;
-        };
-        resultado = UtilidadesIHEA.primeros3(listaIndices, comparator, n);
-
-        return resultado;
-    }
-
-    /**
-     * obtiene los n primeros indices de los items de mayor(minimo=true) o
-     * menor(minimo=false) densidad (aporte/peso) de los elementos
-     * (listaIndicces) en la mochila. El proceso se realiza mediante
-     *
-     * @TODO considere uso de lista ordenada
-     * @param listaIndices
-     * @param mochila
-     * @param n n-primeros indices
-     * @param minimo
-     * @return
-     */
-    protected List<Integer> primerosPorDensidad(List<Integer> listaIndices, IndividuoIHEA mochila, int n, boolean minimo) {
-        listaIndices = new ArrayList(listaIndices);
-        List<Integer> resultado = new ArrayList();
-        int indice_guardado = 0;
-        double valor;
-
-        // almacen de todas las densidades
-        double[] densidades = new double[mochila.getDimension()];
-
-        // calcular densidades
-        listaIndices.forEach((indice) -> {
-            // calcular densidad solo de los elementos en listaIndices
-            densidades[indice] = funcion.densidad(indice, mochila);
-        });
-        int posicionGuardada = 0;
-        for (int i = 0; i < n; i++) {
-            valor = minimo ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
-            for (int k = 0; k < listaIndices.size(); k++) {
-                int indice = listaIndices.get(k);
-                if ((minimo && valor > densidades[indice]) || (!minimo && valor < densidades[indice])) {
-                    valor = densidades[indice];
-                    indice_guardado = indice;
-                    posicionGuardada = k;
-                }
-            }
-            resultado.add(indice_guardado);
-            listaIndices.remove(posicionGuardada);
-        }
-        return resultado;
-    }
-
-    protected void construirProblemaRestringidoReducido(int[] varFijas, IndividuoIHEA x_actual) {
-        funcion.fijarVariables(x_actual, varFijas);
+    protected void construirProblemaRestringidoReducido(List<Integer> varFijas, IndividuoIHEA individuoActual) {
+        funcion.fijarVariables(individuoActual, varFijas);
     }
 
     int contador = 0;
@@ -469,7 +360,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         t = Math.min(10, I1.size() - nf);
         s = Math.min(3, t);
-        List<Integer> listaIndices = primerosPorDensidad(I1, individuo, t, true);
+        List<Integer> listaIndices = UtilidadesIHEA.primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(listaIndices.size());
