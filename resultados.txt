@@ -7,62 +7,38 @@ DPR: Desviación porcentual relativa.
 ----------------------------------------------------------.
 FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
 
-####----Nombre archivo: jeu_100_75_1.txt----
+####----Nombre archivo: r_10_100_13.txt----
 
-Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|189137,00     |189137,00   |0,000000|392,00    |0,000000       
-FVNS                |SGVNS-juan-Int[5]             | 100      |1,000000|1,000000|189137,00     |189137,00   |0,000000|27,00     |0,000000       
-FVNS                |SGVNS-juan-Int[10]            | 100      |1,000000|1,000000|189137,00     |189137,00   |0,000000|26,00     |0,000000       
-FVNS                |SGVNS-juan-Int[7]             | 100      |1,000000|1,000000|189137,00     |189137,00   |0,000000|23,00     |0,000000       
-FVNS                |SGVNS-juan-Int[12]            | 100      |1,000000|1,000000|189137,00     |189137,00   |0,000000|25,00     |0,000000       
-
-####----Nombre archivo: jeu_100_50_1.txt----
-
-Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|83742,00      |83742,00    |0,000000|1281,00   |0,000000       
-FVNS                |SGVNS-juan-Int[5]             | 100      |40,00   |0,400000|83742,00      |83578,00    |0,195840|770,00    |0,000000       
-FVNS                |SGVNS-juan-Int[10]            | 100      |40,00   |0,200000|83742,00      |83523,20    |0,261279|885,00    |0,000000       
-FVNS                |SGVNS-juan-Int[7]             | 100      |40,00   |0,300000|83742,00      |83581,10    |0,192138|822,00    |0,000000       
-FVNS                |SGVNS-juan-Int[12]            | 100      |40,00   |0,100000|83742,00      |83496,10    |0,293640|881,00    |0,000000       
-
-----Nombre archivo: jeu_100_50_2.txt----
-
-Cuadratica          |IHEAIHEA                      | 100      |75,00   |0,300000|104856,00     |104810,10   |0,043774|1100,00   |0,000000       
-FVNS                |SGVNS-juan-Int[5]             | 100      |40,00   |0,200000|104856,00     |104780,30   |0,072194|793,00    |0,000000       
-FVNS                |SGVNS-juan-Int[10]            | 100      |40,00   |0,100000|104856,00     |104789,60   |0,063325|886,00    |0,000000       
-FVNS                |SGVNS-juan-Int[7]             | 100      |40,00   |0,100000|104856,00     |104792,90   |0,060178|835,00    |0,000000       
-FVNS                |SGVNS-juan-Int[12]            | 100      |40,00   |0,200000|104856,00     |104797,10   |0,056172|912,00    |0,000000       
-
-####----Nombre archivo: jeu_200_100_1.txt----
-
-Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|937149,00     |937149,00   |0,000000|1267,00   |0,000000       
-FVNS                |SGVNS-juan-Int[5]             | 200      |40,00   |1,000000|937149,00     |937149,00   |0,000000|1190,00   |0,000000       
-FVNS                |SGVNS-juan-Int[10]            | 200      |40,00   |1,000000|937149,00     |937149,00   |0,000000|1212,00   |0,000000       
-FVNS                |SGVNS-juan-Int[7]             | 200      |40,00   |0,900000|937149,00     |937146,40   |0,000277|1175,00   |0,000000       
-FVNS                |SGVNS-juan-Int[12]            | 200      |40,00   |0,900000|937149,00     |937141,10   |0,000843|1214,00   |0,000000       
+Cuadratica          |IHEAIHEA                      |  10      |68,00   |0,000000|1609,00       |1609,00     |-9956,250000|44,00     |0,000000       
+FVNS                |SGVNS-juan-Int[5]             |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|110,00    |0,000000       
+FVNS                |SGVNS-juan-Int[10]            |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|111,00    |0,000000       
+FVNS                |SGVNS-juan-Int[7]             |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|107,00    |0,000000       
+FVNS                |SGVNS-juan-Int[12]            |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|110,00    |0,000000       
 
 --------------------RESUMEN-----------------
 Algoritmo[IHEAIHEA]
-aciertos:82,50%
-desviacion:0,010944
-tiempo promedio:1010,00ms
+aciertos:0,000000%
+desviacion:-9956,250000
+tiempo promedio:44,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[5]]
-aciertos:65,00%
-desviacion:0,067008
-tiempo promedio:695,00ms
+aciertos:0,000000%
+desviacion:-9956,250000
+tiempo promedio:110,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[10]]
-aciertos:57,50%
-desviacion:0,081151
-tiempo promedio:752,25ms
+aciertos:0,000000%
+desviacion:-9956,250000
+tiempo promedio:111,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[7]]
-aciertos:57,50%
-desviacion:0,063148
-tiempo promedio:713,75ms
+aciertos:0,000000%
+desviacion:-9956,250000
+tiempo promedio:107,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[12]]
-aciertos:55,00%
-desviacion:0,087664
-tiempo promedio:758,00ms
+aciertos:0,000000%
+desviacion:-9956,250000
+tiempo promedio:110,00ms
 -----------
 

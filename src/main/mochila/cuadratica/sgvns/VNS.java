@@ -219,6 +219,9 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         int contador = intentosIntercambio;
         do { // intentos de busqueda
             listaItemDentro = elementosDentro(individuo);
+            if (listaItemDentro.isEmpty()) {
+                return individuo;
+            }
             int tamLDentro = listaItemDentro.size();
             int aleatorioD = Aleatorio.nextInt(tamLDentro);
             Integer posicionD = listaItemDentro.get(aleatorioD);
@@ -298,6 +301,7 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
     private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
         s_inicial = s_inicial.clone();
+        intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size()-1);
         do {
             if (vecindario == 1) {
                 aux = intercambio(s_inicial);

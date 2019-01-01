@@ -25,6 +25,7 @@ import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
+import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 
@@ -52,20 +53,18 @@ public class PruebasGreedy {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 8));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
         double porcentaje = 0;
         int cantidadPorcentajes = 0;
         //calculo tiempo
         int intentos = 10000;
-        int elementosSeleccionados = 100;
-        List indices1 = null;
-        List indices2 = null;
+        List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
             for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
@@ -98,10 +97,17 @@ public class PruebasGreedy {
                 double promedio1 = ((tiempo_final - tiempo_inicial) / (double) intentos);
                 System.out.println("tiempo promedio: " + promedio1 + "seg");
 
-                porcentaje += promedio1 ;
-                
+                porcentaje += promedio1;
+                // lista de indices para ordenamiento
+                ComparacionIdeal.Datos datos = ComparacionIdeal.comparacion(parametros, individuo);
+                if (datos != null) {
+                    comparaciones.add(datos);
+                }
+
             }
         }
-        System.out.println("----\nPromedio puntaje: " + ((porcentaje / cantidadPorcentajes) * 100) + " %");
+        ComparacionIdeal.estadisticas(comparaciones);
+        System.out.println("----\nTiempo promedio segundos: " + ((porcentaje / cantidadPorcentajes) * 100) + " %");
     }
+
 }

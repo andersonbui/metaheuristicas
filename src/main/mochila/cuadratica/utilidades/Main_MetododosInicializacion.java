@@ -32,22 +32,6 @@ public class Main_MetododosInicializacion {
 
     private static FuncionMochilaIHEA funcion;
 
-    //lim,rango,prob_ceros,poblacion, iteraciones
-    //lim,20,0.90,20
-//        nombreArchivo = "mochilaCuadratica/1000_25_1.dat";
-//        nombreArchivo = "mochilaCuadratica/5000_25_1.txt";
-//        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
-//        nombreArchivo = "mochilaCuadratica/jeu_200_75_6.txt";
-//        //lim,15,0.99,20
-//        nombreArchivo = "mochilaCuadratica/jeu_300_25_10.txt";
-//        //si-no,15,0.99,20
-//        nombreArchivo = "mochilaCuadratica/jeu_300_50_2.txt";
-//        //lim,15,0.99,10,14
-//        nombreArchivo = "mochilaCuadratica/jeu_100_25_2.txt";
-//        //no,15,0.99,20,32
-//        //si,15,0.90-93,20,31
-    //lim,15,0.99,5->,1
-//        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
     public static void main(String[] args) {
         String nombreArchivo = "";
         List<GrupoInstancias> instancias = new ArrayList();
@@ -91,7 +75,7 @@ public class Main_MetododosInicializacion {
                 for (int i = 0; i < valsIdeal.length; i++) {
                     if (valsIdeal[i] == 1) {
                         indiIdeal.set(i, 1);
-                        ultimoSeleccionado = i;
+//                        ultimoSeleccionado = i;
                     }
                 }
 
@@ -103,9 +87,6 @@ public class Main_MetododosInicializacion {
                     double relacion = funcion.relaciones(i);
                     double beneficio = funcion.beneficio(i);
                     posiciones.add(new Posicion(i, peso, relacion, beneficio));
-                }
-                if(nombreArchivo.equals("mochilaCuadratica/grupo1/jeu_200_100_7.txt")){
-                    System.out.println("ss");
                 }
                 // ordenar de acuerdo a la estrctura anterior
                 Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {

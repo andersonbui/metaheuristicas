@@ -34,15 +34,14 @@ public class LecturaParametrosCuadratica {
     }
 
     public void actualizar(String nombreArchivo, ParametrosCuadratica parametros) {
-        LeerArchivo leer = new LeerArchivo();
-        leer.abrir(nombreArchivo);
-        List<String> listaCadenas = leer.leer();
-        leer.terminar();
+        
+        ArchivoInstancia archivoInstancia = obtenerArchivo(nombreArchivo);
+        archivoInstancia.setMaximoGlobal(parametros.getMaxGlobal());
+        archivoInstancia.setInstanciaMaxG(parametros.getVectorIdeal());
+        
         EscribirArchivo archivo = new EscribirArchivo();
-        listaCadenas.set(parametros.getPosicionMaxGlobal(), "" + parametros.getMaxGlobal());
-        listaCadenas.set(parametros.getPosicionIdeal(), vectorAString(parametros.getVectorIdeal()));
         archivo.abrir(nombreArchivo);
-        archivo.escribir(listaCadenas);
+        archivo.escribir(archivoInstancia.getLineas());
         archivo.terminar();
     }
 
@@ -54,7 +53,35 @@ public class LecturaParametrosCuadratica {
         return cadena.toString();
     }
 
+    public ArchivoInstancia obtenerArchivo(String nombreArchivo) {
+        LeerArchivo leer = new LeerArchivo();
+        if (!leer.abrir(nombreArchivo)) {
+            return null;
+        }
+        List<String> listaCadenas = leer.leer();
+        leer.terminar();
+        ArchivoInstancia aInstancia = new ArchivoInstancia(listaCadenas);
+        return aInstancia;
+    }
+
     public ParametrosCuadratica obtenerParametros(String nombreArchivo) {
+        ArchivoInstancia aInstancia = obtenerArchivo(nombreArchivo);
+        if (aInstancia == null) {
+            return null;
+        }
+        ParametrosCuadratica pc = new ParametrosCuadratica(
+                nombreArchivo,
+                aInstancia.getNombre(),
+                aInstancia.getMatriz(),
+                aInstancia.getCapacidad(),
+                aInstancia.getPesos(),
+                aInstancia.getInstanciaMaxG(),
+                aInstancia.getMaximoGlobal()
+        );
+        return pc;
+    }
+
+    public ParametrosCuadratica obtenerParametros2(String nombreArchivo) {
 //        String nombreInstancia = (String) listaParametros.remove(0);
         double[][] matrizBeneficios;
         int[] vectorideal = null;
@@ -66,12 +93,10 @@ public class LecturaParametrosCuadratica {
         int numElementos;
         ParametrosCuadratica pc = new ParametrosCuadratica();
         pc.setNombreArchivo(nombreArchivo);
-        LeerArchivo leer =new LeerArchivo();
-        if (!leer.abrir(nombreArchivo)) {
+        List<String> listaCadenas = obtenerArchivo(nombreArchivo).getLineas();
+        if (listaCadenas == null) {
             return null;
         }
-        List<String> listaCadenas = leer.leer();
-        leer.terminar();
 //        List listaResultado = new ArrayList();
 
         ListIterator<String> iterador = listaCadenas.listIterator();
@@ -82,7 +107,6 @@ public class LecturaParametrosCuadratica {
         // obtener numero de elementos para la mochila
         numElementos = Integer.parseInt(iterador.next().trim());
         matrizBeneficios = new double[numElementos][numElementos];
-        vectorPesos = new double[numElementos];
 
         // obtener matriz de beneficios
         for (int i = 0; i < numElementos; i++) {
@@ -113,6 +137,7 @@ public class LecturaParametrosCuadratica {
         capacidad = Double.parseDouble(iterador.next().trim()); // capacidad de la mochila
         pc.setCapacidad(capacidad);
 
+        vectorPesos = new double[numElementos];
         // lectura de vector pesos
         cadena = iterador.next().replace(',', '.');
         cadena = eliminarEspaciosRepetidos(cadena);

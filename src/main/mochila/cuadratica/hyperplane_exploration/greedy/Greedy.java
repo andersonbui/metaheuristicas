@@ -23,6 +23,7 @@ import java.util.List;
 import main.Item;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -34,7 +35,9 @@ public class Greedy {
     public IndividuoIHEA ejecutar(IndividuoIHEA individuo, int rcl) {
         //TODO mejorar pasando la lista ya ordenada y no volver a ordenar
         individuo = individuo.clone();
+//        List<Item> LRC = crearLRC(individuo, rcl);
         List<Item> LRC = crearLRC(individuo, rcl);
+        
         while (!LRC.isEmpty()) {
             int s = seleccionarElementoaleatorio(LRC);
             // incluida funcion gredy adapatada
@@ -91,6 +94,15 @@ public class Greedy {
         return LRC;
     }
 
+    protected List<Item> crearLRC3(IndividuoIHEA individuo, int rcl) {
+        List<Item> listItemNoSeleccionados = obtenerItemsNoSeleccionadosViables(individuo);
+        Comparator<Item> comparator = (Item o1, Item o2) -> {
+            return o1.compareTo(o2);
+        };
+        List<Item> listItemResultado=UtilidadesIHEA.primeros3(listItemNoSeleccionados, comparator, rcl);
+        return listItemResultado;
+    }
+
     /**
      * Obtiene en una lista los item no seleccionados de mochila, tal que al ser
      * seleccionado cada uno, no se exceda la capacidad de esta.
@@ -117,5 +129,5 @@ public class Greedy {
         int posicion = Aleatorio.nextInt(tamRCL);
         return LRC.get(posicion).getIndice();
     }
-    
+
 }
