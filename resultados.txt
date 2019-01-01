@@ -9,36 +9,36 @@ FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      
 
 ####----Nombre archivo: r_10_100_13.txt----
 
-Cuadratica          |IHEAIHEA                      |  10      |68,00   |0,000000|1609,00       |1609,00     |-9956,250000|44,00     |0,000000       
-FVNS                |SGVNS-juan-Int[5]             |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|110,00    |0,000000       
-FVNS                |SGVNS-juan-Int[10]            |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|111,00    |0,000000       
-FVNS                |SGVNS-juan-Int[7]             |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|107,00    |0,000000       
-FVNS                |SGVNS-juan-Int[12]            |  10      |40,00   |0,000000|1609,00       |1609,00     |-9956,250000|110,00    |0,000000       
+Cuadratica          |IHEAIHEA                      |  10      |68,00   |1,000000|1609,00       |1609,00     |0,000000|46,00     |0,000000       
+FVNS                |SGVNS-juan-Int[5]             |  10      |40,00   |1,000000|1609,00       |1609,00     |0,000000|117,00    |0,000000       
+FVNS                |SGVNS-juan-Int[10]            |  10      |40,00   |1,000000|1609,00       |1609,00     |0,000000|124,00    |0,000000       
+FVNS                |SGVNS-juan-Int[7]             |  10      |40,00   |1,000000|1609,00       |1609,00     |0,000000|123,00    |0,000000       
+FVNS                |SGVNS-juan-Int[12]            |  10      |40,00   |1,000000|1609,00       |1609,00     |0,000000|106,00    |0,000000       
 
 --------------------RESUMEN-----------------
 Algoritmo[IHEAIHEA]
-aciertos:0,000000%
-desviacion:-9956,250000
-tiempo promedio:44,00ms
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:46,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[5]]
-aciertos:0,000000%
-desviacion:-9956,250000
-tiempo promedio:110,00ms
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:117,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[10]]
-aciertos:0,000000%
-desviacion:-9956,250000
-tiempo promedio:111,00ms
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:124,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[7]]
-aciertos:0,000000%
-desviacion:-9956,250000
-tiempo promedio:107,00ms
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:123,00ms
 -----------
 Algoritmo[SGVNS-juan-Int[12]]
-aciertos:0,000000%
-desviacion:-9956,250000
-tiempo promedio:110,00ms
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:106,00ms
 -----------
 
