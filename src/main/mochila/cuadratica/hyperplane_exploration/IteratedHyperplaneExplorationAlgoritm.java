@@ -228,9 +228,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // linea 8:
         int iterTabu = 1;
 
-        double pesoi;
+        double viol_capacidad;
         double calidadi;
-        int iterMax = 0;
+        int iterMax = 4;
         while ((iterMax < L / 2) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
 
             vmin = Double.POSITIVE_INFINITY;
@@ -243,7 +243,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             I1 = elementosDentro(x);
             // linea 10:
             for (int j : I1) {
-                pesoi = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
+                viol_capacidad = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
                 calidadi = x.getCalidad() - funcion.contribucion(j, x);
 
                 for (int i : I0) {
@@ -253,7 +253,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         //contribucion
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
-                        vcx = pesoi - funcion.peso(i);
+                        vcx = viol_capacidad - funcion.peso(i);
 
                         if ((frx > fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                             i_aster = i;

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.IndividuoCuadratico;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
 
 /**
@@ -157,4 +158,17 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         return variablesFijas;
     }
 
+    @Override
+    public double contribucion(int indice, IndividuoCuadratico mochila) {
+        IndividuoIHEA individuo = (IndividuoIHEA) mochila;
+        return individuo.getContribucion(indice);
+    }
+
+    @Override
+    public double contribucion(int indice, IndividuoCuadratico mochila, Integer sin_k) {
+        double contribMejor = contribucion(indice, mochila);
+        double beneficioQuitar = indice > sin_k ? this.beneficio(sin_k, indice) : this.beneficio(indice, sin_k);
+        contribMejor -= beneficioQuitar;
+        return contribMejor;
+    }
 }

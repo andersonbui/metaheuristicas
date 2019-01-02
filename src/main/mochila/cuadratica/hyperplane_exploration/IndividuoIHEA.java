@@ -28,6 +28,7 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
 
     private List<Integer> I1;
     private List<Integer> I0;
+    private double[] vec_contribucion;
 
     public IndividuoIHEA(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -43,6 +44,10 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
     }
 
     private void InicializarI0I1() {
+        vec_contribucion = new double[funcion.getDimension()];
+        for (int i = 0; i < vec_contribucion.length; i++) {
+            vec_contribucion[i] = funcion.beneficio(i, i);
+        }
         I1 = new ArrayList();
         I0 = new ArrayList();
         for (int i = 0; i < funcion.getDimension(); i++) {
@@ -80,6 +85,10 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
         return this.I1.size();
     }
 
+    public double getContribucion(int indice) {
+        return vec_contribucion[indice];
+    }
+
     @Override
     public double pesar() {
         return peso;
@@ -102,36 +111,34 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
             boolean result = I1.remove((Integer) indice);
             if (result) {
                 I0.add((Integer) indice);
-            }else{System.out.println("error anadiendo elemento de I1");}
+            } else {
+                System.out.println("error anadiendo elemento de I1");
+            }
         } else {
             boolean result = I0.remove((Integer) indice);
             if (result) {
                 I1.add((Integer) indice);
-            }else{System.out.println("error removiendo elemento de I0");}
+            } else {
+                System.out.println("error removiendo elemento de I0");
+            }
         }
         double valorPeso;
-        double contribucion = 0;
+        double unacontribucion = 0;
+
         //contribucion
-        contribucion = funcion.contribucion(indice, this);
-
-//        for (int i : I1) {
-//            if (i < indice) {
-//                //contribucion en la fila
-//                contribucion += funcion.beneficio(i, indice);
-//            } else if (i > indice) {
-//                //contribucion en la columna
-//                contribucion += funcion.beneficio(indice, i);
-//            }
-//        }
-//        //contribucion por si solo
-//        contribucion += funcion.beneficio(indice, indice);
-        // fin contribucion
-
+        unacontribucion = funcion.contribucion(indice, this);
+        // actualizacion de la contribucion de cada elemento
+        for (int j = 0; j < vec_contribucion.length; j++) {
+            if (j < indice) {
+                vec_contribucion[j] += (-valAnterior + valor) * funcion.beneficio(j, indice);
+            } else if (j > indice) {
+                vec_contribucion[j] += (-valAnterior + valor) * funcion.beneficio(indice, j);
+            }
+        }
         // peso del articulo
         valorPeso = funcion.peso(indice);
-
         // incluir beneficio
-        calidad += (-valAnterior + valor) * contribucion;
+        calidad += (-valAnterior + valor) * unacontribucion;
         // incluir peso del elemento
         peso += (-valAnterior + valor) * valorPeso;
 
@@ -143,6 +150,7 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
         IndividuoIHEA ind = (IndividuoIHEA) super.clone();
         ind.I0 = new ArrayList(ind.I0);
         ind.I1 = new ArrayList(ind.I1);
+        ind.vec_contribucion = this.vec_contribucion.clone();
         return ind;
     }
 
