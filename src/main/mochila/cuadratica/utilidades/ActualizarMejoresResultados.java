@@ -30,8 +30,10 @@ import main.utilidades.Utilidades;
 public class ActualizarMejoresResultados {
 
     public static void main(String[] args) throws IOException {
-        String directorioInstancias = "mochilaCuadratica/grupo1/";
-        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
+//        String directorioInstancias = "mochilaCuadratica/grupo1/";
+//        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
+        String directorioInstancias = "mochilaCuadratica/grupo1000/";
+        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
         String extensionRes = ".sol";
         String nombreInstancia;
         String nombreSinExtension;
@@ -75,9 +77,9 @@ public class ActualizarMejoresResultados {
         LeerArchivo leer = new LeerArchivo();
         boolean sepudo = leer.abrir(nombre);
         if (!sepudo) {
+            System.out.println("No se pudoleeer: "+nombre);
             return null;
         }
-        System.out.println("No se pudoleeer: "+nombre);
         List<String> lineas = leer.leer();
         leer.terminar();
         double calidad = Double.parseDouble(lineas.get(0).split(":")[1]);
