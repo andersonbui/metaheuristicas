@@ -16,6 +16,11 @@
  */
 package main.utilidades;
 
+import java.io.IOException;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -329,4 +334,25 @@ public class Utilidades {
 //        System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double) 1));
 //
 //    }
+    
+    
+    /**
+     *
+     * @param dir
+     * @param extensiones extensiones por ejemplo "*.{c,h,cpp,hpp,java}"
+     * @return
+     * @throws IOException
+     */
+    public static List<Path> obtenerArchivosDeDirectorio(Path dir, String extensiones) throws IOException {
+        List<Path> result = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, extensiones)) {
+            for (Path entry : stream) {
+                result.add(entry);
+            }
+        } catch (DirectoryIteratorException ex) {
+            // I/O error encounted during the iteration, the cause is an IOException
+            throw ex.getCause();
+        }
+        return result;
+    }
 }
