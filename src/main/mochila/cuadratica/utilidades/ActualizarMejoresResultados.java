@@ -30,10 +30,10 @@ import main.utilidades.Utilidades;
 public class ActualizarMejoresResultados {
 
     public static void main(String[] args) throws IOException {
-//        String directorioInstancias = "mochilaCuadratica/grupo1/";
-//        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
-        String directorioInstancias = "mochilaCuadratica/grupo1000/";
-        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
+        String directorioInstancias = "mochilaCuadratica/grupo1/";
+        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
+//        String directorioInstancias = "mochilaCuadratica/grupo1000/";
+//        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
         String extensionRes = ".sol";
         String nombreInstancia;
         String nombreSinExtension;
@@ -53,15 +53,19 @@ public class ActualizarMejoresResultados {
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
             ParametrosCuadratica parametros = lpc.obtenerParametros(directorioInstancias + nombreInstancia);
 
-            if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(mi.calidad) < 0) {
-                parametros.setMaxGlobal(mi.calidad);
-                parametros.setVectorIdeal(mi.valores);
+            if (parametros.getMaxGlobal().isNaN() ) {
+                if (parametros.getMaxGlobal().compareTo(mi.calidad) < 0) {
+                    parametros.setMaxGlobal(mi.calidad);
+                    parametros.setVectorIdeal(mi.valores);
 
-                try {
-                    lpc.actualizar(parametros.getNombreArchivo(), parametros);
-                } catch (Exception e) {
-                    System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
-                    System.out.println("---mensaje de error: \n " + e.getMessage());
+                    try {
+                        lpc.actualizar(parametros.getNombreArchivo(), parametros);
+                    } catch (Exception e) {
+                        System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
+                        System.out.println("---mensaje de error: \n " + e.getMessage());
+                    }
+                } else if(parametros.getMaxGlobal().compareTo(mi.calidad) > 0){
+                    System.out.println("se encontro mejor que mejor resultado");
                 }
             }
 
@@ -77,7 +81,7 @@ public class ActualizarMejoresResultados {
         LeerArchivo leer = new LeerArchivo();
         boolean sepudo = leer.abrir(nombre);
         if (!sepudo) {
-            System.out.println("No se pudoleeer: "+nombre);
+            System.out.println("No se pudoleeer: " + nombre);
             return null;
         }
         List<String> lineas = leer.leer();
