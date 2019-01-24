@@ -30,7 +30,7 @@ import main.utilidades.Utilidades;
 public class ActualizarMejoresResultados {
 
     public static void main(String[] args) throws IOException {
-        String directorioInstancias = "mochilaCuadratica/grupo1_1/";
+        String directorioInstancias = "mochilaCuadratica/grupo1/";
         String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
         String extensionRes = ".sol";
         String nombreInstancia;
