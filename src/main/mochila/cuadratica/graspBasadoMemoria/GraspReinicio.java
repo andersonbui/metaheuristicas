@@ -375,11 +375,14 @@ public class GraspReinicio extends AlgoritmoMetaheuristico<FuncionGraspTabuR, In
     protected double[] probabilidadSeleccionLRC(List<Item> listaLRC, int Qkl) {
         double[] qkl = new double[listaLRC.size()];
         int indice;
-        double div = 1.0 / listaLRC.size();//mismo porcentaje de eleccion para Qkl==0
-        for (int j = 0; j < listaLRC.size(); j++) {
-            if (Qkl == 0) {
+
+        if (Qkl == 0) {
+            double div = 1.0 / listaLRC.size();//mismo porcentaje de eleccion para Qkl==0
+            for (int j = 0; j < listaLRC.size(); j++) {
                 qkl[j] = div;
-            } else {
+            }
+        } else {
+            for (int j = 0; j < listaLRC.size(); j++) {
                 indice = listaLRC.get(j).getIndice();
                 qkl[j] = (k - Q.get(k)[indice]) / (double) Qkl;
             }

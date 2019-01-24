@@ -18,9 +18,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import main.Item;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -37,7 +35,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int s;
     int L;
     static int tiempototal = 0;
-
+    
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
         setFuncion(funcion);
@@ -48,7 +46,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
         saltar = false;
     }
-
+    
     boolean saltar;
 
     public boolean isSaltar() {
@@ -230,7 +228,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         double viol_capacidad;
         double calidadi;
-        int iterMax = 4;
+        int iterMax = 0;
         while ((iterMax < L / 2) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
 
             vmin = Double.POSITIVE_INFINITY;
@@ -241,11 +239,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             List<Integer> I1;
             I0 = elementosFuera(x);
             I1 = elementosDentro(x);
+            vmax = -1;
             // linea 10:
             for (int j : I1) {
                 viol_capacidad = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
                 calidadi = x.getCalidad() - funcion.contribucion(j, x);
-
+                saltar = false;
                 for (int i : I0) {
                     // linea 11:
                     // linea 12:
@@ -267,21 +266,20 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                             jmax = j;
                             fmin = frx;
                             vmax = vcx;
-                            if (saltar) {
-                                break;
-                            }
+                            saltar = true;
+                            break;
                         }
                         contador++;
                     }
                 }
-                if (saltar && (imax >= 0)) {
+                if (vmax >= 0) {
                     break;
                 }
             }
             int i;
             Integer j;
             // linea 21:
-            if (imax >= 0 && jmax >= 0) {
+            if (vmax >= 0) {
                 x.set(imax, 1);
                 x.set(jmax, 0);
                 // linea 24:
@@ -292,6 +290,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 25:
                 imax = -1;
                 jmax = -1;
+//                iterMax = 0;
             } else if (vmin != Double.POSITIVE_INFINITY) {
 
                 // linea 22:
@@ -388,7 +387,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      */
     protected IndividuoIHEA GreedyRandomizedConstruction(IndividuoIHEA individuo, int rcl) {
 
-        return (new Greedy()).ejecutar(individuo, rcl);
+        return (new Greedy(rcl)).ejecutar(individuo);
     }
 
     /**
