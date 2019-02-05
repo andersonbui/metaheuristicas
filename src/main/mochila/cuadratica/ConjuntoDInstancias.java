@@ -19,6 +19,7 @@ package main.mochila.cuadratica;
 import java.util.ArrayList;
 import java.util.List;
 import main.GrupoInstancias;
+import main.mochila.cuadratica.utilidades.Instancia;
 
 /**
  *
@@ -70,8 +71,8 @@ public class ConjuntoDInstancias {
      *
      * @return
      */
-    public List<String[]> getConjuntoInstancias() {
-        List<String[]> listaArchivos = new ArrayList();
+    public List<Instancia> getConjuntoInstancias() {
+        List<Instancia> listaArchivos = new ArrayList();
         String nombreCompletoArchivo;
         String nombreArchivo;
         for (GrupoInstancias instancia : instancias) {
@@ -80,7 +81,7 @@ public class ConjuntoDInstancias {
                 nombreCompletoArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
                 nombreArchivo = instancia.getNombreArchivo(indice_instancia);
 
-                listaArchivos.add(new String[]{nombreArchivo, nombreCompletoArchivo});
+                listaArchivos.add(new Instancia(nombreArchivo, nombreCompletoArchivo,instancia.base));
             }
         }
         return listaArchivos;

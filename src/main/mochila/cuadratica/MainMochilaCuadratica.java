@@ -19,11 +19,13 @@ package main.mochila.cuadratica;
 import main.GrupoInstancias;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import main.EjecutarGrupo;
 import main.EjecutorAlgoritmo;
 import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
+import main.mochila.cuadratica.utilidades.Instancia;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import main.utilidades.EscribirArchivo;
@@ -48,13 +50,26 @@ public class MainMochilaCuadratica {
         // iteraciones realizadas por los algoritmos
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numIntentos = 100;
-        String nombreArchivo;
+        String nombreArchivoCompleto;
         String mensaje = "";
+        String nombreArchivoResultado = "";
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
-        ConjuntoDInstancias datos = new ConjuntoDInstancias();
-        String nombreArchivoResultado = datos.getNombreResultado();
-        List<String[]> listaInstanc = datos.getConjuntoInstancias();
-        
+        List<Instancia> listaInstanc = null;
+        System.out.println("args: " + Arrays.toString(args));
+        if (args.length <= 1) {
+            ConjuntoDInstancias datos = new ConjuntoDInstancias();
+            nombreArchivoResultado = datos.getNombreResultado();
+            listaInstanc = datos.getConjuntoInstancias();
+        } else {
+            listaInstanc = new ArrayList();
+            if (args.length > 1) {
+                listaInstanc.add(new Instancia(args[1], args[0], ""));
+            }
+            if (args.length > 2) {
+                nombreArchivoResultado = args[3];
+            }
+        }
+
         StringBuilder sbCabecera = new StringBuilder();
         sbCabecera.append("----------------------------------------------------------.\n");
         sbCabecera.append("Numero Intentos:").append(numIntentos).append("\n");
@@ -74,17 +89,17 @@ public class MainMochilaCuadratica {
         archivo_resultados.escribir(sbCabecera.toString());
         archivo_resultados.terminar();
 
-
-        for (String[] instancia : listaInstanc) {
-            String nombreInst = instancia[0];
-            nombreArchivo = instancia[1];
+        String nombreInst;
+        for (Instancia instancia : listaInstanc) {
+            nombreInst = instancia.getNombre();
+            nombreArchivoCompleto = instancia.getNombreCompleto();
             mensaje += "####";
             mensaje += "----Nombre archivo: " + nombreInst + "----\n";
             // dimension de los puntos;
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
+            ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivoCompleto);
             if (parametros == null) {
-                System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
+                System.out.println("no se pudo obtener el archivo: " + nombreArchivoCompleto);
                 continue;
             }
             GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(parametros);
@@ -137,11 +152,12 @@ public class MainMochilaCuadratica {
             }
             archivo_resultados.terminar();
         }
-
-        archivo_resultados.abrir(nombreArchivoResultado, true);
-        String resumen = imprimirResumen(listResultadosGrupos);
-        archivo_resultados.escribir(resumen);
-        archivo_resultados.terminar();
+        if (!listResultadosGrupos.isEmpty()) {
+            archivo_resultados.abrir(nombreArchivoResultado, true);
+            String resumen = imprimirResumen(listResultadosGrupos);
+            archivo_resultados.escribir(resumen);
+            archivo_resultados.terminar();
+        }
     }
 
     static class HiloEjecucion extends Thread {
