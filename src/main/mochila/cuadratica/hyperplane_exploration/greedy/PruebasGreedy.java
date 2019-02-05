@@ -67,7 +67,7 @@ public class PruebasGreedy {
         List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
-            for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
+            for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.ultimo; indice_instancia++) {
                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
 
                 System.out.println("---------------------------------------------------------------");

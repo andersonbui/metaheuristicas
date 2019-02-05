@@ -38,16 +38,13 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     private final ParametrosCuadratica parametros;
-
     /**
      *
      * @param parametros
-     * @param maxIteraciones
      */
-    public GrupoAlgoritmosMochilaCuadratica(ParametrosCuadratica parametros, int maxIteraciones) {
-        super(parametros, "Mochila Cuadratica", maxIteraciones);
+    public GrupoAlgoritmosMochilaCuadratica(ParametrosCuadratica parametros) {
+        super(parametros, "Mochila Cuadratica", 20);
         this.parametros = parametros;
-        this.maxIteraciones = maxIteraciones;
 
     }
 

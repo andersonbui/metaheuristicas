@@ -63,7 +63,7 @@ public class EstadisticasInstancias {
 
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
-            for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
+            for (int indice_instancia = 1; indice_instancia <= instancia.ultimo; indice_instancia++) {
 
                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
 

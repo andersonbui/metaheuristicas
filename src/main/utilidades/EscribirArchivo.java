@@ -15,24 +15,49 @@ public class EscribirArchivo {
 
     private FileWriter fw;
     private PrintWriter pw;
+    boolean pudoAbrir;
 
-    public void abrir(String nombreArchivo) {
+    public EscribirArchivo() {
+        pudoAbrir = false;
+    }
+
+    public boolean abrir(String nombreArchivo, boolean agregar) {
+        try {
+            fw = new FileWriter(nombreArchivo, agregar);
+            pw = new PrintWriter(fw);
+            pudoAbrir = true;
+        } catch (IOException ex) {
+//            Logger.getLogger(EscribirArchivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pudoAbrir;
+    }
+
+    public boolean abrir(String nombreArchivo) {
         try {
             fw = new FileWriter(nombreArchivo, false);
             pw = new PrintWriter(fw);
+            pudoAbrir = true;
         } catch (IOException ex) {
-            Logger.getLogger(EscribirArchivo.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No existe directorio");
+            //Logger.getLogger(EscribirArchivo.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return pudoAbrir;
     }
 
     public void escribir(String cadena) {
-
-        pw.println(cadena);
+        if (pudoAbrir) {
+            pw.println(cadena);
+        }
+        System.out.println(cadena);
     }
 
     public void escribir(List lista) {
         lista.forEach((object) -> {
-            escribir(object.toString());
+            if (pudoAbrir) {
+                escribir(object.toString());
+            }
+            System.out.println(object.toString());
+
         });
     }
 

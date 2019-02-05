@@ -1,0 +1,213 @@
+----------------------------------------------------------.
+Numero Intentos:100
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+####----Nombre archivo: jeu_100_75_1.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|189137,00     |189137,00   |0,000000|465,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_2.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|95074,00      |95074,00    |0,000000|718,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_3.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|62098,00      |62098,00    |0,000000|742,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_4.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|72245,00      |72245,00    |0,000000|773,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_5.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|27616,00      |27616,00    |0,000000|742,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_6.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|145273,00     |145273,00   |0,000000|547,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_7.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|110979,00     |110979,00   |0,000000|692,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_8.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|19570,00      |19570,00    |0,000000|739,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_9.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|104341,00     |104341,00   |0,000000|716,00    |0,000000       
+
+----Nombre archivo: jeu_100_75_10.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|143740,00     |143740,00   |0,000000|556,00    |0,000000       
+
+####----Nombre archivo: jeu_100_50_1.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|83742,00      |83742,00    |0,000000|616,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_2.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|104856,00     |104856,00   |0,000000|585,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_3.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|34006,00      |34006,00    |0,000000|755,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_4.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|105996,00     |105996,00   |0,000000|560,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_5.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|56464,00      |56464,00    |0,000000|734,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_6.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|16083,00      |16083,00    |0,000000|752,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_7.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|52819,00      |52819,00    |0,000000|687,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_8.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|54246,00      |54246,00    |0,000000|726,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_9.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|68974,00      |68974,00    |0,000000|606,00    |0,000000       
+
+----Nombre archivo: jeu_100_50_10.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|88634,00      |88634,00    |0,000000|623,00    |0,000000       
+
+####----Nombre archivo: jeu_100_25_1.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|18558,00      |18558,00    |0,000000|743,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_2.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|56525,00      |56525,00    |0,000000|497,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_3.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |0,900000|3752,00       |3748,50     |0,093284|548,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_4.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|50382,00      |50382,00    |0,000000|507,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_5.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|61494,00      |61494,00    |0,000000|412,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_6.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|36360,00      |36360,00    |0,000000|651,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_7.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|14657,00      |14657,00    |0,000000|727,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_8.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|20452,00      |20452,00    |0,000000|725,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_9.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |0,950000|35438,00      |35434,54    |0,009764|603,00    |0,000000       
+
+----Nombre archivo: jeu_100_25_10.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|24930,00      |24930,00    |0,000000|720,00    |0,000000       
+
+####----Nombre archivo: jeu_100_100_1.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|81978,00      |81978,00    |0,000000|749,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_2.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|190424,00     |190424,00   |0,000000|572,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_3.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|225434,00     |225434,00   |0,000000|562,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_4.txt----
+----Nombre archivo: jeu_100_100_5.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|230076,00     |230076,00   |0,000000|539,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_6.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|74358,00      |74358,00    |0,000000|761,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_7.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|10330,00      |10330,00    |0,000000|593,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_8.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|62582,00      |62582,00    |0,000000|743,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_9.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|232754,00     |232754,00   |0,000000|548,00    |0,000000       
+
+----Nombre archivo: jeu_100_100_10.txt----
+
+Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|193262,00     |193262,00   |0,000000|599,00    |0,000000       
+
+####----Nombre archivo: jeu_200_100_1.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |0,950000|937149,00     |937141,03   |0,000850|952,00    |0,000000       
+
+----Nombre archivo: jeu_200_100_2.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|303058,00     |303058,00   |0,000000|1084,00   |0,000000       
+
+----Nombre archivo: jeu_200_100_3.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|29367,00      |29367,00    |0,000000|952,00    |0,000000       
+
+----Nombre archivo: jeu_200_100_4.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|100838,00     |100838,00   |0,000000|1039,00   |0,000000       
+
+----Nombre archivo: jeu_200_100_5.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|786635,00     |786635,00   |0,000000|933,00    |0,000000       
+
+----Nombre archivo: jeu_200_100_6.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|41171,00      |41171,00    |0,000000|1010,00   |0,000000       
+
+----Nombre archivo: jeu_200_100_7.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|701094,00     |701094,00   |0,000000|993,00    |0,000000       
+
+----Nombre archivo: jeu_200_100_8.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|782443,00     |782443,00   |0,000000|1004,00   |0,000000       
+
+----Nombre archivo: jeu_200_100_9.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|628992,00     |628992,00   |0,000000|1030,00   |0,000000       
+
+----Nombre archivo: jeu_200_100_10.txt----
+
+Cuadratica          |IHEAIHEA                      | 200      |79,00   |1,000000|378442,00     |378442,00   |0,000000|1077,00   |0,000000       
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEAIHEA]
+aciertos:99,59%
+desviacion:0,002120
+tiempo promedio:718,51ms
+-----------
+

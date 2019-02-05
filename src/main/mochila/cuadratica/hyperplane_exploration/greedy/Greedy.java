@@ -168,9 +168,6 @@ public class Greedy {
         if(LRC == null || LRC.isEmpty()) {
             return -1;
         }
-        if(LRC.size() < probabilidadBias.length) {
-//            System.out.println("");
-        }
         int minimo = Math.min(LRC.size(), probabilidadBias.length);
         for (int i = 0; i < minimo; i++) {
             sum_prob += probabilidadBias[i];

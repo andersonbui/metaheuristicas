@@ -53,7 +53,7 @@ public class Main_MetododosInicializacion {
 
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
-            for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
+            for (int indice_instancia = 1; indice_instancia <= instancia.ultimo; indice_instancia++) {
                 ultimoSeleccionado = 0;
                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
                 
@@ -92,7 +92,7 @@ public class Main_MetododosInicializacion {
                 Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
                     return comparar4(o1, o2);
                 });
-                // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
+                // obtener ultimo de unos consecutivos en el individuo encontrado con respecto al ideal
                 int cantidadSeleccionadosConsecutivos = 0;
                 for (int i = 0; i < posiciones.size(); i++) {
                     int pos = posiciones.get(i).posicion;
@@ -102,7 +102,7 @@ public class Main_MetododosInicializacion {
                         break;
                     }
                 }
-                // obtener la cantidad de unos en el individuo encontrado con respecto al ideal
+                // obtener la ultimo de unos en el individuo encontrado con respecto al ideal
                 for (int i = 0; i < posiciones.size(); i++) {
                     int pos = posiciones.get(i).posicion;
                     if (valsIdeal[pos] == 1) {

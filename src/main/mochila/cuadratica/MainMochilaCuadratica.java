@@ -39,47 +39,22 @@ public class MainMochilaCuadratica {
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
-        int maxIteraciones;
+        System.out.println("");
         int numIntentos;
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
 //        graficaDispercion2D = true;
-        // numero de individuos porpoblacion
         // iteraciones realizadas por los algoritmos
-        maxIteraciones = 20;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numIntentos = 10;
-        List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
+        numIntentos = 100;
         String nombreArchivo;
-        List<GrupoInstancias> instancias = new ArrayList();
-
-        EscribirArchivo esa = new EscribirArchivo();
-        String nombreArchivoResultado = "resultados.txt";
-        esa.abrir(nombreArchivoResultado);
-
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_100_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 5, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/","5000_25_%d.txt", 1, 1));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 1)); //1-10
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 2, 2)); //1-10
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));//1-10
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));//1-10
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));//1-10
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));//1-10
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));//1-20
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 2, 2)); //1-20
-//          instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_25_%d.txt", 5, 5));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_75_%d.txt", 1, 10));//1-10
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_100_%d.txt", 1, 10));//1-10
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/","r_10_100_%d.txt", 13, 13));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));//1-20
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 2));//1-20
+        String mensaje = "";
+        List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
+        ConjuntoDInstancias datos = new ConjuntoDInstancias();
+        String nombreArchivoResultado = datos.getNombreResultado();
+        List<String[]> listaInstanc = datos.getConjuntoInstancias();
+        
         StringBuilder sbCabecera = new StringBuilder();
         sbCabecera.append("----------------------------------------------------------.\n");
         sbCabecera.append("Numero Intentos:").append(numIntentos).append("\n");
@@ -93,41 +68,43 @@ public class MainMochilaCuadratica {
         String campos = formatearCabecera("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         sbCabecera.append(campos);
-        esa.escribir(sbCabecera.toString());
-        System.out.format(sbCabecera.toString());
-        String mensaje = "";
-        for (GrupoInstancias instancia : instancias) {
 
+        EscribirArchivo archivo_resultados = new EscribirArchivo();
+        archivo_resultados.abrir(nombreArchivoResultado);
+        archivo_resultados.escribir(sbCabecera.toString());
+        archivo_resultados.terminar();
+
+
+        for (String[] instancia : listaInstanc) {
+            String nombreInst = instancia[0];
+            nombreArchivo = instancia[1];
             mensaje += "####";
-            for (int indice_instancia = instancia.inicio; indice_instancia <= instancia.cantidad; indice_instancia++) {
-                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
-
-                mensaje += "----Nombre archivo: " + String.format(instancia.base, indice_instancia) + "----\n";
-                // dimension de los puntos;
-                LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-                ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
-                if (parametros == null) {
-                    System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
-                    continue;
-                }
-                GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(parametros, maxIteraciones);
-                grupo.inicializar();
-                EjecutarGrupo ejecutor = new EjecutarGrupo();
-                // EJECUTAR ANALISIS
-                ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numIntentos, instancia.getNombreArchivo(indice_instancia));
-                // Multi-hilo
-                hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
-
-                mensaje = "";
+            mensaje += "----Nombre archivo: " + nombreInst + "----\n";
+            // dimension de los puntos;
+            LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
+            ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
+            if (parametros == null) {
+                System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
+                continue;
             }
+            GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(parametros);
+            grupo.inicializar();
+            EjecutarGrupo ejecutor = new EjecutarGrupo();
+            // EJECUTAR ANALISIS
+            ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
+            // Multi-hilo
+            hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
+
+            mensaje = "";
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.start();
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
-            esa.escribir(hilo.mensaje);
-            System.out.print(hilo.mensaje);
+
+            archivo_resultados.abrir(nombreArchivoResultado, true);
+            archivo_resultados.escribir(hilo.mensaje);
 
             ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
             ParametrosCuadratica parametros = hilo.parametros;
@@ -137,7 +114,7 @@ public class MainMochilaCuadratica {
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
 
                 String stringResult = imprimirResultados(resultadoGrupo);
-                esa.escribir(stringResult);
+                archivo_resultados.escribir(stringResult);
                 IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
                 if (parametros.getMaxGlobal().isNaN()) {
@@ -158,12 +135,13 @@ public class MainMochilaCuadratica {
             } else {
                 System.out.println("pailas");
             }
+            archivo_resultados.terminar();
         }
 
+        archivo_resultados.abrir(nombreArchivoResultado, true);
         String resumen = imprimirResumen(listResultadosGrupos);
-        esa.escribir(resumen);
-        esa.terminar();
-
+        archivo_resultados.escribir(resumen);
+        archivo_resultados.terminar();
     }
 
     static class HiloEjecucion extends Thread {
@@ -210,7 +188,7 @@ public class MainMochilaCuadratica {
                     formatear(resultado.desviacionCalidadOptimos),
                     formatear(resultado.tiempoTotal),
                     formatear(resultado.promedionumEvaluaciones));
-            System.out.println(cad);
+//            System.out.println(cad);
             sb.append(cad);
         }
         return sb.toString();
@@ -245,7 +223,7 @@ public class MainMochilaCuadratica {
             sb.append(cadena.toString());
         }
         resumen = sb.toString();
-        System.out.println(resumen);
+//        System.out.println(resumen);
         return resumen;
     }
 

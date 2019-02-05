@@ -24,7 +24,7 @@ public class GrupoInstancias {
 
     public String ubicacion;
     public String base;
-    public int cantidad;
+    public int ultimo;
     public int inicio;
 
     /**
@@ -37,7 +37,7 @@ public class GrupoInstancias {
     public GrupoInstancias(String ubicacion, String base, int inicio, int cantidad) {
         this.ubicacion = ubicacion;
         this.base = base;
-        this.cantidad = cantidad;
+        this.ultimo = cantidad;
         this.inicio = inicio;
     }
 
