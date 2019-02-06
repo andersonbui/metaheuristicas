@@ -47,7 +47,8 @@ public class MainMochilaCuadratica {
         String nombreArchivoResultado = "";
         // comentar todo el if para produccion
         if (args.length == 0) {
-            args[0] = "--examples";
+            args = new String[]{"-e"};
+//            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
         }
         if (args.length > 0) {
             String opcion = args[0];
@@ -73,12 +74,14 @@ public class MainMochilaCuadratica {
                         }
                         ayuda = false;
                     }
-                case "-s":
-                case "--estandar":
-                    if (args.length > 1) {
-                        nombreArchivoResultado = args[1];
-                    }
-                    listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
+                    break;
+//                case "-s":
+//                case "--estandar":
+//                    if (args.length > 1) {
+//                        nombreArchivoResultado = args[1];
+//                    }
+//                    listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
+//                    break;
             }
         }
 
