@@ -97,20 +97,27 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
      */
     @Override
     public List<IndividuoVNS> ejecutar() {
+        //Lista para graficar
         List<IndividuoVNS> recorrido = new ArrayList();
+        //Encuentra una solucion inicial y
         IndividuoVNS y = solucionInicial();
+        //Almacena la solucion inicial como best
         IndividuoVNS y_best = y;
+        //termina cuando encuentra la el optimo
         boolean suficiente = funcion.suficiente(y_best);
         if (suficiente) {
             recorrido.add(y_best);
             return recorrido;
         }
         for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
+            //numero de movimientos aleatorios para shaking
             int h = 1;
             IndividuoVNS y_p;
             IndividuoVNS y_p2;
             while (h <= hMax) {
+                //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 y_p = sacudida(y, 2, h);
+                //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
                 if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;
@@ -124,15 +131,21 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             }
             recorrido.add(y_best);
         }
+        //CONDICION DE TERMINACION PARA AJUSTAR
         return recorrido;
     }
 
+    //Va de un vecindario a otro si no encuentra una mejota a s_inicial
     public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
+        //Variable para el tipo de estructura de vecindario
         int h = 1;
         IndividuoVNS s_inicial = individuoOriginal.clone();
         IndividuoVNS solEncontrada;
         while (h <= 2) {
+            //Aplica una estructura de vecindario h a la s_inicial para mejorar
             solEncontrada = encontrarMejor(s_inicial, h);
+            /*Si mejora s_inicial permanece en h1 (si h=1) o se devuelve a h1 encaso que este en h2 (h=2),
+            valida que no sea un optimo local(osea que exista una mejor solucion)*/
             if (solEncontrada.compareTo(s_inicial) > 0) {
                 s_inicial = solEncontrada;
                 h = 1;
@@ -279,6 +292,8 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         return posicionMayor;
     }
 
+    /*Aplica la estructura de vecindario h a la s_inicial, un numero de intentos 
+    determinado (intentosEncontrarMejor) y va comparando si s_inicial mejora*/
     protected IndividuoVNS encontrarMejor(IndividuoVNS s_inicial, int h) {
         IndividuoVNS aux;
         s_inicial = s_inicial.clone();
@@ -293,22 +308,32 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             mejoro = aux.compareTo(s_inicial) > 0;
             if (mejoro) {
                 s_inicial = aux;
+                break;
             }
-        } while (!mejoro && contador-- >= 0);
+        } while (contador-- >= 0);
         return s_inicial;
     }
 
+    /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
+    en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
     private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
+        boolean mejoro;
         s_inicial = s_inicial.clone();
-        intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size()-1);
+        intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size() - 1);
         do {
             if (vecindario == 1) {
                 aux = intercambio(s_inicial);
             } else {
                 aux = cambio(s_inicial);
             }
-            s_inicial = aux;
+//           mejoro = aux.compareTo(s_inicial) > 0;
+//            if (mejoro) {
+//                s_inicial = aux;
+//                break;
+//            }
+                s_inicial = aux;
+
         } while (intentos-- >= 0);
         return s_inicial;
     }
@@ -316,8 +341,8 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
     private double distancia(IndividuoVNS y, IndividuoVNS y2) {
         double suma = 0;
         for (int i = 0; i < y.getDimension(); i++) {
-            suma += y.get(i) - y2.get(i);
-//            suma += Math.abs(y.get(i) - y2.get(i));
+//            suma += y.get(i) - y2.get(i);
+            suma += Math.abs(y.get(i) - y2.get(i));
         }
         return suma / y.getDimension();
     }
