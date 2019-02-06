@@ -92,7 +92,7 @@ public class PruebasGreedy {
                 int rcl = 5;
                 // lista indices
                 long tiempo_inicial = System.currentTimeMillis();
-                IndividuoIHEA individuo = (new Greedy()).ejecutar(mochila, rcl);
+                IndividuoIHEA individuo = (new Greedy(rcl)).ejecutar(mochila);
                 long tiempo_final = System.currentTimeMillis();
                 double promedio1 = ((tiempo_final - tiempo_inicial) / (double) intentos);
                 System.out.println("tiempo promedio: " + promedio1 + "seg");

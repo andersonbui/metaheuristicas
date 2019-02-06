@@ -31,92 +31,133 @@ import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
  * @author debian
  */
 public class EstadisticasInstancias {
-  public static void main(String[] args) {
-       FuncionMochilaCuadratica funcion;
+
+    public static void main(String[] args) {
+        FuncionMochilaCuadratica funcion;
         String nombreArchivo = "";
         List<GrupoInstancias> instancias = new ArrayList<>();
-        double sumaParecidoUpperTotal = 0;
-        double sumaParecidoLowerTotal = 0;
-        double desv_sumaParecidoLowerTotal = 0;
-        double sumaUltimoUpperTotal = 0;  // suma de todos los cocientes: ultimo/upperbound
-        int contador = 0;
-        int ultimoSeleccionado;
 
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 13, 13));
 
+        StringBuilder sbuild = new StringBuilder();
+        sbuild.append(formatear("pm_pesos |")).//promedio pesos
+                append(formatear("dv_pesos |")).//desviacion pesos
+                append(formatear("pm_Mcal |")).//promedio M_calidad
+                append(formatear("dv_Mcal |")).//promedio M_calidad
+                append(formatear("Sum_Pes |")).//suma pesos
+                append(formatear("Sum_Mcal |")).//suma Mcal
+                append(formatear("Capacid|")).//capacidad
+                append(formatear("SPes_cap |")).// (suma pesos) / capacidad
+                append(formatear("SMat_Cal |")).//(suma M_calidad) / calidad
+                append(formatear("lowerB |")). // lowerB
+                append(formatear("upperB")) // upperB
+                ; 
+
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
             for (int indice_instancia = 1; indice_instancia <= instancia.cantidad; indice_instancia++) {
-                ultimoSeleccionado = 0;
+
                 nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
-                
+
                 LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
                 ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;
                 }
-                funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());
 
                 int[] valsIdeal = parametros.getVectorIdeal();
                 if (valsIdeal == null) {
                     System.out.println("No hay ideal.");
                     continue;
                 }
-                IndividuoCuadratico indiIdeal = new IndividuoCuadratico(funcion);
-                // crear individuo ideal
-                for (int i = 0; i < valsIdeal.length; i++) {
-                    if (valsIdeal[i] == 1) {
-                        indiIdeal.set(i, 1);
-//                        ultimoSeleccionado = i;
-                    }
-                }
+                funcion = new FuncionMochilaCuadratica(
+                        parametros.getMatrizBeneficios(),
+                        parametros.getCapacidad(),
+                        parametros.getVectorPesos(),
+                        parametros.getMaxGlobal()) {
+                };
 
-                // lista de indices para ordenamiento
-                List<Posicion> posiciones = new ArrayList();
-                // crear estructura de comparacion
-                for (int i = 0; i < funcion.getDimension(); i++) {
-                    double peso = funcion.peso(i);
-                    double relacion = funcion.relaciones(i);
-                    double beneficio = funcion.beneficio(i);
-                    posiciones.add(new Posicion(i, peso, relacion, beneficio));
-                }
-              
-                // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
-                int cantidadSeleccionadosConsecutivos = 0;
-                for (int i = 0; i < posiciones.size(); i++) {
-                    int pos = posiciones.get(i).posicion;
-                    if (valsIdeal[pos] == 1) {
-                        cantidadSeleccionadosConsecutivos = i;
-                    } else {
-                        break;
-                    }
-                }
-                // obtener la cantidad de unos en el individuo encontrado con respecto al ideal
-                for (int i = 0; i < posiciones.size(); i++) {
-                    int pos = posiciones.get(i).posicion;
-                    if (valsIdeal[pos] == 1) {
-                        ultimoSeleccionado = i;
-                    }
-                }
+                sbuild.append("\n");
+                double[] vecValPesos = parametros.getVectorPesos();
+                sbuild.append(formatear(promedio(vecValPesos)));//promedio pesos
+                sbuild.append(formatear(desviacion(vecValPesos)));//desviacion pesos
+                double[] vecValMCal = vectorizarMatrizBeneficios(parametros);//
+                sbuild.append(formatear(promedio(vecValMCal)));//promedio M_calidad
+                sbuild.append(formatear(desviacion(vecValMCal)));//desviacion M_calidad
+                double sumaPesos = suma(vecValPesos);
+                double sumaMCal = suma(vecValMCal);
+                sbuild.append(formatear(sumaPesos));//suma pesos
+                sbuild.append(formatear(sumaMCal));//suma Mcal
+                sbuild.append(formatear(parametros.getCapacidad()));//capacidad
+                sbuild.append(formatear(sumaPesos / parametros.getCapacidad()));// (suma pesos) / capacidad
+                sbuild.append(formatear(sumaPesos / parametros.getMaxGlobal()));//(suma M_calidad) / calidad
+                int[] lowB_upB = UtilCuadratica.optenerLowerUpper_Bound(funcion);
+                sbuild.append(formatear(lowB_upB[0])); // lowerB
+                sbuild.append(formatear(lowB_upB[1])); // upperB
+//                contador++;
+            }
+        }
+        System.out.println(sbuild.toString());
 
-                IndividuoCuadratico indiAlcanzado = funcion.generarIndividuo();
-                // crear individuo de los n primeros elementos de la lista ordenada
-                while (funcion.cabe(indiAlcanzado, posiciones.get(0).posicion)) {
-                    indiAlcanzado.set(posiciones.remove(0).posicion, 1);
-                }
+    }
 
+    private static String formatear(double valor) {
+        return formatear(String.format("%-2.3f", valor));
+    }
+    private static String formatear(int valor) {
+        return formatear(String.format("%-2d", valor));
+    }
+
+    private static String formatear(String valor) {
+        return String.format("%11s", valor);
+    }
+
+    public static double[] vectorizarMatrizBeneficios(ParametrosCuadratica parametros) {
+        double[][] mat = parametros.getMatrizBeneficios();
+        int tamanio = (mat.length * (mat.length + 1)) / 2;
+        int contador = 0;
+        double[] vector = new double[tamanio];
+        for (int k = 0; k < mat.length; k++) {
+            for (int h = k; h < mat[0].length; h++) {
+                vector[contador] = mat[k][h];
                 contador++;
             }
         }
-        
+        return vector;
+    }
+
+    public static double desviacion(double[] valores) {
+        double promedio = promedio(valores);
+        double desviacion = 0;
+        for (double val : valores) {
+            desviacion += val * val;
+        }
+        desviacion = Math.sqrt((1.0 / valores.length) * (desviacion - valores.length * promedio * promedio));
+        return desviacion;
+    }
+
+    public static double suma(double[] valores) {
+        double promedio = 0;
+        for (double val : valores) {
+            promedio += val;
+        }
+        return promedio;
+    }
+
+    public static double promedio(double[] valores) {
+        double promedio = 0;
+        for (double val : valores) {
+            promedio += val;
+        }
+        return promedio / valores.length;
     }
 }

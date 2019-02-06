@@ -63,20 +63,20 @@ public class MainMochilaCuadratica {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 5, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","5000_25_%d.txt", 1, 1));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","1000_25_%d.dat", 1, 1));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 1));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 2));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 1)); //1-10
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 2, 2)); //1-10
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 1));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 20));
-          instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_25_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));//1-10
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_25_%d.txt", 1, 10));//1-10
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_200_50_%d.txt", 1, 10));//1-10
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));//1-10
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));//1-20
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 2, 2)); //1-20
+//          instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_25_%d.txt", 5, 5));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_100_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_75_%d.txt", 1, 10));//1-10
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/","1000_100_%d.txt", 1, 10));//1-10
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/","r_10_100_%d.txt", 13, 13));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_25_%d.txt", 1, 20));//1-20
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/","jeu_300_50_%d.txt", 1, 2));//1-20
@@ -135,23 +135,27 @@ public class MainMochilaCuadratica {
             if (resultadoGrupo != null) {
                 listResultadosGrupos.add(resultadoGrupo);
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-                
+
                 String stringResult = imprimirResultados(resultadoGrupo);
                 esa.escribir(stringResult);
                 IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
-                if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
-                    parametros.setMaxGlobal(individuo.getCalidad());
-                    parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
+                if (parametros.getMaxGlobal().isNaN()) {
+                    if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+                        parametros.setMaxGlobal(individuo.getCalidad());
+                        parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
 
-                    try {
-                        lpc.actualizar(parametros.getNombreArchivo(), parametros);
-                    } catch (Exception e) {
-                        System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
-                        System.out.println("---mensaje de error: \n " + e.getMessage());
+                        try {
+                            lpc.actualizar(parametros.getNombreArchivo(), parametros);
+                        } catch (Exception e) {
+                            System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
+                            System.out.println("---mensaje de error: \n " + e.getMessage());
+                        }
+                    } else if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) > 0) {
+                        System.out.println("se encontro mejor");
                     }
                 }
-            }else{
+            } else {
                 System.out.println("pailas");
             }
         }

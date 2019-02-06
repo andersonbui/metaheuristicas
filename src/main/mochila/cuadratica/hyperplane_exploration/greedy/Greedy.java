@@ -32,20 +32,51 @@ import metaheuristicas.Aleatorio;
  */
 public class Greedy {
 
-    public IndividuoIHEA ejecutar(IndividuoIHEA individuo, int rcl) {
+    double[] probabilidadBias;
+    private final int rcl;
+
+    /**
+     *
+     * @param rcl
+     */
+    public Greedy(int rcl) {
+        this.rcl = rcl;
+        probabilidadBias = calculoProbabilidadBiasRCL(rcl);
+    }
+
+    public IndividuoIHEA ejecutar(IndividuoIHEA individuo) {
         //TODO mejorar pasando la lista ya ordenada y no volver a ordenar
         individuo = individuo.clone();
 //        List<Item> LRC = crearLRC(individuo, rcl);
         List<Item> LRC = crearLRC(individuo, rcl);
-        
+
         while (!LRC.isEmpty()) {
-            int s = seleccionarElementoaleatorio(LRC);
+            int s = seleccionarElementoConBias(LRC);
             // incluida funcion gredy adapatada
             individuo.set(s, 1);
 //            individuo = funcionGreedyAdaptada(individuo);
             LRC = crearLRC(individuo, rcl);
         }
         return individuo;
+    }
+
+    /**
+     * probabilidad de seleccion de cada elemento en LRC
+     *
+     * @param rcl
+     * @return
+     */
+    private double[] calculoProbabilidadBiasRCL(int rcl) {
+        double[] pBias = new double[rcl];
+        double suma = 0;
+        for (int j = 0; j < rcl; j++) {
+            pBias[j] = 1.0 / Math.exp(j + 1);
+            suma += pBias[j];
+        }
+        for (int j = 0; j < rcl; j++) {
+            pBias[j] = pBias[j] / suma;
+        }
+        return pBias;
     }
 
     /**
@@ -99,7 +130,7 @@ public class Greedy {
         Comparator<Item> comparator = (Item o1, Item o2) -> {
             return o1.compareTo(o2);
         };
-        List<Item> listItemResultado=UtilidadesIHEA.primeros3(listItemNoSeleccionados, comparator, rcl);
+        List<Item> listItemResultado = UtilidadesIHEA.primeros3(listItemNoSeleccionados, comparator, rcl);
         return listItemResultado;
     }
 
@@ -124,10 +155,29 @@ public class Greedy {
         return itemsCalidadNoSeleccionados;
     }
 
-    private int seleccionarElementoaleatorio(List<Item> LRC) {
-        int tamRCL = LRC.size();
-        int posicion = Aleatorio.nextInt(tamRCL);
-        return LRC.get(posicion).getIndice();
+    /**
+     * Obtiene el indice del elemento seleccionado aleatoriamente de acuerdo a
+     * las probabilidades Bias almacenadas. br= 1(e**r), (1<= r<= |LRC|)
+     *
+     * @param LRC lista restringida de candidatos
+     * @return indice del elemento en el individuo
+     */
+    private int seleccionarElementoConBias(List<Item> LRC) {
+        double sum_prob = 0;
+        double probabilidad = Aleatorio.nextDouble();
+        if(LRC == null || LRC.isEmpty()) {
+            return -1;
+        }
+        if(LRC.size() < probabilidadBias.length) {
+//            System.out.println("");
+        }
+        int minimo = Math.min(LRC.size(), probabilidadBias.length);
+        for (int i = 0; i < minimo; i++) {
+            sum_prob += probabilidadBias[i];
+            if (probabilidad <= sum_prob) {
+                return LRC.get(i).getIndice();
+            }
+        }
+        return LRC.get(minimo-1).getIndice();
     }
-
 }
