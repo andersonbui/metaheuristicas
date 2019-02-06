@@ -25,6 +25,7 @@ import main.EjecutarGrupo;
 import main.EjecutorAlgoritmo;
 import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
+import main.mochila.cuadratica.utilidades.ImprimirResultados;
 import main.mochila.cuadratica.utilidades.Instancia;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
@@ -40,36 +41,75 @@ import metaheuristicas.funcion.FuncionGen;
 public class MainMochilaCuadratica {
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
+        int numIntentos = 100;
+        boolean ayuda = true;
+        List<Instancia> listaInstanc = null;
+        String nombreArchivoResultado = "";
+        // comentar todo el if para produccion
+        if (args.length == 0) {
+            args[0] = "--examples";
+        }
+        if (args.length > 0) {
+            String opcion = args[0];
 
-        System.out.println("");
-        int numIntentos;
+            switch (opcion) {
+                case "-e":
+                case "--examples":
+                    ConjuntoDInstancias datos = new ConjuntoDInstancias();
+                    nombreArchivoResultado = datos.getNombreResultado();
+                    listaInstanc = datos.getConjuntoInstancias();
+                    ayuda = false;
+                    break;
+                case "-a":
+                case "--archivo":
+                    listaInstanc = new ArrayList();
+                    System.out.println("args: " + Arrays.toString(args));
+                    if (args.length > 1) {
+                        String[] cad = args[1].split("/");
+                        String nom = cad[cad.length - 1];
+                        listaInstanc.add(new Instancia(nom, args[1], ""));
+                        if (args.length > 2) {
+                            nombreArchivoResultado = args[2];
+                        }
+                        ayuda = false;
+                    }
+                case "-s":
+                case "--estandar":
+                    if (args.length > 1) {
+                        nombreArchivoResultado = args[1];
+                    }
+                    listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
+            }
+        }
+
+        if (!ayuda) {
+            ejecutar(numIntentos, listaInstanc, nombreArchivoResultado);
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Ayuda\n");
+            sb.append("Opciones:\n");
+            sb.append("--ejemplos:  Ejecutar todos los ejemplos.\n");
+            sb.append("--archivo <archivo-entrada> [<archivo-salida>]:\n"
+                    + "             Ejecutar una instancia desde un archivo.\n");
+            sb.append("--estandar [<archivo-salida>]:\n"
+                    + "             Lee desde la entrada estandar.\n");
+            System.out.println(sb.toString());
+        }
+    }
+
+    public static void ejecutar(int numIntentos, List<Instancia> listaInstanc, String nombreArchivoResultado) throws InterruptedException {
+
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
 //        graficaDispercion2D = true;
-        // iteraciones realizadas por los algoritmos
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numIntentos = 100;
         String nombreArchivoCompleto;
         String mensaje = "";
-        String nombreArchivoResultado = "";
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
-        List<Instancia> listaInstanc = null;
-        System.out.println("args: " + Arrays.toString(args));
-        if (args.length <= 1) {
-            ConjuntoDInstancias datos = new ConjuntoDInstancias();
-            nombreArchivoResultado = datos.getNombreResultado();
-            listaInstanc = datos.getConjuntoInstancias();
-        } else {
-            listaInstanc = new ArrayList();
-            if (args.length > 1) {
-                listaInstanc.add(new Instancia(args[1], args[0], ""));
-            }
-            if (args.length > 2) {
-                nombreArchivoResultado = args[3];
-            }
-        }
 
+        ImprimirResultados imprimir = new ImprimirResultados(nombreArchivoResultado);
+        List<HiloEjecucion> hilos = new ArrayList<>();
         StringBuilder sbCabecera = new StringBuilder();
         sbCabecera.append("----------------------------------------------------------.\n");
         sbCabecera.append("Numero Intentos:").append(numIntentos).append("\n");
@@ -79,22 +119,16 @@ public class MainMochilaCuadratica {
         sbCabecera.append("DPR: Desviación porcentual relativa.\n");
         sbCabecera.append("----------------------------------------------------------.\n");
 
-        List<HiloEjecucion> hilos = new ArrayList<>();
-        String campos = formatearCabecera("FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
+        String campos = formatearCabecera("NOMBRE", "FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         sbCabecera.append(campos);
 
-        EscribirArchivo archivo_resultados = new EscribirArchivo();
-        archivo_resultados.abrir(nombreArchivoResultado);
-        archivo_resultados.escribir(sbCabecera.toString());
-        archivo_resultados.terminar();
-
+        imprimir.imprimir(sbCabecera.toString());
         String nombreInst;
         for (Instancia instancia : listaInstanc) {
             nombreInst = instancia.getNombre();
             nombreArchivoCompleto = instancia.getNombreCompleto();
-            mensaje += "####";
-            mensaje += "----Nombre archivo: " + nombreInst + "----\n";
+            mensaje = instancia.getGrupo();
             // dimension de los puntos;
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
             ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivoCompleto);
@@ -102,34 +136,35 @@ public class MainMochilaCuadratica {
                 System.out.println("no se pudo obtener el archivo: " + nombreArchivoCompleto);
                 continue;
             }
-            GrupoAlgoritmosMochilaCuadratica grupo = new GrupoAlgoritmosMochilaCuadratica(parametros);
-            grupo.inicializar();
+            GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(parametros);
+            grupoAlgoritmos.inicializar();
             EjecutarGrupo ejecutor = new EjecutarGrupo();
             // EJECUTAR ANALISIS
-            ejecutor.setParametros(grupo, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
+            ejecutor.setParametros(grupoAlgoritmos, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
             // Multi-hilo
             hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
 
-            mensaje = "";
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.start();
         }
+        String nombreIns = "#";
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
-
-            archivo_resultados.abrir(nombreArchivoResultado, true);
-            archivo_resultados.escribir(hilo.mensaje);
 
             ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
             ParametrosCuadratica parametros = hilo.parametros;
 
             if (resultadoGrupo != null) {
+                if (!nombreIns.equals(resultadoGrupo.getInstancia())) {
+                    nombreIns = resultadoGrupo.getInstancia();
+                    imprimir.imprimir("#====================================================================================================|" + parametros.getMaxGlobal() + "\n");
+                }
                 listResultadosGrupos.add(resultadoGrupo);
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
 
-                String stringResult = imprimirResultados(resultadoGrupo);
-                archivo_resultados.escribir(stringResult);
+                String stringResult = armarResultados(resultadoGrupo);
+                imprimir.imprimir(stringResult);
                 IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
                 if (parametros.getMaxGlobal().isNaN()) {
@@ -150,13 +185,10 @@ public class MainMochilaCuadratica {
             } else {
                 System.out.println("pailas");
             }
-            archivo_resultados.terminar();
         }
         if (!listResultadosGrupos.isEmpty()) {
-            archivo_resultados.abrir(nombreArchivoResultado, true);
-            String resumen = imprimirResumen(listResultadosGrupos);
-            archivo_resultados.escribir(resumen);
-            archivo_resultados.terminar();
+            String resumen = armarResumen(listResultadosGrupos);
+            imprimir.imprimir(resumen);
         }
     }
 
@@ -187,13 +219,14 @@ public class MainMochilaCuadratica {
         return vectorInt;
     }
 
-    public static String imprimirResultados(ResultadoGrupo resultados) {
+    public static String armarResultados(ResultadoGrupo resultados) {
         StringBuilder sb = new StringBuilder();
         for (ResultadoAlgoritmo resultado : resultados) {
 
             AlgoritmoMetaheuristico algot = resultado.algoritmo;
             FuncionGen funcion = algot.getFuncion();
             String cad = formatearCabecera(
+                    resultados.getInstancia(),
                     funcion.getNombre(),
                     algot.getNombre(),
                     formatear(funcion.getDimension()),
@@ -203,14 +236,14 @@ public class MainMochilaCuadratica {
                     formatear(resultado.promedioCalidadOptimos),
                     formatear(resultado.desviacionCalidadOptimos),
                     formatear(resultado.tiempoTotal),
-                    formatear(resultado.promedionumEvaluaciones));
-//            System.out.println(cad);
+                    formatear(resultado.promedionumEvaluaciones)
+            );
             sb.append(cad);
         }
         return sb.toString();
     }
 
-    public static String imprimirResumen(List<ResultadoGrupo> resultadosGrupos) {
+    public static String armarResumen(List<ResultadoGrupo> resultadosGrupos) {
         String resumen;
         StringBuilder sb = new StringBuilder("--------------------RESUMEN-----------------");
         ResultadoGrupo grupoAux = resultadosGrupos.get(0);
@@ -243,9 +276,9 @@ public class MainMochilaCuadratica {
         return resumen;
     }
 
-    public static String formatearCabecera(String funcion, String algoritmo, String dimension, String promIteraciones,
+    public static String formatearCabecera(String nombre, String funcion, String algoritmo, String dimension, String promIteraciones,
             String mejorOptimo, String peorOptimo, String promedioOptimos, String desviacionOpti, String tiempoPromedio, String numEvaluaciones) {
-        String cadena = String.format("%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", funcion, algoritmo, dimension, promIteraciones,
+        String cadena = String.format("%-20s|%-20s|%-30s|%-10s|%-8s|%-8s|%-14s|%-12s|%-8s|%-10s|%-15s\n", nombre, funcion, algoritmo, dimension, promIteraciones,
                 mejorOptimo, peorOptimo, promedioOptimos, desviacionOpti, tiempoPromedio, numEvaluaciones);
         return cadena;
     }

@@ -16,11 +16,38 @@
  */
 package main.mochila.cuadratica.utilidades;
 
+import main.utilidades.EscribirArchivo;
+
 /**
  *
  * @author debian
  */
 public class ImprimirResultados {
-    String nombreArchivoResultados;
-    
+
+    private final String nombreArchivoResultado;
+    EscribirArchivo archivo_resultados = new EscribirArchivo();
+    boolean aniadir;
+
+    /**
+     *
+     * @param nombreArchivoResultados
+     */
+    public ImprimirResultados(String nombreArchivoResultados) {
+        this.nombreArchivoResultado = nombreArchivoResultados;
+        aniadir = false;
+    }
+
+    public void imprimir(String cadena) {
+
+        boolean sepudo = archivo_resultados.abrir(nombreArchivoResultado, aniadir);
+        if (sepudo) {
+            archivo_resultados.escribir(cadena);
+            archivo_resultados.terminar();
+        }
+        System.out.print(cadena);
+        if (!aniadir) {
+            aniadir = !aniadir;
+        }
+    }
+
 }

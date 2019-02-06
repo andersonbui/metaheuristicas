@@ -49,6 +49,7 @@ public class EjecutarGrupo {
         List<AlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
         Recorrido mejorRecorrido = null;
         ResultadoGrupo resultadoGrupo = new ResultadoGrupo();
+        resultadoGrupo.setInstancia(instancia);
         List<HiloEjecucionAlgoritmo> listaHilos = new ArrayList<>();
         List<Recorrido> listaRecorridos = new ArrayList(); // para grafica de convergencia
         int maxIteraciones = grupo.getMaxIteraciones();

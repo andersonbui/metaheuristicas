@@ -45,19 +45,12 @@ public class EscribirArchivo {
     }
 
     public void escribir(String cadena) {
-        if (pudoAbrir) {
-            pw.println(cadena);
-        }
-        System.out.println(cadena);
+        pw.println(cadena);
     }
 
     public void escribir(List lista) {
         lista.forEach((object) -> {
-            if (pudoAbrir) {
-                escribir(object.toString());
-            }
-            System.out.println(object.toString());
-
+            escribir(object.toString());
         });
     }
 
