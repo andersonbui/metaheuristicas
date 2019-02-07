@@ -48,7 +48,7 @@ public class Main_MatrizBeneficio {
 //        nombreArchivo = "mochilaCuadratica/jeu_100_25_2.txt";
 //        //no,15,0.99,20,32
 //        //si,15,0.90-93,20,31
-        nombreArchivo = "mochilaCuadratica/grupo1/jeu_100_75_1.txt";
+        nombreArchivo = "mochilaCuadratica/grupo1/jeu_200_50_2.txt";
         //lim,15,0.99,5->,1
 //        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
 

@@ -26,8 +26,19 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  */
 public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
 
+    /**
+     * guarda todos los indices de los elementos dentro de la mochila.
+     */
     private List<Integer> I1;
+    /**
+     * guarda todos los indices de los elementos fuera de la mochila.
+     */
     private List<Integer> I0;
+    /**
+     * guarda todas las contribuciones de todos los elementos, de acuerdo la
+     * mochila actual. Las contribuciones se encuentran en el mismo orden que
+     * los elementos correspondientes.
+     */
     private double[] vec_contribucion;
 
     public IndividuoIHEA(FuncionMochilaIHEA funcion) {

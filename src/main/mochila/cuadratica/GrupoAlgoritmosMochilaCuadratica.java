@@ -45,7 +45,6 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
     public GrupoAlgoritmosMochilaCuadratica(ParametrosCuadratica parametros) {
         super(parametros, "Mochila Cuadratica", 20);
         this.parametros = parametros;
-
     }
 
     @Override
@@ -58,13 +57,16 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
         algotIHEA.setSaltar(false);
+        algotIHEA.setParametros(parametros);
         algotIHEA.addNombre("IHEA");
         add(algotIHEA);
+        
 //        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//        algot = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-//        algot.setSaltar(true);
-//        algot.addNombre("SS");
-//        add(algot);
+//        algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+//        algotIHEA.setSaltar(true);
+//        algotIHEA.setParametros(parametros);
+//        algotIHEA.addNombre("SS");
+//        add(algotIHEA);
 //        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 //        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);

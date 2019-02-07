@@ -19,6 +19,8 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.utilidades.ComparacionIdeal;
+import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -34,8 +36,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int t;
     int s;
     int L;
-    static int tiempototal = 0;
-    
+    int tiempototal = 0;
+
+    int contadorIntercambios;
+    int contadortabu;
+    ParametrosCuadratica parametros;
+
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
         setFuncion(funcion);
@@ -46,7 +52,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
         saltar = false;
     }
-    
+
+    public void setParametros(ParametrosCuadratica parametros) {
+        this.parametros = parametros;
+    }
+
     boolean saltar;
 
     public boolean isSaltar() {
@@ -59,9 +69,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
     @Override
     public List<IndividuoIHEA> ejecutar() {
+        contadortabu = 0;
+        contadorIntercambios = 0;
         List listaResult = iterateHiperplaneExploration(L, rcl, maxIteraciones);
-//        System.out.println("===> tiempo: " + tiempototal);
-//        System.out.println("contador exaustiva-hiperplano: " + contador);
+//        System.out.println("===> tiempo: " + tiempototal / contadortabu);
+//        System.out.println("contador intercambios tabu: " + contadorIntercambios);
         return listaResult;
     }
 
@@ -117,8 +129,15 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 variablesFijas = determinarVariablesFijas(k, x_prima, lb);
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
+                //contar variables fijas pertenecientes al ideal
+                int cuantosNoEstan = ComparacionIdeal.cuantosNoEstanEnMejor(parametros, variablesFijas);
+                if (cuantosNoEstan > 0) {
+                    System.out.println("no estan: " + cuantosNoEstan);
+                }
+
                 // linea 17: run tabu serach engine (L,x',xb)
                 long tiempo_inicial = System.currentTimeMillis();
+                contadortabu++;
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
                 long tiempo_final = System.currentTimeMillis();
                 tiempototal += (tiempo_final - tiempo_inicial);
@@ -193,13 +212,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         funcion.fijarVariables(individuoActual, varFijas);
     }
 
-    int contador = 0;
-
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
         int[][] tabu;
         double vmin = 0;
+        //
         double fmax;
         tabu = new int[x_inicial.getDimension()][x_inicial.getDimension()];
         double frx = 0;
@@ -209,7 +227,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         List<Integer> list_RCS = new ArrayList();
         // inicializa el tamaño de la lista de ejecucion
         List<Integer> list_RL = new ArrayList();
-        // almacena el valor de la funcion objetivo de la actual mejor solución factible
+        // almacena el valor de la funcion objetivo de la actual mejor solución factible global
         double fmin = x_referencia.evaluar();
         // x*: recuerda la mejor solucion encontrada hasta el momento
         IndividuoIHEA x_aster = x_referencia;
@@ -269,7 +287,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                             saltar = true;
                             break;
                         }
-                        contador++;
+                        contadorIntercambios++;
                     }
                 }
                 if (vmax >= 0) {
@@ -420,23 +438,27 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      */
     protected IndividuoIHEA descent(IndividuoIHEA original) { ////////////OPCION DE MEJORAR EN TIEMPO (for)
         IndividuoIHEA mejor = (IndividuoIHEA) original.clone();
-        int intentosDescent = 20;
+        int intentosDescent = 5;
         IndividuoIHEA individuo1;
         IndividuoIHEA individuo2;
         boolean mejoro = false;
-        while (!mejoro && intentosDescent-- >= 0) {
-            //SWAP
-            individuo2 = (IndividuoIHEA) swap(mejor);
-            if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
-                mejor = individuo2;
-                mejoro = true;
-            }
+        while (intentosDescent >= 0) {
             //ADD
             individuo1 = add_factible(mejor);
             if (individuo1 != null && individuo1.compareTo(mejor) > 0) {
                 mejor = individuo1;
                 mejoro = true;
             }
+            //SWAP
+            individuo2 = (IndividuoIHEA) swap(mejor);
+            if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
+                mejor = individuo2;
+                mejoro = true;
+            }
+            if (!mejoro) {
+                intentosDescent--;
+            }
+            mejoro = false;
         }
         return mejor;
     }

@@ -107,6 +107,39 @@ public class ComparacionIdeal {
         return datos;
     }
 
+    /**
+     * cuenta el numero de posiciones que no pertenercen a un uno(1) en el mejor
+     * ideal
+     *
+     * @param parametros
+     * @param indiAlcanzado
+     * @return
+     */
+    public static int cuantosNoEstanEnMejor(ParametrosCuadratica parametros, List<Integer> indiAlcanzado) {
+        int contador = 0;
+
+        int[] valsIdeal = parametros.getVectorIdeal();
+        if (valsIdeal == null) {
+            System.out.println("No hay ideal.");
+            return -1;
+        }
+        List<Integer> posicionesUno = new ArrayList();
+        // crear individuo ideal
+        for (Integer i = 0; i < valsIdeal.length; i++) {
+            if (valsIdeal[i] == 1) {
+                posicionesUno.add(i);
+//                        ultimoSeleccionado = i;
+            }
+        }
+
+        for (Integer i : indiAlcanzado) {
+            if (!posicionesUno.contains(i)) {
+                contador++;
+            }
+        }
+        return contador;
+    }
+
     public static void estadisticas(List<Datos> listaDatos) {
         double porcen_calidad_a_i = 0;
         double porcen_cantidadUnos_a_i = 0;
@@ -123,11 +156,11 @@ public class ComparacionIdeal {
             us_ub = dato.ultSeleccionado / (double) dato.upperB;
             promedio_us_ub += us_ub;
             desv_us_ub += us_ub * us_ub;
-            
+
             csc_ub = dato.cantSelConsecutivo / (double) dato.upperB;
             promedio_csc_ub += csc_ub;
             desv_csc_ub += csc_ub * csc_ub;
-            
+
             contador++;
         }
         System.out.println("\n##############################################");

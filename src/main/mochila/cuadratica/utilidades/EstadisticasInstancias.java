@@ -43,8 +43,8 @@ public class EstadisticasInstancias {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 2));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 13, 13));
 
         StringBuilder sbuild = new StringBuilder();
@@ -55,8 +55,8 @@ public class EstadisticasInstancias {
                 append(formatear("Sum_Pes |")).//suma pesos
                 append(formatear("Sum_Mcal |")).//suma Mcal
                 append(formatear("Capacid|")).//capacidad
-                append(formatear("SPes_cap |")).// (suma pesos) / capacidad
-                append(formatear("SMat_Cal |")).//(suma M_calidad) / calidad
+                append(formatear("SPes/cap |")).// (suma pesos) / capacidad
+                append(formatear("SMat/Cal |")).//(suma M_calidad) / calidad
                 append(formatear("lowerB |")). // lowerB
                 append(formatear("upperB")) // upperB
                 ; 

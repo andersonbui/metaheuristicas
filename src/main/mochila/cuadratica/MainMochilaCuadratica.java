@@ -146,7 +146,7 @@ public class MainMochilaCuadratica {
             ejecutor.setParametros(grupoAlgoritmos, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
             // Multi-hilo
             hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
-
+            
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.start();
@@ -170,7 +170,7 @@ public class MainMochilaCuadratica {
                 imprimir.imprimir(stringResult);
                 IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
-                if (parametros.getMaxGlobal().isNaN()) {
+                if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                     if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                         parametros.setMaxGlobal(individuo.getCalidad());
                         parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
