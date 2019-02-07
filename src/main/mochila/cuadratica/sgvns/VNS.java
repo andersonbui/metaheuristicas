@@ -327,12 +327,13 @@ public class VNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             } else {
                 aux = cambio(s_inicial);
             }
-//           mejoro = aux.compareTo(s_inicial) > 0;
-//            if (mejoro) {
-//                s_inicial = aux;
-//                break;
-//            }
+            //MODIFICACION
+            mejoro = aux.compareTo(s_inicial) > 0;
+            if (mejoro) {
                 s_inicial = aux;
+                break;
+            }
+            s_inicial = aux;
 
         } while (intentos-- >= 0);
         return s_inicial;

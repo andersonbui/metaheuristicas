@@ -28,10 +28,38 @@ public final class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
 
     private List<Integer> I1;
     private List<Integer> I0;
+    private double[] vec_contribucion;
 
     public IndividuoVNS(FuncionSGVNS funcion) {
         super(funcion);
-        peso = 0;
+//        peso = 0;
+//        I1 = new ArrayList();
+//        I0 = new ArrayList();
+//        for (int i = 0; i < funcion.getDimension(); i++) {
+//            I0.add(i);
+//        }
+        InicializarI0I1();
+    }
+
+    public IndividuoVNS(FuncionSGVNS funcion, double[] valores) {
+        super(funcion);
+//        peso = 0;
+//        I1 = new ArrayList();
+//        I0 = new ArrayList();
+//        for (int i = 0; i < funcion.getDimension(); i++) {
+//            I0.add(i);
+//        }
+        InicializarI0I1();
+        for (int i = 0; i < valores.length; i++) {
+            this.set(i, valores[i]);
+        }
+    }
+
+    private void InicializarI0I1() {
+        vec_contribucion = new double[funcion.getDimension()];
+        for (int i = 0; i < vec_contribucion.length; i++) {
+            vec_contribucion[i] = funcion.beneficio(i, i);
+        }
         I1 = new ArrayList();
         I0 = new ArrayList();
         for (int i = 0; i < funcion.getDimension(); i++) {
@@ -39,17 +67,8 @@ public final class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
         }
     }
 
-    public IndividuoVNS(FuncionSGVNS funcion, double[] valores) {
-        super(funcion);
-        peso = 0;
-        I1 = new ArrayList();
-        I0 = new ArrayList();
-        for (int i = 0; i < funcion.getDimension(); i++) {
-            I0.add(i);
-        }
-        for (int i = 0; i < valores.length; i++) {
-            this.set(i, peso);
-        }
+    public double getContribucion(int indice) {
+        return vec_contribucion[indice];
     }
 
     /**
@@ -107,19 +126,17 @@ public final class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
         double valorPeso;
         double contribucion = 0;
         //contribucion
-//        contribucion = funcion.contribucion(indice, this);
-
-        for (int i : I1) {
-            if (i < indice) {
-                //contribucion en la fila
-                contribucion += funcion.beneficio(i, indice);
-            } else if (i > indice) {
-                //contribucion en la columna
-                contribucion += funcion.beneficio(indice, i);
+        contribucion = funcion.contribucion(indice, this);
+// actualizacion de la contribucion de cada elemento
+        for (int j = 0; j < vec_contribucion.length; j++) {
+            if (j < indice) {
+                vec_contribucion[j] += (-valAnterior + valor) * funcion.beneficio(j, indice);
+            } else if (j > indice) {
+                vec_contribucion[j] += (-valAnterior + valor) * funcion.beneficio(indice, j);
             }
         }
-        //contribucion por si solo
-        contribucion += funcion.beneficio(indice, indice);
+//        //contribucion por si solo
+//        contribucion += funcion.beneficio(indice, indice);
         // fin contribucion
 
         // peso del articulo
@@ -138,6 +155,7 @@ public final class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
         IndividuoVNS ind = (IndividuoVNS) super.clone(); //To change body of generated methods, choose Tools | Templates.
         ind.I0 = new ArrayList(ind.I0);
         ind.I1 = new ArrayList(ind.I1);
+        ind.vec_contribucion = this.vec_contribucion.clone();
         return ind;
     }
 
