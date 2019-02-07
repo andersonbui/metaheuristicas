@@ -19,6 +19,7 @@ package main.mochila.cuadratica.sgvns;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.IndividuoCuadratico;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 
 /**
@@ -73,6 +74,12 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
         List seleccionados = indi.elementosNoSeleccionados();
         seleccionados = filtrarPorFactibles(seleccionados, indi);
         return seleccionados;
+    }
+    
+    @Override
+    public double contribucion(int indice, IndividuoCuadratico mochila) {
+        IndividuoVNS individuo = (IndividuoVNS) mochila;
+        return individuo.getContribucion(indice);
     }
 
     /**
