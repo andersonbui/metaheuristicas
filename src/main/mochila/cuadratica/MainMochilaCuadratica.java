@@ -40,48 +40,75 @@ import metaheuristicas.funcion.FuncionGen;
  */
 public class MainMochilaCuadratica {
 
+    public static String tsalida = "v";
+
     public static void main(String[] args) throws FileNotFoundException, Exception {
         int numIntentos = 100;
+        int indice = 0;
+        boolean repetir = true;
         boolean ayuda = true;
         List<Instancia> listaInstanc = null;
         String nombreArchivoResultado = "";
         // comentar todo el if para produccion
         if (args.length == 0) {
-            args = new String[]{"-e"};
+//            args = new String[]{"-e"};
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
+//            args = new String[]{"--estandar"};
+//            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
+//            args = new String[]{"--estandar", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/resuultados/salida_r_10_100_13.txt"};
         }
-        if (args.length > 0) {
-            String opcion = args[0];
-
-            switch (opcion) {
-                case "-e":
-                case "--examples":
-                    ConjuntoDInstancias datos = new ConjuntoDInstancias();
-                    nombreArchivoResultado = datos.getNombreResultado();
-                    listaInstanc = datos.getConjuntoInstancias();
-                    ayuda = false;
-                    break;
-                case "-a":
-                case "--archivo":
-                    listaInstanc = new ArrayList();
-                    System.out.println("args: " + Arrays.toString(args));
-                    if (args.length > 1) {
-                        String[] cad = args[1].split("/");
-                        String nom = cad[cad.length - 1];
-                        listaInstanc.add(new Instancia(nom, args[1], ""));
-                        if (args.length > 2) {
-                            nombreArchivoResultado = args[2];
-                        }
+        while (repetir) {
+            repetir = false;
+            if (args.length > indice) {
+                String opcion = args[indice++];
+                switch (opcion) {
+                    case "-e":
+                    case "--examples":
+                        ConjuntoDInstancias datos = new ConjuntoDInstancias();
+                        nombreArchivoResultado = datos.getNombreResultado();
+                        listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
-                    }
-                    break;
-//                case "-s":
-//                case "--estandar":
-//                    if (args.length > 1) {
-//                        nombreArchivoResultado = args[1];
-//                    }
-//                    listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
-//                    break;
+                        break;
+                    case "-a":
+                    case "--archivo":
+                        listaInstanc = new ArrayList();
+                        System.out.println("args: " + Arrays.toString(args));
+                        if (args.length > indice) {
+                            String[] cad = args[indice].split("/");
+                            String nom = cad[cad.length - 1];
+                            listaInstanc.add(new Instancia(nom, args[indice++], ""));
+                            if (args.length > indice) {
+                                nombreArchivoResultado = args[indice++];
+                            }
+                            ayuda = false;
+                        }
+                        break;
+                    case "-E":
+                    case "--estandar":
+                        listaInstanc = new ArrayList();
+                        nombreArchivoResultado = "--estandar";
+                        if (args.length > indice) {
+                            nombreArchivoResultado = args[indice++];
+                        }
+                        listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
+                        ayuda = false;
+                        break;
+                    case "-i":
+                    case "--individuo":
+                        tsalida = "i";
+                        repetir = true;
+                        break;
+                    case "-v":
+                    case "--evaluacion":
+                        tsalida = "v";
+                        repetir = true;
+                        break;
+                    case "-b":
+                    case "--ambos":
+                        tsalida = "b";
+                        repetir = true;
+                        break;
+                }
             }
         }
 
@@ -90,12 +117,21 @@ public class MainMochilaCuadratica {
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("Ayuda\n");
+            sb.append("Comando <tipo salida> <opcion>\n");
+
+            sb.append("Tipos salida:\n");
+            sb.append("\t-v, --evaluacion: (por defecto)\n"
+                    + "\t\tImprimir Evaluacion.\n");
+            sb.append("\t-i, --individuo:\n"
+                    + "\t\tImprimir individuo.\n");
+            sb.append("\t-b, --ambos:\n"
+                    + "\t\tImprimir ambos, individuo y estadistica.\n");
             sb.append("Opciones:\n");
-            sb.append("--ejemplos:  Ejecutar todos los ejemplos.\n");
-            sb.append("--archivo <archivo-entrada> [<archivo-salida>]:\n"
-                    + "             Ejecutar una instancia desde un archivo.\n");
-            sb.append("--estandar [<archivo-salida>]:\n"
-                    + "             Lee desde la entrada estandar.\n");
+            sb.append("\t-e --ejemplos:\n\t\tEjecutar todos los ejemplos.\n");
+            sb.append("\t-a, --archivo <archivo-entrada> [<archivo-salida>]:\n"
+                    + "\t\tEjecutar una instancia desde un archivo.\n");
+            sb.append("\t-E, --estandar [<archivo-salida>]:\n"
+                    + "\t\tLee desde la entrada estandar.\n");
             System.out.println(sb.toString());
         }
     }
@@ -146,7 +182,7 @@ public class MainMochilaCuadratica {
             ejecutor.setParametros(grupoAlgoritmos, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
             // Multi-hilo
             hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
-            
+
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.start();

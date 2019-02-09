@@ -1,0 +1,26 @@
+----------------------------------------------------------.
+Numero Intentos:100
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|1609.0
+
+--estandar          |Cuadratica          |IHEAIHEA                      |  10      |68,00   |1,000000|1609,00       |1609,00     |0,000000|68,00     |0,000000       
+--estandar          |FVNS                |SGVNS-Int[80]                 |  10      |20,00   |1,000000|1609,00       |1609,00     |0,000000|43,00     |0,000000       
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEAIHEA]
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:68,00ms
+-----------
+Algoritmo[SGVNS-Int[80]]
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:43,00ms
+-----------
+

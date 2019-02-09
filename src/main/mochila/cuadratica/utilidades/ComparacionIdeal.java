@@ -37,7 +37,7 @@ public class ComparacionIdeal {
 
         int[] valsIdeal = parametros.getVectorIdeal();
         if (valsIdeal == null) {
-            System.out.println("No hay ideal.");
+//            System.out.println("No hay ideal.");
             return null;
         }
         IndividuoCuadratico indiIdeal = new IndividuoCuadratico(funcion);
@@ -120,7 +120,7 @@ public class ComparacionIdeal {
 
         int[] valsIdeal = parametros.getVectorIdeal();
         if (valsIdeal == null) {
-            System.out.println("No hay ideal.");
+//            System.out.println("No hay ideal.");
             return -1;
         }
         List<Integer> posicionesUno = new ArrayList();

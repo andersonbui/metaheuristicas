@@ -16,7 +16,6 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
-import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;

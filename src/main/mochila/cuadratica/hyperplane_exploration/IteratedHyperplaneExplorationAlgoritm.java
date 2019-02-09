@@ -31,15 +31,15 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  */
 public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristico<FuncionMochilaIHEA, IndividuoIHEA> {
 
-    int rcl;
-    int lb;
-    int t;
-    int s;
-    int L;
-    int tiempototal = 0;
-
-    int contadorIntercambios;
-    int contadortabu;
+    int rcl; // lista restringida de candidatos - construccion greedy
+    int lb; // lower bown
+    int t; // 
+    int s; // 
+    int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
+    int tiempototal;
+    int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
+    int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
+    int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
     ParametrosCuadratica parametros;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
@@ -47,8 +47,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         setFuncion(funcion);
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
+        tiempototal = 0;
         rcl = 20;
         L = 10;
+        intentosDescent = 5;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
         saltar = false;
     }
@@ -438,7 +440,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      */
     protected IndividuoIHEA descent(IndividuoIHEA original) { ////////////OPCION DE MEJORAR EN TIEMPO (for)
         IndividuoIHEA mejor = (IndividuoIHEA) original.clone();
-        int intentosDescent = 5;
         IndividuoIHEA individuo1;
         IndividuoIHEA individuo2;
         boolean mejoro = false;
