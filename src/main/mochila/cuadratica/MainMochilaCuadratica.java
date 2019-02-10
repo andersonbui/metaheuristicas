@@ -72,11 +72,11 @@ public class MainMochilaCuadratica {
                     case "-a":
                     case "--archivo":
                         listaInstanc = new ArrayList();
-                        System.out.println("args: " + Arrays.toString(args));
                         if (args.length > indice) {
-                            String[] cad = args[indice].split("/");
+                            String nombreInstancia = args[indice++];
+                            String[] cad = nombreInstancia.split("/");
                             String nom = cad[cad.length - 1];
-                            listaInstanc.add(new Instancia(nom, args[indice++], ""));
+                            listaInstanc.add(new Instancia(nom, nombreInstancia, ""));
                             if (args.length > indice) {
                                 nombreArchivoResultado = args[indice++];
                             }
@@ -144,6 +144,7 @@ public class MainMochilaCuadratica {
 //        graficaDispercion2D = true;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         String nombreArchivoCompleto;
+        IndividuoGen mejorGlobal = null;
         String mensaje = "";
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
 
@@ -161,8 +162,9 @@ public class MainMochilaCuadratica {
         String campos = formatearCabecera("NOMBRE", "FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         sbCabecera.append(campos);
-
-        imprimir.imprimir(sbCabecera.toString());
+        if ("v".equals(tsalida) || "b".equals(tsalida)) {
+            imprimir.imprimir(sbCabecera.toString());
+        }
         String nombreInst;
         for (Instancia instancia : listaInstanc) {
             nombreInst = instancia.getNombre();
@@ -188,25 +190,35 @@ public class MainMochilaCuadratica {
             hilo.start();
         }
         String nombreIns = "#";
+        ParametrosCuadratica parametros = null;
+        ResultadoGrupo resultadoGrupo;
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
 
-            ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
-            ParametrosCuadratica parametros = hilo.parametros;
+            resultadoGrupo = hilo.resultadoGrupo;
+            parametros = hilo.parametros;
 
             if (resultadoGrupo != null) {
                 if (!nombreIns.equals(resultadoGrupo.getInstancia())) {
                     nombreIns = resultadoGrupo.getInstancia();
-                    imprimir.imprimir("#====================================================================================================|" + parametros.getMaxGlobal() + "\n");
+                    if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                        imprimir.imprimir("#====================================================================================================|" + parametros.getMaxGlobal() + "\n");
+                    }
                 }
                 listResultadosGrupos.add(resultadoGrupo);
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
 
                 String stringResult = armarResultados(resultadoGrupo);
-                imprimir.imprimir(stringResult);
+                if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                    imprimir.imprimir(stringResult + "\n");
+                }
                 IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
+                // almacenar mejor global
+                if (mejorGlobal == null || mejorGlobal.compareTo(individuo) < 0) {
+                    mejorGlobal = individuo;
+                }
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
-                if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+                {
                     if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                         parametros.setMaxGlobal(individuo.getCalidad());
                         parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
@@ -225,9 +237,19 @@ public class MainMochilaCuadratica {
                 System.out.println("pailas");
             }
         }
+
+        // imprimir mejor
+        if ("i".equals(tsalida) || "b".equals(tsalida)) {
+            if (mejorGlobal != null) {
+                imprimir.imprimir(mejorGlobal.toStringInt());
+            }
+        }
+
         if (!listResultadosGrupos.isEmpty()) {
             String resumen = armarResumen(listResultadosGrupos);
-            imprimir.imprimir(resumen);
+            if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                imprimir.imprimir(resumen);
+            }
         }
     }
 

@@ -66,7 +66,7 @@ public class ParametrosCuadratica {
         // crear individuo ideal
         int[] ideal = getVectorIdeal();
         if (ideal == null) {
-            System.out.println("No hay ideal.");
+//            System.out.println("No hay ideal.");
             return null;
         }
         for (int i = 0; i < ideal.length; i++) {
