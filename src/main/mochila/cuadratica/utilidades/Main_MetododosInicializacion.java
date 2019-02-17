@@ -35,20 +35,14 @@ public class Main_MetododosInicializacion {
 
     public static void main(String[] args) {
         String nombreArchivo = "";
-        double sumaParecidoUpperTotal = 0;
-        double sumaParecidoLowerTotal = 0;
-        double desv_sumaParecidoLowerTotal = 0;
-        double sumaUltimoUpperTotal = 0;  // suma de todos los cocientes: ultimo/upperbound
-        int contador = 0;
-        int ultimoSeleccionado;
 
         List<Instancia> listaInstanc = null;
-        ConjuntoDInstancias datos = new ConjuntoDInstancias();
-        datos.prepararTodos();
-        listaInstanc = datos.getConjuntoInstancias();
+        ConjuntoDInstancias conjuntoInstan = new ConjuntoDInstancias();
+        conjuntoInstan.prepararTodos();
+        listaInstanc = conjuntoInstan.getConjuntoInstancias();
 
+        List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
         for (Instancia instancia : listaInstanc) {
-            ultimoSeleccionado = 0;
             nombreArchivo = instancia.getNombreCompleto();
 
             LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
@@ -58,20 +52,6 @@ public class Main_MetododosInicializacion {
                 continue;
             }
             funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());
-
-            int[] valsIdeal = parametros.getVectorIdeal();
-            if (valsIdeal == null) {
-                System.out.println("No hay ideal.");
-                continue;
-            }
-            IndividuoIHEA indiIdeal = new IndividuoIHEA(funcion);
-            // crear individuo ideal
-            for (int i = 0; i < valsIdeal.length; i++) {
-                if (valsIdeal[i] == 1) {
-                    indiIdeal.set(i, 1);
-//                        ultimoSeleccionado = i;
-                }
-            }
 
             // lista de indices para ordenamiento
             List<Posicion> posiciones = new ArrayList();
@@ -86,23 +66,6 @@ public class Main_MetododosInicializacion {
             Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
                 return comparar4(o1, o2);
             });
-            // obtener ultimo de unos consecutivos en el individuo encontrado con respecto al ideal
-            int cantidadSeleccionadosConsecutivos = 0;
-            for (int i = 0; i < posiciones.size(); i++) {
-                int pos = posiciones.get(i).posicion;
-                if (valsIdeal[pos] == 1) {
-                    cantidadSeleccionadosConsecutivos = i;
-                } else {
-                    break;
-                }
-            }
-            // obtener la ultimo de unos en el individuo encontrado con respecto al ideal
-            for (int i = 0; i < posiciones.size(); i++) {
-                int pos = posiciones.get(i).posicion;
-                if (valsIdeal[pos] == 1) {
-                    ultimoSeleccionado = i;
-                }
-            }
 
             IndividuoIHEA indiAlcanzado = funcion.generarIndividuo();
             // crear individuo de los n primeros elementos de la lista ordenada
@@ -110,39 +73,13 @@ public class Main_MetododosInicializacion {
                 indiAlcanzado.set(posiciones.remove(0).posicion, 1);
             }
 
-            int parecido = indiAlcanzado.parecido(indiIdeal);
-            int[] lu_bound = UtilCuadratica.optenerLowerUpper_Bound(funcion);
-            double lowerB = lu_bound[0];
-            double upperB = lu_bound[1];
-            int cantidadUnosIdeal = indiIdeal.elementosSeleccionados().size();
-            double porcentaje_parecido = ((double) parecido) / cantidadUnosIdeal;
-            double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lowerB;
-            sumaParecidoUpperTotal += porcentaje_parecido;
-            sumaParecidoLowerTotal += porc_csc_lb;
-            desv_sumaParecidoLowerTotal += porc_csc_lb * porc_csc_lb;
-            sumaUltimoUpperTotal += (ultimoSeleccionado / (double) upperB);
-            System.out.println("----------------------------------");
-            System.out.println("nombre archivo: " + nombreArchivo);
-            System.out.println("parecido(# unos alcanzado): " + parecido);
-            System.out.println("# unos Ideal: " + cantidadUnosIdeal);
-            System.out.println("(# unos alcanzado)/(total unos ideal): " + porcentaje_parecido);
-            System.out.println("lowerB: " + lowerB + "; upperB: " + upperB);
-            System.out.println("ultimo seleccionado (posicion): " + ultimoSeleccionado
-                    + ";\n (ultimo seleccionado)/upper: " + (ultimoSeleccionado / (double) upperB));
-            System.out.println("ultimo seleccionado consecutivo (posicion): " + cantidadSeleccionadosConsecutivos
-                    + ";\n (ultimo seleccionado consecutivo)/lowerB: " + (cantidadSeleccionadosConsecutivos / (double) lowerB));
-            System.out.println("calidad alcanzado: " + indiAlcanzado.getCalidad());
-            System.out.println("calidad ideal: " + indiIdeal.getCalidad());
-            System.out.println("% (calidad alcanzado)/(calidad ideal): " + (indiAlcanzado.getCalidad() / indiIdeal.getCalidad()));
-            contador++;
+            // lista de indices para ordenamiento
+            ComparacionIdeal.Datos datosComparacion = ComparacionIdeal.comparacion(parametros, indiAlcanzado);
+            if (datosComparacion != null) {
+                comparaciones.add(datosComparacion);
+            }
         }
-        System.out.println("\n##############################################");
-        System.out.println("promedio % exito = (# unos alcanzado)/(total unos ideal): " + (sumaParecidoUpperTotal / contador));
-        System.out.println("promedio % (ultimo seleccionado)/(upperB): " + (sumaUltimoUpperTotal / contador));
-        double promedio_sumaParecidoLowerTotal = (sumaParecidoLowerTotal / contador);
-        desv_sumaParecidoLowerTotal = Math.sqrt((1.0 / contador) * (desv_sumaParecidoLowerTotal - contador * promedio_sumaParecidoLowerTotal * promedio_sumaParecidoLowerTotal));
-        System.out.println("promedio (ultimo seleccionado consecutivo)/(lowerB): " + promedio_sumaParecidoLowerTotal);
-        System.out.println("desviacion (ultimo seleccionado consecutivo)/(lowerB): " + desv_sumaParecidoLowerTotal);
+        ComparacionIdeal.estadisticas(comparaciones);
     }
 
     public static class Posicion {

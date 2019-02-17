@@ -115,7 +115,7 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
 
         double valAnterior = get(indice);
         if (valAnterior == valor) {
-            System.out.println("valor igual al anterior");
+//            System.out.println("valor igual al anterior");
             return;
         }
         if (valor == 0) {

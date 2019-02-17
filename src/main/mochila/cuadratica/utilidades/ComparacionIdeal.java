@@ -32,21 +32,17 @@ public class ComparacionIdeal {
     public static Datos comparacion(ParametrosCuadratica parametros, IndividuoCuadratico indiAlcanzado) {
         FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) indiAlcanzado.getFuncion();
         String nombreArchivo = parametros.getNombreArchivo();
-        int contador = 0;
         int ultimoSeleccionado = 0;
 
+        //si no hay individuo ideal
         int[] valsIdeal = parametros.getVectorIdeal();
         if (valsIdeal == null) {
-//            System.out.println("No hay ideal.");
             return null;
         }
-        IndividuoCuadratico indiIdeal = new IndividuoCuadratico(funcion);
+        IndividuoCuadratico indiIdeal = funcion.generarIndividuo();
         // crear individuo ideal
         for (int i = 0; i < valsIdeal.length; i++) {
-            if (valsIdeal[i] == 1) {
-                indiIdeal.set(i, 1);
-//                        ultimoSeleccionado = i;
-            }
+            indiIdeal.set(i, valsIdeal[i]);
         }
 
         // lista de indices para ordenamiento
@@ -80,25 +76,27 @@ public class ComparacionIdeal {
                 ultimoSeleccionado = i;
             }
         }
-
         int cantidadUnosAlcanzado = indiAlcanzado.parecido(indiIdeal);
         int[] lu_bound = UtilCuadratica.optenerLowerUpper_Bound(funcion);
+        double lowerB = lu_bound[0];
+        double upperB = lu_bound[1];
         int cantidadUnosIdeal = indiIdeal.elementosSeleccionados().size();
+        double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lowerB;
         double porcentajeParecido = ((double) cantidadUnosAlcanzado) / cantidadUnosIdeal;
         System.out.println("----------------------------------");
         System.out.println("nombre archivo: " + nombreArchivo);
         System.out.println("parecido(# unos alcanzado): " + cantidadUnosAlcanzado);
         System.out.println("# unos Ideal: " + cantidadUnosIdeal);
         System.out.println("(# unos alcanzado)/(total unos ideal): " + porcentajeParecido);
-        System.out.println("lowerB: " + lu_bound[0] + "; upperB: " + lu_bound[1]);
+        System.out.println("lowerB: " + lowerB + "; upperB: " + upperB);
         System.out.println("ultimo seleccionado (posicion): " + ultimoSeleccionado
-                + ";\n (ultimo seleccionado)/upper: " + (ultimoSeleccionado / (double) lu_bound[1]));
+                + ";\n (ultimo seleccionado)/upper: " + (ultimoSeleccionado / (double) upperB));
         System.out.println("ultimo seleccionado consecutivo (posicion): " + cantidadSeleccionadosConsecutivos
-                + ";\n (ultimo seleccionado consecutivo)/upper: " + (cantidadSeleccionadosConsecutivos / (double) lu_bound[1]));
+                + ";\n (ultimo seleccionado consecutivo)/lowerB: " + porc_csc_lb);
         System.out.println("calidad alcanzado: " + indiAlcanzado.getCalidad());
         System.out.println("calidad ideal: " + indiIdeal.getCalidad());
         System.out.println("% (calidad alcanzado)/(calidad ideal): " + (indiAlcanzado.getCalidad() / indiIdeal.getCalidad()));
-        contador++;
+//        contador++;
 
         Datos datos = new Datos(indiAlcanzado.getCalidad(), indiIdeal.getCalidad(),
                 cantidadUnosAlcanzado, cantidadUnosIdeal, lu_bound[0], lu_bound[1],
