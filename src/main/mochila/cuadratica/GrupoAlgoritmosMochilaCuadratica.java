@@ -79,15 +79,15 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
 //
 //////////////////////
-        int[] vecImayor = {80};
-        for (int intentos : vecImayor) {
-            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-            VNS algot = new VNS(funcionVns, maxIteraciones);
-            //algot.setIntentosIntercambio(intentos);
-            algot.setIntentosEncontrarMejor(intentos);
-            algot.addNombre("-Int[" + intentos + "]");
-            add(algot);
-        }
+//        int[] vecImayor = {80};
+//        for (int intentos : vecImayor) {
+//            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//            VNS algot = new VNS(funcionVns, maxIteraciones);
+//            //algot.setIntentosIntercambio(intentos);
+//            algot.setIntentosEncontrarMejor(intentos);
+//            algot.addNombre("-Int[" + intentos + "]");
+//            add(algot);
+//        }
 ///////////////////////////
 //        int[] vecIintentos = {20};
 //        for (int intentos : vecIintentos) {

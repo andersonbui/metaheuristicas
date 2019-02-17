@@ -37,15 +37,17 @@ public class EstadisticasInstancias {
         String nombreArchivo = "";
         List<GrupoInstancias> instancias = new ArrayList<>();
 
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_50_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/jeu_100_25_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 2));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
-//        instancias.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 13, 13));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_75_%d.txt", 1, 10));
+//        instancias.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 1, 10));
 
         StringBuilder sbuild = new StringBuilder();
         sbuild.append(formatear("pm_pesos |")).//promedio pesos
@@ -59,7 +61,7 @@ public class EstadisticasInstancias {
                 append(formatear("SMat/Cal |")).//(suma M_calidad) / calidad
                 append(formatear("lowerB |")). // lowerB
                 append(formatear("upperB")) // upperB
-                ; 
+                ;
 
         for (GrupoInstancias instancia : instancias) {
             System.out.println("########################################################################");
@@ -113,6 +115,7 @@ public class EstadisticasInstancias {
     private static String formatear(double valor) {
         return formatear(String.format("%-2.3f", valor));
     }
+
     private static String formatear(int valor) {
         return formatear(String.format("%-2d", valor));
     }

@@ -43,7 +43,7 @@ public class MainMochilaCuadratica {
     public static String tsalida = "v";
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 100;
+        int numIntentos = 10;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -51,7 +51,7 @@ public class MainMochilaCuadratica {
         String nombreArchivoResultado = "";
         // comentar todo el if para produccion
         if (args.length == 0) {
-//            args = new String[]{"-e"};
+            args = new String[]{"-e"};
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
@@ -230,7 +230,7 @@ public class MainMochilaCuadratica {
                             System.out.println("---mensaje de error: \n " + e.getMessage());
                         }
                     } else if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) > 0) {
-                        System.out.println("se encontro mejor");
+//                        System.out.println("No se encontro mejor");
                     }
                 }
             } else {

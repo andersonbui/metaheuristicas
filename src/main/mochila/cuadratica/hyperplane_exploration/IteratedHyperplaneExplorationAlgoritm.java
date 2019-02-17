@@ -134,7 +134,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 //contar variables fijas pertenecientes al ideal
                 int cuantosNoEstan = ComparacionIdeal.cuantosNoEstanEnMejor(parametros, variablesFijas);
                 if (cuantosNoEstan > 0) {
-                    System.out.println("no estan: " + cuantosNoEstan);
+//                    System.out.println("no estan: " + cuantosNoEstan);
                 }
 
                 // linea 17: run tabu serach engine (L,x',xb)
@@ -181,7 +181,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
-     *
+     * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
      * @param dimensionHyp
      * @param individuo
      * @param lowerb
