@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,7 @@ public class PruebasRendimiento {
                 }
                 long tiempo_inicial = System.currentTimeMillis();
                 for (int i = 0; i < intentos; i++) {
-                    indices1 = UtilidadesIHEA.primerosPorDensidad(listaIndices, mochila, elementosSeleccionados, true);
+                    indices1 = (new PrimerosPorDensidad()).primerosPorDensidad(listaIndices, mochila, elementosSeleccionados, true);
                 }
                 long tiempo_final = System.currentTimeMillis();
                 double promedio1 = ((tiempo_final - tiempo_inicial) / (double) intentos);
@@ -101,7 +102,7 @@ public class PruebasRendimiento {
 
                 tiempo_inicial = System.currentTimeMillis();
                 for (int i = 0; i < intentos; i++) {
-                    indices2 = UtilidadesIHEA.primerosPorDensidad3(listaIndices, mochila, elementosSeleccionados, true);
+                    indices2 = (new PrimerosPorDensidad()).primerosPorDensidad3(listaIndices, mochila, elementosSeleccionados, true);
                 }
                 tiempo_final = System.currentTimeMillis();
                 double promedio2 = ((tiempo_final - tiempo_inicial) / (double) intentos);

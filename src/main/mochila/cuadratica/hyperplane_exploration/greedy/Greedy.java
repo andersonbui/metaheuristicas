@@ -23,7 +23,7 @@ import java.util.List;
 import main.Item;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
-import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -130,7 +130,7 @@ public class Greedy {
         Comparator<Item> comparator = (Item o1, Item o2) -> {
             return o1.compareTo(o2);
         };
-        List<Item> listItemResultado = UtilidadesIHEA.primeros3(listItemNoSeleccionados, comparator, rcl);
+        List<Item> listItemResultado = (new PrimerosPorDensidad()).primeros3(listItemNoSeleccionados, comparator, rcl);
         return listItemResultado;
     }
 

@@ -24,7 +24,7 @@ import main.GrupoInstancias;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
-import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;

@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +196,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
-        List<Integer> listaIndices = UtilidadesIHEA.primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
 
         // vector de indices de variables fijas
         // obtener los primeros nf indices de los elementos más densos
@@ -377,7 +378,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         t = Math.min(10, I1.size() - nf);
         s = Math.min(3, t);
-        List<Integer> listaIndices = UtilidadesIHEA.primerosPorDensidad(I1, individuo, t, true);
+        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(listaIndices.size());

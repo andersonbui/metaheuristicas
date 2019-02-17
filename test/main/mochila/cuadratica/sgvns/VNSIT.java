@@ -107,7 +107,7 @@ public class VNSIT {
     @Test
     public void testElementosFuera() {
         System.out.println("elementosFuera");
-        VNS instance = new VNS(funcion, 1);
+        SGVNS instance = new SGVNS(funcion, 1);
         List<Integer> expResult = new ArrayList();
         for (int i = 0; i < funcion.getDimension(); i++) {
             expResult.add(i);
@@ -137,7 +137,7 @@ public class VNSIT {
     @Test
     public void testElementosDentro() {
         System.out.println("elementosDentro");
-        VNS instance = new VNS(funcion, 1);
+        SGVNS instance = new SGVNS(funcion, 1);
         List<Integer> expResult = new ArrayList();
         for (int i = 0; i < 1000; i++) {
             Integer posicion = rand.nextInt(mochila.getDimension());
@@ -161,7 +161,7 @@ public class VNSIT {
     @Test
     public void testCambio() {
         System.out.println("cambio");
-        VNS instance = new VNS(funcion, 1);
+        SGVNS instance = new SGVNS(funcion, 1);
         for (int i = 0; i < 50; i++) {
             Integer posicion = rand.nextInt(mochila.getDimension());
             int valor = (int) mochila.get(posicion);
@@ -183,7 +183,7 @@ public class VNSIT {
     @Test
     public void testIntercambio() {
         System.out.println("intercambio");
-        VNS instance = new VNS(funcion, 1);
+        SGVNS instance = new SGVNS(funcion, 1);
         for (int i = 0; i < 50; i++) {
             Integer posicion = rand.nextInt(mochila.getDimension());
             int valor = (int) mochila.get(posicion);
@@ -204,7 +204,7 @@ public class VNSIT {
     @Test
     public void testSolucionInicial() {
         System.out.println("solucionInicial");
-        VNS instance = new VNS(funcion, 1);
+        SGVNS instance = new SGVNS(funcion, 1);
 
         IndividuoVNS result = instance.solucionInicial();
 
