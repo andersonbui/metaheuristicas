@@ -19,10 +19,12 @@ package main.mochila.cuadratica.sgvns;
 import java.util.ArrayList;
 import java.util.List;
 import main.Item;
+import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
 import main.utilidades.Utilidades;
+import metaheuristicas.Aleatorio;
 
 /**
  *
@@ -41,15 +43,87 @@ public class JSGVNS extends SGVNS {
      */
     protected int ub;
 
-    private final List<Integer> variablesFijas;
-
-    public JSGVNS(FuncionSGVNS funcion, int maxIteraciones) {
+    public JSGVNS(FuncionJSGVNS funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
-        variablesFijas = null;
         lb = -1;
         ub = -1;
+        lb = obtenerLowerBound();
+        ub = obtenerUpperBound();
+        nombre = "JSGVNS";
     }
-    
+
+    /**
+     * obtiene un subconjunto de elementos dentro de la mochila.
+     *
+     * @param mochila
+     * @return lista de elementos fuera de la mochila
+     */
+    @Override
+    public List<Integer> elementosDentro(IndividuoVNS mochila) {
+        return getFuncion().obtener_I1(mochila);
+    }
+    /**
+     * obtiene el subconjunto de elementos fuera de la mochila, pero que
+     * individualmente quepan dentro de esta.
+     *
+     * @param mochila
+     * @return lista de elementos fuera de la mochila
+     */
+    @Override
+    public List<Integer> elementosFueraYCaben(IndividuoVNS mochila) {
+        List listaI0 = mochila.obtener_I0();
+        listaI0 = funcion.filtrarPorFactibles(listaI0, mochila);
+        return listaI0;
+    }
+
+    @Override
+    public List<IndividuoVNS> ejecutar() {
+        //Lista para graficar
+        List<IndividuoVNS> recorrido = new ArrayList();
+        //Encuentra una solucion inicial y
+        IndividuoVNS y = solucionInicial();
+        //Almacena la solucion inicial como best
+        IndividuoVNS y_best = y;
+        //termina cuando encuentra el optimo
+        boolean suficiente = funcion.suficiente(y_best);
+        if (suficiente) {
+            recorrido.add(y_best);
+            return recorrido;
+        }
+        for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
+            //numero de movimientos aleatorios para shaking
+            int h = 1;
+            IndividuoVNS y_p;
+            IndividuoVNS y_p2;
+            List<Integer> variablesFijas;
+//            funcion.
+            while (h <= hMax) {
+                //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
+                //Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
+
+//                variablesFijas = determinarVariablesFijas(y.getDimension(), y, lb);
+//                construirProblemaRestringidoReducido(variablesFijas);
+                //Modificacion trabajar la sacudida con el vecindario 1
+                y_p = sacudida(y, 1, h);
+                //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
+                y_p2 = seq_VND(y_p);
+//                getFuncion().reiniciarVijarVariables();
+                if (y_p2.compareTo(y_best) > 0) {
+                    y_best = y_p2;
+                }
+                if (y_p2.getCalidad() > (1 - alpha * distancia(y, y_p2)) * y.getCalidad()) {
+                    y = y_p2;
+                    h = 1;
+                } else {
+                    h++;
+                }
+            }
+            recorrido.add(y_best);
+        }
+        //CONDICION DE TERMINACION PARA AJUSTAR
+        return recorrido;
+    }
+
     /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
     private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
@@ -68,13 +142,20 @@ public class JSGVNS extends SGVNS {
             if (mejoro) {
                 s_inicial = aux;
                 break;
+                //TODO: puede no salir con el break y continuar con la ejecucion pero al final retornar la mejor
             }
+            //
             s_inicial = aux;
 
         } while (intentos-- >= 0);
         return s_inicial;
     }
-    
+
+    @Override
+    public FuncionJSGVNS getFuncion() {
+        return (FuncionJSGVNS) funcion;
+    }
+
     /**
      * obtiene el lower bound
      *
@@ -82,13 +163,13 @@ public class JSGVNS extends SGVNS {
      */
     public int obtenerLowerBound() {
         if (lb == -1) {
-            int[] lu_b = UtilCuadratica.optenerLowerUpper_Bound(funcion);
+            int[] lu_b = UtilCuadratica.optenerLowerUpper_Bound(getFuncion());
             lb = lu_b[0];
             ub = lu_b[1];
         }
         return lb;
     }
-    
+
     /**
      * obtiene el upper bound
      *
@@ -102,31 +183,16 @@ public class JSGVNS extends SGVNS {
     }
 
     /**
-     * obtiene un subconjunto de elementos dentro de la mochila.
-     *
-     * @param mochila
-     * @return lista de elementos fuera de la mochila
-     */
-    @Override
-    public List<Integer> elementosDentro(IndividuoVNS mochila) {
-        List listaI1 = mochila.elementosSeleccionados();
-        if (this.variablesFijas != null && !this.variablesFijas.isEmpty()) {
-            listaI1.removeAll(this.variablesFijas);
-        }
-        return listaI1;
-    }
-    
-    /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
      *
-     * @param dimensionHyp
+     * @param dimension
      * @param individuo
      * @param lowerb
      * @return
      */
-    protected List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoVNS individuo, int lowerb) {
+    protected List<Integer> determinarVariablesFijas(int dimension, IndividuoVNS individuo, int lowerb) {
         // dimension de individuo
-        int dimX = dimensionHyp;
+        int dimX = dimension;
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
@@ -140,5 +206,14 @@ public class JSGVNS extends SGVNS {
         // obtener los primeros nf indices de los elementos más densos
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
         return listaIndices;
+    }
+
+    /**
+     *
+     * @param varFijas
+     */
+    protected void construirProblemaRestringidoReducido(List<Integer> varFijas) {
+        getFuncion().fijarVariables(varFijas);
+
     }
 }

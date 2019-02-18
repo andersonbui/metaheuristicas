@@ -30,7 +30,7 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
 
     public FuncionSGVNS(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
-        nombre = "FVNS";
+        nombre = "FSGVNS";
     }
 
     @Override
@@ -44,7 +44,7 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
      * @param mochila
      * @return
      */
-    public double sacarEspacios(IndividuoIHEA mochila) {
+    public double sacarEspacios(IndividuoVNS mochila) {
         return capacidad - mochila.pesar();
     }
 
@@ -56,7 +56,7 @@ public class FuncionSGVNS extends FuncionMochilaCuadratica {
      * @return
      */
     public List<Integer> obtener_I1(IndividuoMochila individuo) {
-        IndividuoIHEA indi = ((IndividuoIHEA) individuo);
+        IndividuoVNS indi =  (IndividuoVNS) individuo;
         List seleccionados = indi.elementosSeleccionados();
         return seleccionados;
     }

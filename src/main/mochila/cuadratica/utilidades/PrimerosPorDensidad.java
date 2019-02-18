@@ -51,8 +51,9 @@ public class PrimerosPorDensidad {
         List<Item> result = new ArrayList();
         int indice;
         List listaObj = result;
-//        Item item;
-
+        if(n<0){
+           throw  new IllegalArgumentException("n debe ser mayor que 0.");
+        }
         int tamListaItems = listaItems.size();
         int tamanio = Math.min(n, tamListaItems);
         for (Item item : listaItems) {

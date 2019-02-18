@@ -26,8 +26,10 @@ import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
+import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
 import main.mochila.cuadratica.sgvns.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.JSGVNS;
 import main.mochila.cuadratica.sgvns.SGVNS;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
@@ -38,6 +40,7 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     private final ParametrosCuadratica parametros;
+
     /**
      *
      * @param parametros
@@ -60,7 +63,6 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        algotIHEA.setParametros(parametros);
 //        algotIHEA.addNombre("IHEA");
 //        add(algotIHEA);
-        
 //        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
 //        algotIHEA.setSaltar(true);
@@ -83,6 +85,17 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         for (int intentos : vecImayor) {
             FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
             SGVNS algot = new SGVNS(funcionVns, maxIteraciones);
+            //algot.setIntentosIntercambio(intentos);
+            algot.setIntentosEncontrarMejor(intentos);
+            algot.addNombre("-Int[" + intentos + "]");
+            add(algot);
+        }
+///////////////////////////
+//////////////////////
+        int[] vecImayor1 = {20};
+        for (int intentos : vecImayor1) {
+            FuncionJSGVNS funcionVns = new FuncionJSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+            JSGVNS algot = new JSGVNS(funcionVns, maxIteraciones);
             //algot.setIntentosIntercambio(intentos);
             algot.setIntentosEncontrarMejor(intentos);
             algot.addNombre("-Int[" + intentos + "]");

@@ -334,7 +334,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         return s_inicial;
     }
 
-    private double distancia(IndividuoVNS y, IndividuoVNS y2) {
+    protected double distancia(IndividuoVNS y, IndividuoVNS y2) {
         double suma = 0;
         for (int i = 0; i < y.getDimension(); i++) {
 //            suma += y.get(i) - y2.get(i);
