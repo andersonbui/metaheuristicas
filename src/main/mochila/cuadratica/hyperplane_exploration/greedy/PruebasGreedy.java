@@ -37,17 +37,6 @@ public class PruebasGreedy {
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
-        int maxIteraciones;
-        int numMuestras;
-        boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
-        boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
-//        graficaRecorrido3D = true;
-        graficaDispercion2D = true;
-        // numero de individuos porpoblacion
-        // iteraciones realizadas por los algoritmos
-        maxIteraciones = 50;
-        // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
-        numMuestras = 1;
         String nombreArchivo;
         List<GrupoInstancias> instancias = new ArrayList();
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));

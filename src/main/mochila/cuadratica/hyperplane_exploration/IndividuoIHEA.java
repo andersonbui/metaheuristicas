@@ -115,7 +115,7 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
 
         double valAnterior = get(indice);
         if (valAnterior == valor) {
-            System.out.println("valor igual al anterior");
+//            System.out.println("valor igual al anterior");
             return;
         }
         if (valor == 0) {
@@ -136,7 +136,7 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
         double valorPeso;
         double unacontribucion = 0;
 
-        //contribucion
+        // contribucion
         unacontribucion = funcion.contribucion(indice, this);
         // actualizacion de la contribucion de cada elemento
         for (int j = 0; j < vec_contribucion.length; j++) {

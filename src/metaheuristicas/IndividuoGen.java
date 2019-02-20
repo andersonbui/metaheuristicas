@@ -123,6 +123,7 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
         for (double valor : valores) {
             cadena += (int) valor + " ";
         }
+        cadena += "\n";
         cadena += (int) calidad;
         return cadena;
     }

@@ -16,9 +16,16 @@
  */
 package main.mochila.cuadratica.utilidades;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.utilidades.EscribirArchivo;
 import main.utilidades.LeerArchivo;
 import static main.utilidades.Utilidades.eliminarEspaciosRepetidos;
@@ -34,11 +41,11 @@ public class LecturaParametrosCuadratica {
     }
 
     public void actualizar(String nombreArchivo, ParametrosCuadratica parametros) {
-        
-        ArchivoInstancia archivoInstancia = obtenerArchivo(nombreArchivo);
+
+        ArchivoInstancia archivoInstancia = leerParametros(nombreArchivo);
         archivoInstancia.setMaximoGlobal(parametros.getMaxGlobal());
         archivoInstancia.setInstanciaMaxG(parametros.getVectorIdeal());
-        
+
         EscribirArchivo archivo = new EscribirArchivo();
         archivo.abrir(nombreArchivo);
         archivo.escribir(archivoInstancia.getLineas());
@@ -53,19 +60,34 @@ public class LecturaParametrosCuadratica {
         return cadena.toString();
     }
 
-    public ArchivoInstancia obtenerArchivo(String nombreArchivo) {
-        LeerArchivo leer = new LeerArchivo();
-        if (!leer.abrir(nombreArchivo)) {
-            return null;
+    public ArchivoInstancia leerParametros(String nombreArchivo) {
+        List<String> listaCadenas = null;
+        if ("--estandar".equals(nombreArchivo)) {
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                listaCadenas = new ArrayList<>();
+                String cadena;
+                while (!"".equals(cadena = br.readLine())) {
+                    listaCadenas.add(cadena);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(LecturaParametrosCuadratica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            LeerArchivo leer = new LeerArchivo();
+            if (!leer.abrir(nombreArchivo)) {
+                return null;
+            }
+            listaCadenas = leer.leer();
+            leer.terminar();
+
         }
-        List<String> listaCadenas = leer.leer();
-        leer.terminar();
         ArchivoInstancia aInstancia = new ArchivoInstancia(listaCadenas);
         return aInstancia;
     }
 
     public ParametrosCuadratica obtenerParametros(String nombreArchivo) {
-        ArchivoInstancia aInstancia = obtenerArchivo(nombreArchivo);
+        ArchivoInstancia aInstancia = leerParametros(nombreArchivo);
         if (aInstancia == null) {
             return null;
         }
@@ -93,7 +115,7 @@ public class LecturaParametrosCuadratica {
         int numElementos;
         ParametrosCuadratica pc = new ParametrosCuadratica();
         pc.setNombreArchivo(nombreArchivo);
-        List<String> listaCadenas = obtenerArchivo(nombreArchivo).getLineas();
+        List<String> listaCadenas = leerParametros(nombreArchivo).getLineas();
         if (listaCadenas == null) {
             return null;
         }

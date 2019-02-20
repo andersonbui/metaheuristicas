@@ -40,8 +40,12 @@ import metaheuristicas.funcion.FuncionGen;
  */
 public class MainMochilaCuadratica {
 
+    public static String tsalida = "v";
+
     public static void main(String[] args) throws FileNotFoundException, Exception {
         int numIntentos = 100;
+        int indice = 0;
+        boolean repetir = true;
         boolean ayuda = true;
         List<Instancia> listaInstanc = null;
         String nombreArchivoResultado = "";
@@ -49,39 +53,62 @@ public class MainMochilaCuadratica {
         if (args.length == 0) {
             args = new String[]{"-e"};
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
+//            args = new String[]{"--estandar"};
+//            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
+//            args = new String[]{"--estandar", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/resuultados/salida_r_10_100_13.txt"};
         }
-        if (args.length > 0) {
-            String opcion = args[0];
-
-            switch (opcion) {
-                case "-e":
-                case "--examples":
-                    ConjuntoDInstancias datos = new ConjuntoDInstancias();
-                    nombreArchivoResultado = datos.getNombreResultado();
-                    listaInstanc = datos.getConjuntoInstancias();
-                    ayuda = false;
-                    break;
-                case "-a":
-                case "--archivo":
-                    listaInstanc = new ArrayList();
-                    System.out.println("args: " + Arrays.toString(args));
-                    if (args.length > 1) {
-                        String[] cad = args[1].split("/");
-                        String nom = cad[cad.length - 1];
-                        listaInstanc.add(new Instancia(nom, args[1], ""));
-                        if (args.length > 2) {
-                            nombreArchivoResultado = args[2];
-                        }
+        while (repetir) {
+            repetir = false;
+            if (args.length > indice) {
+                String opcion = args[indice++];
+                switch (opcion) {
+                    case "-e":
+                    case "--examples":
+                        ConjuntoDInstancias datos = new ConjuntoDInstancias();
+                        nombreArchivoResultado = datos.getNombreResultado();
+                        listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
-                    }
-                    break;
-//                case "-s":
-//                case "--estandar":
-//                    if (args.length > 1) {
-//                        nombreArchivoResultado = args[1];
-//                    }
-//                    listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
-//                    break;
+                        break;
+                    case "-a":
+                    case "--archivo":
+                        listaInstanc = new ArrayList();
+                        if (args.length > indice) {
+                            String nombreInstancia = args[indice++];
+                            String[] cad = nombreInstancia.split("/");
+                            String nom = cad[cad.length - 1];
+                            listaInstanc.add(new Instancia(nom, nombreInstancia, ""));
+                            if (args.length > indice) {
+                                nombreArchivoResultado = args[indice++];
+                            }
+                            ayuda = false;
+                        }
+                        break;
+                    case "-E":
+                    case "--estandar":
+                        listaInstanc = new ArrayList();
+                        nombreArchivoResultado = "--estandar";
+                        if (args.length > indice) {
+                            nombreArchivoResultado = args[indice++];
+                        }
+                        listaInstanc.add(new Instancia("--estandar", "--estandar", "--estandar"));
+                        ayuda = false;
+                        break;
+                    case "-i":
+                    case "--individuo":
+                        tsalida = "i";
+                        repetir = true;
+                        break;
+                    case "-v":
+                    case "--evaluacion":
+                        tsalida = "v";
+                        repetir = true;
+                        break;
+                    case "-b":
+                    case "--ambos":
+                        tsalida = "b";
+                        repetir = true;
+                        break;
+                }
             }
         }
 
@@ -90,12 +117,21 @@ public class MainMochilaCuadratica {
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("Ayuda\n");
+            sb.append("Comando <tipo salida> <opcion>\n");
+
+            sb.append("Tipos salida:\n");
+            sb.append("\t-v, --evaluacion: (por defecto)\n"
+                    + "\t\tImprimir Evaluacion.\n");
+            sb.append("\t-i, --individuo:\n"
+                    + "\t\tImprimir individuo.\n");
+            sb.append("\t-b, --ambos:\n"
+                    + "\t\tImprimir ambos, individuo y estadistica.\n");
             sb.append("Opciones:\n");
-            sb.append("--ejemplos:  Ejecutar todos los ejemplos.\n");
-            sb.append("--archivo <archivo-entrada> [<archivo-salida>]:\n"
-                    + "             Ejecutar una instancia desde un archivo.\n");
-            sb.append("--estandar [<archivo-salida>]:\n"
-                    + "             Lee desde la entrada estandar.\n");
+            sb.append("\t-e --ejemplos:\n\t\tEjecutar todos los ejemplos.\n");
+            sb.append("\t-a, --archivo <archivo-entrada> [<archivo-salida>]:\n"
+                    + "\t\tEjecutar una instancia desde un archivo.\n");
+            sb.append("\t-E, --estandar [<archivo-salida>]:\n"
+                    + "\t\tLee desde la entrada estandar.\n");
             System.out.println(sb.toString());
         }
     }
@@ -108,6 +144,7 @@ public class MainMochilaCuadratica {
 //        graficaDispercion2D = true;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         String nombreArchivoCompleto;
+        IndividuoGen mejorGlobal = null;
         String mensaje = "";
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
 
@@ -125,8 +162,9 @@ public class MainMochilaCuadratica {
         String campos = formatearCabecera("NOMBRE", "FUNCION", "ALGORITMO", "DIMENSION", "NPI", "TE", "MEJOR OPTIMO",
                 "PROM OPTIMOS", "DPR", "TP", "EVALUACIONES");
         sbCabecera.append(campos);
-
-        imprimir.imprimir(sbCabecera.toString());
+        if ("v".equals(tsalida) || "b".equals(tsalida)) {
+            imprimir.imprimir(sbCabecera.toString());
+        }
         String nombreInst;
         for (Instancia instancia : listaInstanc) {
             nombreInst = instancia.getNombre();
@@ -146,31 +184,41 @@ public class MainMochilaCuadratica {
             ejecutor.setParametros(grupoAlgoritmos, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
             // Multi-hilo
             hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
-            
+
         }
         for (HiloEjecucion hilo : hilos) {
             hilo.start();
         }
         String nombreIns = "#";
+        ParametrosCuadratica parametros = null;
+        ResultadoGrupo resultadoGrupo;
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
 
-            ResultadoGrupo resultadoGrupo = hilo.resultadoGrupo;
-            ParametrosCuadratica parametros = hilo.parametros;
+            resultadoGrupo = hilo.resultadoGrupo;
+            parametros = hilo.parametros;
 
             if (resultadoGrupo != null) {
                 if (!nombreIns.equals(resultadoGrupo.getInstancia())) {
                     nombreIns = resultadoGrupo.getInstancia();
-                    imprimir.imprimir("#====================================================================================================|" + parametros.getMaxGlobal() + "\n");
+                    if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                        imprimir.imprimir("#====================================================================================================|" + parametros.getMaxGlobal() + "\n");
+                    }
                 }
                 listResultadosGrupos.add(resultadoGrupo);
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
 
                 String stringResult = armarResultados(resultadoGrupo);
-                imprimir.imprimir(stringResult);
+                if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                    imprimir.imprimir(stringResult + "\n");
+                }
                 IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
+                // almacenar mejor global
+                if (mejorGlobal == null || mejorGlobal.compareTo(individuo) < 0) {
+                    mejorGlobal = individuo;
+                }
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
-                if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+                {
                     if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                         parametros.setMaxGlobal(individuo.getCalidad());
                         parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
@@ -182,16 +230,26 @@ public class MainMochilaCuadratica {
                             System.out.println("---mensaje de error: \n " + e.getMessage());
                         }
                     } else if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) > 0) {
-                        System.out.println("se encontro mejor");
+//                        System.out.println("No se encontro mejor");
                     }
                 }
             } else {
                 System.out.println("pailas");
             }
         }
+
+        // imprimir mejor
+        if ("i".equals(tsalida) || "b".equals(tsalida)) {
+            if (mejorGlobal != null) {
+                imprimir.imprimir(mejorGlobal.toStringInt());
+            }
+        }
+
         if (!listResultadosGrupos.isEmpty()) {
             String resumen = armarResumen(listResultadosGrupos);
-            imprimir.imprimir(resumen);
+            if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                imprimir.imprimir(resumen);
+            }
         }
     }
 

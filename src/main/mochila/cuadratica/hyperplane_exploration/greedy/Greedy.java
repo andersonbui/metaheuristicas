@@ -165,7 +165,7 @@ public class Greedy {
     private int seleccionarElementoConBias(List<Item> LRC) {
         double sum_prob = 0;
         double probabilidad = Aleatorio.nextDouble();
-        if(LRC == null || LRC.isEmpty()) {
+        if (LRC == null || LRC.isEmpty()) {
             return -1;
         }
         int minimo = Math.min(LRC.size(), probabilidadBias.length);
@@ -175,6 +175,6 @@ public class Greedy {
                 return LRC.get(i).getIndice();
             }
         }
-        return LRC.get(minimo-1).getIndice();
+        return LRC.get(minimo - 1).getIndice();
     }
 }

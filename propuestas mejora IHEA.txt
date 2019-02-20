@@ -1,0 +1,5 @@
+##################
+aumentar numero minimo de numeros a quitar en
+    s = Math.min(3, t);
+un ejemplo con buenos resultados:
+    s = Math.min(9, t);
