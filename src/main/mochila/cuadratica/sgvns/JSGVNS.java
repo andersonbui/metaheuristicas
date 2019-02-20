@@ -62,6 +62,7 @@ public class JSGVNS extends SGVNS {
     public List<Integer> elementosDentro(IndividuoVNS mochila) {
         return getFuncion().obtener_I1(mochila);
     }
+
     /**
      * obtiene el subconjunto de elementos fuera de la mochila, pero que
      * individualmente quepan dentro de esta.
@@ -99,14 +100,14 @@ public class JSGVNS extends SGVNS {
 //            funcion.
             while (h <= hMax) {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
-                //Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
+                //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
 
-//                variablesFijas = determinarVariablesFijas(y.getDimension(), y, lb);
-//                construirProblemaRestringidoReducido(variablesFijas);
                 //Modificacion trabajar la sacudida con el vecindario 1
                 y_p = sacudida(y, 1, h);
                 //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
+                variablesFijas = determinarVariablesFijas(y_p2.getDimension(), y_p2, lb);
+                construirProblemaRestringidoReducido(variablesFijas);
 //                getFuncion().reiniciarVijarVariables();
                 if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;
@@ -128,8 +129,10 @@ public class JSGVNS extends SGVNS {
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
     private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
+//        IndividuoVNS bestAux;
         boolean mejoro;
         s_inicial = s_inicial.clone();
+//        bestAux = s_inicial;
         intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size() - 1);
         do {
             if (vecindario == 1) {
@@ -137,17 +140,19 @@ public class JSGVNS extends SGVNS {
             } else {
                 aux = cambio(s_inicial);
             }
+
             //MODIFICACION
             mejoro = aux.compareTo(s_inicial) > 0;
-            if (mejoro) {
-                s_inicial = aux;
-                break;
-                //TODO: puede no salir con el break y continuar con la ejecucion pero al final retornar la mejor
-            }
-            //
             s_inicial = aux;
-
+            if (mejoro) {
+//                bestAux = s_inicial;
+                break;
+            }
         } while (intentos-- >= 0);
+//            if(bestAux.getCalidad() > s_inicial.getCalidad()){
+//                 s_inicial = bestAux;
+//            }
+
         return s_inicial;
     }
 
@@ -196,7 +201,8 @@ public class JSGVNS extends SGVNS {
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+//        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+        int nf = (int) (lowerb);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
