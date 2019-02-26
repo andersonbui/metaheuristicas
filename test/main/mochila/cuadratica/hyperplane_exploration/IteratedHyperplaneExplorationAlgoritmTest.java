@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
  */
 public class IteratedHyperplaneExplorationAlgoritmTest {
 
-    FuncionMochilaIHEA funcion;
+    FuncionMochilaIHEA_A funcion;
     IteratedHyperplaneExplorationAlgoritm instance;
 
     public IteratedHyperplaneExplorationAlgoritmTest() {
@@ -43,7 +43,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         };
         double capacidad = 5;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
-        funcion = new FuncionMochilaIHEA(matrizbeneficio, capacidad, vectorPesos, null);
+        funcion = new FuncionMochilaIHEA_A(matrizbeneficio, capacidad, vectorPesos, null);
         instance = new IteratedHyperplaneExplorationAlgoritm(funcion);
     }
 

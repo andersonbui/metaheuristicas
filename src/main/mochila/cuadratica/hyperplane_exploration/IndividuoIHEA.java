@@ -24,7 +24,7 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  *
  * @author debian
  */
-public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
+public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
 
     /**
      * guarda todos los indices de los elementos dentro de la mochila.

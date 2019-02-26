@@ -26,6 +26,8 @@ import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
+import main.mochila.cuadratica.hyperplane_exploration_1.FuncionMochilaIHEA_A;
+import main.mochila.cuadratica.hyperplane_exploration_1.IteratedHyperplaneExplorationAlgoritm_A;
 import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
 import main.mochila.cuadratica.sgvns.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.IndividuoVNS;
@@ -56,23 +58,31 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double capacidad = parametros.getCapacidad();
         double[] vectorPesos = parametros.getVectorPesos();
         Double maxGlobal = parametros.getMaxGlobal();
-
+//
         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
         algotIHEA.setSaltar(false);
         algotIHEA.setParametros(parametros);
         algotIHEA.addNombre("IHEA");
         add(algotIHEA);
+        
         funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
         algotIHEA.setSaltar(true);
         algotIHEA.setParametros(parametros);
         algotIHEA.addNombre("SS");
         add(algotIHEA);
-        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
-        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+        
+        funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
+        algotIHEA.setSaltar(true);
+        algotIHEA.setParametros(parametros);
+        algotIHEA.addNombre("IHEA_A");
+        add(algotIHEA);
+//        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+//        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 /////////////////////
 //        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));

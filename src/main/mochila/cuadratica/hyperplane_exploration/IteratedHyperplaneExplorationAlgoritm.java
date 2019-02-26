@@ -19,7 +19,9 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import main.Item;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
@@ -33,15 +35,16 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristico<FuncionMochilaIHEA, IndividuoIHEA> {
 
     int rcl; // lista restringida de candidatos - construccion greedy
-    int lb; // lower bown
+    protected int lb; // lower bown
     int t; // 
     int s; // 
     int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
     int tiempototal;
     int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
-    int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
+    protected int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
     ParametrosCuadratica parametros;
+    protected boolean saltar;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
@@ -60,7 +63,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.parametros = parametros;
     }
 
-    boolean saltar;
 
     public boolean isSaltar() {
         return saltar;
@@ -182,6 +184,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
+     *
      * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
      * @param dimensionHyp
      * @param individuo
@@ -195,6 +198,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int n = individuo.getDimension();
         // numero de variables fijas
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+        nf = lowerb+1;
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 

@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
@@ -40,12 +41,14 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
     protected int ub;
 
     private List<Integer> variablesFijas;
+    private List<Integer> variablesFijasMalas;
 
     public FuncionMochilaIHEA(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         lb = -1;
         ub = -1;
         variablesFijas = null;
+        variablesFijasMalas = new ArrayList<>();
     }
 
     @Override
@@ -127,7 +130,11 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      */
     public List<Integer> obtener_I0(IndividuoMochila individuo) {
         IndividuoIHEA indi = ((IndividuoIHEA) individuo);
-        return indi.elementosNoSeleccionados();
+        List noseleccionados = indi.elementosNoSeleccionados();
+        if (this.variablesFijasMalas != null && !this.variablesFijasMalas.isEmpty()) {
+            noseleccionados.removeAll(this.variablesFijasMalas);
+        }
+        return noseleccionados;
     }
 
     /**
@@ -149,7 +156,12 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         variablesFijas = varFijas;
     }
 
+    public void fijarVariablesMalas(IndividuoMochila individuo, List<Integer> varFijas) {
+        variablesFijasMalas = varFijas;
+    }
+
     public void reiniciarVijarVariables() {
+        variablesFijasMalas.clear();
         variablesFijas.clear();
     }
 
