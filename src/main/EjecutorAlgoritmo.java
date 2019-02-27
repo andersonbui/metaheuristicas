@@ -22,6 +22,7 @@ import gnuplot.Punto;
 import java.util.ArrayList;
 import java.util.List;
 import metaheuristicas.AlgoritmoMetaheuristico;
+import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 import metaheuristicas.IndividuoGen;
 
 /**
@@ -32,7 +33,7 @@ public class EjecutorAlgoritmo {
 
     public static String FORMATO_DOUBLE = "f";
     public static int NUM_DECIMALES = 6;
-    private AlgoritmoMetaheuristico algoritmo;
+    private FabricaAlgoritmoMetaheuristico fabricaAlgoritmo;
     private int numeroPruebas;
     private int maxIteraciones;
 
@@ -42,12 +43,12 @@ public class EjecutorAlgoritmo {
         gnuplot = new GraficoGnuPlot();
     }
 
-    public AlgoritmoMetaheuristico getAlgoritmo() {
-        return algoritmo;
+    public FabricaAlgoritmoMetaheuristico getAlgoritmo() {
+        return fabricaAlgoritmo;
     }
 
-    public void setAlgoritmo(AlgoritmoMetaheuristico algoritmo) {
-        this.algoritmo = algoritmo;
+    public void setAlgoritmo(FabricaAlgoritmoMetaheuristico algoritmo) {
+        this.fabricaAlgoritmo = algoritmo;
     }
 
     public int getNumeroPruebas() {
@@ -107,19 +108,19 @@ public class EjecutorAlgoritmo {
     }
 
     public final ResultadoAlgoritmo ejecutar() {
-        double promedioCalidad = 0; // promedio de la calidad de los resultados del algoritmo en las numMuestras iteraciones
-        List<IndividuoGen> mejorRecorrido = null;// recorrido del algoritmo
+        double promedioCalidad = 0; // promedio de la calidad de los resultados del fabricaAlgoritmo en las numMuestras iteraciones
+        List<IndividuoGen> mejorRecorrido = null;// recorrido del fabricaAlgoritmo
 //        List<IndividuoGen> optimos = new ArrayList<>();
         List<List<IndividuoGen>> listaRecorridosPruebas = new ArrayList();;
         IndividuoGen optimo;
         Double promedioIteraciones = 0.;
         float tasaDeExito = 0;
-        List<IndividuoGen> recorridoIndividuos; // recorrido del algoritmo
-        FuncionGen funcion = algoritmo.getFuncion();
-
+        List<IndividuoGen> recorridoIndividuos; // recorrido del fabricaAlgoritmo
+        AlgoritmoMetaheuristico unAlgoritmo = fabricaAlgoritmo.obtener();
+        FuncionGen funcion = unAlgoritmo.getFuncion();
         long tiempo_inicial = System.currentTimeMillis();
         for (int i = 0; i < numeroPruebas; i++) {
-            recorridoIndividuos = algoritmo.ejecutar();
+            recorridoIndividuos = unAlgoritmo.ejecutar();
             if (recorridoIndividuos != null) {
                 listaRecorridosPruebas.add(recorridoIndividuos);
             }
@@ -154,7 +155,7 @@ public class EjecutorAlgoritmo {
 
             //implimir mejor optimo
             return new ResultadoAlgoritmo(
-                    algoritmo,
+                    unAlgoritmo,
                     promedioIteraciones,
                     numeroPruebas,
                     tasaDeExito,
@@ -162,7 +163,7 @@ public class EjecutorAlgoritmo {
                     ((funcion.getOptimoGlobal() - promedioCalidad) / funcion.getOptimoGlobal()) * 100,
                     tiempo,
                     funcion.getContadorEvaluaciones(),
-                    new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, algoritmo.getNombre() + "-" + funcion.getNombre(), optimo));
+                    new Recorrido(convertirCD(listaRecorridosPruebas, ""), convertir3D(mejorRecorrido), promedioCalidad, unAlgoritmo.getNombre() + "-" + funcion.getNombre(), optimo));
         }
         return null;
     }
@@ -185,14 +186,14 @@ public class EjecutorAlgoritmo {
 //                 * ciclo para los diferentes planteamientos de una misma funcion
 //                 */
 //                titulo = "(" + funcion.getNombre() + ")";
-//                for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
+//                for (AlgoritmoMetaheuristico fabricaAlgoritmo : l_amgoritmos) {
 //
 //                    for (;;) {
 //                        /**
 //                         * ciclo para los diferentes modificaciones de un mismo
-//                         * algoritmo
+//                         * fabricaAlgoritmo
 //                         */
-//                        ResultadoAlgoritmo resultado = ejecutar(algoritmo, numeroPruebas, iteraciones);
+//                        ResultadoAlgoritmo resultado = ejecutar(fabricaAlgoritmo, numeroPruebas, iteraciones);
 //                        Recorrido recorrido = resultado.mejorRecorrido;
 //                        listaRecorridos.add(recorrido);
 //                        if (graficaRecorrido) {

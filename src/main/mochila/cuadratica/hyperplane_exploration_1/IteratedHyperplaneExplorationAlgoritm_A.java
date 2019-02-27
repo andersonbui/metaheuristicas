@@ -218,4 +218,6 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
         return x_aster;
 
     }
+    
+    
 }

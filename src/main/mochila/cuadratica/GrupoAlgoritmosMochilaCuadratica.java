@@ -34,6 +34,7 @@ import main.mochila.cuadratica.sgvns.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.JSGVNS;
 import main.mochila.cuadratica.sgvns.SGVNS;
 import metaheuristicas.AlgoritmoMetaheuristico;
+import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 
 /**
  *
@@ -59,26 +60,44 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double[] vectorPesos = parametros.getVectorPesos();
         Double maxGlobal = parametros.getMaxGlobal();
 //
-        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-        algotIHEA.setSaltar(false);
-        algotIHEA.setParametros(parametros);
-        algotIHEA.addNombre("IHEA");
-        add(algotIHEA);
-        
-        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-        algotIHEA.setSaltar(true);
-        algotIHEA.setParametros(parametros);
-        algotIHEA.addNombre("SS");
-        add(algotIHEA);
-        
-        funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
-        algotIHEA.setSaltar(true);
-        algotIHEA.setParametros(parametros);
-        algotIHEA.addNombre("IHEA_A");
-        add(algotIHEA);
+        add(new FabricaAlgoritmoMetaheuristico() {
+            @Override
+            public AlgoritmoMetaheuristico obtener() {
+
+                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+                algotIHEA.setSaltar(false);
+                algotIHEA.setParametros(parametros);
+                algotIHEA.addNombre("IHEA");
+                return algotIHEA;
+            }
+        });
+
+        add(new FabricaAlgoritmoMetaheuristico() {
+            @Override
+            public AlgoritmoMetaheuristico obtener() {
+
+                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+                algotIHEA.setSaltar(true);
+                algotIHEA.setParametros(parametros);
+                algotIHEA.addNombre("SS");
+
+                return algotIHEA;
+            }
+        });
+
+        add(new FabricaAlgoritmoMetaheuristico() {
+            @Override
+            public AlgoritmoMetaheuristico obtener() {
+                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
+                algotIHEA.setSaltar(true);
+                algotIHEA.setParametros(parametros);
+                algotIHEA.addNombre("IHEA_A");
+                return algotIHEA;
+            }
+        });
 //        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 //        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
