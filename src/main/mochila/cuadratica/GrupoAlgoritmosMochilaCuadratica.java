@@ -26,13 +26,15 @@ import main.mochila.cuadratica.graspBasadoMemoria.GraspFundamental;
 import main.mochila.cuadratica.graspBasadoMemoria.GraspTabuReinicio;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
-import main.mochila.cuadratica.hyperplane_exploration_1.FuncionMochilaIHEA_A;
-import main.mochila.cuadratica.hyperplane_exploration_1.IteratedHyperplaneExplorationAlgoritm_A;
+import main.mochila.cuadratica.hyperplane_exploration_mejorado.FuncionMochilaIHEA_M;
+import main.mochila.cuadratica.hyperplane_exploration_mejorado.IteratedHyperplaneExplorationAlgoritm_M;
 import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
 import main.mochila.cuadratica.sgvns.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.JSGVNS;
 import main.mochila.cuadratica.sgvns.SGVNS;
+import main.mochila.cuadratica.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
+import main.mochila.cuadratica.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 
@@ -87,6 +89,18 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
             }
         });
 
+        add(new FabricaAlgoritmoMetaheuristico() {
+            @Override
+            public AlgoritmoMetaheuristico obtener() {
+                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_M(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm_M(funcionHyperplanos);
+                algotIHEA.setSaltar(true);
+                algotIHEA.setParametros(parametros);
+                algotIHEA.addNombre("IHEA_M");
+                return algotIHEA;
+            }
+        });
+        
         add(new FabricaAlgoritmoMetaheuristico() {
             @Override
             public AlgoritmoMetaheuristico obtener() {

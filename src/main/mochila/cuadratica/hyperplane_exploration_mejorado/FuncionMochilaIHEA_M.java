@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.hyperplane_exploration_1;
+package main.mochila.cuadratica.hyperplane_exploration_mejorado;
 
 import main.mochila.cuadratica.hyperplane_exploration.*;
 
@@ -22,9 +22,9 @@ import main.mochila.cuadratica.hyperplane_exploration.*;
  *
  * @author debian
  */
-public class FuncionMochilaIHEA_A extends FuncionMochilaIHEA {
+public class FuncionMochilaIHEA_M extends FuncionMochilaIHEA {
 
-    public FuncionMochilaIHEA_A(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+    public FuncionMochilaIHEA_M(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
     }
 
