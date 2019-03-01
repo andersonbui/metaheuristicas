@@ -156,6 +156,16 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         this.valores[indice] = valor;
     }
 
+    public int compareTo(IndividuoIHEA otrop) {
+        Double a_calidad = this.calidad;
+        int orden = funcion.isMaximizar() ? 1 : -1;
+        int comparacion = a_calidad.compareTo(otrop.getCalidad());
+        if (comparacion != 0) {
+            return orden * a_calidad.compareTo(otrop.getCalidad());
+        }
+        return orden * Double.compare(peso, otrop.peso);
+    }
+
     @Override
     public IndividuoIHEA clone() {
         IndividuoIHEA ind = (IndividuoIHEA) super.clone();

@@ -47,7 +47,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         lb = -1;
         ub = -1;
-        variablesFijas = null;
+        variablesFijas = new ArrayList<>();
         variablesFijasMalas = new ArrayList<>();
     }
 

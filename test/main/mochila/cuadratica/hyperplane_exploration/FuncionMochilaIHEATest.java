@@ -19,6 +19,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
+import main.mochila.cuadratica.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -188,7 +189,10 @@ public class FuncionMochilaIHEATest {
     public void testFijarVariables() {
         System.out.println("fijarVariables");
         IndividuoMochila individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 0, 1});
-        int[] varFijas = {0,3};
+        
+        List<Integer> varFijas = new ArrayList();
+        varFijas.add(0);
+        varFijas.add(3);
         
         funcion.fijarVariables(individuo, varFijas);
         List listaI1 =  funcion.obtener_I1(individuo);
@@ -203,7 +207,9 @@ public class FuncionMochilaIHEATest {
     public void testReiniciarVijarVariables() {
         System.out.println("reiniciarVijarVariables");
         IndividuoMochila individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 0, 1});
-        int[] varFijas = {0,3};
+        List<Integer> varFijas = new ArrayList();
+        varFijas.add(0);
+        varFijas.add(3);
         List<Integer> listI1 = new ArrayList();
         listI1.add(0);
         listI1.add(3);

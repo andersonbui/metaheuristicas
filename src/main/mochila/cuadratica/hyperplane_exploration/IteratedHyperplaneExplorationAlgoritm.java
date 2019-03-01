@@ -197,7 +197,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int n = individuo.getDimension();
         // numero de variables fijas
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-        nf = lowerb + 1;
+//        nf = lowerb + 1;
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
@@ -253,7 +253,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         double viol_capacidad;
         double calidadi;
         int iterMax = 0;
-        while ((iterMax < L / 2) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
+        while ((iterMax < L) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
 
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
@@ -289,11 +289,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             Integer j;
             // linea 21:
             if (vmin != Double.POSITIVE_INFINITY) {
-
                 // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin == 0) { // ############################# ==
+                if (vmin == 0) { 
                     // linea 24:
                     iterMax = 0;
                     list_RL.clear();
@@ -451,6 +450,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     protected IndividuoIHEA addElemento(IndividuoIHEA individuo) {
         individuo = individuo.clone();
         List<Integer> listaI0 = funcion.obtener_I0(individuo);
+        if(listaI0.isEmpty()){
+            return individuo;
+        }
         int indice = Aleatorio.nextInt(listaI0.size());
         individuo.set(listaI0.get(indice), 1);
         return individuo;
@@ -469,7 +471,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         List<Integer> listaI0 = funcion.obtener_I0(individuo);
         listaI0 = funcion.filtrarPorFactibles(listaI0, individuo);
         if (listaI0.isEmpty()) {
-            return null;
+            return individuo;
         }
         // TODO puede mejorarse ordenando los elementos por mayor densidad de beneficio
         int indice = Aleatorio.nextInt(listaI0.size());

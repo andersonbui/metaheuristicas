@@ -18,6 +18,8 @@ package main.mochila.cuadratica.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,7 +43,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
             {0, 0, 1, 2},
             {0, 0, 0, 1}
         };
-        double capacidad = 5;
+        double capacidad = 6;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
         funcion = new FuncionMochilaIHEA_A(matrizbeneficio, capacidad, vectorPesos, null);
         instance = new IteratedHyperplaneExplorationAlgoritm(funcion);
@@ -104,14 +106,16 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         int dimension = 2;
         int lb = 2;
         IndividuoIHEA individuo = new IndividuoIHEA(funcion, new double[]{1, 1, 0, 1});
-        int[] expResult = {0, 1};
-        int[] result = instance.determinarVariablesFijas(dimension, individuo, lb);
-        assertArrayEquals(expResult, result);
+        List<Integer> expResult = new ArrayList<>();
+        expResult.add(0);
+        expResult.add(1);
+        List<Integer> result = instance.determinarVariablesFijas(dimension, individuo, lb);
+        assertArrayEquals(expResult.toArray(), result.toArray());
     }
 
     /**
      * Test of primerosPorDensidad method, of class
- IteratedHyperplaneExplorationAlgoritm.
+     * IteratedHyperplaneExplorationAlgoritm.
      */
     @Test
     public void testNPrimerosOrdenadosPorDensidad() {
@@ -124,9 +128,9 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         boolean minimo = false;
         List<Integer> expResult = new ArrayList();
         expResult.add(2);
-        List<Integer> result = instance.primerosPorDensidad(listaIndices, mochila, n, minimo);
+        List<Integer> result = (new PrimerosPorDensidad()).primerosPorDensidad(listaIndices, mochila, n, minimo);
         assertEquals(expResult, result);
-        
+
     }
 
     /**
@@ -136,10 +140,11 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testConstruirProblemaRestringidoReducido() {
         System.out.println("construirProblemaRestringidoReducido");
-        int[] varFijas = {1};
-        IndividuoIHEA x_actual= new IndividuoIHEA(funcion, new double[]{1, 1, 0, 0});
+        List<Integer> varFijas = new ArrayList<>();
+        varFijas.add(1);
+        IndividuoIHEA x_actual = new IndividuoIHEA(funcion, new double[]{1, 1, 0, 0});
         instance.construirProblemaRestringidoReducido(varFijas, x_actual);
-        assertEquals(instance.getFuncion().getVariablesFijas().size(),1);
+        assertEquals(instance.getFuncion().getVariablesFijas().size(), 1);
     }
 
     /**
@@ -234,7 +239,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         //ningun elemento fuera
         List<Integer> result = instance.elementosDentro(individuo);
         assertEquals(expResult, result);
-        
+
         // un elemento fuera
         individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 1, 0});
         expResult.clear();
@@ -256,7 +261,7 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         //ningun elemento fuera
         List<Integer> result = instance.elementosFuera(individuo);
         assertEquals(expResult, result);
-        
+
         // un elemento fuera
         individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 1, 0});
         expResult.add(1);
@@ -304,14 +309,21 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
         System.out.println("add_factible");
 
         IndividuoIHEA individuo = new IndividuoIHEA(funcion, new double[]{1, 1, 0, 0});
-        int expResult = -1;
-        int result = instance.add_factible(individuo);
-        assertEquals(expResult, result);
-        
+        int expResult = 3;
+        IndividuoIHEA result = instance.add_factible(individuo);
+        assertEquals(expResult, result.cantidadI1());
+
         individuo = new IndividuoIHEA(funcion, new double[]{0, 0, 0, 1});
-         expResult = 0;
-         result = instance.add_factible(individuo);
-        assertEquals(expResult, result);
+        expResult = 2;
+        result = instance.add_factible(individuo);
+        assertEquals(expResult, result.cantidadI1());
+        // primer elemento
+        Integer resultadoInt = 3;
+        assertEquals(resultadoInt, result.elementosSeleccionados().get(0));
+        // ultimo elemento
+        resultadoInt = 0;
+        assertEquals(resultadoInt, result.elementosSeleccionados().get(1));
+
     }
 
     /**
