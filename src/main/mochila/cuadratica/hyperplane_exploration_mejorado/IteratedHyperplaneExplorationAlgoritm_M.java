@@ -71,7 +71,7 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
         int tam = individuoActual.getDimension() - (int) (ub);
         List<Integer> malas = determinarMalasVariablesFijas(dimensionHiperplano(individuoActual), individuoActual, tam);
         funcion.fijarVariables(individuoActual, varFijas);
-        getFuncion().fijarVariablesMalas(individuoActual, malas);
+        getFuncion().fijarVariablesMalas(malas);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class FuncionMochilaIHEA_M extends FuncionMochilaIHEA {
         variablesFijasMalas = new ArrayList<>();
     }
 
-    public void fijarVariablesMalas(IndividuoMochila individuo, List<Integer> varFijas) {
+    public void fijarVariablesMalas(List<Integer> varFijas) {
         variablesFijasMalas = varFijas;
     }
 
