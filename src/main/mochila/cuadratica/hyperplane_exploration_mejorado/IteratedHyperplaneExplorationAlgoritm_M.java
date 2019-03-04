@@ -40,17 +40,16 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
      * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
      * @param dimensionHyp
      * @param individuo
-     * @param lowerb
+     * @param upperb
      * @return
      */
-    protected List<Integer> determinarMalasVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
+    protected List<Integer> determinarMalasVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int upperb) {
         // dimension de individuo
         int dimX = dimensionHyp;
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-        nf = 15;
+        int nf = (int) (.6 * upperb);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosFuera(individuo);
 
@@ -69,11 +68,15 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
      */
     @Override
     protected void construirProblemaRestringidoReducido(List<Integer> varFijas, IndividuoIHEA individuoActual) {
-        int tam = Math.min(individuoActual.getDimension() - (int) (ub), individuoActual.getDimension());
-        tam = 10;
+        int tam = individuoActual.getDimension() - (int) (ub);
         List<Integer> malas = determinarMalasVariablesFijas(dimensionHiperplano(individuoActual), individuoActual, tam);
         funcion.fijarVariables(individuoActual, varFijas);
-        funcion.fijarVariablesMalas(individuoActual, malas);
+        getFuncion().fijarVariablesMalas(individuoActual, malas);
+    }
+
+    @Override
+    public FuncionMochilaIHEA_M getFuncion() {
+        return (FuncionMochilaIHEA_M) funcion;
     }
 
     @Override
@@ -218,6 +221,5 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
         return x_aster;
 
     }
-    
-    
+
 }

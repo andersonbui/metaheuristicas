@@ -155,12 +155,10 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     public void testTabuSearchEngine() {
         System.out.println("tabuSearchEngine");
         int L = 0;
-//        IndividuoIHEA x_inicial =  new IndividuoIHEA(funcion, new double[]{1, 1, 1, 1});
-//        IndividuoIHEA x_referencia = new IndividuoIHEA(funcion, new double[]{1, 1, 1, 1});
-//        IteratedHyperplaneExplorationAlgoritm instance = null;
-//        IndividuoIHEA expResult = null;
-//        IndividuoIHEA result = instance.tabuSearchEngine(L, x_inicial, x_referencia);
-//        assertEquals(expResult, result);
+        IndividuoIHEA x_referencia = new IndividuoIHEA(funcion, new double[]{0, 1, 1, 0});
+        double calidad_original = x_referencia.getCalidad();
+        IndividuoIHEA result = instance.tabuSearchEngine(L, x_referencia, x_referencia);
+        assertEquals(true, result.getCalidad() >= calidad_original);
     }
 
     /**
@@ -183,11 +181,9 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testPerturbacion() {
         System.out.println("perturbacion");
-//        IndividuoIHEA individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 0, 1});
-//        int iteraciones = 2;
-//        IndividuoIHEA expResult = new IndividuoIHEA(funcion, new double[]{1, 1, 1, 1});
-//        IndividuoIHEA result = instance.perturbacion(individuo, iteraciones);
-//        assertEquals(expResult, result);
+        IndividuoIHEA individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 0, 1});
+        IndividuoIHEA result = instance.perturbacion(individuo, 3);
+        assertEquals(true, result != null);
     }
 
     /**
@@ -215,11 +211,12 @@ public class IteratedHyperplaneExplorationAlgoritmTest {
     @Test
     public void testGreedyRandomizedConstruction() {
         System.out.println("GreedyRandomizedConstruction");
-//        IndividuoIHEA individuo = new IndividuoIHEA(funcion, new double[]{1, 1, 1, 1});
-//        int rcl = 0;
+        IndividuoIHEA individuo = new IndividuoIHEA(funcion, new double[]{1, 1, 0, 0});
+        int rcl = 2;
+        double calidad_original = individuo.getCalidad();
 //        IndividuoIHEA expResult = null;
-//        IndividuoIHEA result = instance.GreedyRandomizedConstruction(individuo, rcl);
-//        assertEquals(expResult, result);
+        IndividuoIHEA result = instance.GreedyRandomizedConstruction(individuo, rcl);
+        assertEquals(true, result.getCalidad() >= calidad_original);
     }
 
     /**
