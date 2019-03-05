@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration;
 
+import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
@@ -45,7 +46,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         lb = -1;
         ub = -1;
-        variablesFijas = null;
+        variablesFijas = new ArrayList<>();
     }
 
     @Override
@@ -127,7 +128,8 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      */
     public List<Integer> obtener_I0(IndividuoMochila individuo) {
         IndividuoIHEA indi = ((IndividuoIHEA) individuo);
-        return indi.elementosNoSeleccionados();
+        List noseleccionados = indi.elementosNoSeleccionados();
+        return noseleccionados;
     }
 
     /**

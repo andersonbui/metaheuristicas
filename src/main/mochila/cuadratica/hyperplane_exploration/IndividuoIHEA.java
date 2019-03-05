@@ -24,7 +24,7 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  *
  * @author debian
  */
-public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
+public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
 
     /**
      * guarda todos los indices de los elementos dentro de la mochila.
@@ -154,6 +154,16 @@ public final class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA>
         peso += (-valAnterior + valor) * valorPeso;
 
         this.valores[indice] = valor;
+    }
+
+    public int compareTo(IndividuoIHEA otrop) {
+        Double a_calidad = this.calidad;
+        int orden = funcion.isMaximizar() ? 1 : -1;
+        int comparacion = a_calidad.compareTo(otrop.getCalidad());
+        if (comparacion != 0) {
+            return orden * a_calidad.compareTo(otrop.getCalidad());
+        }
+        return orden * Double.compare(peso, otrop.peso);
     }
 
     @Override

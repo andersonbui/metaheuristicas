@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import metaheuristicas.AlgoritmoMetaheuristico;
+import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 import metaheuristicas.funcion.FuncionGen;
 
 /**
@@ -46,14 +46,14 @@ public class EjecutarGrupo {
 
     public final ResultadoGrupo ejecutarGrupo() {
         EjecutorAlgoritmo ejAlgoritmo = null;
-        List<AlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
+        List<FabricaAlgoritmoMetaheuristico> l_amgoritmos = grupo.getAlgoritmos();
         Recorrido mejorRecorrido = null;
         ResultadoGrupo resultadoGrupo = new ResultadoGrupo();
         resultadoGrupo.setInstancia(instancia);
         List<HiloEjecucionAlgoritmo> listaHilos = new ArrayList<>();
         List<Recorrido> listaRecorridos = new ArrayList(); // para grafica de convergencia
         int maxIteraciones = grupo.getMaxIteraciones();
-        for (AlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
+        for (FabricaAlgoritmoMetaheuristico algoritmo : l_amgoritmos) {
             ejAlgoritmo = new EjecutorAlgoritmo();
             ejAlgoritmo.setAlgoritmo(algoritmo);
             ejAlgoritmo.setNumeroPruebas(numeroPruebas);
@@ -83,7 +83,7 @@ public class EjecutarGrupo {
             try {
                 hilo.join();
                 ResultadoAlgoritmo resultado = hilo.resultadoGrupo;
-                FuncionGen funcion = hilo.ejAlgoritmo.getAlgoritmo().getFuncion();
+                FuncionGen funcion = resultado.algoritmo.getFuncion();
                 resultadoGrupo.add(resultado);
                 Recorrido recorrido = resultado.mejorRecorrido;
                 // guardar mejor recorrido
@@ -107,16 +107,16 @@ public class EjecutarGrupo {
         
     static class HiloEjecucionAlgoritmo extends Thread {
 
-        private final EjecutorAlgoritmo ejAlgoritmo;
+        private final EjecutorAlgoritmo ejecutorAlgoritmo;
         ResultadoAlgoritmo resultadoGrupo;
 
         public HiloEjecucionAlgoritmo(EjecutorAlgoritmo ejAlgoritmo) {
-            this.ejAlgoritmo = ejAlgoritmo;
+            this.ejecutorAlgoritmo = ejAlgoritmo;
         }
 
         @Override
         public void run() {
-            resultadoGrupo = ejAlgoritmo.ejecutar();
+            resultadoGrupo = ejecutorAlgoritmo.ejecutar();
         }
     }
     

@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import metaheuristicas.AlgoritmoMetaheuristico;
+import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 
 /**
  *
@@ -28,7 +29,7 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  */
 public abstract class Grupo {
 
-    List<AlgoritmoMetaheuristico> algoritmos;
+    List<FabricaAlgoritmoMetaheuristico> algoritmos;
     private final ParametrosCuadratica parametros;
     String nombreFuncion;
     protected int maxIteraciones;
@@ -48,11 +49,11 @@ public abstract class Grupo {
 
     public abstract void inicializar();
 
-    public Iterator<AlgoritmoMetaheuristico> iterator() {
-        return algoritmos.iterator();
-    }
+//    public Iterator<AlgoritmoMetaheuristico> iterator() {
+//        return algoritmos.iterator();
+//    }
 
-    public List<AlgoritmoMetaheuristico> getAlgoritmos() {
+    public List<FabricaAlgoritmoMetaheuristico> getAlgoritmos() {
         return algoritmos;
     }
 
@@ -64,12 +65,12 @@ public abstract class Grupo {
         return algoritmos.isEmpty();
     }
 
-    public boolean add(AlgoritmoMetaheuristico e) {
+    public boolean add(FabricaAlgoritmoMetaheuristico e) {
         return algoritmos.add(e);
     }
 
     public AlgoritmoMetaheuristico get(int index) {
-        return algoritmos.get(index);
+        return algoritmos.get(index).obtener();
     }
 
     public int getMaxIteraciones() {

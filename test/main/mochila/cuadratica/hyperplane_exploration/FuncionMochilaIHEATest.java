@@ -19,6 +19,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
+import main.mochila.cuadratica.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
  */
 public class FuncionMochilaIHEATest {
     
-    FuncionMochilaIHEA funcion;
+    FuncionMochilaIHEA_A funcion;
 
     public FuncionMochilaIHEATest() {
         double[][] matrizbeneficio = new double[][]{
@@ -43,7 +44,7 @@ public class FuncionMochilaIHEATest {
         };
         double capacidad = 5;
         double[] vectorPesos = new double[]{1, 2, 3, 4};
-        funcion = new FuncionMochilaIHEA(matrizbeneficio, capacidad, vectorPesos, null);
+        funcion = new FuncionMochilaIHEA_A(matrizbeneficio, capacidad, vectorPesos, null);
     }
     
     @BeforeClass
@@ -63,7 +64,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of toString method, of class FuncionMochilaIHEA.
+     * Test of toString method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testToString() {
@@ -77,7 +78,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of obtenerLowerBound method, of class FuncionMochilaIHEA.
+     * Test of obtenerLowerBound method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testObtenerLowerBound() {
@@ -88,7 +89,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of obtenerUpperBound method, of class FuncionMochilaIHEA.
+     * Test of obtenerUpperBound method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testObtenerUpperBound() {
@@ -99,7 +100,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of violacionDeCapacidad method, of class FuncionMochilaIHEA.
+     * Test of violacionDeCapacidad method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testViolacionDeCapacidad() {
@@ -117,7 +118,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of sacarEspacios method, of class FuncionMochilaIHEA.
+     * Test of sacarEspacios method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testSacarEspacios() {
@@ -129,7 +130,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of obtener_I1 method, of class FuncionMochilaIHEA.
+     * Test of obtener_I1 method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testObtener_I1() {
@@ -144,7 +145,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of obtener_I0 method, of class FuncionMochilaIHEA.
+     * Test of obtener_I0 method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testObtener_I0() {
@@ -159,7 +160,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of obtenerPeso method, of class FuncionMochilaIHEA.
+     * Test of obtenerPeso method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testObtenerPeso() {
@@ -171,7 +172,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of generarIndividuo method, of class FuncionMochilaIHEA.
+     * Test of generarIndividuo method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testGenerarIndividuo() {
@@ -182,13 +183,16 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of fijarVariables method, of class FuncionMochilaIHEA.
+     * Test of fijarVariables method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testFijarVariables() {
         System.out.println("fijarVariables");
         IndividuoMochila individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 0, 1});
-        int[] varFijas = {0,3};
+        
+        List<Integer> varFijas = new ArrayList();
+        varFijas.add(0);
+        varFijas.add(3);
         
         funcion.fijarVariables(individuo, varFijas);
         List listaI1 =  funcion.obtener_I1(individuo);
@@ -197,13 +201,15 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of reiniciarVijarVariables method, of class FuncionMochilaIHEA.
+     * Test of reiniciarVijarVariables method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testReiniciarVijarVariables() {
         System.out.println("reiniciarVijarVariables");
         IndividuoMochila individuo = new IndividuoIHEA(funcion, new double[]{1, 0, 0, 1});
-        int[] varFijas = {0,3};
+        List<Integer> varFijas = new ArrayList();
+        varFijas.add(0);
+        varFijas.add(3);
         List<Integer> listI1 = new ArrayList();
         listI1.add(0);
         listI1.add(3);
@@ -223,7 +229,7 @@ public class FuncionMochilaIHEATest {
    
 
     /**
-     * Test of getVariablesFijas method, of class FuncionMochilaIHEA.
+     * Test of getVariablesFijas method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testGetVariablesFijas() {
