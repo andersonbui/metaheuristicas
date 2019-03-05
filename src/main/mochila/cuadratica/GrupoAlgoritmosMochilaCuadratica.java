@@ -57,22 +57,22 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         double[] vectorPesos = parametros.getVectorPesos();
         Double maxGlobal = parametros.getMaxGlobal();
 
-        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-        algotIHEA.setSaltar(false);
-        algotIHEA.setParametros(parametros);
-        algotIHEA.addNombre("IHEA");
-        add(algotIHEA);
-        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-        algotIHEA.setSaltar(true);
-        algotIHEA.setParametros(parametros);
-        algotIHEA.addNombre("SS");
-        add(algotIHEA);
-        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
-        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
+//        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+//        algotIHEA.setSaltar(false);
+//        algotIHEA.setParametros(parametros);
+//        algotIHEA.addNombre("IHEA");
+//        add(algotIHEA);
+//        funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+//        algotIHEA.setSaltar(true);
+//        algotIHEA.setParametros(parametros);
+//        algotIHEA.addNombre("SS");
+//        add(algotIHEA);
+//        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
+//        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//        add(new GraspTabuReinicio(funcionGreedy, maxIteraciones, 5, 4, 10, 20));
 /////////////////////
 //        FuncionGraspTabuR funcionGreedy2 = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new GraspFundamental(funcionGreedy2, 15, 4, 10, 20));
@@ -81,26 +81,26 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //        add(new GraspFundamental(funcionGreedy3, 5, 4, 10, 20));
 //
 //////////////////////
-//        int[] vecImayor = {20};
-//        for (int intentos : vecImayor) {
-//            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//            SGVNS algot = new SGVNS(funcionVns, maxIteraciones);
-//            //algot.setIntentosIntercambio(intentos);
-//            algot.setIntentosEncontrarMejor(intentos);
-//            algot.addNombre("-Int[" + intentos + "]");
-//            add(algot);
-//        }
+        int[] vecImayor = {20};
+        for (int intentos : vecImayor) {
+            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+            SGVNS algot = new SGVNS(funcionVns, maxIteraciones);
+            //algot.setIntentosIntercambio(intentos);
+            algot.setIntentosEncontrarMejor(intentos);
+            algot.addNombre("-Int[" + intentos + "]");
+            add(algot);
+        }
 ///////////////////////////
 //////////////////////
-//        int[] vecImayor1 = {20};
-//        for (int intentos : vecImayor1) {
-//            FuncionJSGVNS funcionVns = new FuncionJSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//            JSGVNS algot = new JSGVNS(funcionVns, maxIteraciones);
-//            //algot.setIntentosIntercambio(intentos);
-//            algot.setIntentosEncontrarMejor(intentos);
-//            algot.addNombre("-Int[" + intentos + "]");
-//            add(algot);
-//        }
+        int[] vecImayor1 = {20};
+        for (int intentos : vecImayor1) {
+            FuncionJSGVNS funcionVns = new FuncionJSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+            JSGVNS algot = new JSGVNS(funcionVns, maxIteraciones);
+            //algot.setIntentosIntercambio(intentos);
+            algot.setIntentosEncontrarMejor(intentos);
+            algot.addNombre("-Int[" + intentos + "]");
+            add(algot);
+        }
 ///////////////////////////
 //        int[] vecIintentos = {20};
 //        for (int intentos : vecIintentos) {

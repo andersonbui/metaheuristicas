@@ -42,6 +42,10 @@ public class JSGVNS extends SGVNS {
      * haya espacio para uno mas.
      */
     protected int ub;
+    protected int cont_JSGVNS =0;
+    protected int cont_SacudidaJ=0;
+    protected int cont_;
+    
 
     public JSGVNS(FuncionJSGVNS funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
@@ -79,6 +83,7 @@ public class JSGVNS extends SGVNS {
 
     @Override
     public List<IndividuoVNS> ejecutar() {
+        long startTime = System.currentTimeMillis();
         //Lista para graficar
         List<IndividuoVNS> recorrido = new ArrayList();
         //Encuentra una solucion inicial y
@@ -106,8 +111,8 @@ public class JSGVNS extends SGVNS {
                 y_p = sacudida(y, 1, h);
                 //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
-                variablesFijas = determinarVariablesFijas(y_p2.getDimension(), y_p2, lb);
-                construirProblemaRestringidoReducido(variablesFijas);
+//                variablesFijas = determinarVariablesFijas(y_p2.getDimension(), y_p2, lb);
+//                construirProblemaRestringidoReducido(variablesFijas);
 //                getFuncion().reiniciarVijarVariables();
                 if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;
@@ -122,6 +127,10 @@ public class JSGVNS extends SGVNS {
             recorrido.add(y_best);
         }
         //CONDICION DE TERMINACION PARA AJUSTAR
+        cont_JSGVNS ++;
+        System.out.println("cont_JSGVNS" + cont_JSGVNS);
+        long endTime = System.currentTimeMillis() - startTime;
+        System.out.println("Tiempo: " + endTime);
         return recorrido;
     }
 

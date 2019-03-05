@@ -44,9 +44,9 @@ public class FuncionJSGVNS extends FuncionSGVNS{
     public List<Integer> obtener_I1(IndividuoMochila individuo) {
         IndividuoVNS indi = ((IndividuoVNS) individuo);
         List seleccionados = indi.elementosSeleccionados();
-        if (this.variablesFijas != null && !this.variablesFijas.isEmpty()) {
-            seleccionados.removeAll(this.variablesFijas);
-        }
+//        if (this.variablesFijas != null && !this.variablesFijas.isEmpty()) {
+//            seleccionados.removeAll(this.variablesFijas);
+//        }
         return seleccionados;
     }
     
