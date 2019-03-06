@@ -68,7 +68,6 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
                 FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                 IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-                algotIHEA.setSaltar(false);
                 algotIHEA.setParametros(parametros);
                 algotIHEA.addNombre("IHEA");
                 return algotIHEA;
@@ -78,22 +77,8 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         add(new FabricaAlgoritmoMetaheuristico() {
             @Override
             public AlgoritmoMetaheuristico obtener() {
-
-                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-                algotIHEA.setSaltar(true);
-                algotIHEA.setParametros(parametros);
-                algotIHEA.addNombre("SS");
-
-                return algotIHEA;
-            }
-        });
-
-        add(new FabricaAlgoritmoMetaheuristico() {
-            @Override
-            public AlgoritmoMetaheuristico obtener() {
                 FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_M(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm_M(funcionHyperplanos);
+                IteratedHyperplaneExplorationAlgoritm_M algotIHEA = new IteratedHyperplaneExplorationAlgoritm_M(funcionHyperplanos);
                 algotIHEA.setSaltar(true);
                 algotIHEA.setParametros(parametros);
                 algotIHEA.addNombre("IHEA_M");
@@ -105,7 +90,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
             @Override
             public AlgoritmoMetaheuristico obtener() {
                 FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
+                IteratedHyperplaneExplorationAlgoritm_A algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
                 algotIHEA.setSaltar(true);
                 algotIHEA.setParametros(parametros);
                 algotIHEA.addNombre("IHEA_A");

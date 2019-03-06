@@ -19,13 +19,14 @@ package main.mochila.cuadratica.hyperplane_exploration_mejorado;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.hyperplane_exploration.*;
+import main.mochila.cuadratica.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
  * @author debian
  */
-public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneExplorationAlgoritm {
+public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneExplorationAlgoritm_A {
 
     protected int ub; // lower bown
 
@@ -38,18 +39,15 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
      * obtine los indices de todas las varibles seleccionadas que seran fijas
      *
      * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
-     * @param dimensionHyp
      * @param individuo
      * @param upperb
      * @return
      */
-    protected List<Integer> determinarMalasVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int upperb) {
-        // dimension de individuo
-        int dimX = dimensionHyp;
+    protected List<Integer> determinarMalasVariablesFijas(IndividuoIHEA individuo, int upperb) {
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (.6 * upperb);
+        int nf = (int) ((n - upperb) * 0.5);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosFuera(individuo);
 
@@ -68,9 +66,8 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
      */
     @Override
     protected void construirProblemaRestringidoReducido(List<Integer> varFijas, IndividuoIHEA individuoActual) {
-        int tam = individuoActual.getDimension() - (int) (ub);
-        List<Integer> malas = determinarMalasVariablesFijas(dimensionHiperplano(individuoActual), individuoActual, tam);
-        funcion.fijarVariables(individuoActual, varFijas);
+        getFuncion().fijarVariables(individuoActual, varFijas);
+        List<Integer> malas = determinarMalasVariablesFijas(individuoActual, ub);
         getFuncion().fijarVariablesMalas(malas);
     }
 
