@@ -1,0 +1,21 @@
+----------------------------------------------------------.
+Numero Intentos:100
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|15689.0
+
+1000_25_6.txt       |FJSGVNS             |JSGVNS-Int[20]                |1000      |20.00   |0.080000|15689.00      |15514.28    |1.113647|162.00    |0.000000       
+
+
+--------------------RESUMEN-----------------
+Algoritmo[JSGVNS-Int[20]]
+aciertos:8.000000%
+desviacion:1.113647
+tiempo promedio:162.00ms
+-----------
+

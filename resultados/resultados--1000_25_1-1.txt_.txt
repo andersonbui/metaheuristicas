@@ -1,5 +1,5 @@
 ----------------------------------------------------------.
-Numero Intentos:100
+Numero Intentos:1
 NPI: Numero iteraciones promedio.
 TP: Tiempo Promedio.
 TE: Tasa de exito.
@@ -9,18 +9,13 @@ NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSI
 
 #====================================================================================================|6172407.0
 
-1000_25_1.txt       |FSGVNS              |SGVNS-Int[20]                 |1000      |20.00   |0.000000|6172183.00    |6165130.81  |0.117883|717.00    |0.000000       
-1000_25_1.txt       |FJSGVNS             |JSGVNS-Int[20]                |1000      |20.00   |0.000000|6165873.00    |6165215.84  |0.116505|50897.00  |0.000000       
+1000_25_1.txt       |FJSGVNS             |JSGVNS-Int[20]                |1000      |20.00   |0.000000|6165352.00    |6165352.00  |0.114299|33103.00  |0.000000       
+
 
 --------------------RESUMEN-----------------
-Algoritmo[SGVNS-Int[20]]
-aciertos:0.000000%
-desviacion:0.117883
-tiempo promedio:717.00ms
------------
 Algoritmo[JSGVNS-Int[20]]
 aciertos:0.000000%
-desviacion:0.116505
-tiempo promedio:50897.00ms
+desviacion:0.114299
+tiempo promedio:33103.00ms
 -----------
 
