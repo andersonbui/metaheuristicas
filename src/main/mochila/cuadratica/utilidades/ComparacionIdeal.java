@@ -22,13 +22,23 @@ import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
 import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar4;
-import main.utilidades.Utilidades;
 
 /**
  *
  * @author debian
  */
 public class ComparacionIdeal {
+
+    static String[] metricas;
+    static int[] promedio;
+
+    static {
+        metricas = new String[]{"", ""};
+        promedio = new int[]{0, 0};
+    }
+
+    public ComparacionIdeal() {
+    }
 
     public static Datos comparacion(ParametrosCuadratica parametros, IndividuoCuadratico indiAlcanzado) {
         FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) indiAlcanzado.getFuncion();
@@ -99,7 +109,7 @@ public class ComparacionIdeal {
         calculos[1] = new DatoCalculo("(ultimo seleccionado)/upper: ", (ultimoSeleccionado / (double) upperB));
         System.out.println("ultimo seleccionado consecutivo (posicion): " + cantidadSeleccionadosConsecutivos);
         calculos[2] = new DatoCalculo("(ultimo seleccionado consecutivo)/lowerB: ", porc_csc_lb);
-        
+
         calculos[3] = new DatoCalculo("(calidad alcanzado)/(calidad ideal): ", (indiAlcanzado.getCalidad() / indiIdeal.getCalidad()));
 
         for (DatoCalculo calculo : calculos) {
