@@ -45,12 +45,16 @@ public class EstadisticasInstancias {
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_75_%d.txt", 1, 10));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_25_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_50_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_75_%d.txt", 1, 10));
+        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_100_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 1, 10));
 
         StringBuilder sbuild = new StringBuilder();
-        sbuild.append(formatear("pm_pesos |")).//promedio pesos
+        sbuild.append(String.format("%20s","pm_pesos")).append("|").//promedio pesos
+                append(formatear("pm_pesos |")).//promedio pesos
                 append(formatear("dv_pesos |")).//desviacion pesos
                 append(formatear("pm_Mcal |")).//promedio M_calidad
                 append(formatear("dv_Mcal |")).//promedio M_calidad
@@ -89,18 +93,20 @@ public class EstadisticasInstancias {
                 };
 
                 sbuild.append("\n");
+                sbuild.append(String.format("%20s", instancia.getNombreArchivo(indice_instancia)));
                 double[] vecValPesos = parametros.getVectorPesos();
-                sbuild.append(formatear(promedio(vecValPesos)));//promedio pesos
-                sbuild.append(formatear(desviacion(vecValPesos)));//desviacion pesos
-                double[] vecValMCal = vectorizarMatrizBeneficios(parametros);//
-                sbuild.append(formatear(promedio(vecValMCal)));//promedio M_calidad
-                sbuild.append(formatear(desviacion(vecValMCal)));//desviacion M_calidad
-                double sumaPesos = suma(vecValPesos);
-                double sumaMCal = suma(vecValMCal);
+                sbuild.append(formatear(UtilCuadratica.promedio(vecValPesos)));//promedio pesos
+                sbuild.append(formatear(UtilCuadratica.desviacion(vecValPesos)));//desviacion pesos
+                double[] vecValMCal = UtilCuadratica.vectorizarMatrizBeneficios(parametros);//
+                sbuild.append(formatear(UtilCuadratica.promedio(vecValMCal)));//promedio M_calidad
+                sbuild.append(formatear(UtilCuadratica.desviacion(vecValMCal)));//desviacion M_calidad
+                double sumaPesos = UtilCuadratica.suma(vecValPesos);
+                double sumaMCal = UtilCuadratica.suma(vecValMCal);
                 sbuild.append(formatear(sumaPesos));//suma pesos
                 sbuild.append(formatear(sumaMCal));//suma Mcal
                 sbuild.append(formatear(parametros.getCapacidad()));//capacidad
-                sbuild.append(formatear(sumaPesos / parametros.getCapacidad()));// (suma pesos) / capacidad
+                double div_sp_c = sumaPesos / parametros.getCapacidad();// (suma pesos) / capacidad
+                sbuild.append(formatear(div_sp_c));// (suma pesos) / capacidad
                 sbuild.append(formatear(sumaPesos / parametros.getMaxGlobal()));//(suma M_calidad) / calidad
                 int[] lowB_upB = UtilCuadratica.optenerLowerUpper_Bound(funcion);
                 sbuild.append(formatear(lowB_upB[0])); // lowerB
@@ -124,43 +130,4 @@ public class EstadisticasInstancias {
         return String.format("%11s", valor);
     }
 
-    public static double[] vectorizarMatrizBeneficios(ParametrosCuadratica parametros) {
-        double[][] mat = parametros.getMatrizBeneficios();
-        int tamanio = (mat.length * (mat.length + 1)) / 2;
-        int contador = 0;
-        double[] vector = new double[tamanio];
-        for (int k = 0; k < mat.length; k++) {
-            for (int h = k; h < mat[0].length; h++) {
-                vector[contador] = mat[k][h];
-                contador++;
-            }
-        }
-        return vector;
-    }
-
-    public static double desviacion(double[] valores) {
-        double promedio = promedio(valores);
-        double desviacion = 0;
-        for (double val : valores) {
-            desviacion += val * val;
-        }
-        desviacion = Math.sqrt((1.0 / valores.length) * (desviacion - valores.length * promedio * promedio));
-        return desviacion;
-    }
-
-    public static double suma(double[] valores) {
-        double promedio = 0;
-        for (double val : valores) {
-            promedio += val;
-        }
-        return promedio;
-    }
-
-    public static double promedio(double[] valores) {
-        double promedio = 0;
-        for (double val : valores) {
-            promedio += val;
-        }
-        return promedio / valores.length;
-    }
 }

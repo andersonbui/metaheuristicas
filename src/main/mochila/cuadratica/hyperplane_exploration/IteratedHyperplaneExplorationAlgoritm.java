@@ -41,7 +41,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     protected int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    ParametrosCuadratica parametros;
+    protected ParametrosCuadratica parametros;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
