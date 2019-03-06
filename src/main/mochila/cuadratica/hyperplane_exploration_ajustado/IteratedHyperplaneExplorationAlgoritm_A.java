@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.hyperplane_exploration.*;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
 
 /**
  *
@@ -30,54 +31,33 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 
     protected int ub; // lower bown
 
+    protected boolean saltar;
     public IteratedHyperplaneExplorationAlgoritm_A(FuncionMochilaIHEA funcion) {
         super(funcion);
         ub = funcion.obtenerUpperBound();
+        saltar = false;
+        L = 20;
+    }
+    public boolean isSaltar() {
+        return saltar;
     }
 
-    /**
-     * obtine los indices de todas las varibles seleccionadas que seran fijas
-     *
-     * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
-     * @param dimensionHyp
-     * @param individuo
-     * @param lowerb
-     * @return
-     */
-    protected List<Integer> determinarMalasVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
-        // dimension de individuo
-        int dimX = dimensionHyp;
-        // tamaño de la mochila
-        int n = individuo.getDimension();
-        // numero de variables fijas
-        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-        nf = 15;
-        // items seleccionados
-        List<Integer> itemsSeleccionados = elementosFuera(individuo);
-
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);
-
-        // vector de indices de variables fijas
-        // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
-        return listaIndices;
-    }
-
-    /**
-     *
-     * @param varFijas
-     * @param individuoActual
-     */
-    @Override
-    protected void construirProblemaRestringidoReducido(List<Integer> varFijas, IndividuoIHEA individuoActual) {
-        int tam = Math.min(individuoActual.getDimension() - (int) (ub), individuoActual.getDimension());
-        tam = 10;
-        List<Integer> malas = determinarMalasVariablesFijas(dimensionHiperplano(individuoActual), individuoActual, tam);
-        funcion.fijarVariables(individuoActual, varFijas);
+    public void setSaltar(boolean saltar) {
+        this.saltar = saltar;
     }
 
     @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
+//        double[] vecValPesos = parametros.getVectorPesos();
+//        double sumaPesos = UtilCuadratica.suma(vecValPesos);
+//        double div_sp_c = sumaPesos / parametros.getCapacidad();// (suma pesos) / capacidad
+//        if (div_sp_c <= 1.1  ) {
+//            return super.tabuSearchEngine(L, x_inicial, x_referencia);
+//        }
+//        return tabuSearchEngineAux(L, x_inicial, x_referencia);
+//    }
+//
+//    protected IndividuoIHEA tabuSearchEngineAux(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
         int[][] tabu;

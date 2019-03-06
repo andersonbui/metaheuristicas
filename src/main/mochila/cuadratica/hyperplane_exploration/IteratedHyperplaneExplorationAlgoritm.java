@@ -19,9 +19,7 @@ package main.mochila.cuadratica.hyperplane_exploration;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import main.Item;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
@@ -38,13 +36,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     protected int lb; // lower bown
     int t; // 
     int s; // 
-    int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
-    int tiempototal;
+    protected int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
+    int tiempototal; // tiempo total que toma la busqueda tabu
     int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     protected int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    ParametrosCuadratica parametros;
-    protected boolean saltar;
+    protected ParametrosCuadratica parametros;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
@@ -53,22 +50,13 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         lb = funcion.obtenerLowerBound();
         tiempototal = 0;
         rcl = 20;
-        L = 10;
+        L = 300;
         intentosDescent = 5;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
-        saltar = false;
     }
 
     public void setParametros(ParametrosCuadratica parametros) {
         this.parametros = parametros;
-    }
-
-    public boolean isSaltar() {
-        return saltar;
-    }
-
-    public void setSaltar(boolean saltar) {
-        this.saltar = saltar;
     }
 
     @Override
@@ -266,7 +254,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             for (int j : I1) {
                 viol_capacidad = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
                 calidadi = x.getCalidad() - funcion.contribucion(j, x);
-                saltar = false;
                 for (int i : I0) {
                     // linea 11:
                     // linea 12:
