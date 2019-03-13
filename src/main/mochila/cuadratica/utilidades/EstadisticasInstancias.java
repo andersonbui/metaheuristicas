@@ -64,7 +64,8 @@ public class EstadisticasInstancias {
                 append(formatear("SPes/cap |")).// (suma pesos) / capacidad
                 append(formatear("SMat/Cal |")).//(suma M_calidad) / calidad
                 append(formatear("lowerB |")). // lowerB
-                append(formatear("upperB")) // upperB
+                append(formatear("upperB")). // upperB
+                append(formatear("lowerB/upperB")) // lowerB/upperB
                 ;
 
         for (GrupoInstancias instancia : instancias) {
@@ -111,6 +112,7 @@ public class EstadisticasInstancias {
                 int[] lowB_upB = UtilCuadratica.optenerLowerUpper_Bound(funcion);
                 sbuild.append(formatear(lowB_upB[0])); // lowerB
                 sbuild.append(formatear(lowB_upB[1])); // upperB
+                sbuild.append(formatear(lowB_upB[0]/(double)lowB_upB[1])); // upperB
 //                contador++;
             }
         }
