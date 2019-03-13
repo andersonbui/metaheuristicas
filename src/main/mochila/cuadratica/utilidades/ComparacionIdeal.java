@@ -21,7 +21,12 @@ import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
+import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
 import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar4;
+import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar3;
+import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar2;
+import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar;
+import main.utilidades.Utilidades;
 
 /**
  *
@@ -30,17 +35,35 @@ import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.co
 public class ComparacionIdeal {
 
     static String[] metricas;
-    static int[] promedio;
-
-    static {
-        metricas = new String[]{"", ""};
-        promedio = new int[]{0, 0};
-    }
+//    static int[] estadisticas;
 
     public ComparacionIdeal() {
     }
 
-    public static Datos comparacion(ParametrosCuadratica parametros, IndividuoCuadratico indiAlcanzado) {
+    public void imprimir() {
+
+    }
+
+    static class DatoCalculo {
+
+        double[] valores;
+
+        public DatoCalculo() {
+            valores = new double[metricas.length];
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < valores.length; i++) {
+                sb.append(metricas[i]).append(": ").append(valores[i]);
+            }
+            return sb.toString();
+        }
+
+    }
+
+    public static Datos comparacion(ParametrosCuadratica parametros, IndividuoCuadratico indiAlcanzado, List<Main_MetododosInicializacion.Posicion> posiciones) {
         FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) indiAlcanzado.getFuncion();
         int ultimoSeleccionado = 0;
 
@@ -55,20 +78,21 @@ public class ComparacionIdeal {
             indiIdeal.set(i, valsIdeal[i]);
         }
 
-        // lista de indices para ordenamiento
-        List<Main_MetododosInicializacion.Posicion> posiciones = new ArrayList();
-        // crear estructura de comparacion
-        for (int i = 0; i < funcion.getDimension(); i++) {
-            double peso = funcion.peso(i);
-            double relacion = funcion.relaciones(i);
-            double beneficio = funcion.beneficio(i);
-            posiciones.add(new Main_MetododosInicializacion.Posicion(i, peso, relacion, beneficio));
-        }
+//        // lista de indices para ordenamiento
+//        List<Main_MetododosInicializacion.Posicion> posiciones = new ArrayList();
+//        // crear estructura de comparacion
+//        for (int i = 0; i < funcion.getDimension(); i++) {
+//            double peso = funcion.peso(i);
+//            double relacion = funcion.relaciones(i);
+//            double beneficio = funcion.beneficio(i);
+//            posiciones.add(new Main_MetododosInicializacion.Posicion(i, peso, relacion, beneficio));
+//        }
+//
+//        // ordenar de acuerdo a la estrctura anterior
+//        Collections.sort(posiciones, (Main_MetododosInicializacion.Posicion o1, Main_MetododosInicializacion.Posicion o2) -> {
+//            return comparar3(o1, o2);
+//        });
 
-        // ordenar de acuerdo a la estrctura anterior
-        Collections.sort(posiciones, (Main_MetododosInicializacion.Posicion o1, Main_MetododosInicializacion.Posicion o2) -> {
-            return comparar4(o1, o2);
-        });
         // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
         int cantidadSeleccionadosConsecutivos = 0;
         for (int i = 0; i < posiciones.size(); i++) {
@@ -86,38 +110,63 @@ public class ComparacionIdeal {
                 ultimoSeleccionado = i;
             }
         }
-
-        DatoCalculo[] calculos = new DatoCalculo[3];
+        if(metricas == null){
+            metricas = new String[5];
+        }
+        int a = -1;
+        DatoCalculo calculo = new DatoCalculo();
         int cantidadUnosAlcanzado = indiAlcanzado.parecido(indiIdeal);
         int[] lu_bound = UtilCuadratica.optenerLowerUpper_Bound(funcion);
         double lowerB = lu_bound[0];
         double upperB = lu_bound[1];
         int cantidadUnosIdeal = indiIdeal.elementosSeleccionados().size();
         double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lowerB;
+
         System.out.println("----------------------------------");
         System.out.println("nombre archivo: " + parametros.getNombreInstancia());
-        System.out.println("parecido(# unos alcanzado): " + cantidadUnosAlcanzado);
-        System.out.println("# unos Ideal: " + cantidadUnosIdeal);
+        //
+        System.out.println("parecido (# unos alcanzado)" + cantidadUnosAlcanzado);
+        //
+        System.out.println("# unos Ideal" + cantidadUnosIdeal);
+        //
         System.out.println("lowerB: " + lowerB + "; upperB: " + upperB);
+        //
         System.out.println("calidad alcanzado: " + indiAlcanzado.getCalidad());
+        //
         System.out.println("calidad ideal: " + indiIdeal.getCalidad());
-
-        double porcentajeParecido = ((double) cantidadUnosAlcanzado) / cantidadUnosIdeal;
-        calculos[0] = new DatoCalculo("(#_unos_alcanzado)/(#_unos_ideal)", porcentajeParecido);
-
+        //
+        a++;
+        metricas[a] = "(calidad alcanzado)/(calidad ideal)";
+        calculo.valores[a] = (indiAlcanzado.getCalidad() / indiIdeal.getCalidad());
+        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        //
+        a++;
+        metricas[a] = "(#_unos_alcanzado)/(#_unos_ideal)";
+        calculo.valores[a] = ((double) cantidadUnosAlcanzado) / cantidadUnosIdeal;
+        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        //
         System.out.println("ultimo seleccionado (posicion): " + ultimoSeleccionado);
-        calculos[1] = new DatoCalculo("(ultimo seleccionado)/upper: ", (ultimoSeleccionado / (double) upperB));
-        System.out.println("ultimo seleccionado consecutivo (posicion): " + cantidadSeleccionadosConsecutivos);
-        calculos[2] = new DatoCalculo("(ultimo seleccionado consecutivo)/lowerB: ", porc_csc_lb);
+        //
+        a++;
+        metricas[a] = "(ultimo seleccionado)/upper";
+        calculo.valores[a] = (ultimoSeleccionado / (double) upperB);
+        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        //
+        a++;
+        metricas[a] = "(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2)";
+        calculo.valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double)lowerB) / 2));
+        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        //
+        System.out.println("ultimo seleccionado consecutivo (posicion)"+ cantidadSeleccionadosConsecutivos);
+        //
+        a++;
+        metricas[a] = "(ultimo seleccionado consecutivo)/lowerB";
+        calculo.valores[a] = porc_csc_lb;
+        System.out.println(metricas[a] + ": " + calculo.valores[a]);
 
-        calculos[3] = new DatoCalculo("(calidad alcanzado)/(calidad ideal): ", (indiAlcanzado.getCalidad() / indiIdeal.getCalidad()));
-
-        for (DatoCalculo calculo : calculos) {
-            System.out.println(calculo);
-        }
         Datos datos = new Datos(indiAlcanzado.getCalidad(), indiIdeal.getCalidad(),
                 cantidadUnosAlcanzado, cantidadUnosIdeal, lu_bound[0], lu_bound[1],
-                cantidadSeleccionadosConsecutivos, ultimoSeleccionado, parametros, calculos);
+                cantidadSeleccionadosConsecutivos, ultimoSeleccionado, parametros, calculo);
 
         return datos;
     }
@@ -155,82 +204,20 @@ public class ComparacionIdeal {
         return contador;
     }
 
-    static class DatoCalculo {
-
-        String nombreCalculo;
-        Double valor;
-        boolean obtenerPromedio;
-
-        public DatoCalculo(String nombreCalculo, Double valor) {
-            this.nombreCalculo = nombreCalculo;
-            this.valor = valor;
-            this.obtenerPromedio = true;
-        }
-
-        public DatoCalculo(String nombreCalculo, Double valor, boolean obtenerPromedio) {
-            this.nombreCalculo = nombreCalculo;
-            this.valor = valor;
-            this.obtenerPromedio = obtenerPromedio;
-        }
-
-        @Override
-        public String toString() {
-            return nombreCalculo + ": " + valor;
-        }
-
-    }
-
     public static void estadisticas(List<Datos> listaDatos) {
 
-        double porcen_calidad_a_i = 0;
-        double porcen_cantidadUnos_a_i = 0;
-        double csc_ub;
-        double promedio_csc_ub = 0;
-        double desv_csc_ub = 0;
-        double us_ub;
-        double promedio_us_ub = 0;
-        double desv_us_ub = 0;
-        int contador = 0;
-        List<Double> listaValores = new ArrayList<>();
-        StringBuilder stringB = new StringBuilder();
-
-        for (Datos dato : listaDatos) {
-            listaValores = new ArrayList<>();
-            for (DatoCalculo calculo : dato.calculos) {
-                listaValores.add(calculo.valor);
-            }
-//            
-//            porcen_calidad_a_i += dato.calidadAlcanzado / dato.calidadIdeal;
-//            porcen_cantidadUnos_a_i += dato.cantidadUnosAlcanzado / (double) dato.cantidadUnosIdeal;
-//            us_ub = dato.ultSeleccionado / (double) dato.upperB;
-//            promedio_us_ub += us_ub;
-//            desv_us_ub += us_ub * us_ub;
-//
-//            csc_ub = dato.cantSelConsecutivo / (double) dato.upperB;
-//            promedio_csc_ub += csc_ub;
-//            desv_csc_ub += csc_ub * csc_ub;
-//
-//            contador++;
+        System.out.println("\n##############################################");
+        for (int i = 0; i < metricas.length; i++) {
+//            if (estadisticas[i] == 1) {
+                List<Double> lista = new ArrayList();
+                for (int k = 0; k < listaDatos.size(); k++) {
+                    lista.add(listaDatos.get(k).calculo.valores[i]);
+                }
+                double promedio = Utilidades.promedio(lista);
+                System.out.println("promedio " + metricas[i] + ": " + promedio);
+                System.out.println("desviacion " + metricas[i] + ": " + Utilidades.desviacion(lista, promedio));
+//            }
         }
-//        System.out.println("\n##############################################");
-//        System.out.println("promedio (calidad alcanzado)/(calidad ideal): " + (porcen_calidad_a_i / contador));
-//        System.out.println("promedio (# unos alcanzado)/(total unos ideal): " + (porcen_cantidadUnos_a_i / contador));
-//        promedio_us_ub = (promedio_us_ub / contador);
-//        desv_us_ub = Math.sqrt((1.0 / contador) * (desv_us_ub - contador * promedio_us_ub * promedio_us_ub));
-//        System.out.println("promedio (ultimo seleccionado)/(upperB): " + (promedio_us_ub));
-//        System.out.println("desviacion (ultimo seleccionado)/(upperB): " + desv_us_ub);
-//        promedio_csc_ub = (promedio_csc_ub / contador);
-//        desv_csc_ub = Math.sqrt((1.0 / contador) * (desv_csc_ub - contador * promedio_csc_ub * promedio_csc_ub));
-//        System.out.println("promedio (ultimo seleccionado consecutivo)/(upperB): " + promedio_csc_ub);
-//        System.out.println("desviacion (ultimo seleccionado consecutivo)/(upperB): " + desv_csc_ub);
-//
-//        double promedio = Utilidades.promedio(lista_us_d_promedioB);
-//        stringB.append("\npromedio promB/(ultimo seleccionado consecutivo): ")
-//                .append(promedio);
-//        stringB.append("\ndesviacion promB/(ultimo seleccionado consecutivo): ")
-//                .append(Utilidades.desviacion(lista_us_d_promedioB, promedio));
-//
-//        System.out.println(stringB.toString());
     }
 
     public static class Datos {
@@ -250,7 +237,7 @@ public class ComparacionIdeal {
          * ultimo seleccionado
          */
         public int ultSeleccionado;
-        private final DatoCalculo[] calculos;
+        public DatoCalculo calculo;
 
         /**
          *
@@ -263,11 +250,11 @@ public class ComparacionIdeal {
          * @param cantSelConsecutivo
          * @param ultSeleccionado
          * @param parametros
-         * @param calculos
+         * @param calculo
          */
         public Datos(double calidadAlcanzado, double calidadIdeal,
                 int cantidadUnosAlcanzado, int cantidadUnosIdeal, int lowerB,
-                int upperB, int cantSelConsecutivo, int ultSeleccionado, ParametrosCuadratica parametros, DatoCalculo[] calculos) {
+                int upperB, int cantSelConsecutivo, int ultSeleccionado, ParametrosCuadratica parametros, DatoCalculo calculo) {
             this.calidadAlcanzado = calidadAlcanzado;
             this.calidadIdeal = calidadIdeal;
             this.cantidadUnosAlcanzado = cantidadUnosAlcanzado;
@@ -277,7 +264,7 @@ public class ComparacionIdeal {
             this.cantSelConsecutivo = cantSelConsecutivo;
             this.ultSeleccionado = ultSeleccionado;
             this.parametros = parametros;
-            this.calculos = calculos;
+            this.calculo = calculo;
         }
 
     }

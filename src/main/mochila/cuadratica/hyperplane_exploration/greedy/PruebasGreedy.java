@@ -88,7 +88,7 @@ public class PruebasGreedy {
 
                 porcentaje += promedio1;
                 // lista de indices para ordenamiento
-                ComparacionIdeal.Datos datos = ComparacionIdeal.comparacion(parametros, individuo);
+                ComparacionIdeal.Datos datos = ComparacionIdeal.comparacion(parametros, individuo,null);
                 if (datos != null) {
                     comparaciones.add(datos);
                 }
