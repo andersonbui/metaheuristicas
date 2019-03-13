@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.hyperplane_exploration.UtilidadesIHEA;
 import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar4;
 import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar3;
 import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar2;
