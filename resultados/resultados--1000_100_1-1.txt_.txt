@@ -1,5 +1,5 @@
 ----------------------------------------------------------.
-Numero Intentos:10
+Numero Intentos:1
 NPI: Numero iteraciones promedio.
 TP: Tiempo Promedio.
 TE: Tasa de exito.
@@ -9,13 +9,19 @@ NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSI
 
 #====================================================================================================|6243494.0
 
-1000_100_1.txt      |Cuadratica          |IHEAIHEA                      |1000      |96,00   |0,000000|6243427,00    |6243341,70  |0,002439|1652,00   |0,000000       
+1000_100_1.txt      |FSGVNS              |SGVNS-Int[20]                 |1000      |20.00   |0.000000|6240234.00    |6240234.00  |0.052214|721.00    |0.000000       
+1000_100_1.txt      |FJSGVNS             |JSGVNS-Int[20]                |1000      |20.00   |0.000000|6243333.00    |6243333.00  |0.002579|32251.00  |0.000000       
 
 
 --------------------RESUMEN-----------------
-Algoritmo[IHEAIHEA]
-aciertos:0,000000%
-desviacion:0,002439
-tiempo promedio:1652,00ms
+Algoritmo[SGVNS-Int[20]]
+aciertos:0.000000%
+desviacion:0.052214
+tiempo promedio:721.00ms
+-----------
+Algoritmo[JSGVNS-Int[20]]
+aciertos:0.000000%
+desviacion:0.002579
+tiempo promedio:32251.00ms
 -----------
 
