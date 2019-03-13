@@ -309,6 +309,25 @@ public class Utilidades {
         return Math.sqrt(suma / (lista.size() - 1));
     }
 
+    public static double promedio(List<Double> lista) {
+        double suma = 0;
+        for (double item : lista) {
+            suma += item;
+        }
+        return suma / lista.size();
+
+    }
+
+    public static double desviacion(List<Double> lista, double promedio) {
+        double suma = 0;
+        double diferencia;
+        for (double item : lista) {
+            diferencia = item - promedio;
+            suma += diferencia * diferencia;
+        }
+        return Math.sqrt(suma / (lista.size() - 1));
+    }
+
 //    //pruebas
 //    public static void main(String[] args) {
 //        List listaNum = new ArrayList();
@@ -334,8 +353,6 @@ public class Utilidades {
 //        System.out.println("promedio: " + ((tiempo_final - tiempo_inicial) / (double) 1));
 //
 //    }
-    
-    
     /**
      *
      * @param dir

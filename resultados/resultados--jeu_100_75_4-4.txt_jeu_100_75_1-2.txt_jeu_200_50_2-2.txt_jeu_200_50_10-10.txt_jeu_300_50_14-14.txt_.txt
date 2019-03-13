@@ -7,7 +7,6 @@ DPR: Desviación porcentual relativa.
 ----------------------------------------------------------.
 NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
 
-#====================================================================================================|72245.0
 
 jeu_100_75_4.txt    |Cuadratica          |IHEAIHEA                      | 100      |75,00   |1,000000|72245,00      |72245,00    |0,000000|56,00     |0,000000       
 jeu_100_75_4.txt    |Cuadratica          |IHEASS                        | 100      |75,00   |1,000000|72245,00      |72245,00    |0,000000|61,00     |0,000000       
