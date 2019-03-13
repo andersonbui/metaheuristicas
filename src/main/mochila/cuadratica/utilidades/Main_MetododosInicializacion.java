@@ -38,7 +38,7 @@ public class Main_MetododosInicializacion {
 
         List<Instancia> listaInstanc = null;
         ConjuntoDInstancias conjuntoInstan = new ConjuntoDInstancias();
-        conjuntoInstan.prepararTodos();
+//        conjuntoInstan.prepararTodos();
         listaInstanc = conjuntoInstan.getConjuntoInstancias();
 
         List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
@@ -69,12 +69,14 @@ public class Main_MetododosInicializacion {
 
             IndividuoIHEA indiAlcanzado = funcion.generarIndividuo();
             // crear individuo de los n primeros elementos de la lista ordenada
-            while (funcion.cabe(indiAlcanzado, posiciones.get(0).posicion)) {
-                indiAlcanzado.set(posiciones.remove(0).posicion, 1);
+            int cont = 0;
+            while (funcion.cabe(indiAlcanzado, posiciones.get(cont).posicion)) {
+                indiAlcanzado.set(posiciones.get(cont).posicion, 1);
+                cont++;
             }
 
             // lista de indices para ordenamiento
-            ComparacionIdeal.Datos datosComparacion = ComparacionIdeal.comparacion(parametros, indiAlcanzado);
+            ComparacionIdeal.Datos datosComparacion = ComparacionIdeal.comparacion(parametros, indiAlcanzado, posiciones);
             if (datosComparacion != null) {
                 comparaciones.add(datosComparacion);
             }

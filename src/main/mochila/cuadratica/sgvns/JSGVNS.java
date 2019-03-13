@@ -42,6 +42,9 @@ public class JSGVNS extends SGVNS {
      * haya espacio para uno mas.
      */
     protected int ub;
+    protected int cont_JSGVNS = 0;
+    protected int cont_SacudidaJ = 0;
+    protected int cont_;
 
     public JSGVNS(FuncionJSGVNS funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
@@ -96,19 +99,23 @@ public class JSGVNS extends SGVNS {
             int h = 1;
             IndividuoVNS y_p;
             IndividuoVNS y_p2;
-            List<Integer> variablesFijas;
+            List<Integer> variablesFijasLowerb;
+            List<Integer> variablesFijasUpperb;
 //            funcion.
             while (h <= hMax) {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
 
-                //Modificacion trabajar la sacudida con el vecindario 1
+                //MODIFICACION trabajar la sacudida con el vecindario 1
                 y_p = sacudida(y, 1, h);
-                //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
+//                variablesFijasUpperb = determinarVariablesFijasUpperBound(y_p.getDimension(), y_p, ub);
+//                construirProblemaRestringidoReducido(variablesFijasUpperb);
+//              getFuncion().reiniciarVijarVariablesUpperb();
+                getFuncion().reiniciarVijarVariables();
+                
+                
+//Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
-                variablesFijas = determinarVariablesFijas(y_p2.getDimension(), y_p2, lb);
-                construirProblemaRestringidoReducido(variablesFijas);
-//                getFuncion().reiniciarVijarVariables();
                 if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;
                 }
@@ -118,10 +125,17 @@ public class JSGVNS extends SGVNS {
                 } else {
                     h++;
                 }
+//                MODIFICACION
+                variablesFijasLowerb = determinarVariablesFijasLowerBound(y.getDimension(), y, lb);
+                construirProblemaRestringidoReducido(variablesFijasLowerb);
+
             }
             recorrido.add(y_best);
         }
         //CONDICION DE TERMINACION PARA AJUSTAR
+        cont_JSGVNS++;
+        System.out.println("cont_JSGVNS" + cont_JSGVNS);
+        
         return recorrido;
     }
 
@@ -129,10 +143,8 @@ public class JSGVNS extends SGVNS {
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
     private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
-//        IndividuoVNS bestAux;
         boolean mejoro;
         s_inicial = s_inicial.clone();
-//        bestAux = s_inicial;
         intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size() - 1);
         do {
             if (vecindario == 1) {
@@ -145,13 +157,9 @@ public class JSGVNS extends SGVNS {
             mejoro = aux.compareTo(s_inicial) > 0;
             s_inicial = aux;
             if (mejoro) {
-//                bestAux = s_inicial;
                 break;
             }
         } while (intentos-- >= 0);
-//            if(bestAux.getCalidad() > s_inicial.getCalidad()){
-//                 s_inicial = bestAux;
-//            }
 
         return s_inicial;
     }
@@ -195,16 +203,37 @@ public class JSGVNS extends SGVNS {
      * @param lowerb
      * @return
      */
-    protected List<Integer> determinarVariablesFijas(int dimension, IndividuoVNS individuo, int lowerb) {
+    protected List<Integer> determinarVariablesFijasLowerBound(int dimension, IndividuoVNS individuo, int lowerb) {
         // dimension de individuo
         int dimX = dimension;
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
 //        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+//MODIFICACION
         int nf = (int) (lowerb);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
+
+        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+
+        // vector de indices de variables fijas
+        // obtener los primeros nf indices de los elementos más densos
+        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+        return listaIndices;
+    }
+
+    protected List<Integer> determinarVariablesFijasUpperBound(int dimension, IndividuoVNS individuo, int upperb) {
+        // dimension de individuo
+        int dimX = dimension;
+        // tamaño de la mochila
+        int n = individuo.getDimension();
+        // numero de variables fijas
+//        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+//MODIFICACION
+        int nf = (int) (upperb);
+        // items seleccionados
+        List<Integer> itemsSeleccionados = elementosFueraYCaben(individuo);
 
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
 

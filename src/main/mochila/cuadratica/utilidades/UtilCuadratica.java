@@ -209,4 +209,44 @@ public class UtilCuadratica {
         }
         return new int[]{lowerB, upperB};
     }
+    
+    public static double[] vectorizarMatrizBeneficios(ParametrosCuadratica parametros) {
+        double[][] mat = parametros.getMatrizBeneficios();
+        int tamanio = (mat.length * (mat.length + 1)) / 2;
+        int contador = 0;
+        double[] vector = new double[tamanio];
+        for (int k = 0; k < mat.length; k++) {
+            for (int h = k; h < mat[0].length; h++) {
+                vector[contador] = mat[k][h];
+                contador++;
+            }
+        }
+        return vector;
+    }
+
+    public static double desviacion(double[] valores) {
+        double promedio = promedio(valores);
+        double desviacion = 0;
+        for (double val : valores) {
+            desviacion += val * val;
+        }
+        desviacion = Math.sqrt((1.0 / valores.length) * (desviacion - valores.length * promedio * promedio));
+        return desviacion;
+    }
+
+    public static double suma(double[] valores) {
+        double promedio = 0;
+        for (double val : valores) {
+            promedio += val;
+        }
+        return promedio;
+    }
+
+    public static double promedio(double[] valores) {
+        double promedio = 0;
+        for (double val : valores) {
+            promedio += val;
+        }
+        return promedio / valores.length;
+    }
 }

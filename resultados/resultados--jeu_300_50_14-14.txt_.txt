@@ -1,0 +1,51 @@
+----------------------------------------------------------.
+Numero Intentos:100
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|972880.0
+
+jeu_300_50_14.txt   |Cuadratica          |IHEAIHEA                      | 300      |82.00   |0.000000|972655.00     |972467.60   |0.042390|233.00    |0.000000       
+jeu_300_50_14.txt   |Cuadratica          |IHEASS                        | 300      |82.00   |0.000000|972814.00     |972499.96   |0.039063|237.00    |0.000000       
+jeu_300_50_14.txt   |Cuadratica          |IHEAIHEA_M                    | 300      |82.00   |1.000000|972880.00     |972880.00   |0.000000|285.00    |0.000000       
+jeu_300_50_14.txt   |Cuadratica          |IHEAIHEA_A                    | 300      |82.00   |0.950000|972880.00     |972877.41   |0.000266|336.00    |0.000000       
+jeu_300_50_14.txt   |FSGVNS              |SGVNS-Int[20]                 | 300      |20.00   |0.010000|972880.00     |972512.71   |0.037753|338.00    |0.000000       
+jeu_300_50_14.txt   |FJSGVNS             |JSGVNS-Int[20]                | 300      |20.00   |0.530000|972880.00     |972867.05   |0.001331|8811.00   |0.000000       
+
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEAIHEA]
+aciertos:0.000000%
+desviacion:0.042390
+tiempo promedio:233.00ms
+-----------
+Algoritmo[IHEASS]
+aciertos:0.000000%
+desviacion:0.039063
+tiempo promedio:237.00ms
+-----------
+Algoritmo[IHEAIHEA_M]
+aciertos:100.00%
+desviacion:0.000000
+tiempo promedio:285.00ms
+-----------
+Algoritmo[IHEAIHEA_A]
+aciertos:95.00%
+desviacion:0.000266
+tiempo promedio:336.00ms
+-----------
+Algoritmo[SGVNS-Int[20]]
+aciertos:1.000000%
+desviacion:0.037753
+tiempo promedio:338.00ms
+-----------
+Algoritmo[JSGVNS-Int[20]]
+aciertos:53.00%
+desviacion:0.001331
+tiempo promedio:8811.00ms
+-----------
+
