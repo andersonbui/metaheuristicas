@@ -49,12 +49,12 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 
     @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
-        double[] vecValPesos = parametros.getVectorPesos();
-        double sumaPesos = UtilCuadratica.suma(vecValPesos);
-        double div_sp_c = sumaPesos / parametros.getCapacidad();// (suma pesos) / capacidad
-        if (div_sp_c <= 1.1  ) {
-            return super.tabuSearchEngine(L, x_inicial, x_referencia);
-        }
+//        double[] vecValPesos = parametros.getVectorPesos();
+//        double sumaPesos = UtilCuadratica.suma(vecValPesos);
+//        double div_sp_c = sumaPesos / parametros.getCapacidad();// (suma pesos) / capacidad
+//        if (div_sp_c <= 1.0 ) {
+//            return super.tabuSearchEngine(L, x_inicial, x_referencia);
+//        }
         return tabuSearchEngineAux(L, x_inicial, x_referencia);
     }
 

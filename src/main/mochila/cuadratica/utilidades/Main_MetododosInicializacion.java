@@ -38,7 +38,7 @@ public class Main_MetododosInicializacion {
 
         List<Instancia> listaInstanc = null;
         ConjuntoDInstancias conjuntoInstan = new ConjuntoDInstancias();
-//        conjuntoInstan.prepararTodos();
+        conjuntoInstan.prepararTodos();
         listaInstanc = conjuntoInstan.getConjuntoInstancias();
 
         List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
@@ -82,6 +82,29 @@ public class Main_MetododosInicializacion {
             }
         }
         ComparacionIdeal.estadisticas(comparaciones);
+    }
+
+    public static List<Integer> ordenar(FuncionMochilaIHEA funcion) {
+        List<Integer> indicesOrdenados = new ArrayList();
+        //        // lista de indices para ordenamiento
+        List<Main_MetododosInicializacion.Posicion> posiciones = new ArrayList();
+        // crear estructura de comparacion
+        for (int i = 0; i < funcion.getDimension(); i++) {
+            double peso = funcion.peso(i);
+            double relacion = funcion.relaciones(i);
+            double beneficio = funcion.beneficio(i);
+            posiciones.add(new Main_MetododosInicializacion.Posicion(i, peso, relacion, beneficio));
+        }
+
+        // ordenar de acuerdo a la estrctura anterior
+        Collections.sort(posiciones, (Main_MetododosInicializacion.Posicion o1, Main_MetododosInicializacion.Posicion o2) -> {
+            return comparar4(o1, o2);
+        });
+        
+        for (Posicion posicion : posiciones) {
+            indicesOrdenados.add(posicion.posicion);
+        }
+        return indicesOrdenados;
     }
 
     public static class Posicion {

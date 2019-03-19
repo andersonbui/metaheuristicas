@@ -1,0 +1,2067 @@
+ant -f /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas -Djavac.includes=main/mochila/cuadratica/utilidades/Main_MetododosInicializacion.java -Dnb.internal.action.name=run.single -Drun.class=main.mochila.cuadratica.utilidades.Main_MetododosInicializacion run-single
+init:
+Deleting: /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/build/built-jar.properties
+deps-jar:
+Updating property file: /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/build/built-jar.properties
+Compiling 1 source file to /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/build/classes
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+compile-single:
+run-single:
+----------------------------------
+nombre archivo: r_100_75_1
+parecido (# unos alcanzado)99
+# unos Ideal99
+lowerB: 87.0; upperB: 99.0
+calidad alcanzado: 189137.0
+calidad ideal: 189137.0
+(calidad alcanzado)/(calidad ideal): 1.0
+(#_unos_alcanzado)/(#_unos_ideal): 1.0
+ultimo seleccionado (posicion): 98
+(ultimo seleccionado)/upper: 0.98989898989899
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.053763440860215
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.053763440860215
+ultimo seleccionado consecutivo (posicion)98
+(ultimo seleccionado consecutivo)/lowerB: 1.1264367816091954
+----------------------------------
+nombre archivo: r_100_75_2
+parecido (# unos alcanzado)65
+# unos Ideal68
+lowerB: 31.0; upperB: 68.0
+calidad alcanzado: 93532.0
+calidad ideal: 95074.0
+(calidad alcanzado)/(calidad ideal): 0.9837810547573469
+(#_unos_alcanzado)/(#_unos_ideal): 0.9558823529411765
+ultimo seleccionado (posicion): 78
+(ultimo seleccionado)/upper: 1.1470588235294117
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5757575757575757
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.98989898989899
+ultimo seleccionado consecutivo (posicion)49
+(ultimo seleccionado consecutivo)/lowerB: 1.5806451612903225
+----------------------------------
+nombre archivo: r_100_75_3
+parecido (# unos alcanzado)53
+# unos Ideal55
+lowerB: 18.0; upperB: 55.0
+calidad alcanzado: 61806.0
+calidad ideal: 62098.0
+(calidad alcanzado)/(calidad ideal): 0.9952977551611968
+(#_unos_alcanzado)/(#_unos_ideal): 0.9636363636363636
+ultimo seleccionado (posicion): 58
+(ultimo seleccionado)/upper: 1.0545454545454545
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5890410958904109
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.36986301369863
+ultimo seleccionado consecutivo (posicion)50
+(ultimo seleccionado consecutivo)/lowerB: 2.7777777777777777
+----------------------------------
+nombre archivo: r_100_75_4
+parecido (# unos alcanzado)55
+# unos Ideal60
+lowerB: 22.0; upperB: 60.0
+calidad alcanzado: 70590.0
+calidad ideal: 72245.0
+(calidad alcanzado)/(calidad ideal): 0.9770918402657623
+(#_unos_alcanzado)/(#_unos_ideal): 0.9166666666666666
+ultimo seleccionado (posicion): 72
+(ultimo seleccionado)/upper: 1.2
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7560975609756098
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2439024390243902
+ultimo seleccionado consecutivo (posicion)51
+(ultimo seleccionado consecutivo)/lowerB: 2.3181818181818183
+----------------------------------
+nombre archivo: r_100_75_5
+parecido (# unos alcanzado)34
+# unos Ideal37
+lowerB: 7.0; upperB: 37.0
+calidad alcanzado: 26479.0
+calidad ideal: 27616.0
+(calidad alcanzado)/(calidad ideal): 0.9588282155272306
+(#_unos_alcanzado)/(#_unos_ideal): 0.918918918918919
+ultimo seleccionado (posicion): 41
+(ultimo seleccionado)/upper: 1.1081081081081081
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8636363636363635
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5
+ultimo seleccionado consecutivo (posicion)33
+(ultimo seleccionado consecutivo)/lowerB: 4.714285714285714
+----------------------------------
+nombre archivo: r_100_75_6
+parecido (# unos alcanzado)84
+# unos Ideal86
+lowerB: 47.0; upperB: 86.0
+calidad alcanzado: 144731.0
+calidad ideal: 145273.0
+(calidad alcanzado)/(calidad ideal): 0.9962690933621526
+(#_unos_alcanzado)/(#_unos_ideal): 0.9767441860465116
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.069767441860465
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3834586466165413
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2330827067669172
+ultimo seleccionado consecutivo (posicion)82
+(ultimo seleccionado consecutivo)/lowerB: 1.7446808510638299
+----------------------------------
+nombre archivo: r_100_75_7
+parecido (# unos alcanzado)69
+# unos Ideal74
+lowerB: 34.0; upperB: 74.0
+calidad alcanzado: 108849.0
+calidad ideal: 110979.0
+(calidad alcanzado)/(calidad ideal): 0.980807179736707
+(#_unos_alcanzado)/(#_unos_ideal): 0.9324324324324325
+ultimo seleccionado (posicion): 79
+(ultimo seleccionado)/upper: 1.0675675675675675
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.462962962962963
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1666666666666667
+ultimo seleccionado consecutivo (posicion)63
+(ultimo seleccionado consecutivo)/lowerB: 1.8529411764705883
+----------------------------------
+nombre archivo: r_100_75_8
+parecido (# unos alcanzado)28
+# unos Ideal31
+lowerB: 7.0; upperB: 31.0
+calidad alcanzado: 18306.0
+calidad ideal: 19570.0
+(calidad alcanzado)/(calidad ideal): 0.9354113438937148
+(#_unos_alcanzado)/(#_unos_ideal): 0.9032258064516129
+ultimo seleccionado (posicion): 35
+(ultimo seleccionado)/upper: 1.1290322580645162
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8421052631578947
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2105263157894737
+ultimo seleccionado consecutivo (posicion)23
+(ultimo seleccionado consecutivo)/lowerB: 3.2857142857142856
+----------------------------------
+nombre archivo: r_100_75_9
+parecido (# unos alcanzado)70
+# unos Ideal73
+lowerB: 36.0; upperB: 73.0
+calidad alcanzado: 102406.0
+calidad ideal: 104341.0
+(calidad alcanzado)/(calidad ideal): 0.9814550368503273
+(#_unos_alcanzado)/(#_unos_ideal): 0.958904109589041
+ultimo seleccionado (posicion): 81
+(ultimo seleccionado)/upper: 1.1095890410958904
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4862385321100917
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1559633027522935
+ultimo seleccionado consecutivo (posicion)63
+(ultimo seleccionado consecutivo)/lowerB: 1.75
+----------------------------------
+nombre archivo: r_100_75_10
+parecido (# unos alcanzado)84
+# unos Ideal86
+lowerB: 50.0; upperB: 86.0
+calidad alcanzado: 142676.0
+calidad ideal: 143740.0
+(calidad alcanzado)/(calidad ideal): 0.9925977459301517
+(#_unos_alcanzado)/(#_unos_ideal): 0.9767441860465116
+ultimo seleccionado (posicion): 87
+(ultimo seleccionado)/upper: 1.0116279069767442
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2794117647058822
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1470588235294117
+ultimo seleccionado consecutivo (posicion)78
+(ultimo seleccionado consecutivo)/lowerB: 1.56
+----------------------------------
+nombre archivo: r_100_50_1
+parecido (# unos alcanzado)76
+# unos Ideal78
+lowerB: 37.0; upperB: 78.0
+calidad alcanzado: 82959.0
+calidad ideal: 83742.0
+(calidad alcanzado)/(calidad ideal): 0.9906498531202981
+(#_unos_alcanzado)/(#_unos_ideal): 0.9743589743589743
+ultimo seleccionado (posicion): 84
+(ultimo seleccionado)/upper: 1.0769230769230769
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4608695652173913
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3043478260869565
+ultimo seleccionado consecutivo (posicion)75
+(ultimo seleccionado consecutivo)/lowerB: 2.027027027027027
+----------------------------------
+nombre archivo: r_100_50_2
+parecido (# unos alcanzado)86
+# unos Ideal88
+lowerB: 53.0; upperB: 88.0
+calidad alcanzado: 104389.0
+calidad ideal: 104856.0
+(calidad alcanzado)/(calidad ideal): 0.9955462729839017
+(#_unos_alcanzado)/(#_unos_ideal): 0.9772727272727273
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.0454545454545454
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3049645390070923
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0921985815602837
+ultimo seleccionado consecutivo (posicion)77
+(ultimo seleccionado consecutivo)/lowerB: 1.4528301886792452
+----------------------------------
+nombre archivo: r_100_50_3
+parecido (# unos alcanzado)47
+# unos Ideal50
+lowerB: 12.0; upperB: 51.0
+calidad alcanzado: 32609.0
+calidad ideal: 34006.0
+(calidad alcanzado)/(calidad ideal): 0.9589190142915957
+(#_unos_alcanzado)/(#_unos_ideal): 0.94
+ultimo seleccionado (posicion): 57
+(ultimo seleccionado)/upper: 1.1176470588235294
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8095238095238095
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.9841269841269841
+ultimo seleccionado consecutivo (posicion)31
+(ultimo seleccionado consecutivo)/lowerB: 2.5833333333333335
+----------------------------------
+nombre archivo: r_100_50_4
+parecido (# unos alcanzado)88
+# unos Ideal90
+lowerB: 60.0; upperB: 90.0
+calidad alcanzado: 105444.0
+calidad ideal: 105996.0
+(calidad alcanzado)/(calidad ideal): 0.9947922563115589
+(#_unos_alcanzado)/(#_unos_ideal): 0.9777777777777777
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.0222222222222221
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2266666666666666
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.16
+ultimo seleccionado consecutivo (posicion)87
+(ultimo seleccionado consecutivo)/lowerB: 1.45
+----------------------------------
+nombre archivo: r_100_50_5
+parecido (# unos alcanzado)63
+# unos Ideal65
+lowerB: 22.0; upperB: 65.0
+calidad alcanzado: 56010.0
+calidad ideal: 56464.0
+(calidad alcanzado)/(calidad ideal): 0.9919594786058373
+(#_unos_alcanzado)/(#_unos_ideal): 0.9692307692307692
+ultimo seleccionado (posicion): 73
+(ultimo seleccionado)/upper: 1.123076923076923
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6781609195402298
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4252873563218391
+ultimo seleccionado consecutivo (posicion)62
+(ultimo seleccionado consecutivo)/lowerB: 2.8181818181818183
+----------------------------------
+nombre archivo: r_100_50_6
+parecido (# unos alcanzado)30
+# unos Ideal34
+lowerB: 6.0; upperB: 35.0
+calidad alcanzado: 14967.0
+calidad ideal: 16083.0
+(calidad alcanzado)/(calidad ideal): 0.9306099608282037
+(#_unos_alcanzado)/(#_unos_ideal): 0.8823529411764706
+ultimo seleccionado (posicion): 49
+(ultimo seleccionado)/upper: 1.4
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.3902439024390243
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3170731707317074
+ultimo seleccionado consecutivo (posicion)27
+(ultimo seleccionado consecutivo)/lowerB: 4.5
+----------------------------------
+nombre archivo: r_100_50_7
+parecido (# unos alcanzado)60
+# unos Ideal62
+lowerB: 23.0; upperB: 62.0
+calidad alcanzado: 51914.0
+calidad ideal: 52819.0
+(calidad alcanzado)/(calidad ideal): 0.9828660141237054
+(#_unos_alcanzado)/(#_unos_ideal): 0.967741935483871
+ultimo seleccionado (posicion): 70
+(ultimo seleccionado)/upper: 1.1290322580645162
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6470588235294117
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1764705882352942
+ultimo seleccionado consecutivo (posicion)50
+(ultimo seleccionado consecutivo)/lowerB: 2.1739130434782608
+----------------------------------
+nombre archivo: r_100_50_8
+parecido (# unos alcanzado)61
+# unos Ideal64
+lowerB: 22.0; upperB: 64.0
+calidad alcanzado: 53243.0
+calidad ideal: 54246.0
+(calidad alcanzado)/(calidad ideal): 0.9815101574309627
+(#_unos_alcanzado)/(#_unos_ideal): 0.953125
+ultimo seleccionado (posicion): 68
+(ultimo seleccionado)/upper: 1.0625
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5813953488372092
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.186046511627907
+ultimo seleccionado consecutivo (posicion)51
+(ultimo seleccionado consecutivo)/lowerB: 2.3181818181818183
+----------------------------------
+nombre archivo: r_100_50_9
+parecido (# unos alcanzado)69
+# unos Ideal72
+lowerB: 35.0; upperB: 72.0
+calidad alcanzado: 68082.0
+calidad ideal: 68974.0
+(calidad alcanzado)/(calidad ideal): 0.9870675906863455
+(#_unos_alcanzado)/(#_unos_ideal): 0.9583333333333334
+ultimo seleccionado (posicion): 76
+(ultimo seleccionado)/upper: 1.0555555555555556
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4205607476635513
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.9532710280373832
+ultimo seleccionado consecutivo (posicion)51
+(ultimo seleccionado consecutivo)/lowerB: 1.457142857142857
+----------------------------------
+nombre archivo: r_100_50_10
+parecido (# unos alcanzado)78
+# unos Ideal81
+lowerB: 48.0; upperB: 82.0
+calidad alcanzado: 87427.0
+calidad ideal: 88634.0
+(calidad alcanzado)/(calidad ideal): 0.9863822009612564
+(#_unos_alcanzado)/(#_unos_ideal): 0.9629629629629629
+ultimo seleccionado (posicion): 84
+(ultimo seleccionado)/upper: 1.024390243902439
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2923076923076924
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.9846153846153847
+ultimo seleccionado consecutivo (posicion)64
+(ultimo seleccionado consecutivo)/lowerB: 1.3333333333333333
+----------------------------------
+nombre archivo: r_100_25_1
+parecido (# unos alcanzado)46
+# unos Ideal50
+lowerB: 13.0; upperB: 51.0
+calidad alcanzado: 17903.0
+calidad ideal: 18558.0
+(calidad alcanzado)/(calidad ideal): 0.9647052484103891
+(#_unos_alcanzado)/(#_unos_ideal): 0.92
+ultimo seleccionado (posicion): 59
+(ultimo seleccionado)/upper: 1.1568627450980393
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.84375
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0625
+ultimo seleccionado consecutivo (posicion)34
+(ultimo seleccionado consecutivo)/lowerB: 2.6153846153846154
+----------------------------------
+nombre archivo: r_100_25_2
+parecido (# unos alcanzado)89
+# unos Ideal91
+lowerB: 65.0; upperB: 91.0
+calidad alcanzado: 56339.0
+calidad ideal: 56525.0
+(calidad alcanzado)/(calidad ideal): 0.9967094206103494
+(#_unos_alcanzado)/(#_unos_ideal): 0.978021978021978
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.010989010989011
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1794871794871795
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1153846153846154
+ultimo seleccionado consecutivo (posicion)87
+(ultimo seleccionado consecutivo)/lowerB: 1.3384615384615384
+----------------------------------
+nombre archivo: r_100_25_3
+parecido (# unos alcanzado)19
+# unos Ideal22
+lowerB: 3.0; upperB: 23.0
+calidad alcanzado: 3326.0
+calidad ideal: 3752.0
+(calidad alcanzado)/(calidad ideal): 0.8864605543710021
+(#_unos_alcanzado)/(#_unos_ideal): 0.8636363636363636
+ultimo seleccionado (posicion): 37
+(ultimo seleccionado)/upper: 1.608695652173913
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.8461538461538463
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.6153846153846154
+ultimo seleccionado consecutivo (posicion)8
+(ultimo seleccionado consecutivo)/lowerB: 2.6666666666666665
+----------------------------------
+nombre archivo: r_100_25_4
+parecido (# unos alcanzado)82
+# unos Ideal84
+lowerB: 55.0; upperB: 85.0
+calidad alcanzado: 50157.0
+calidad ideal: 50382.0
+(calidad alcanzado)/(calidad ideal): 0.9955341193283316
+(#_unos_alcanzado)/(#_unos_ideal): 0.9761904761904762
+ultimo seleccionado (posicion): 87
+(ultimo seleccionado)/upper: 1.0235294117647058
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2428571428571429
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1285714285714286
+ultimo seleccionado consecutivo (posicion)79
+(ultimo seleccionado consecutivo)/lowerB: 1.4363636363636363
+----------------------------------
+nombre archivo: r_100_25_5
+parecido (# unos alcanzado)95
+# unos Ideal96
+lowerB: 76.0; upperB: 96.0
+calidad alcanzado: 60983.0
+calidad ideal: 61494.0
+(calidad alcanzado)/(calidad ideal): 0.9916902462028816
+(#_unos_alcanzado)/(#_unos_ideal): 0.9895833333333334
+ultimo seleccionado (posicion): 99
+(ultimo seleccionado)/upper: 1.03125
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1511627906976745
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0930232558139534
+ultimo seleccionado consecutivo (posicion)94
+(ultimo seleccionado consecutivo)/lowerB: 1.236842105263158
+----------------------------------
+nombre archivo: r_100_25_6
+parecido (# unos alcanzado)68
+# unos Ideal71
+lowerB: 32.0; upperB: 73.0
+calidad alcanzado: 35346.0
+calidad ideal: 36360.0
+(calidad alcanzado)/(calidad ideal): 0.9721122112211221
+(#_unos_alcanzado)/(#_unos_ideal): 0.9577464788732394
+ultimo seleccionado (posicion): 76
+(ultimo seleccionado)/upper: 1.0410958904109588
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4476190476190476
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.161904761904762
+ultimo seleccionado consecutivo (posicion)61
+(ultimo seleccionado consecutivo)/lowerB: 1.90625
+----------------------------------
+nombre archivo: r_100_25_7
+parecido (# unos alcanzado)41
+# unos Ideal43
+lowerB: 10.0; upperB: 44.0
+calidad alcanzado: 14049.0
+calidad ideal: 14657.0
+(calidad alcanzado)/(calidad ideal): 0.9585181142116395
+(#_unos_alcanzado)/(#_unos_ideal): 0.9534883720930233
+ultimo seleccionado (posicion): 53
+(ultimo seleccionado)/upper: 1.2045454545454546
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.962962962962963
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4074074074074074
+ultimo seleccionado consecutivo (posicion)38
+(ultimo seleccionado consecutivo)/lowerB: 3.8
+----------------------------------
+nombre archivo: r_100_25_8
+parecido (# unos alcanzado)53
+# unos Ideal55
+lowerB: 13.0; upperB: 55.0
+calidad alcanzado: 19651.0
+calidad ideal: 20452.0
+(calidad alcanzado)/(calidad ideal): 0.9608351261490319
+(#_unos_alcanzado)/(#_unos_ideal): 0.9636363636363636
+ultimo seleccionado (posicion): 58
+(ultimo seleccionado)/upper: 1.0545454545454545
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7058823529411764
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2647058823529411
+ultimo seleccionado consecutivo (posicion)43
+(ultimo seleccionado consecutivo)/lowerB: 3.3076923076923075
+----------------------------------
+nombre archivo: r_100_25_9
+parecido (# unos alcanzado)66
+# unos Ideal70
+lowerB: 37.0; upperB: 72.0
+calidad alcanzado: 34287.0
+calidad ideal: 35438.0
+(calidad alcanzado)/(calidad ideal): 0.9675207404481065
+(#_unos_alcanzado)/(#_unos_ideal): 0.9428571428571428
+ultimo seleccionado (posicion): 82
+(ultimo seleccionado)/upper: 1.1388888888888888
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5045871559633028
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.7155963302752294
+ultimo seleccionado consecutivo (posicion)39
+(ultimo seleccionado consecutivo)/lowerB: 1.054054054054054
+----------------------------------
+nombre archivo: r_100_25_10
+parecido (# unos alcanzado)56
+# unos Ideal58
+lowerB: 23.0; upperB: 60.0
+calidad alcanzado: 24287.0
+calidad ideal: 24930.0
+(calidad alcanzado)/(calidad ideal): 0.9742077817890092
+(#_unos_alcanzado)/(#_unos_ideal): 0.9655172413793104
+ultimo seleccionado (posicion): 63
+(ultimo seleccionado)/upper: 1.05
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5180722891566265
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.8674698795180723
+ultimo seleccionado consecutivo (posicion)36
+(ultimo seleccionado consecutivo)/lowerB: 1.565217391304348
+----------------------------------
+nombre archivo: r_100_75_1
+parecido (# unos alcanzado)99
+# unos Ideal99
+lowerB: 87.0; upperB: 99.0
+calidad alcanzado: 189137.0
+calidad ideal: 189137.0
+(calidad alcanzado)/(calidad ideal): 1.0
+(#_unos_alcanzado)/(#_unos_ideal): 1.0
+ultimo seleccionado (posicion): 98
+(ultimo seleccionado)/upper: 0.98989898989899
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.053763440860215
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.053763440860215
+ultimo seleccionado consecutivo (posicion)98
+(ultimo seleccionado consecutivo)/lowerB: 1.1264367816091954
+----------------------------------
+nombre archivo: r_100_75_2
+parecido (# unos alcanzado)65
+# unos Ideal68
+lowerB: 31.0; upperB: 68.0
+calidad alcanzado: 93532.0
+calidad ideal: 95074.0
+(calidad alcanzado)/(calidad ideal): 0.9837810547573469
+(#_unos_alcanzado)/(#_unos_ideal): 0.9558823529411765
+ultimo seleccionado (posicion): 78
+(ultimo seleccionado)/upper: 1.1470588235294117
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5757575757575757
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.98989898989899
+ultimo seleccionado consecutivo (posicion)49
+(ultimo seleccionado consecutivo)/lowerB: 1.5806451612903225
+----------------------------------
+nombre archivo: r_100_75_3
+parecido (# unos alcanzado)53
+# unos Ideal55
+lowerB: 18.0; upperB: 55.0
+calidad alcanzado: 61806.0
+calidad ideal: 62098.0
+(calidad alcanzado)/(calidad ideal): 0.9952977551611968
+(#_unos_alcanzado)/(#_unos_ideal): 0.9636363636363636
+ultimo seleccionado (posicion): 58
+(ultimo seleccionado)/upper: 1.0545454545454545
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5890410958904109
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.36986301369863
+ultimo seleccionado consecutivo (posicion)50
+(ultimo seleccionado consecutivo)/lowerB: 2.7777777777777777
+----------------------------------
+nombre archivo: r_100_75_4
+parecido (# unos alcanzado)55
+# unos Ideal60
+lowerB: 22.0; upperB: 60.0
+calidad alcanzado: 70590.0
+calidad ideal: 72245.0
+(calidad alcanzado)/(calidad ideal): 0.9770918402657623
+(#_unos_alcanzado)/(#_unos_ideal): 0.9166666666666666
+ultimo seleccionado (posicion): 72
+(ultimo seleccionado)/upper: 1.2
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7560975609756098
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2439024390243902
+ultimo seleccionado consecutivo (posicion)51
+(ultimo seleccionado consecutivo)/lowerB: 2.3181818181818183
+----------------------------------
+nombre archivo: r_100_75_5
+parecido (# unos alcanzado)34
+# unos Ideal37
+lowerB: 7.0; upperB: 37.0
+calidad alcanzado: 26479.0
+calidad ideal: 27616.0
+(calidad alcanzado)/(calidad ideal): 0.9588282155272306
+(#_unos_alcanzado)/(#_unos_ideal): 0.918918918918919
+ultimo seleccionado (posicion): 41
+(ultimo seleccionado)/upper: 1.1081081081081081
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8636363636363635
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5
+ultimo seleccionado consecutivo (posicion)33
+(ultimo seleccionado consecutivo)/lowerB: 4.714285714285714
+----------------------------------
+nombre archivo: r_100_75_6
+parecido (# unos alcanzado)84
+# unos Ideal86
+lowerB: 47.0; upperB: 86.0
+calidad alcanzado: 144731.0
+calidad ideal: 145273.0
+(calidad alcanzado)/(calidad ideal): 0.9962690933621526
+(#_unos_alcanzado)/(#_unos_ideal): 0.9767441860465116
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.069767441860465
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3834586466165413
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2330827067669172
+ultimo seleccionado consecutivo (posicion)82
+(ultimo seleccionado consecutivo)/lowerB: 1.7446808510638299
+----------------------------------
+nombre archivo: r_100_75_7
+parecido (# unos alcanzado)69
+# unos Ideal74
+lowerB: 34.0; upperB: 74.0
+calidad alcanzado: 108849.0
+calidad ideal: 110979.0
+(calidad alcanzado)/(calidad ideal): 0.980807179736707
+(#_unos_alcanzado)/(#_unos_ideal): 0.9324324324324325
+ultimo seleccionado (posicion): 79
+(ultimo seleccionado)/upper: 1.0675675675675675
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.462962962962963
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1666666666666667
+ultimo seleccionado consecutivo (posicion)63
+(ultimo seleccionado consecutivo)/lowerB: 1.8529411764705883
+----------------------------------
+nombre archivo: r_100_75_8
+parecido (# unos alcanzado)28
+# unos Ideal31
+lowerB: 7.0; upperB: 31.0
+calidad alcanzado: 18306.0
+calidad ideal: 19570.0
+(calidad alcanzado)/(calidad ideal): 0.9354113438937148
+(#_unos_alcanzado)/(#_unos_ideal): 0.9032258064516129
+ultimo seleccionado (posicion): 35
+(ultimo seleccionado)/upper: 1.1290322580645162
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8421052631578947
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2105263157894737
+ultimo seleccionado consecutivo (posicion)23
+(ultimo seleccionado consecutivo)/lowerB: 3.2857142857142856
+----------------------------------
+nombre archivo: r_100_75_9
+parecido (# unos alcanzado)70
+# unos Ideal73
+lowerB: 36.0; upperB: 73.0
+calidad alcanzado: 102406.0
+calidad ideal: 104341.0
+(calidad alcanzado)/(calidad ideal): 0.9814550368503273
+(#_unos_alcanzado)/(#_unos_ideal): 0.958904109589041
+ultimo seleccionado (posicion): 81
+(ultimo seleccionado)/upper: 1.1095890410958904
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4862385321100917
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1559633027522935
+ultimo seleccionado consecutivo (posicion)63
+(ultimo seleccionado consecutivo)/lowerB: 1.75
+----------------------------------
+nombre archivo: r_100_75_10
+parecido (# unos alcanzado)84
+# unos Ideal86
+lowerB: 50.0; upperB: 86.0
+calidad alcanzado: 142676.0
+calidad ideal: 143740.0
+(calidad alcanzado)/(calidad ideal): 0.9925977459301517
+(#_unos_alcanzado)/(#_unos_ideal): 0.9767441860465116
+ultimo seleccionado (posicion): 87
+(ultimo seleccionado)/upper: 1.0116279069767442
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2794117647058822
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1470588235294117
+ultimo seleccionado consecutivo (posicion)78
+(ultimo seleccionado consecutivo)/lowerB: 1.56
+----------------------------------
+nombre archivo: r_100_50_1
+parecido (# unos alcanzado)76
+# unos Ideal78
+lowerB: 37.0; upperB: 78.0
+calidad alcanzado: 82959.0
+calidad ideal: 83742.0
+(calidad alcanzado)/(calidad ideal): 0.9906498531202981
+(#_unos_alcanzado)/(#_unos_ideal): 0.9743589743589743
+ultimo seleccionado (posicion): 84
+(ultimo seleccionado)/upper: 1.0769230769230769
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4608695652173913
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3043478260869565
+ultimo seleccionado consecutivo (posicion)75
+(ultimo seleccionado consecutivo)/lowerB: 2.027027027027027
+----------------------------------
+nombre archivo: r_100_50_2
+parecido (# unos alcanzado)86
+# unos Ideal88
+lowerB: 53.0; upperB: 88.0
+calidad alcanzado: 104389.0
+calidad ideal: 104856.0
+(calidad alcanzado)/(calidad ideal): 0.9955462729839017
+(#_unos_alcanzado)/(#_unos_ideal): 0.9772727272727273
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.0454545454545454
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3049645390070923
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0921985815602837
+ultimo seleccionado consecutivo (posicion)77
+(ultimo seleccionado consecutivo)/lowerB: 1.4528301886792452
+----------------------------------
+nombre archivo: r_100_50_3
+parecido (# unos alcanzado)47
+# unos Ideal50
+lowerB: 12.0; upperB: 51.0
+calidad alcanzado: 32609.0
+calidad ideal: 34006.0
+(calidad alcanzado)/(calidad ideal): 0.9589190142915957
+(#_unos_alcanzado)/(#_unos_ideal): 0.94
+ultimo seleccionado (posicion): 57
+(ultimo seleccionado)/upper: 1.1176470588235294
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8095238095238095
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.9841269841269841
+ultimo seleccionado consecutivo (posicion)31
+(ultimo seleccionado consecutivo)/lowerB: 2.5833333333333335
+----------------------------------
+nombre archivo: r_100_50_4
+parecido (# unos alcanzado)88
+# unos Ideal90
+lowerB: 60.0; upperB: 90.0
+calidad alcanzado: 105444.0
+calidad ideal: 105996.0
+(calidad alcanzado)/(calidad ideal): 0.9947922563115589
+(#_unos_alcanzado)/(#_unos_ideal): 0.9777777777777777
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.0222222222222221
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2266666666666666
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.16
+ultimo seleccionado consecutivo (posicion)87
+(ultimo seleccionado consecutivo)/lowerB: 1.45
+----------------------------------
+nombre archivo: r_100_50_5
+parecido (# unos alcanzado)63
+# unos Ideal65
+lowerB: 22.0; upperB: 65.0
+calidad alcanzado: 56010.0
+calidad ideal: 56464.0
+(calidad alcanzado)/(calidad ideal): 0.9919594786058373
+(#_unos_alcanzado)/(#_unos_ideal): 0.9692307692307692
+ultimo seleccionado (posicion): 73
+(ultimo seleccionado)/upper: 1.123076923076923
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6781609195402298
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4252873563218391
+ultimo seleccionado consecutivo (posicion)62
+(ultimo seleccionado consecutivo)/lowerB: 2.8181818181818183
+----------------------------------
+nombre archivo: r_100_50_6
+parecido (# unos alcanzado)30
+# unos Ideal34
+lowerB: 6.0; upperB: 35.0
+calidad alcanzado: 14967.0
+calidad ideal: 16083.0
+(calidad alcanzado)/(calidad ideal): 0.9306099608282037
+(#_unos_alcanzado)/(#_unos_ideal): 0.8823529411764706
+ultimo seleccionado (posicion): 49
+(ultimo seleccionado)/upper: 1.4
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.3902439024390243
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3170731707317074
+ultimo seleccionado consecutivo (posicion)27
+(ultimo seleccionado consecutivo)/lowerB: 4.5
+----------------------------------
+nombre archivo: r_100_50_7
+parecido (# unos alcanzado)60
+# unos Ideal62
+lowerB: 23.0; upperB: 62.0
+calidad alcanzado: 51914.0
+calidad ideal: 52819.0
+(calidad alcanzado)/(calidad ideal): 0.9828660141237054
+(#_unos_alcanzado)/(#_unos_ideal): 0.967741935483871
+ultimo seleccionado (posicion): 70
+(ultimo seleccionado)/upper: 1.1290322580645162
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6470588235294117
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1764705882352942
+ultimo seleccionado consecutivo (posicion)50
+(ultimo seleccionado consecutivo)/lowerB: 2.1739130434782608
+----------------------------------
+nombre archivo: r_100_50_8
+parecido (# unos alcanzado)61
+# unos Ideal64
+lowerB: 22.0; upperB: 64.0
+calidad alcanzado: 53243.0
+calidad ideal: 54246.0
+(calidad alcanzado)/(calidad ideal): 0.9815101574309627
+(#_unos_alcanzado)/(#_unos_ideal): 0.953125
+ultimo seleccionado (posicion): 68
+(ultimo seleccionado)/upper: 1.0625
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5813953488372092
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.186046511627907
+ultimo seleccionado consecutivo (posicion)51
+(ultimo seleccionado consecutivo)/lowerB: 2.3181818181818183
+----------------------------------
+nombre archivo: r_100_50_9
+parecido (# unos alcanzado)69
+# unos Ideal72
+lowerB: 35.0; upperB: 72.0
+calidad alcanzado: 68082.0
+calidad ideal: 68974.0
+(calidad alcanzado)/(calidad ideal): 0.9870675906863455
+(#_unos_alcanzado)/(#_unos_ideal): 0.9583333333333334
+ultimo seleccionado (posicion): 76
+(ultimo seleccionado)/upper: 1.0555555555555556
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4205607476635513
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.9532710280373832
+ultimo seleccionado consecutivo (posicion)51
+(ultimo seleccionado consecutivo)/lowerB: 1.457142857142857
+----------------------------------
+nombre archivo: r_100_50_10
+parecido (# unos alcanzado)78
+# unos Ideal81
+lowerB: 48.0; upperB: 82.0
+calidad alcanzado: 87427.0
+calidad ideal: 88634.0
+(calidad alcanzado)/(calidad ideal): 0.9863822009612564
+(#_unos_alcanzado)/(#_unos_ideal): 0.9629629629629629
+ultimo seleccionado (posicion): 84
+(ultimo seleccionado)/upper: 1.024390243902439
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2923076923076924
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.9846153846153847
+ultimo seleccionado consecutivo (posicion)64
+(ultimo seleccionado consecutivo)/lowerB: 1.3333333333333333
+----------------------------------
+nombre archivo: r_100_25_1
+parecido (# unos alcanzado)46
+# unos Ideal50
+lowerB: 13.0; upperB: 51.0
+calidad alcanzado: 17903.0
+calidad ideal: 18558.0
+(calidad alcanzado)/(calidad ideal): 0.9647052484103891
+(#_unos_alcanzado)/(#_unos_ideal): 0.92
+ultimo seleccionado (posicion): 59
+(ultimo seleccionado)/upper: 1.1568627450980393
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.84375
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0625
+ultimo seleccionado consecutivo (posicion)34
+(ultimo seleccionado consecutivo)/lowerB: 2.6153846153846154
+----------------------------------
+nombre archivo: r_100_25_2
+parecido (# unos alcanzado)89
+# unos Ideal91
+lowerB: 65.0; upperB: 91.0
+calidad alcanzado: 56339.0
+calidad ideal: 56525.0
+(calidad alcanzado)/(calidad ideal): 0.9967094206103494
+(#_unos_alcanzado)/(#_unos_ideal): 0.978021978021978
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.010989010989011
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1794871794871795
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1153846153846154
+ultimo seleccionado consecutivo (posicion)87
+(ultimo seleccionado consecutivo)/lowerB: 1.3384615384615384
+----------------------------------
+nombre archivo: r_100_25_3
+parecido (# unos alcanzado)19
+# unos Ideal22
+lowerB: 3.0; upperB: 23.0
+calidad alcanzado: 3326.0
+calidad ideal: 3752.0
+(calidad alcanzado)/(calidad ideal): 0.8864605543710021
+(#_unos_alcanzado)/(#_unos_ideal): 0.8636363636363636
+ultimo seleccionado (posicion): 37
+(ultimo seleccionado)/upper: 1.608695652173913
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.8461538461538463
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.6153846153846154
+ultimo seleccionado consecutivo (posicion)8
+(ultimo seleccionado consecutivo)/lowerB: 2.6666666666666665
+----------------------------------
+nombre archivo: r_100_25_4
+parecido (# unos alcanzado)82
+# unos Ideal84
+lowerB: 55.0; upperB: 85.0
+calidad alcanzado: 50157.0
+calidad ideal: 50382.0
+(calidad alcanzado)/(calidad ideal): 0.9955341193283316
+(#_unos_alcanzado)/(#_unos_ideal): 0.9761904761904762
+ultimo seleccionado (posicion): 87
+(ultimo seleccionado)/upper: 1.0235294117647058
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2428571428571429
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1285714285714286
+ultimo seleccionado consecutivo (posicion)79
+(ultimo seleccionado consecutivo)/lowerB: 1.4363636363636363
+----------------------------------
+nombre archivo: r_100_25_5
+parecido (# unos alcanzado)95
+# unos Ideal96
+lowerB: 76.0; upperB: 96.0
+calidad alcanzado: 60983.0
+calidad ideal: 61494.0
+(calidad alcanzado)/(calidad ideal): 0.9916902462028816
+(#_unos_alcanzado)/(#_unos_ideal): 0.9895833333333334
+ultimo seleccionado (posicion): 99
+(ultimo seleccionado)/upper: 1.03125
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1511627906976745
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0930232558139534
+ultimo seleccionado consecutivo (posicion)94
+(ultimo seleccionado consecutivo)/lowerB: 1.236842105263158
+----------------------------------
+nombre archivo: r_100_25_6
+parecido (# unos alcanzado)68
+# unos Ideal71
+lowerB: 32.0; upperB: 73.0
+calidad alcanzado: 35346.0
+calidad ideal: 36360.0
+(calidad alcanzado)/(calidad ideal): 0.9721122112211221
+(#_unos_alcanzado)/(#_unos_ideal): 0.9577464788732394
+ultimo seleccionado (posicion): 76
+(ultimo seleccionado)/upper: 1.0410958904109588
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4476190476190476
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.161904761904762
+ultimo seleccionado consecutivo (posicion)61
+(ultimo seleccionado consecutivo)/lowerB: 1.90625
+----------------------------------
+nombre archivo: r_100_25_7
+parecido (# unos alcanzado)41
+# unos Ideal43
+lowerB: 10.0; upperB: 44.0
+calidad alcanzado: 14049.0
+calidad ideal: 14657.0
+(calidad alcanzado)/(calidad ideal): 0.9585181142116395
+(#_unos_alcanzado)/(#_unos_ideal): 0.9534883720930233
+ultimo seleccionado (posicion): 53
+(ultimo seleccionado)/upper: 1.2045454545454546
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.962962962962963
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4074074074074074
+ultimo seleccionado consecutivo (posicion)38
+(ultimo seleccionado consecutivo)/lowerB: 3.8
+----------------------------------
+nombre archivo: r_100_25_8
+parecido (# unos alcanzado)53
+# unos Ideal55
+lowerB: 13.0; upperB: 55.0
+calidad alcanzado: 19651.0
+calidad ideal: 20452.0
+(calidad alcanzado)/(calidad ideal): 0.9608351261490319
+(#_unos_alcanzado)/(#_unos_ideal): 0.9636363636363636
+ultimo seleccionado (posicion): 58
+(ultimo seleccionado)/upper: 1.0545454545454545
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7058823529411764
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2647058823529411
+ultimo seleccionado consecutivo (posicion)43
+(ultimo seleccionado consecutivo)/lowerB: 3.3076923076923075
+----------------------------------
+nombre archivo: r_100_25_9
+parecido (# unos alcanzado)66
+# unos Ideal70
+lowerB: 37.0; upperB: 72.0
+calidad alcanzado: 34287.0
+calidad ideal: 35438.0
+(calidad alcanzado)/(calidad ideal): 0.9675207404481065
+(#_unos_alcanzado)/(#_unos_ideal): 0.9428571428571428
+ultimo seleccionado (posicion): 82
+(ultimo seleccionado)/upper: 1.1388888888888888
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5045871559633028
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.7155963302752294
+ultimo seleccionado consecutivo (posicion)39
+(ultimo seleccionado consecutivo)/lowerB: 1.054054054054054
+----------------------------------
+nombre archivo: r_100_25_10
+parecido (# unos alcanzado)56
+# unos Ideal58
+lowerB: 23.0; upperB: 60.0
+calidad alcanzado: 24287.0
+calidad ideal: 24930.0
+(calidad alcanzado)/(calidad ideal): 0.9742077817890092
+(#_unos_alcanzado)/(#_unos_ideal): 0.9655172413793104
+ultimo seleccionado (posicion): 63
+(ultimo seleccionado)/upper: 1.05
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5180722891566265
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.8674698795180723
+ultimo seleccionado consecutivo (posicion)36
+(ultimo seleccionado consecutivo)/lowerB: 1.565217391304348
+----------------------------------
+nombre archivo: r_100_100_1
+parecido (# unos alcanzado)54
+# unos Ideal56
+lowerB: 13.0; upperB: 56.0
+calidad alcanzado: 81861.0
+calidad ideal: 81978.0
+(calidad alcanzado)/(calidad ideal): 0.9985727878211227
+(#_unos_alcanzado)/(#_unos_ideal): 0.9642857142857143
+ultimo seleccionado (posicion): 59
+(ultimo seleccionado)/upper: 1.0535714285714286
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.710144927536232
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3333333333333333
+ultimo seleccionado consecutivo (posicion)46
+(ultimo seleccionado consecutivo)/lowerB: 3.5384615384615383
+----------------------------------
+nombre archivo: r_100_100_2
+parecido (# unos alcanzado)84
+# unos Ideal86
+lowerB: 51.0; upperB: 86.0
+calidad alcanzado: 188993.0
+calidad ideal: 190424.0
+(calidad alcanzado)/(calidad ideal): 0.9924851909423182
+(#_unos_alcanzado)/(#_unos_ideal): 0.9767441860465116
+ultimo seleccionado (posicion): 87
+(ultimo seleccionado)/upper: 1.0116279069767442
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.27007299270073
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0656934306569343
+ultimo seleccionado consecutivo (posicion)73
+(ultimo seleccionado consecutivo)/lowerB: 1.4313725490196079
+----------------------------------
+nombre archivo: r_100_100_3
+parecido (# unos alcanzado)93
+# unos Ideal94
+lowerB: 67.0; upperB: 94.0
+calidad alcanzado: 220735.0
+calidad ideal: 225434.0
+(calidad alcanzado)/(calidad ideal): 0.979155761775065
+(#_unos_alcanzado)/(#_unos_ideal): 0.9893617021276596
+ultimo seleccionado (posicion): 94
+(ultimo seleccionado)/upper: 1.0
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1677018633540373
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1428571428571428
+ultimo seleccionado consecutivo (posicion)92
+(ultimo seleccionado consecutivo)/lowerB: 1.373134328358209
+no se pudo obtener el archivo: mochilaCuadratica/grupo1/jeu_100_100_4.txt
+----------------------------------
+nombre archivo: r_100_100_5
+parecido (# unos alcanzado)92
+# unos Ideal94
+lowerB: 68.0; upperB: 94.0
+calidad alcanzado: 229660.0
+calidad ideal: 230076.0
+(calidad alcanzado)/(calidad ideal): 0.9981919018063596
+(#_unos_alcanzado)/(#_unos_ideal): 0.9787234042553191
+ultimo seleccionado (posicion): 95
+(ultimo seleccionado)/upper: 1.0106382978723405
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1728395061728396
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1111111111111112
+ultimo seleccionado consecutivo (posicion)90
+(ultimo seleccionado consecutivo)/lowerB: 1.3235294117647058
+----------------------------------
+nombre archivo: r_100_100_6
+parecido (# unos alcanzado)51
+# unos Ideal53
+lowerB: 15.0; upperB: 53.0
+calidad alcanzado: 73877.0
+calidad ideal: 74358.0
+(calidad alcanzado)/(calidad ideal): 0.9935312945479975
+(#_unos_alcanzado)/(#_unos_ideal): 0.9622641509433962
+ultimo seleccionado (posicion): 58
+(ultimo seleccionado)/upper: 1.0943396226415094
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7058823529411764
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4411764705882353
+ultimo seleccionado consecutivo (posicion)49
+(ultimo seleccionado consecutivo)/lowerB: 3.2666666666666666
+----------------------------------
+nombre archivo: r_100_100_7
+parecido (# unos alcanzado)18
+# unos Ideal19
+lowerB: 2.0; upperB: 19.0
+calidad alcanzado: 9859.0
+calidad ideal: 10330.0
+(calidad alcanzado)/(calidad ideal): 0.954404646660213
+(#_unos_alcanzado)/(#_unos_ideal): 0.9473684210526315
+ultimo seleccionado (posicion): 21
+(ultimo seleccionado)/upper: 1.105263157894737
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.0
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0476190476190477
+ultimo seleccionado consecutivo (posicion)11
+(ultimo seleccionado consecutivo)/lowerB: 5.5
+----------------------------------
+nombre archivo: r_100_100_8
+parecido (# unos alcanzado)48
+# unos Ideal49
+lowerB: 13.0; upperB: 49.0
+calidad alcanzado: 62251.0
+calidad ideal: 62582.0
+(calidad alcanzado)/(calidad ideal): 0.994710939247707
+(#_unos_alcanzado)/(#_unos_ideal): 0.9795918367346939
+ultimo seleccionado (posicion): 52
+(ultimo seleccionado)/upper: 1.0612244897959184
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6774193548387097
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3870967741935485
+ultimo seleccionado consecutivo (posicion)43
+(ultimo seleccionado consecutivo)/lowerB: 3.3076923076923075
+----------------------------------
+nombre archivo: r_100_100_9
+parecido (# unos alcanzado)92
+# unos Ideal95
+lowerB: 71.0; upperB: 95.0
+calidad alcanzado: 231402.0
+calidad ideal: 232754.0
+(calidad alcanzado)/(calidad ideal): 0.9941912920937986
+(#_unos_alcanzado)/(#_unos_ideal): 0.968421052631579
+ultimo seleccionado (posicion): 98
+(ultimo seleccionado)/upper: 1.0315789473684212
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.180722891566265
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0240963855421688
+ultimo seleccionado consecutivo (posicion)85
+(ultimo seleccionado consecutivo)/lowerB: 1.1971830985915493
+----------------------------------
+nombre archivo: r_100_100_10
+parecido (# unos alcanzado)83
+# unos Ideal86
+lowerB: 50.0; upperB: 86.0
+calidad alcanzado: 191578.0
+calidad ideal: 193262.0
+(calidad alcanzado)/(calidad ideal): 0.9912864401693039
+(#_unos_alcanzado)/(#_unos_ideal): 0.9651162790697675
+ultimo seleccionado (posicion): 93
+(ultimo seleccionado)/upper: 1.0813953488372092
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3676470588235294
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1470588235294117
+ultimo seleccionado consecutivo (posicion)78
+(ultimo seleccionado consecutivo)/lowerB: 1.56
+----------------------------------
+nombre archivo: r_200_100_1
+parecido (# unos alcanzado)188
+# unos Ideal192
+lowerB: 150.0; upperB: 192.0
+calidad alcanzado: 935700.0
+calidad ideal: 937149.0
+(calidad alcanzado)/(calidad ideal): 0.9984538211106239
+(#_unos_alcanzado)/(#_unos_ideal): 0.9791666666666666
+ultimo seleccionado (posicion): 195
+(ultimo seleccionado)/upper: 1.015625
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1403508771929824
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.8771929824561403
+ultimo seleccionado consecutivo (posicion)150
+(ultimo seleccionado consecutivo)/lowerB: 1.0
+----------------------------------
+nombre archivo: r_200_100_2
+parecido (# unos alcanzado)105
+# unos Ideal108
+lowerB: 27.0; upperB: 108.0
+calidad alcanzado: 300313.0
+calidad ideal: 303058.0
+(calidad alcanzado)/(calidad ideal): 0.9909423278712326
+(#_unos_alcanzado)/(#_unos_ideal): 0.9722222222222222
+ultimo seleccionado (posicion): 125
+(ultimo seleccionado)/upper: 1.1574074074074074
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8518518518518519
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4814814814814814
+ultimo seleccionado consecutivo (posicion)100
+(ultimo seleccionado consecutivo)/lowerB: 3.7037037037037037
+----------------------------------
+nombre archivo: r_200_100_3
+parecido (# unos alcanzado)30
+# unos Ideal33
+lowerB: 3.0; upperB: 33.0
+calidad alcanzado: 28455.0
+calidad ideal: 29367.0
+(calidad alcanzado)/(calidad ideal): 0.9689447338849729
+(#_unos_alcanzado)/(#_unos_ideal): 0.9090909090909091
+ultimo seleccionado (posicion): 36
+(ultimo seleccionado)/upper: 1.0909090909090908
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.0
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5
+ultimo seleccionado consecutivo (posicion)27
+(ultimo seleccionado consecutivo)/lowerB: 9.0
+----------------------------------
+nombre archivo: r_200_100_4
+parecido (# unos alcanzado)60
+# unos Ideal62
+lowerB: 10.0; upperB: 62.0
+calidad alcanzado: 99610.0
+calidad ideal: 100838.0
+(calidad alcanzado)/(calidad ideal): 0.9878220512108531
+(#_unos_alcanzado)/(#_unos_ideal): 0.967741935483871
+ultimo seleccionado (posicion): 70
+(ultimo seleccionado)/upper: 1.1290322580645162
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.9444444444444444
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5277777777777777
+ultimo seleccionado consecutivo (posicion)55
+(ultimo seleccionado consecutivo)/lowerB: 5.5
+----------------------------------
+nombre archivo: r_200_100_5
+parecido (# unos alcanzado)173
+# unos Ideal175
+lowerB: 111.0; upperB: 175.0
+calidad alcanzado: 785441.0
+calidad ideal: 786635.0
+(calidad alcanzado)/(calidad ideal): 0.9984821422896261
+(#_unos_alcanzado)/(#_unos_ideal): 0.9885714285714285
+ultimo seleccionado (posicion): 177
+(ultimo seleccionado)/upper: 1.0114285714285713
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2377622377622377
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.167832167832168
+ultimo seleccionado consecutivo (posicion)167
+(ultimo seleccionado consecutivo)/lowerB: 1.5045045045045045
+----------------------------------
+nombre archivo: r_200_100_6
+parecido (# unos alcanzado)40
+# unos Ideal40
+lowerB: 3.0; upperB: 40.0
+calidad alcanzado: 41171.0
+calidad ideal: 41171.0
+(calidad alcanzado)/(calidad ideal): 1.0
+(#_unos_alcanzado)/(#_unos_ideal): 1.0
+ultimo seleccionado (posicion): 39
+(ultimo seleccionado)/upper: 0.975
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.813953488372093
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.813953488372093
+ultimo seleccionado consecutivo (posicion)39
+(ultimo seleccionado consecutivo)/lowerB: 13.0
+----------------------------------
+nombre archivo: r_200_100_7
+parecido (# unos alcanzado)162
+# unos Ideal165
+lowerB: 91.0; upperB: 165.0
+calidad alcanzado: 698566.0
+calidad ideal: 701094.0
+(calidad alcanzado)/(calidad ideal): 0.9963942067682793
+(#_unos_alcanzado)/(#_unos_ideal): 0.9818181818181818
+ultimo seleccionado (posicion): 172
+(ultimo seleccionado)/upper: 1.0424242424242425
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.34375
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1875
+ultimo seleccionado consecutivo (posicion)152
+(ultimo seleccionado consecutivo)/lowerB: 1.6703296703296704
+----------------------------------
+nombre archivo: r_200_100_8
+parecido (# unos alcanzado)170
+# unos Ideal175
+lowerB: 99.0; upperB: 175.0
+calidad alcanzado: 779605.0
+calidad ideal: 782443.0
+(calidad alcanzado)/(calidad ideal): 0.9963728987287253
+(#_unos_alcanzado)/(#_unos_ideal): 0.9714285714285714
+ultimo seleccionado (posicion): 188
+(ultimo seleccionado)/upper: 1.0742857142857143
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3722627737226278
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1386861313868613
+ultimo seleccionado consecutivo (posicion)156
+(ultimo seleccionado consecutivo)/lowerB: 1.5757575757575757
+----------------------------------
+nombre archivo: r_200_100_9
+parecido (# unos alcanzado)154
+# unos Ideal157
+lowerB: 77.0; upperB: 157.0
+calidad alcanzado: 626668.0
+calidad ideal: 628992.0
+(calidad alcanzado)/(calidad ideal): 0.9963051994301995
+(#_unos_alcanzado)/(#_unos_ideal): 0.9808917197452229
+ultimo seleccionado (posicion): 162
+(ultimo seleccionado)/upper: 1.0318471337579618
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3846153846153846
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.264957264957265
+ultimo seleccionado consecutivo (posicion)148
+(ultimo seleccionado consecutivo)/lowerB: 1.922077922077922
+----------------------------------
+nombre archivo: r_200_100_10
+parecido (# unos alcanzado)116
+# unos Ideal121
+lowerB: 40.0; upperB: 121.0
+calidad alcanzado: 376219.0
+calidad ideal: 378442.0
+(calidad alcanzado)/(calidad ideal): 0.9941259162566523
+(#_unos_alcanzado)/(#_unos_ideal): 0.9586776859504132
+ultimo seleccionado (posicion): 131
+(ultimo seleccionado)/upper: 1.0826446280991735
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6273291925465838
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2422360248447204
+ultimo seleccionado consecutivo (posicion)100
+(ultimo seleccionado consecutivo)/lowerB: 2.5
+----------------------------------
+nombre archivo: r_200_25_1
+parecido (# unos alcanzado)170
+# unos Ideal174
+lowerB: 108.0; upperB: 175.0
+calidad alcanzado: 201849.0
+calidad ideal: 204441.0
+(calidad alcanzado)/(calidad ideal): 0.9873215255257017
+(#_unos_alcanzado)/(#_unos_ideal): 0.9770114942528736
+ultimo seleccionado (posicion): 179
+(ultimo seleccionado)/upper: 1.022857142857143
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.265017667844523
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.137809187279152
+ultimo seleccionado consecutivo (posicion)161
+(ultimo seleccionado consecutivo)/lowerB: 1.4907407407407407
+----------------------------------
+nombre archivo: r_200_25_2
+parecido (# unos alcanzado)190
+# unos Ideal191
+lowerB: 137.0; upperB: 191.0
+calidad alcanzado: 239296.0
+calidad ideal: 239573.0
+(calidad alcanzado)/(calidad ideal): 0.9988437762185222
+(#_unos_alcanzado)/(#_unos_ideal): 0.9947643979057592
+ultimo seleccionado (posicion): 194
+(ultimo seleccionado)/upper: 1.0157068062827226
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1829268292682926
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1402439024390243
+ultimo seleccionado consecutivo (posicion)187
+(ultimo seleccionado consecutivo)/lowerB: 1.364963503649635
+no se pudo obtener el archivo: mochilaCuadratica/grupo1/jeu_200_25_3.txt
+----------------------------------
+nombre archivo: r_200_25_4
+parecido (# unos alcanzado)181
+# unos Ideal183
+lowerB: 128.0; upperB: 183.0
+calidad alcanzado: 220296.0
+calidad ideal: 222361.0
+(calidad alcanzado)/(calidad ideal): 0.9907132995444345
+(#_unos_alcanzado)/(#_unos_ideal): 0.9890710382513661
+ultimo seleccionado (posicion): 183
+(ultimo seleccionado)/upper: 1.0
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1768488745980707
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.157556270096463
+ultimo seleccionado consecutivo (posicion)180
+(ultimo seleccionado consecutivo)/lowerB: 1.40625
+----------------------------------
+nombre archivo: r_200_25_5
+parecido (# unos alcanzado)161
+# unos Ideal168
+lowerB: 97.0; upperB: 169.0
+calidad alcanzado: 185232.0
+calidad ideal: 187324.0
+(calidad alcanzado)/(calidad ideal): 0.9888321838098695
+(#_unos_alcanzado)/(#_unos_ideal): 0.9583333333333334
+ultimo seleccionado (posicion): 176
+(ultimo seleccionado)/upper: 1.0414201183431953
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3233082706766917
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0902255639097744
+ultimo seleccionado consecutivo (posicion)145
+(ultimo seleccionado consecutivo)/lowerB: 1.4948453608247423
+----------------------------------
+nombre archivo: r_200_25_6
+parecido (# unos alcanzado)103
+# unos Ideal110
+lowerB: 37.0; upperB: 112.0
+calidad alcanzado: 78028.0
+calidad ideal: 80351.0
+(calidad alcanzado)/(calidad ideal): 0.9710893454966335
+(#_unos_alcanzado)/(#_unos_ideal): 0.9363636363636364
+ultimo seleccionado (posicion): 129
+(ultimo seleccionado)/upper: 1.1517857142857142
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7315436241610738
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0604026845637584
+ultimo seleccionado consecutivo (posicion)79
+(ultimo seleccionado consecutivo)/lowerB: 2.135135135135135
+----------------------------------
+nombre archivo: r_200_25_7
+parecido (# unos alcanzado)84
+# unos Ideal90
+lowerB: 26.0; upperB: 92.0
+calidad alcanzado: 57198.0
+calidad ideal: 59036.0
+(calidad alcanzado)/(calidad ideal): 0.9688664543668271
+(#_unos_alcanzado)/(#_unos_ideal): 0.9333333333333333
+ultimo seleccionado (posicion): 115
+(ultimo seleccionado)/upper: 1.25
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.9491525423728813
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.152542372881356
+ultimo seleccionado consecutivo (posicion)68
+(ultimo seleccionado consecutivo)/lowerB: 2.6153846153846154
+----------------------------------
+nombre archivo: r_200_25_8
+parecido (# unos alcanzado)144
+# unos Ideal149
+lowerB: 67.0; upperB: 151.0
+calidad alcanzado: 147990.0
+calidad ideal: 149433.0
+(calidad alcanzado)/(calidad ideal): 0.9903434984240429
+(#_unos_alcanzado)/(#_unos_ideal): 0.9664429530201343
+ultimo seleccionado (posicion): 160
+(ultimo seleccionado)/upper: 1.0596026490066226
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4678899082568808
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1926605504587156
+ultimo seleccionado consecutivo (posicion)130
+(ultimo seleccionado consecutivo)/lowerB: 1.9402985074626866
+----------------------------------
+nombre archivo: r_200_25_9
+parecido (# unos alcanzado)82
+# unos Ideal85
+lowerB: 21.0; upperB: 86.0
+calidad alcanzado: 47918.0
+calidad ideal: 49366.0
+(calidad alcanzado)/(calidad ideal): 0.9706680711420816
+(#_unos_alcanzado)/(#_unos_ideal): 0.9647058823529412
+ultimo seleccionado (posicion): 109
+(ultimo seleccionado)/upper: 1.2674418604651163
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.0373831775700935
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2897196261682242
+ultimo seleccionado consecutivo (posicion)69
+(ultimo seleccionado consecutivo)/lowerB: 3.2857142857142856
+----------------------------------
+nombre archivo: r_200_25_10
+parecido (# unos alcanzado)76
+# unos Ideal82
+lowerB: 20.0; upperB: 84.0
+calidad alcanzado: 46247.0
+calidad ideal: 48459.0
+(calidad alcanzado)/(calidad ideal): 0.9543531645308405
+(#_unos_alcanzado)/(#_unos_ideal): 0.926829268292683
+ultimo seleccionado (posicion): 104
+(ultimo seleccionado)/upper: 1.2380952380952381
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.0
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2884615384615385
+ultimo seleccionado consecutivo (posicion)67
+(ultimo seleccionado consecutivo)/lowerB: 3.35
+----------------------------------
+nombre archivo: r_200_75_1
+parecido (# unos alcanzado)149
+# unos Ideal153
+lowerB: 69.0; upperB: 153.0
+calidad alcanzado: 437929.0
+calidad ideal: 442894.0
+(calidad alcanzado)/(calidad ideal): 0.9887896426684489
+(#_unos_alcanzado)/(#_unos_ideal): 0.9738562091503268
+ultimo seleccionado (posicion): 160
+(ultimo seleccionado)/upper: 1.0457516339869282
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4414414414414414
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3063063063063063
+ultimo seleccionado consecutivo (posicion)145
+(ultimo seleccionado consecutivo)/lowerB: 2.101449275362319
+----------------------------------
+nombre archivo: r_200_75_2
+parecido (# unos alcanzado)116
+# unos Ideal121
+lowerB: 48.0; upperB: 121.0
+calidad alcanzado: 283555.0
+calidad ideal: 286643.0
+(calidad alcanzado)/(calidad ideal): 0.9892270175793583
+(#_unos_alcanzado)/(#_unos_ideal): 0.9586776859504132
+ultimo seleccionado (posicion): 135
+(ultimo seleccionado)/upper: 1.115702479338843
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5976331360946745
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2899408284023668
+ultimo seleccionado consecutivo (posicion)109
+(ultimo seleccionado consecutivo)/lowerB: 2.2708333333333335
+----------------------------------
+nombre archivo: r_200_75_3
+parecido (# unos alcanzado)54
+# unos Ideal56
+lowerB: 8.0; upperB: 56.0
+calidad alcanzado: 60698.0
+calidad ideal: 61924.0
+(calidad alcanzado)/(calidad ideal): 0.9802015373683871
+(#_unos_alcanzado)/(#_unos_ideal): 0.9642857142857143
+ultimo seleccionado (posicion): 61
+(ultimo seleccionado)/upper: 1.0892857142857142
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.90625
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5
+ultimo seleccionado consecutivo (posicion)48
+(ultimo seleccionado consecutivo)/lowerB: 6.0
+----------------------------------
+nombre archivo: r_200_75_4
+parecido (# unos alcanzado)77
+# unos Ideal81
+lowerB: 25.0; upperB: 81.0
+calidad alcanzado: 126909.0
+calidad ideal: 128351.0
+(calidad alcanzado)/(calidad ideal): 0.9887651829748113
+(#_unos_alcanzado)/(#_unos_ideal): 0.9506172839506173
+ultimo seleccionado (posicion): 84
+(ultimo seleccionado)/upper: 1.037037037037037
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5849056603773586
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2641509433962264
+ultimo seleccionado consecutivo (posicion)67
+(ultimo seleccionado consecutivo)/lowerB: 2.68
+----------------------------------
+nombre archivo: r_200_75_5
+parecido (# unos alcanzado)78
+# unos Ideal83
+lowerB: 17.0; upperB: 83.0
+calidad alcanzado: 134462.0
+calidad ideal: 137885.0
+(calidad alcanzado)/(calidad ideal): 0.9751749646444501
+(#_unos_alcanzado)/(#_unos_ideal): 0.9397590361445783
+ultimo seleccionado (posicion): 92
+(ultimo seleccionado)/upper: 1.108433734939759
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.84
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.38
+ultimo seleccionado consecutivo (posicion)69
+(ultimo seleccionado consecutivo)/lowerB: 4.0588235294117645
+----------------------------------
+nombre archivo: r_200_75_8
+parecido (# unos alcanzado)175
+# unos Ideal178
+lowerB: 104.0; upperB: 178.0
+calidad alcanzado: 594748.0
+calidad ideal: 600858.0
+(calidad alcanzado)/(calidad ideal): 0.9898312080391707
+(#_unos_alcanzado)/(#_unos_ideal): 0.9831460674157303
+ultimo seleccionado (posicion): 182
+(ultimo seleccionado)/upper: 1.0224719101123596
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2907801418439717
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2127659574468086
+ultimo seleccionado consecutivo (posicion)171
+(ultimo seleccionado consecutivo)/lowerB: 1.6442307692307692
+----------------------------------
+nombre archivo: r_200_75_9
+parecido (# unos alcanzado)160
+# unos Ideal164
+lowerB: 87.0; upperB: 164.0
+calidad alcanzado: 514428.0
+calidad ideal: 516771.0
+(calidad alcanzado)/(calidad ideal): 0.9954660768502877
+(#_unos_alcanzado)/(#_unos_ideal): 0.975609756097561
+ultimo seleccionado (posicion): 174
+(ultimo seleccionado)/upper: 1.0609756097560976
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3864541832669324
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.203187250996016
+ultimo seleccionado consecutivo (posicion)151
+(ultimo seleccionado consecutivo)/lowerB: 1.735632183908046
+----------------------------------
+nombre archivo: r_200_75_10
+parecido (# unos alcanzado)82
+# unos Ideal86
+lowerB: 20.0; upperB: 86.0
+calidad alcanzado: 140256.0
+calidad ideal: 142694.0
+(calidad alcanzado)/(calidad ideal): 0.9829144883456907
+(#_unos_alcanzado)/(#_unos_ideal): 0.9534883720930233
+ultimo seleccionado (posicion): 93
+(ultimo seleccionado)/upper: 1.0813953488372092
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7547169811320755
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4150943396226414
+ultimo seleccionado consecutivo (posicion)75
+(ultimo seleccionado consecutivo)/lowerB: 3.75
+----------------------------------
+nombre archivo: 1000_25_1
+parecido (# unos alcanzado)985
+# unos Ideal987
+lowerB: 855.0; upperB: 987.0
+calidad alcanzado: 6162414.0
+calidad ideal: 6172407.0
+(calidad alcanzado)/(calidad ideal): 0.9983810205645869
+(#_unos_alcanzado)/(#_unos_ideal): 0.9979736575481256
+ultimo seleccionado (posicion): 990
+(ultimo seleccionado)/upper: 1.0030395136778116
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.0749185667752443
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.0684039087947883
+ultimo seleccionado consecutivo (posicion)984
+(ultimo seleccionado consecutivo)/lowerB: 1.1508771929824562
+----------------------------------
+nombre archivo: 1000_25_2
+parecido (# unos alcanzado)176
+# unos Ideal185
+lowerB: 19.0; upperB: 187.0
+calidad alcanzado: 224449.0
+calidad ideal: 229941.0
+(calidad alcanzado)/(calidad ideal): 0.9761156122657552
+(#_unos_alcanzado)/(#_unos_ideal): 0.9513513513513514
+ultimo seleccionado (posicion): 267
+(ultimo seleccionado)/upper: 1.427807486631016
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.592233009708738
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3980582524271845
+ultimo seleccionado consecutivo (posicion)144
+(ultimo seleccionado consecutivo)/lowerB: 7.578947368421052
+----------------------------------
+nombre archivo: 1000_25_3
+parecido (# unos alcanzado)157
+# unos Ideal165
+lowerB: 14.0; upperB: 166.0
+calidad alcanzado: 167473.0
+calidad ideal: 172418.0
+(calidad alcanzado)/(calidad ideal): 0.9713196997993249
+(#_unos_alcanzado)/(#_unos_ideal): 0.9515151515151515
+ultimo seleccionado (posicion): 213
+(ultimo seleccionado)/upper: 1.283132530120482
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.3666666666666667
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4222222222222223
+ultimo seleccionado consecutivo (posicion)128
+(ultimo seleccionado consecutivo)/lowerB: 9.142857142857142
+----------------------------------
+nombre archivo: 1000_25_4
+parecido (# unos alcanzado)225
+# unos Ideal236
+lowerB: 30.0; upperB: 238.0
+calidad alcanzado: 359529.0
+calidad ideal: 367426.0
+(calidad alcanzado)/(calidad ideal): 0.978507236831362
+(#_unos_alcanzado)/(#_unos_ideal): 0.9533898305084746
+ultimo seleccionado (posicion): 286
+(ultimo seleccionado)/upper: 1.2016806722689075
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.1343283582089554
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.544776119402985
+ultimo seleccionado consecutivo (posicion)207
+(ultimo seleccionado consecutivo)/lowerB: 6.9
+----------------------------------
+nombre archivo: 1000_25_5
+parecido (# unos alcanzado)872
+# unos Ideal880
+lowerB: 520.0; upperB: 881.0
+calidad alcanzado: 4872848.0
+calidad ideal: 4885611.0
+(calidad alcanzado)/(calidad ideal): 0.9973876348321633
+(#_unos_alcanzado)/(#_unos_ideal): 0.990909090909091
+ultimo seleccionado (posicion): 922
+(ultimo seleccionado)/upper: 1.0465380249716232
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3162027123483226
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.219129193433262
+ultimo seleccionado consecutivo (posicion)854
+(ultimo seleccionado consecutivo)/lowerB: 1.6423076923076922
+----------------------------------
+nombre archivo: 1000_25_6
+parecido (# unos alcanzado)40
+# unos Ideal46
+lowerB: 1.0; upperB: 47.0
+calidad alcanzado: 13361.0
+calidad ideal: 15689.0
+(calidad alcanzado)/(calidad ideal): 0.8516157817579195
+(#_unos_alcanzado)/(#_unos_ideal): 0.8695652173913043
+ultimo seleccionado (posicion): 61
+(ultimo seleccionado)/upper: 1.297872340425532
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.5416666666666665
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.7916666666666666
+ultimo seleccionado consecutivo (posicion)19
+(ultimo seleccionado consecutivo)/lowerB: 19.0
+----------------------------------
+nombre archivo: 1000_25_7
+parecido (# unos alcanzado)871
+# unos Ideal881
+lowerB: 538.0; upperB: 882.0
+calidad alcanzado: 4941100.0
+calidad ideal: 4945810.0
+(calidad alcanzado)/(calidad ideal): 0.999047678742208
+(#_unos_alcanzado)/(#_unos_ideal): 0.9886492622020431
+ultimo seleccionado (posicion): 914
+(ultimo seleccionado)/upper: 1.036281179138322
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.287323943661972
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1971830985915493
+ultimo seleccionado consecutivo (posicion)850
+(ultimo seleccionado consecutivo)/lowerB: 1.579925650557621
+----------------------------------
+nombre archivo: 1000_25_8
+parecido (# unos alcanzado)507
+# unos Ideal519
+lowerB: 137.0; upperB: 521.0
+calidad alcanzado: 1699843.0
+calidad ideal: 1710198.0
+(calidad alcanzado)/(calidad ideal): 0.9939451455328564
+(#_unos_alcanzado)/(#_unos_ideal): 0.976878612716763
+ultimo seleccionado (posicion): 595
+(ultimo seleccionado)/upper: 1.1420345489443378
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8085106382978724
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3617021276595744
+ultimo seleccionado consecutivo (posicion)448
+(ultimo seleccionado consecutivo)/lowerB: 3.27007299270073
+----------------------------------
+nombre archivo: 1000_25_9
+parecido (# unos alcanzado)267
+# unos Ideal276
+lowerB: 40.0; upperB: 277.0
+calidad alcanzado: 489517.0
+calidad ideal: 496315.0
+(calidad alcanzado)/(calidad ideal): 0.9863030535043269
+(#_unos_alcanzado)/(#_unos_ideal): 0.967391304347826
+ultimo seleccionado (posicion): 299
+(ultimo seleccionado)/upper: 1.0794223826714802
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.886435331230284
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5141955835962144
+ultimo seleccionado consecutivo (posicion)240
+(ultimo seleccionado consecutivo)/lowerB: 6.0
+----------------------------------
+nombre archivo: 1000_25_10
+parecido (# unos alcanzado)413
+# unos Ideal425
+lowerB: 98.0; upperB: 427.0
+calidad alcanzado: 1165336.0
+calidad ideal: 1173792.0
+(calidad alcanzado)/(calidad ideal): 0.9927959979280827
+(#_unos_alcanzado)/(#_unos_ideal): 0.971764705882353
+ultimo seleccionado (posicion): 484
+(ultimo seleccionado)/upper: 1.1334894613583137
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8438095238095238
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4742857142857142
+ultimo seleccionado consecutivo (posicion)387
+(ultimo seleccionado consecutivo)/lowerB: 3.9489795918367347
+----------------------------------
+nombre archivo: 1000_50_1
+parecido (# unos alcanzado)659
+# unos Ideal667
+lowerB: 266.0; upperB: 668.0
+calidad alcanzado: 5652887.0
+calidad ideal: 5663590.0
+(calidad alcanzado)/(calidad ideal): 0.9981102092489039
+(#_unos_alcanzado)/(#_unos_ideal): 0.9880059970014993
+ultimo seleccionado (posicion): 696
+(ultimo seleccionado)/upper: 1.0419161676646707
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4903640256959314
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3254817987152034
+ultimo seleccionado consecutivo (posicion)619
+(ultimo seleccionado consecutivo)/lowerB: 2.327067669172932
+----------------------------------
+nombre archivo: 1000_50_2
+parecido (# unos alcanzado)112
+# unos Ideal119
+lowerB: 10.0; upperB: 120.0
+calidad alcanzado: 178332.0
+calidad ideal: 180831.0
+(calidad alcanzado)/(calidad ideal): 0.9861804668447335
+(#_unos_alcanzado)/(#_unos_ideal): 0.9411764705882353
+ultimo seleccionado (posicion): 143
+(ultimo seleccionado)/upper: 1.1916666666666667
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.2
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2
+ultimo seleccionado consecutivo (posicion)78
+(ultimo seleccionado consecutivo)/lowerB: 7.8
+----------------------------------
+nombre archivo: 1000_50_3
+parecido (# unos alcanzado)946
+# unos Ideal949
+lowerB: 710.0; upperB: 949.0
+calidad alcanzado: 1.1363234E7
+calidad ideal: 1.1384283E7
+(calidad alcanzado)/(calidad ideal): 0.9981510473694303
+(#_unos_alcanzado)/(#_unos_ideal): 0.9968387776606955
+ultimo seleccionado (posicion): 952
+(ultimo seleccionado)/upper: 1.0031612223393045
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.1476793248945147
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.136829415310428
+ultimo seleccionado consecutivo (posicion)943
+(ultimo seleccionado consecutivo)/lowerB: 1.328169014084507
+----------------------------------
+nombre archivo: 1000_50_4
+parecido (# unos alcanzado)154
+# unos Ideal159
+lowerB: 15.0; upperB: 159.0
+calidad alcanzado: 317240.0
+calidad ideal: 322226.0
+(calidad alcanzado)/(calidad ideal): 0.9845263883113095
+(#_unos_alcanzado)/(#_unos_ideal): 0.9685534591194969
+ultimo seleccionado (posicion): 177
+(ultimo seleccionado)/upper: 1.1132075471698113
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.0344827586206895
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4137931034482758
+ultimo seleccionado consecutivo (posicion)123
+(ultimo seleccionado consecutivo)/lowerB: 8.2
+----------------------------------
+nombre archivo: 1000_50_5
+parecido (# unos alcanzado)879
+# unos Ideal888
+lowerB: 540.0; upperB: 889.0
+calidad alcanzado: 9970068.0
+calidad ideal: 9984247.0
+(calidad alcanzado)/(calidad ideal): 0.9985798628579602
+(#_unos_alcanzado)/(#_unos_ideal): 0.9898648648648649
+ultimo seleccionado (posicion): 917
+(ultimo seleccionado)/upper: 1.031496062992126
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2834149755073478
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1952414275717285
+ultimo seleccionado consecutivo (posicion)854
+(ultimo seleccionado consecutivo)/lowerB: 1.5814814814814815
+----------------------------------
+nombre archivo: 1000_50_6
+parecido (# unos alcanzado)563
+# unos Ideal569
+lowerB: 173.0; upperB: 570.0
+calidad alcanzado: 4092241.0
+calidad ideal: 4106261.0
+(calidad alcanzado)/(calidad ideal): 0.9965857016882268
+(#_unos_alcanzado)/(#_unos_ideal): 0.9894551845342706
+ultimo seleccionado (posicion): 597
+(ultimo seleccionado)/upper: 1.0473684210526315
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6069986541049799
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4454912516823688
+ultimo seleccionado consecutivo (posicion)537
+(ultimo seleccionado consecutivo)/lowerB: 3.1040462427745665
+----------------------------------
+nombre archivo: 1000_50_7
+parecido (# unos alcanzado)909
+# unos Ideal912
+lowerB: 580.0; upperB: 912.0
+calidad alcanzado: 1.0493997E7
+calidad ideal: 1.049837E7
+(calidad alcanzado)/(calidad ideal): 0.9995834591465151
+(#_unos_alcanzado)/(#_unos_ideal): 0.9967105263157895
+ultimo seleccionado (posicion): 924
+(ultimo seleccionado)/upper: 1.013157894736842
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2386058981233243
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.1796246648793565
+ultimo seleccionado consecutivo (posicion)880
+(ultimo seleccionado consecutivo)/lowerB: 1.5172413793103448
+----------------------------------
+nombre archivo: 1000_50_8
+parecido (# unos alcanzado)617
+# unos Ideal627
+lowerB: 242.0; upperB: 627.0
+calidad alcanzado: 4960427.0
+calidad ideal: 4981146.0
+(calidad alcanzado)/(calidad ideal): 0.9958405154155289
+(#_unos_alcanzado)/(#_unos_ideal): 0.9840510366826156
+ultimo seleccionado (posicion): 659
+(ultimo seleccionado)/upper: 1.0510366826156299
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.5166858457997698
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.378596087456847
+ultimo seleccionado consecutivo (posicion)599
+(ultimo seleccionado consecutivo)/lowerB: 2.475206611570248
+----------------------------------
+nombre archivo: 1000_50_9
+parecido (# unos alcanzado)364
+# unos Ideal369
+lowerB: 74.0; upperB: 369.0
+calidad alcanzado: 1720453.0
+calidad ideal: 1727861.0
+(calidad alcanzado)/(calidad ideal): 0.9957126180867558
+(#_unos_alcanzado)/(#_unos_ideal): 0.986449864498645
+ultimo seleccionado (posicion): 412
+(ultimo seleccionado)/upper: 1.1165311653116532
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8600451467268624
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5259593679458239
+ultimo seleccionado consecutivo (posicion)338
+(ultimo seleccionado consecutivo)/lowerB: 4.5675675675675675
+----------------------------------
+nombre archivo: 1000_50_10
+parecido (# unos alcanzado)419
+# unos Ideal429
+lowerB: 94.0; upperB: 429.0
+calidad alcanzado: 2329531.0
+calidad ideal: 2340724.0
+(calidad alcanzado)/(calidad ideal): 0.9952181461804126
+(#_unos_alcanzado)/(#_unos_ideal): 0.9766899766899767
+ultimo seleccionado (posicion): 458
+(ultimo seleccionado)/upper: 1.0675990675990676
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.751434034416826
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5411089866156789
+ultimo seleccionado consecutivo (posicion)403
+(ultimo seleccionado consecutivo)/lowerB: 4.287234042553192
+----------------------------------
+nombre archivo: 1000_75_1
+parecido (# unos alcanzado)770
+# unos Ideal780
+lowerB: 389.0; upperB: 780.0
+calidad alcanzado: 1.1554653E7
+calidad ideal: 1.1570056E7
+(calidad alcanzado)/(calidad ideal): 0.9986687186302297
+(#_unos_alcanzado)/(#_unos_ideal): 0.9871794871794872
+ultimo seleccionado (posicion): 803
+(ultimo seleccionado)/upper: 1.0294871794871794
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3738237810094098
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2557741659538066
+ultimo seleccionado consecutivo (posicion)734
+(ultimo seleccionado consecutivo)/lowerB: 1.8868894601542416
+----------------------------------
+nombre archivo: 1000_75_2
+parecido (# unos alcanzado)308
+# unos Ideal316
+lowerB: 53.0; upperB: 316.0
+calidad alcanzado: 1894859.0
+calidad ideal: 1901389.0
+(calidad alcanzado)/(calidad ideal): 0.9965656685717652
+(#_unos_alcanzado)/(#_unos_ideal): 0.9746835443037974
+ultimo seleccionado (posicion): 332
+(ultimo seleccionado)/upper: 1.0506329113924051
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7994579945799458
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5501355013550135
+ultimo seleccionado consecutivo (posicion)286
+(ultimo seleccionado consecutivo)/lowerB: 5.39622641509434
+----------------------------------
+nombre archivo: 1000_75_3
+parecido (# unos alcanzado)327
+# unos Ideal331
+lowerB: 58.0; upperB: 331.0
+calidad alcanzado: 2092412.0
+calidad ideal: 2096485.0
+(calidad alcanzado)/(calidad ideal): 0.9980572243540975
+(#_unos_alcanzado)/(#_unos_ideal): 0.9879154078549849
+ultimo seleccionado (posicion): 347
+(ultimo seleccionado)/upper: 1.0483383685800605
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7840616966580978
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.6503856041131106
+ultimo seleccionado consecutivo (posicion)321
+(ultimo seleccionado consecutivo)/lowerB: 5.5344827586206895
+----------------------------------
+nombre archivo: 1000_75_4
+parecido (# unos alcanzado)612
+# unos Ideal620
+lowerB: 230.0; upperB: 620.0
+calidad alcanzado: 7293839.0
+calidad ideal: 7305321.0
+(calidad alcanzado)/(calidad ideal): 0.9984282689289081
+(#_unos_alcanzado)/(#_unos_ideal): 0.9870967741935484
+ultimo seleccionado (posicion): 668
+(ultimo seleccionado)/upper: 1.0774193548387097
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.571764705882353
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.388235294117647
+ultimo seleccionado consecutivo (posicion)590
+(ultimo seleccionado consecutivo)/lowerB: 2.5652173913043477
+----------------------------------
+nombre archivo: 1000_75_5
+parecido (# unos alcanzado)851
+# unos Ideal858
+lowerB: 490.0; upperB: 858.0
+calidad alcanzado: 1.3950705E7
+calidad ideal: 1.3970842E7
+(calidad alcanzado)/(calidad ideal): 0.998558640917992
+(#_unos_alcanzado)/(#_unos_ideal): 0.9918414918414918
+ultimo seleccionado (posicion): 873
+(ultimo seleccionado)/upper: 1.0174825174825175
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.2952522255192878
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2195845697329377
+ultimo seleccionado consecutivo (posicion)822
+(ultimo seleccionado consecutivo)/lowerB: 1.6775510204081632
+----------------------------------
+nombre archivo: 1000_75_6
+parecido (# unos alcanzado)799
+# unos Ideal805
+lowerB: 421.0; upperB: 805.0
+calidad alcanzado: 1.2274096E7
+calidad ideal: 1.2288738E7
+(calidad alcanzado)/(calidad ideal): 0.9988085025492447
+(#_unos_alcanzado)/(#_unos_ideal): 0.9925465838509316
+ultimo seleccionado (posicion): 819
+(ultimo seleccionado)/upper: 1.017391304347826
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.33605220228385
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2805872756933117
+ultimo seleccionado consecutivo (posicion)785
+(ultimo seleccionado consecutivo)/lowerB: 1.8646080760095012
+----------------------------------
+nombre archivo: 1000_75_7
+parecido (# unos alcanzado)238
+# unos Ideal240
+lowerB: 28.0; upperB: 240.0
+calidad alcanzado: 1092797.0
+calidad ideal: 1095837.0
+(calidad alcanzado)/(calidad ideal): 0.9972258647955855
+(#_unos_alcanzado)/(#_unos_ideal): 0.9916666666666667
+ultimo seleccionado (posicion): 248
+(ultimo seleccionado)/upper: 1.0333333333333334
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8507462686567164
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.7388059701492538
+ultimo seleccionado consecutivo (posicion)233
+(ultimo seleccionado consecutivo)/lowerB: 8.321428571428571
+----------------------------------
+nombre archivo: 1000_75_8
+parecido (# unos alcanzado)533
+# unos Ideal540
+lowerB: 159.0; upperB: 540.0
+calidad alcanzado: 5564838.0
+calidad ideal: 5575813.0
+(calidad alcanzado)/(calidad ideal): 0.9980316771742525
+(#_unos_alcanzado)/(#_unos_ideal): 0.987037037037037
+ultimo seleccionado (posicion): 567
+(ultimo seleccionado)/upper: 1.05
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6223175965665235
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3676680972818311
+ultimo seleccionado consecutivo (posicion)478
+(ultimo seleccionado consecutivo)/lowerB: 3.006289308176101
+----------------------------------
+nombre archivo: 1000_75_9
+parecido (# unos alcanzado)182
+# unos Ideal190
+lowerB: 22.0; upperB: 190.0
+calidad alcanzado: 687813.0
+calidad ideal: 695774.0
+(calidad alcanzado)/(calidad ideal): 0.9885580662686447
+(#_unos_alcanzado)/(#_unos_ideal): 0.9578947368421052
+ultimo seleccionado (posicion): 213
+(ultimo seleccionado)/upper: 1.1210526315789473
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.009433962264151
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3396226415094339
+ultimo seleccionado consecutivo (posicion)142
+(ultimo seleccionado consecutivo)/lowerB: 6.454545454545454
+----------------------------------
+nombre archivo: 1000_75_10
+parecido (# unos alcanzado)355
+# unos Ideal363
+lowerB: 75.0; upperB: 363.0
+calidad alcanzado: 2499865.0
+calidad ideal: 2507677.0
+(calidad alcanzado)/(calidad ideal): 0.9968847662597695
+(#_unos_alcanzado)/(#_unos_ideal): 0.977961432506887
+ultimo seleccionado (posicion): 381
+(ultimo seleccionado)/upper: 1.0495867768595042
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7397260273972603
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5068493150684932
+ultimo seleccionado consecutivo (posicion)330
+(ultimo seleccionado consecutivo)/lowerB: 4.4
+----------------------------------
+nombre archivo: 1000_100_1
+parecido (# unos alcanzado)487
+# unos Ideal496
+lowerB: 141.0; upperB: 496.0
+calidad alcanzado: 6230960.0
+calidad ideal: 6243494.0
+(calidad alcanzado)/(calidad ideal): 0.9979924702418229
+(#_unos_alcanzado)/(#_unos_ideal): 0.9818548387096774
+ultimo seleccionado (posicion): 520
+(ultimo seleccionado)/upper: 1.0483870967741935
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6326530612244898
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4003139717425432
+ultimo seleccionado consecutivo (posicion)446
+(ultimo seleccionado consecutivo)/lowerB: 3.1631205673758864
+----------------------------------
+nombre archivo: 1000_100_2
+parecido (# unos alcanzado)425
+# unos Ideal437
+lowerB: 100.0; upperB: 437.0
+calidad alcanzado: 4837713.0
+calidad ideal: 4854086.0
+(calidad alcanzado)/(calidad ideal): 0.9966269654060518
+(#_unos_alcanzado)/(#_unos_ideal): 0.9725400457665904
+ultimo seleccionado (posicion): 466
+(ultimo seleccionado)/upper: 1.0663615560640731
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7355679702048417
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.452513966480447
+ultimo seleccionado consecutivo (posicion)390
+(ultimo seleccionado consecutivo)/lowerB: 3.9
+----------------------------------
+nombre archivo: 1000_100_3
+parecido (# unos alcanzado)341
+# unos Ideal353
+lowerB: 71.0; upperB: 353.0
+calidad alcanzado: 3157656.0
+calidad ideal: 3172022.0
+(calidad alcanzado)/(calidad ideal): 0.9954710276284339
+(#_unos_alcanzado)/(#_unos_ideal): 0.9660056657223796
+ultimo seleccionado (posicion): 386
+(ultimo seleccionado)/upper: 1.093484419263456
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.820754716981132
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5141509433962264
+ultimo seleccionado consecutivo (posicion)321
+(ultimo seleccionado consecutivo)/lowerB: 4.52112676056338
+----------------------------------
+nombre archivo: 1000_100_4
+parecido (# unos alcanzado)165
+# unos Ideal172
+lowerB: 16.0; upperB: 172.0
+calidad alcanzado: 749978.0
+calidad ideal: 754727.0
+(calidad alcanzado)/(calidad ideal): 0.993707658530833
+(#_unos_alcanzado)/(#_unos_ideal): 0.9593023255813954
+ultimo seleccionado (posicion): 206
+(ultimo seleccionado)/upper: 1.197674418604651
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 2.1914893617021276
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5851063829787233
+ultimo seleccionado consecutivo (posicion)149
+(ultimo seleccionado consecutivo)/lowerB: 9.3125
+----------------------------------
+nombre archivo: 1000_100_5
+parecido (# unos alcanzado)851
+# unos Ideal859
+lowerB: 495.0; upperB: 859.0
+calidad alcanzado: 1.8630707E7
+calidad ideal: 1.864662E7
+(calidad alcanzado)/(calidad ideal): 0.9991466013679691
+(#_unos_alcanzado)/(#_unos_ideal): 0.9906868451688009
+ultimo seleccionado (posicion): 889
+(ultimo seleccionado)/upper: 1.0349243306169964
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.31314623338257
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2186115214180206
+ultimo seleccionado consecutivo (posicion)825
+(ultimo seleccionado consecutivo)/lowerB: 1.6666666666666667
+----------------------------------
+nombre archivo: 1000_100_6
+parecido (# unos alcanzado)788
+# unos Ideal796
+lowerB: 397.0; upperB: 796.0
+calidad alcanzado: 1.6005156E7
+calidad ideal: 1.6020232E7
+(calidad alcanzado)/(calidad ideal): 0.9990589399704074
+(#_unos_alcanzado)/(#_unos_ideal): 0.9899497487437185
+ultimo seleccionado (posicion): 845
+(ultimo seleccionado)/upper: 1.0615577889447236
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.4165968147527241
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3009220452640402
+ultimo seleccionado consecutivo (posicion)776
+(ultimo seleccionado consecutivo)/lowerB: 1.9546599496221662
+----------------------------------
+nombre archivo: 1000_100_7
+parecido (# unos alcanzado)712
+# unos Ideal715
+lowerB: 318.0; upperB: 715.0
+calidad alcanzado: 1.2933578E7
+calidad ideal: 1.2936205E7
+(calidad alcanzado)/(calidad ideal): 0.9997969265329361
+(#_unos_alcanzado)/(#_unos_ideal): 0.9958041958041958
+ultimo seleccionado (posicion): 723
+(ultimo seleccionado)/upper: 1.0111888111888112
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.3998063891577928
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.3475314617618586
+ultimo seleccionado consecutivo (posicion)696
+(ultimo seleccionado consecutivo)/lowerB: 2.188679245283019
+----------------------------------
+nombre archivo: 1000_100_8
+parecido (# unos alcanzado)512
+# unos Ideal522
+lowerB: 149.0; upperB: 522.0
+calidad alcanzado: 6914580.0
+calidad ideal: 6927738.0
+(calidad alcanzado)/(calidad ideal): 0.9981006787496871
+(#_unos_alcanzado)/(#_unos_ideal): 0.9808429118773946
+ultimo seleccionado (posicion): 539
+(ultimo seleccionado)/upper: 1.0325670498084292
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6065573770491803
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.4605067064083457
+ultimo seleccionado consecutivo (posicion)490
+(ultimo seleccionado consecutivo)/lowerB: 3.2885906040268456
+----------------------------------
+nombre archivo: 1000_100_9
+parecido (# unos alcanzado)388
+# unos Ideal391
+lowerB: 81.0; upperB: 391.0
+calidad alcanzado: 3870342.0
+calidad ideal: 3874959.0
+(calidad alcanzado)/(calidad ideal): 0.9988085035222308
+(#_unos_alcanzado)/(#_unos_ideal): 0.9923273657289002
+ultimo seleccionado (posicion): 412
+(ultimo seleccionado)/upper: 1.0537084398976981
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.7457627118644068
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.5720338983050848
+ultimo seleccionado consecutivo (posicion)371
+(ultimo seleccionado consecutivo)/lowerB: 4.580246913580247
+----------------------------------
+nombre archivo: 1000_100_10
+parecido (# unos alcanzado)223
+# unos Ideal229
+lowerB: 28.0; upperB: 229.0
+calidad alcanzado: 1328223.0
+calidad ideal: 1334494.0
+(calidad alcanzado)/(calidad ideal): 0.9953008406182419
+(#_unos_alcanzado)/(#_unos_ideal): 0.9737991266375546
+ultimo seleccionado (posicion): 236
+(ultimo seleccionado)/upper: 1.0305676855895196
+(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.8365758754863812
+(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.54863813229572
+ultimo seleccionado consecutivo (posicion)199
+(ultimo seleccionado consecutivo)/lowerB: 7.107142857142857
+
+##############################################
+promedio (calidad alcanzado)/(calidad ideal): 0.9831893495089145
+desviacion (calidad alcanzado)/(calidad ideal): 0.02241447533630572
+promedio (#_unos_alcanzado)/(#_unos_ideal): 0.9633667683335263
+desviacion (#_unos_alcanzado)/(#_unos_ideal): 0.027858477934260932
+promedio (ultimo seleccionado)/upper: 1.0930190531260784
+desviacion (ultimo seleccionado)/upper: 0.10209251560569668
+promedio (ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 1.6101608578656137
+desviacion (ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2): 0.35279660385288614
+promedio (cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 1.2366667369896098
+desviacion (cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2): 0.20994851068973652
+promedio (ultimo seleccionado consecutivo)/lowerB: 3.080101079258455
+desviacion (ultimo seleccionado consecutivo)/lowerB: 2.4759771297355297
+BUILD SUCCESSFUL (total time: 24 seconds)

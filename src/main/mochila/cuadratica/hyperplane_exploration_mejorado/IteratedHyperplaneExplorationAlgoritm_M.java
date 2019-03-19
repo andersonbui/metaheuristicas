@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.hyperplane_exploration.*;
 import main.mochila.cuadratica.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
+import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
@@ -28,11 +29,38 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
  */
 public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneExplorationAlgoritm_A {
 
-    protected int ub; // lower bown
+    protected int ub; // upper bown
+    public static List<Integer> listaIndicesMalos;
 
     public IteratedHyperplaneExplorationAlgoritm_M(FuncionMochilaIHEA funcion) {
         super(funcion);
         ub = funcion.obtenerUpperBound();
+        listaIndicesMalos = fijarVariables(funcion, ub);
+    }
+
+    public List<Integer> fijarVariables(FuncionMochilaIHEA funcion, int upperb) {
+        if (listaIndicesMalos == null) {
+            // tamaño de la mochila
+            int n = funcion.getDimension();
+            // numero de variables fijas
+            int nf = (int) (n - (upperb * 1.4));
+            nf = Math.max(0, nf);
+            // items seleccionados
+//        List<Integer> itemsSeleccionados = elementosFuera(individuo);
+            List listaInidicesResultado = new ArrayList();
+            listaIndicesMalos = Main_MetododosInicializacion.ordenar(funcion);
+            int tamanio = listaIndicesMalos.size();
+
+            for (int i = tamanio - 1; i >= tamanio - nf; i--) {
+                listaInidicesResultado.add(listaIndicesMalos.get(i));
+            }
+        }
+//        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);
+
+        // vector de indices de variables fijas
+        // obtener los primeros nf indices de los elementos más densos
+        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+        return listaIndicesMalos;
     }
 
     /**
@@ -44,19 +72,13 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
      * @return
      */
     protected List<Integer> determinarMalasVariablesFijas(IndividuoIHEA individuo, int upperb) {
-        // tamaño de la mochila
-        int n = individuo.getDimension();
-        // numero de variables fijas
-        int nf = (int) ((n - upperb) * 0.5);
-        // items seleccionados
-        List<Integer> itemsSeleccionados = elementosFuera(individuo);
+        listaIndicesMalos = fijarVariables(funcion, upperb);
 
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);
-
+//        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);
         // vector de indices de variables fijas
         // obtener los primeros nf indices de los elementos más densos
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
-        return listaIndices;
+        return listaIndicesMalos;
     }
 
     /**

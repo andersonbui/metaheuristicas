@@ -77,21 +77,6 @@ public class ComparacionIdeal {
             indiIdeal.set(i, valsIdeal[i]);
         }
 
-//        // lista de indices para ordenamiento
-//        List<Main_MetododosInicializacion.Posicion> posiciones = new ArrayList();
-//        // crear estructura de comparacion
-//        for (int i = 0; i < funcion.getDimension(); i++) {
-//            double peso = funcion.peso(i);
-//            double relacion = funcion.relaciones(i);
-//            double beneficio = funcion.beneficio(i);
-//            posiciones.add(new Main_MetododosInicializacion.Posicion(i, peso, relacion, beneficio));
-//        }
-//
-//        // ordenar de acuerdo a la estrctura anterior
-//        Collections.sort(posiciones, (Main_MetododosInicializacion.Posicion o1, Main_MetododosInicializacion.Posicion o2) -> {
-//            return comparar3(o1, o2);
-//        });
-
         // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
         int cantidadSeleccionadosConsecutivos = 0;
         for (int i = 0; i < posiciones.size(); i++) {
@@ -110,7 +95,7 @@ public class ComparacionIdeal {
             }
         }
         if(metricas == null){
-            metricas = new String[5];
+            metricas = new String[6];
         }
         int a = -1;
         DatoCalculo calculo = new DatoCalculo();
@@ -152,11 +137,16 @@ public class ComparacionIdeal {
         System.out.println(metricas[a] + ": " + calculo.valores[a]);
         //
         a++;
-        metricas[a] = "(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2)";
-        calculo.valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double)lowerB) / 2));
+        metricas[a] = "(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2)";
+        calculo.valores[a] = (ultimoSeleccionado / (double) (lowerB + (upperB - (double)lowerB) / 2));
         System.out.println(metricas[a] + ": " + calculo.valores[a]);
         //
         System.out.println("ultimo seleccionado consecutivo (posicion)"+ cantidadSeleccionadosConsecutivos);
+        //
+        a++;
+        metricas[a] = "(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2)";
+        calculo.valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double)lowerB) / 2));
+        System.out.println(metricas[a] + ": " + calculo.valores[a]);
         //
         a++;
         metricas[a] = "(ultimo seleccionado consecutivo)/lowerB";

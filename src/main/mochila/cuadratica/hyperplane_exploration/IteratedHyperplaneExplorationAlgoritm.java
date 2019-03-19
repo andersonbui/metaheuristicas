@@ -240,8 +240,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
         double viol_capacidad;
         double calidadi;
-        int iterMax = 0;
-        while ((iterMax < L) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
+        while (vmin != Double.POSITIVE_INFINITY && list_RL.size() < L) {
 
             vmin = Double.POSITIVE_INFINITY;
             fmax = Double.NEGATIVE_INFINITY;
@@ -281,7 +280,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 x.set(j_aster, 0);
                 if (vmin == 0) { 
                     // linea 24:
-                    iterMax = 0;
                     list_RL.clear();
                     fmin = rawFuncion(x);
                     x_aster = x.clone();
@@ -291,7 +289,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     iterTabu += 1;
                     list_RL.add(i_aster);
                     list_RL.add(j_aster);
-                    iterMax += 1;
                     // linea 27:
                     i = list_RL.size() - 1;
                     // linea 28:
@@ -311,9 +308,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         i--;
                     }
                 }
-            } else {
-                iterMax += 1;
-            }
+            } 
         }
         return x_aster;
 
