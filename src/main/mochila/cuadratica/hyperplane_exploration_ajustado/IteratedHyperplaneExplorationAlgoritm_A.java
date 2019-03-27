@@ -16,13 +16,9 @@
  */
 package main.mochila.cuadratica.hyperplane_exploration_ajustado;
 
-import main.mochila.cuadratica.hyperplane_exploration_mejorado.*;
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.hyperplane_exploration.*;
-import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
-import main.mochila.cuadratica.utilidades.UtilCuadratica;
 
 /**
  *

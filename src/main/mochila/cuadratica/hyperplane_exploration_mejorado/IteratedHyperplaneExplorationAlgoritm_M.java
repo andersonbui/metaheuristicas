@@ -47,12 +47,12 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
             nf = Math.max(0, nf);
             // items seleccionados
 //        List<Integer> itemsSeleccionados = elementosFuera(individuo);
-            List listaInidicesResultado = new ArrayList();
-            listaIndicesMalos = Main_MetododosInicializacion.ordenar(funcion);
-            int tamanio = listaIndicesMalos.size();
-
-            for (int i = tamanio - 1; i >= tamanio - nf; i--) {
-                listaInidicesResultado.add(listaIndicesMalos.get(i));
+            List listaIndicesMalos = new ArrayList();
+            List listaInidicesResultado = Main_MetododosInicializacion.ordenar(funcion);
+            int tamanio = listaInidicesResultado.size()-1;
+//            nf = tamanio - nf;
+            for (int i = tamanio; i >= nf; i--) {
+                listaIndicesMalos.add(listaInidicesResultado.get(i));
             }
         }
 //        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);

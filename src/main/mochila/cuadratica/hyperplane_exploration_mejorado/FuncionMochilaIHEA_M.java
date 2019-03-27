@@ -60,7 +60,9 @@ public class FuncionMochilaIHEA_M extends FuncionMochilaIHEA {
     public void reiniciarVijarVariables() {
 
 //        variablesFijasMalas = null;
-        variablesFijasMalas.clear();
+        if (variablesFijasMalas != null) {
+            variablesFijasMalas.clear();
+        }
         getVariablesFijas().clear();
     }
 }
