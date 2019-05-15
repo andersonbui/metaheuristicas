@@ -55,7 +55,7 @@ public class MainMochilaCuadratica {
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
-//            args = new String[]{"--estandar", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/resuultados/salida_r_10_100_13.txt"};
+            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
         }
         while (repetir) {
             repetir = false;
@@ -98,6 +98,11 @@ public class MainMochilaCuadratica {
                         tsalida = "i";
                         repetir = true;
                         break;
+                    case "-I":
+                    case "--indices":
+                        tsalida = "I";
+                        repetir = true;
+                        break;
                     case "-v":
                     case "--evaluacion":
                         tsalida = "v";
@@ -124,6 +129,8 @@ public class MainMochilaCuadratica {
                     + "\t\tImprimir Evaluacion.\n");
             sb.append("\t-i, --individuo:\n"
                     + "\t\tImprimir individuo.\n");
+            sb.append("\t-I, --indices:\n"
+                    + "\t\tImprimir indices del mejor individuo, ordenados de mayor a menor densidad (calidad/peso).\n");
             sb.append("\t-b, --ambos:\n"
                     + "\t\tImprimir ambos, individuo y estadistica.\n");
             sb.append("Opciones:\n");
@@ -144,7 +151,7 @@ public class MainMochilaCuadratica {
 //        graficaDispercion2D = true;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         String nombreArchivoCompleto;
-        IndividuoGen mejorGlobal = null;
+        IndividuoCuadratico mejorGlobal = null;
         String mensaje = "";
         List<ResultadoGrupo> listResultadosGrupos = new ArrayList();
 
@@ -212,7 +219,7 @@ public class MainMochilaCuadratica {
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
                     imprimir.imprimir(stringResult + "\n");
                 }
-                IndividuoGen individuo = resultadoGrupo.getMejorIndividuo();
+                IndividuoCuadratico individuo = (IndividuoCuadratico) resultadoGrupo.getMejorIndividuo();
                 // almacenar mejor global
                 if (mejorGlobal == null || mejorGlobal.compareTo(individuo) < 0) {
                     mejorGlobal = individuo;
@@ -245,6 +252,13 @@ public class MainMochilaCuadratica {
             }
         }
 
+        // imprimir mejor
+        if ("I".equals(tsalida)) {
+            if (mejorGlobal != null) {
+                imprimir.imprimir(mejorGlobal.toStringIndicesOrdenados());
+            }
+        }
+        
         if (!listResultadosGrupos.isEmpty()) {
             String resumen = armarResumen(listResultadosGrupos);
             if ("v".equals(tsalida) || "b".equals(tsalida)) {

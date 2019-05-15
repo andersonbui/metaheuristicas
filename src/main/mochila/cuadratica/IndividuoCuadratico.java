@@ -18,6 +18,8 @@ package main.mochila.cuadratica;
 
 import com.sun.glass.ui.View;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import main.mochila.IndividuoMochila;
 
@@ -122,4 +124,27 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
         return "IndividuoMochila{" + "calidad=" + this.calidad + "; peso=" + pesar() + "; capacidad=" + funcion.getCapacidad() + '}';
     }
 
+    public String toStringIndicesOrdenados() {
+        String cadena = "";
+        List<Integer> listaIndicesSele = this.elementosSeleccionados();
+        double[] beneficios = new double[getDimension()];
+        listaIndicesSele.forEach((indice) -> {
+            // calcular densidad solo de los elementos en listaIndices
+            beneficios[indice] = funcion.densidad(indice, this);
+        });
+        Comparator<Integer> comparator = (Integer o1, Integer o2) -> {
+            return Double.compare(beneficios[o1], beneficios[o2])*(-1);
+        };
+        Collections.sort(listaIndicesSele, comparator);
+
+        for (Integer indice : listaIndicesSele) {
+            cadena += indice + " ";
+        }
+        return cadena.trim();
+    }
+
+    @Override
+    public FuncionMochilaCuadratica getFuncion() {
+        return funcion;
+    }
 }
