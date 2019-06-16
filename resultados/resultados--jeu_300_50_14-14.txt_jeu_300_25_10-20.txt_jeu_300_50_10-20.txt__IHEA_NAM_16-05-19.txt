@@ -1,3 +1,5 @@
+tabu => if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) { 
+hiperplanos descent => seq-vns
 ----------------------------------------------------------.
 Numero Intentos:10
 NPI: Numero iteraciones promedio.

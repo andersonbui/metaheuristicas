@@ -43,7 +43,7 @@ public class MainMochilaCuadratica {
     public static String tsalida = "v";
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 5;
+        int numIntentos = 100;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -149,7 +149,7 @@ public class MainMochilaCuadratica {
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
-        graficaDispercion2D = true;
+//        graficaDispercion2D = true;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         String nombreArchivoCompleto;
         IndividuoCuadratico mejorGlobal = null;

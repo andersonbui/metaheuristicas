@@ -172,24 +172,14 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
 
-                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
+//                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
+                        if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) {  // 89
+//                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) { //
                             i_aster = i;
                             j_aster = j;
                             vmin = vcx;
                             fmax = frx;
                         }
-//                        if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
-//                            i_aster = i;
-//                            j_aster = j;
-//                            vmin = vcx;
-//                            fmax = frx;
-//                        }
-//                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
-//                            i_aster = i;
-//                            j_aster = j;
-//                            vmin = vcx;
-//                            fmax = frx;
-//                        }
 
 //                        if (frx > fmin && vcx >= 0) {
 //                            imax = i;
