@@ -43,7 +43,7 @@ public class MainMochilaCuadratica {
     public static String tsalida = "v";
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 100;
+        int numIntentos = 5;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -55,7 +55,7 @@ public class MainMochilaCuadratica {
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
-            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
+//            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
         }
         while (repetir) {
             repetir = false;
@@ -65,6 +65,7 @@ public class MainMochilaCuadratica {
                     case "-e":
                     case "--examples":
                         ConjuntoDInstancias datos = new ConjuntoDInstancias();
+//                        datos.prepararInstanciasResumnenes();
                         nombreArchivoResultado = datos.getNombreResultado();
                         listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
@@ -148,7 +149,7 @@ public class MainMochilaCuadratica {
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
 //        graficaRecorrido3D = true;
-//        graficaDispercion2D = true;
+        graficaDispercion2D = true;
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         String nombreArchivoCompleto;
         IndividuoCuadratico mejorGlobal = null;
@@ -226,7 +227,7 @@ public class MainMochilaCuadratica {
                 }
                 // comprobar calidad de la actua instancia y actualizar los archivos de instancias
                 {
-                    if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
+                    if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                         parametros.setMaxGlobal(individuo.getCalidad());
                         parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
 

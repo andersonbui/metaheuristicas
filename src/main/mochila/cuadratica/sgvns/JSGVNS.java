@@ -134,7 +134,7 @@ public class JSGVNS extends SGVNS {
         }
         //CONDICION DE TERMINACION PARA AJUSTAR
         cont_JSGVNS++;
-        System.out.println("cont_JSGVNS" + cont_JSGVNS);
+//        System.out.println("cont_JSGVNS" + cont_JSGVNS);
         
         return recorrido;
     }

@@ -1,0 +1,47 @@
+----------------------------------------------------------.
+Numero Intentos:10
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|271.2029544481126
+
+instancia_D0649D.txt|Cuadratica          |IHEAIHEA_M                    | 310      |82,00   |0,800000|271,20        |267,57      |1,338375|399,00    |0,000000       
+instancia_D0649D.txt|Cuadratica          |IHEAIHEA_A                    | 310      |82,00   |0,900000|271,20        |269,39      |0,669188|293,00    |0,000000       
+instancia_D0649D.txt|FSGVNS              |SGVNS-Int[20]                 | 310      |1,000000|1,000000|271,20        |271,20      |0,000000|1,000000  |0,000000       
+instancia_D0649D.txt|FJSGVNS             |JSGVNS-Int[20]                | 310      |1,000000|1,000000|271,20        |271,20      |0,000000|0,000000  |0,000000       
+
+
+#====================================================================================================|320.5772107368027
+
+instancia_D0650E.txt|Cuadratica          |IHEAIHEA_M                    | 256      |81,00   |1,000000|320,58        |320,58      |0,000000|334,00    |0,000000       
+instancia_D0650E.txt|Cuadratica          |IHEAIHEA_A                    | 256      |81,00   |1,000000|320,58        |320,58      |0,000000|277,00    |0,000000       
+instancia_D0650E.txt|FSGVNS              |SGVNS-Int[20]                 | 256      |20,00   |0,800000|320,58        |320,52      |0,016852|175,00    |0,000000       
+instancia_D0650E.txt|FJSGVNS             |JSGVNS-Int[20]                | 256      |20,00   |1,000000|320,58        |320,58      |0,000000|634,00    |0,000000       
+
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEAIHEA_M]
+aciertos:90,00%
+desviacion:0,669188
+tiempo promedio:366,50ms
+-----------
+Algoritmo[IHEAIHEA_A]
+aciertos:95,00%
+desviacion:0,334594
+tiempo promedio:285,00ms
+-----------
+Algoritmo[SGVNS-Int[20]]
+aciertos:90,00%
+desviacion:0,008426
+tiempo promedio:88,00ms
+-----------
+Algoritmo[JSGVNS-Int[20]]
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:317,00ms
+-----------
+

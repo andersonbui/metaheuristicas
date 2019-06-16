@@ -19,6 +19,7 @@ package main.mochila.cuadratica.hyperplane_exploration_ajustado;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.hyperplane_exploration.*;
+import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 
 /**
  *
@@ -29,18 +30,71 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
     protected int ub; // lower bown
 
     protected boolean saltar;
+
     public IteratedHyperplaneExplorationAlgoritm_A(FuncionMochilaIHEA funcion) {
         super(funcion);
         ub = funcion.obtenerUpperBound();
         saltar = false;
         L = 20;
     }
+
     public boolean isSaltar() {
         return saltar;
     }
 
     public void setSaltar(boolean saltar) {
         this.saltar = saltar;
+    }
+
+    /*Aplica la estructura de vecindario h a la s_inicial, un numero de intentos 
+    determinado (intentosEncontrarMejor) y va comparando si s_inicial mejora*/
+    protected IndividuoIHEA encontrarMejor(IndividuoIHEA s_inicial, int h) {
+        IndividuoIHEA aux;
+        s_inicial = s_inicial.clone();
+        boolean mejoro = false;
+        int contador = 3;
+        do {
+            if (h == 1) {
+                aux = (IndividuoIHEA) swap(s_inicial);
+            } else {
+                aux = (IndividuoIHEA) add_factible(s_inicial);
+            }
+            if (aux != null) {
+                mejoro = s_inicial.compareTo(aux) < 0;
+                if (mejoro) {
+                    s_inicial = aux;
+                    break;
+                }
+            }
+        } while (contador-- >= 0);
+        return s_inicial;
+    }
+
+    /**
+     * realiza un mejoramiento al individuo utilizando addElemento y swap.
+     *
+     * @param original
+     * @return
+     */
+    @Override
+    protected IndividuoIHEA descent(IndividuoIHEA original) { ////////////OPCION DE MEJORAR EN TIEMPO (for)
+        //Variable para el tipo de estructura de vecindario
+        int h = 1;
+        IndividuoIHEA s_inicial = original.clone();
+        IndividuoIHEA solEncontrada;
+        while (h <= 2) {
+            //Aplica una estructura de vecindario h a la s_inicial para mejorar
+            solEncontrada = encontrarMejor(s_inicial, h);
+            /*Si mejora s_inicial permanece en h1 (si h=1) o se devuelve a h1 encaso que este en h2 (h=2),
+            valida que no sea un optimo local(osea que exista una mejor solucion)*/
+            if (solEncontrada.compareTo(s_inicial) > 0) {
+                s_inicial = solEncontrada;
+                h = 1;
+            } else {
+                h++;
+            }
+        }
+        return s_inicial;
     }
 
     @Override
@@ -58,8 +112,8 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 
         // almacenamiento de valores tabu
         int[][] tabu;
-        double vmin = 0;
-        //
+        double vmin = -1;
+        // 
         double fmax;
         tabu = new int[x_inicial.getDimension()][x_inicial.getDimension()];
         double frx = 0;
@@ -89,9 +143,11 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
         double viol_capacidad;
         double calidadi;
         int iterMax = 0;
-        while ((iterMax < L / 2) && (vmin != Double.POSITIVE_INFINITY || list_RL.size() < L)) {
+        double default_min = Double.POSITIVE_INFINITY;
+        
+        while ((iterMax < L / 2) && (vmin != default_min && list_RL.size() < L) ) {
 
-            vmin = Double.POSITIVE_INFINITY;
+            vmin = default_min;
             fmax = Double.NEGATIVE_INFINITY;
             imax = -1;
             jmax = -1;
@@ -108,27 +164,39 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                 for (int i : I0) {
                     // linea 11:
                     // linea 12:
-                    if (tabu[i][j] <= iterTabu - 1) {
+                    if (tabu[i][j] != iterTabu) {
                         //contribucion
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
 
-                        if ((frx > fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
+//                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
+//                            i_aster = i;
+//                            j_aster = j;
+//                            vmin = vcx;
+//                            fmax = frx;
+//                        }
+//                        if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
+//                            i_aster = i;
+//                            j_aster = j;
+//                            vmin = vcx;
+//                            fmax = frx;
+//                        }
+                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
                             i_aster = i;
                             j_aster = j;
                             vmin = vcx;
                             fmax = frx;
                         }
 
-                        if (frx > fmin && vcx >= 0) {
-                            imax = i;
-                            jmax = j;
-                            fmin = frx;
-                            vmax = vcx;
-                            saltar = true;
-                            break;
-                        }
+//                        if (frx > fmin && vcx >= 0) {
+//                            imax = i;
+//                            jmax = j;
+//                            fmin = frx;
+//                            vmax = vcx;
+//                            saltar = true;
+//                            break;
+//                        }
                         contadorIntercambios++;
                     }
                 }
@@ -151,12 +219,12 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                 imax = -1;
                 jmax = -1;
 //                iterMax = 0;
-            } else if (vmin != Double.POSITIVE_INFINITY) {
+            } else if (vmin != default_min) {
 
                 // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin == 0) { // ############################# ==
+                if (vmin >= 0 && fmax > fmin) { // ############################# ==
                     // linea 24:
                     iterMax = 0;
                     list_RL.clear();
@@ -195,6 +263,5 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
         return x_aster;
 
     }
-    
-    
+
 }

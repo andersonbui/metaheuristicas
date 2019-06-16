@@ -21,7 +21,6 @@ import java.util.List;
 import main.mochila.cuadratica.hyperplane_exploration.*;
 import main.mochila.cuadratica.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
 import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
-import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *

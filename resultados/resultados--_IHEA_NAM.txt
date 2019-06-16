@@ -1,0 +1,9 @@
+----------------------------------------------------------.
+Numero Intentos:10
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+

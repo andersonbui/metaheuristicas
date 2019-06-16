@@ -38,7 +38,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int s; // 
     protected int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
     int tiempototal; // tiempo total que toma la busqueda tabu
-    int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
+    protected int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     protected int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
     protected ParametrosCuadratica parametros;
@@ -50,7 +50,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         lb = funcion.obtenerLowerBound();
         tiempototal = 0;
         rcl = 20;
-        L = 300;
+        L = 30;
         intentosDescent = 5;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
     }
