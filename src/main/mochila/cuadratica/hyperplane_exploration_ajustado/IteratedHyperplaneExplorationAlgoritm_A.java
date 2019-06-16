@@ -71,7 +71,8 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
     }
 
     /**
-     * realiza un mejoramiento al individuo utilizando addElemento y swap.
+     * realiza un mejoramiento al individuo utilizando addElemento y swap. tipo
+     * vns
      *
      * @param original
      * @return
@@ -143,12 +144,13 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
         double viol_capacidad;
         double calidadi;
         int iterMax = 0;
-        double default_min = Double.POSITIVE_INFINITY;
-        
-        while ((iterMax < L / 2) && (vmin != default_min && list_RL.size() < L) ) {
+        double default_min = Double.NEGATIVE_INFINITY;
+//        double default_min = Double.POSITIVE_INFINITY;
+
+        while ((iterMax < L / 2) && (vmin != default_min && list_RL.size() < L)) {
 
             vmin = default_min;
-            fmax = Double.NEGATIVE_INFINITY;
+            fmax = -default_min;
             imax = -1;
             jmax = -1;
             List<Integer> I0;
@@ -170,24 +172,24 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
 
-//                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
-//                            i_aster = i;
-//                            j_aster = j;
-//                            vmin = vcx;
-//                            fmax = frx;
-//                        }
+                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
+                            i_aster = i;
+                            j_aster = j;
+                            vmin = vcx;
+                            fmax = frx;
+                        }
 //                        if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
 //                            i_aster = i;
 //                            j_aster = j;
 //                            vmin = vcx;
 //                            fmax = frx;
 //                        }
-                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
-                            i_aster = i;
-                            j_aster = j;
-                            vmin = vcx;
-                            fmax = frx;
-                        }
+//                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) {
+//                            i_aster = i;
+//                            j_aster = j;
+//                            vmin = vcx;
+//                            fmax = frx;
+//                        }
 
 //                        if (frx > fmin && vcx >= 0) {
 //                            imax = i;
