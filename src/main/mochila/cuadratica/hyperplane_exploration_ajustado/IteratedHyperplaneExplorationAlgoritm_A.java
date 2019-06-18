@@ -171,9 +171,11 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
-
+                        if (vcx == 0) {
+                            System.out.print("");
+                        }
 //                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
-                        if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) {  // 89
+                        if ((frx >= fmin) && (((vcx > vmin)) || ((vcx == vmin) && (frx >= fmax)))) {  // 89
 //                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) { //
                             i_aster = i;
                             j_aster = j;
@@ -216,11 +218,18 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                 // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin >= 0 && fmax > fmin) { // ############################# ==
+                if (vmin >= 0 && fmax > fmin) { 
+                    /** #### aqui puede haber una diferencia de (fmax/fmin -1) = 0.0000000000000002, 
+                     * por eso se asigno fmin = fmax directamente y volverlo a calcular, 
+                     * ya que fmax y fmin se calcularia de manera diferente
+                     * fmax se calcula de forma creciente y fmin co la funcion de beneficio
+                     * 
+                     */
                     // linea 24:
                     iterMax = 0;
                     list_RL.clear();
-                    fmin = rawFuncion(x);
+//                    fmin = rawFuncion(x);
+                    fmin = fmax;
                     x_aster = x.clone();
                     // linea 25:
                 } else {

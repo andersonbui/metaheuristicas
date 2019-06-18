@@ -30,9 +30,11 @@ import main.utilidades.Utilidades;
 public class ActualizarMejoresResultados {
 
     public static void main(String[] args) throws IOException {
-        String directorioInstancias = "mochilaCuadratica/grupo1/";
-        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
-//        String directorioInstancias = "mochilaCuadratica/grupo1000/";
+//        String directorioInstancias = "mochilaCuadratica/grupo1/";
+//        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
+        String directorioInstancias = "mochilaCuadratica/grupo1000/";
+        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
+//        String directorioInstancias = "mochilaCuadratica/grupo2000/";
 //        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
         String extensionRes = ".sol";
         String nombreInstancia;
@@ -48,25 +50,25 @@ public class ActualizarMejoresResultados {
             nombreSinExtension = nombreInstancia.split("\\.")[0];
             MejorIntancia mi = obtenerMejor(directorioResultados + nombreSinExtension + extensionRes);
             if (mi == null) {
+                System.out.println("no hay resultado ideal para " + nombreSinExtension);
                 continue;
             }
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
             ParametrosCuadratica parametros = lpc.obtenerParametros(directorioInstancias + nombreInstancia);
 
-            if (parametros.getMaxGlobal().isNaN() ) {
-                if (parametros.getMaxGlobal().compareTo(mi.calidad) < 0) {
-                    parametros.setMaxGlobal(mi.calidad);
-                    parametros.setVectorIdeal(mi.valores);
+            System.out.println("en" + nombreSinExtension + ".sol " + mi.calidad + " => instancia: " + parametros.getMaxGlobal());
+            if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(mi.calidad) < 0) {
+                parametros.setMaxGlobal(mi.calidad);
+                parametros.setVectorIdeal(mi.valores);
 
-                    try {
-                        lpc.actualizar(parametros.getNombreArchivo(), parametros);
-                    } catch (Exception e) {
-                        System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
-                        System.out.println("---mensaje de error: \n " + e.getMessage());
-                    }
-                } else if(parametros.getMaxGlobal().compareTo(mi.calidad) > 0){
-                    System.out.println("se encontro mejor que mejor resultado");
+                try {
+                    lpc.actualizar(parametros.getNombreArchivo(), parametros);
+                } catch (Exception e) {
+                    System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
+                    System.out.println("---mensaje de error: \n " + e.getMessage());
                 }
+            } else if (parametros.getMaxGlobal().compareTo(mi.calidad) > 0) {
+                System.out.println("se encontro mejor que mejor resultado");
             }
 
         }

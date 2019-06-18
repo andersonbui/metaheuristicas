@@ -1,0 +1,21 @@
+----------------------------------------------------------.
+Numero Intentos:1
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|1.1384283E7
+
+1000_50_3.txt       |Cuadratica          |IHEAIHEA_A                    |1000      |96,00   |1,000000|11384283,00   |11384283,00 |0,000000|1296,00   |0,000000       
+
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEAIHEA_A]
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:1296,00ms
+-----------
+

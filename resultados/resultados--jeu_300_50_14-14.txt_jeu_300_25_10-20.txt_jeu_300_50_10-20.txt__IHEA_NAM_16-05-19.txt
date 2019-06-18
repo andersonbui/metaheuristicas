@@ -1,5 +1,6 @@
 tabu => if ((frx >= fmin) && (((vcx >= vmin)) || ((vcx == vmin) && (frx >= fmax)))) { 
 hiperplanos descent => seq-vns
+commit:147e4d591a
 ----------------------------------------------------------.
 Numero Intentos:10
 NPI: Numero iteraciones promedio.
