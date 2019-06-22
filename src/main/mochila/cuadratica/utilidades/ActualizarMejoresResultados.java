@@ -32,8 +32,8 @@ public class ActualizarMejoresResultados {
     public static void main(String[] args) throws IOException {
 //        String directorioInstancias = "mochilaCuadratica/grupo1/";
 //        String directorioResultados = "mochilaCuadratica/QKPResults/group1/";
-        String directorioInstancias = "mochilaCuadratica/grupo1000/";
-        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
+        String directorioInstancias = "mochilaCuadratica/grupo5000/";
+        String directorioResultados = "mochilaCuadratica/QKPResults/group3/";
 //        String directorioInstancias = "mochilaCuadratica/grupo2000/";
 //        String directorioResultados = "mochilaCuadratica/QKPResults/group2/";
         String extensionRes = ".sol";

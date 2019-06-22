@@ -34,6 +34,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
     int rcl; // lista restringida de candidatos - construccion greedy
     protected int lb; // lower bown
+    protected int ub; // lower bown
     int t; // 
     int s; // 
     protected int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
@@ -48,6 +49,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         setFuncion(funcion);
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
+        ub = funcion.obtenerUpperBound();
         tiempototal = 0;
         rcl = 20;
         L = 30;
@@ -108,7 +110,14 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          */
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
+        
+        
         for (; iteraciones < maxIter; iteraciones++) {
+//            boolean suficiente = funcion.suficiente(x_mejorGlobal);
+//            if (suficiente) {
+//                recorrido.add(x_mejorGlobal);
+//                return recorrido;
+//            }
             // linea 10:
             solucionEncontrada = true;
             // linea 11:
@@ -185,7 +194,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int n = individuo.getDimension();
         // numero de variables fijas
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-//        nf = lowerb + 1;
+//        System.out.print(nf+" - ");
+//        nf = (int)(0.860*(lowerb + (ub - lowerb) / 2.0)); //general
+//        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
+//        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
+//        System.out.println("- "+nf);
+//        nf = (int)(1.20*(lowerb + (ub - lowerb) / 2.0)); //1000
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
@@ -335,8 +349,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // numero de variables fijas
         int nf = (int) (lb + Math.max(0, (dimX - lb) * (1 - 1 / (0.008 * n))));
 
-        t = Math.min(10, I1.size() - nf);
-        s = Math.min(3, t);
+        t = Math.min(15, I1.size() - nf);
+        s = Math.max(3, t);
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
