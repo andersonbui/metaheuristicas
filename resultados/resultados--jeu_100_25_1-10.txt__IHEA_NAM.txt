@@ -1,5 +1,5 @@
 ----------------------------------------------------------.
-Numero Intentos:1
+Numero Intentos:100
 NPI: Numero iteraciones promedio.
 TP: Tiempo Promedio.
 TE: Tasa de exito.

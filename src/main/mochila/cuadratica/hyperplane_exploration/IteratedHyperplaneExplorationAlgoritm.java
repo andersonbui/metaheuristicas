@@ -113,11 +113,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         
         
         for (; iteraciones < maxIter; iteraciones++) {
-//            boolean suficiente = funcion.suficiente(x_mejorGlobal);
-//            if (suficiente) {
-//                recorrido.add(x_mejorGlobal);
-//                return recorrido;
-//            }
+            boolean suficiente = funcion.suficiente(x_mejorGlobal);
+            if (suficiente) {
+                recorrido.add(x_mejorGlobal);
+                return recorrido;
+            }
             // linea 10:
             solucionEncontrada = true;
             // linea 11:
@@ -131,10 +131,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
-                int cuantosNoEstan = ComparacionIdeal.cuantosNoEstanEnMejor(parametros, variablesFijas);
-                if (cuantosNoEstan > 0) {
-//                    System.out.println("no estan: " + cuantosNoEstan);
-                }
+//                int cuantosNoEstan = ComparacionIdeal.cuentaValorEnIdeal(parametros, variablesFijas,0);
 
                 // linea 17: run tabu serach engine (L,x',xb)
                 long tiempo_inicial = System.currentTimeMillis();
@@ -195,7 +192,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // numero de variables fijas
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //        System.out.print(nf+" - ");
-//        nf = (int)(0.860*(lowerb + (ub - lowerb) / 2.0)); //general
+        nf = (int)(0.860*(lowerb + (ub - lowerb) / 2.0)); //general
 //        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
 //        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
 //        System.out.println("- "+nf);

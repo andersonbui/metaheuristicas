@@ -1,0 +1,21 @@
+----------------------------------------------------------.
+Numero Intentos:1
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|890913.0
+
+jeu_300_50_20.txt   |Cuadratica          |IHEAIHEA_M                    | 300      |3,000000|1,000000|890913,00     |890913,00   |0,000000|62,00     |0,000000       
+
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEAIHEA_M]
+aciertos:100,00%
+desviacion:0,000000
+tiempo promedio:62,00ms
+-----------
+

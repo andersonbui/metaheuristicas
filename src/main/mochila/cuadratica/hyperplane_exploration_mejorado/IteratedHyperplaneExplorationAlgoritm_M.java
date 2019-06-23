@@ -18,8 +18,10 @@ package main.mochila.cuadratica.hyperplane_exploration_mejorado;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import main.mochila.cuadratica.hyperplane_exploration.*;
 import main.mochila.cuadratica.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
+import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
 
 /**
@@ -28,13 +30,13 @@ import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
  */
 public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneExplorationAlgoritm_A {
 
-    protected int ub; // upper bown
-    public static List<Integer> listaIndicesMalos;
+//    protected int ub; // upper bown
+    public List<Integer> listaIndicesMalos;
 
     public IteratedHyperplaneExplorationAlgoritm_M(FuncionMochilaIHEA funcion) {
         super(funcion);
         ub = funcion.obtenerUpperBound();
-        listaIndicesMalos = fijarVariables(funcion, ub);
+//        listaIndicesMalos = fijarVariables(funcion, ub);
     }
 
     public List<Integer> fijarVariables(FuncionMochilaIHEA funcion, int upperb) {
@@ -42,23 +44,27 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
             // tamaño de la mochila
             int n = funcion.getDimension();
             // numero de variables fijas
-            int nf = (int) (n - (upperb * 1.4));
-            nf = Math.max(0, nf);
+            Random rand = new Random();
+            double vari = 1.70+(0.2*rand.nextDouble()-0.1);
+            int nf = (int) ((upperb * vari));//1.3
+            
+            nf = Math.min(n, nf);
             // items seleccionados
-//        List<Integer> itemsSeleccionados = elementosFuera(individuo);
-            List listaIndicesMalos = new ArrayList();
-            List listaInidicesResultado = Main_MetododosInicializacion.ordenar(funcion);
-            int tamanio = listaInidicesResultado.size()-1;
+             listaIndicesMalos = new ArrayList(n-nf);
+             if(n-nf == 0){
+                 return listaIndicesMalos;
+             }
+            List<Integer> listaInidicesResultado = (new Main_MetododosInicializacion()).ordenar(funcion);
+            int tamanio = listaInidicesResultado.size();
 //            nf = tamanio - nf;
-            for (int i = tamanio; i >= nf; i--) {
+            for (int i = nf; i < tamanio; i++) {
                 listaIndicesMalos.add(listaInidicesResultado.get(i));
             }
         }
-//        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);
-
+//        System.out.print("");
         // vector de indices de variables fijas
         // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido (listo)
         return listaIndicesMalos;
     }
 
@@ -72,12 +78,7 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
      */
     protected List<Integer> determinarMalasVariablesFijas(IndividuoIHEA individuo, int upperb) {
         listaIndicesMalos = fijarVariables(funcion, upperb);
-
-//        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, true);
-        // vector de indices de variables fijas
-        // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
-        return listaIndicesMalos;
+        return new ArrayList(listaIndicesMalos);
     }
 
     /**
@@ -88,8 +89,8 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
     @Override
     protected void construirProblemaRestringidoReducido(List<Integer> varFijas, IndividuoIHEA individuoActual) {
         getFuncion().fijarVariables(individuoActual, varFijas);
-        List<Integer> malas = determinarMalasVariablesFijas(individuoActual, ub);
-        getFuncion().fijarVariablesMalas(malas);
+//        List<Integer> malas = determinarMalasVariablesFijas(individuoActual, ub);
+//        getFuncion().fijarVariablesMalas(malas);
     }
 
     @Override
@@ -97,8 +98,15 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
         return (FuncionMochilaIHEA_M) funcion;
     }
 
-    @Override
+//    @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
+        
+//        ComparacionIdeal.cuentaValorEnIdeal(parametros, listaIndicesMalos,1," indices malos como unos en ideal");
+        return super.tabuSearchEngine(L, x_inicial, x_referencia); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    protected IndividuoIHEA tabuSearchEngine2(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
         int[][] tabu;

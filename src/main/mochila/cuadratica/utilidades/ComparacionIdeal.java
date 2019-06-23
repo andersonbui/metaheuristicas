@@ -21,10 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar4;
-import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar3;
-import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar2;
-import static main.mochila.cuadratica.utilidades.Main_MetododosInicializacion.comparar;
 import main.utilidades.Utilidades;
 
 /**
@@ -94,7 +90,7 @@ public class ComparacionIdeal {
                 ultimoSeleccionado = i;
             }
         }
-        if(metricas == null){
+        if (metricas == null) {
             metricas = new String[6];
         }
         int a = -1;
@@ -138,14 +134,14 @@ public class ComparacionIdeal {
         //
         a++;
         metricas[a] = "(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2)";
-        calculo.valores[a] = (ultimoSeleccionado / (double) (lowerB + (upperB - (double)lowerB) / 2));
+        calculo.valores[a] = (ultimoSeleccionado / (double) (lowerB + (upperB - (double) lowerB) / 2));
         System.out.println(metricas[a] + ": " + calculo.valores[a]);
         //
-        System.out.println("ultimo seleccionado consecutivo (posicion)"+ cantidadSeleccionadosConsecutivos);
+        System.out.println("ultimo seleccionado consecutivo (posicion)" + cantidadSeleccionadosConsecutivos);
         //
         a++;
         metricas[a] = "(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2)";
-        calculo.valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double)lowerB) / 2));
+        calculo.valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double) lowerB) / 2));
         System.out.println(metricas[a] + ": " + calculo.valores[a]);
         //
         a++;
@@ -161,34 +157,34 @@ public class ComparacionIdeal {
     }
 
     /**
-     * cuenta el numero de posiciones que no pertenercen a un uno(1) en el mejor
-     * ideal
+     * cuenta el numero de elementos que si/no pertenercen a la solucion ideal
      *
-     * @param parametros
-     * @param indiAlcanzado
+     * @param parametros donde se encuentra el ideal
+     * @param indices indices de los valores en los cuales se busca el valor
+     * @param valor valor el cual se cuenta cuanta coincidencias existe en
+     * individuo ideal
      * @return
      */
-    public static int cuantosNoEstanEnMejor(ParametrosCuadratica parametros, List<Integer> indiAlcanzado) {
+    public static int cuentaValorEnIdeal(ParametrosCuadratica parametros, List<Integer> indices, int valor, String mensaje) {
         int contador = 0;
-
+        if (indices == null || indices.size() == 0) {
+            return 0;
+        }
         int[] valsIdeal = parametros.getVectorIdeal();
         if (valsIdeal == null) {
 //            System.out.println("No hay ideal.");
             return -1;
         }
-        List<Integer> posicionesUno = new ArrayList();
-        // crear individuo ideal
-        for (Integer i = 0; i < valsIdeal.length; i++) {
-            if (valsIdeal[i] == 1) {
-                posicionesUno.add(i);
-//                        ultimoSeleccionado = i;
+
+        for (Integer i : indices) {
+            if (valsIdeal[i] == valor) {
+                contador++;
             }
         }
 
-        for (Integer i : indiAlcanzado) {
-            if (!posicionesUno.contains(i)) {
-                contador++;
-            }
+        if (contador > 0) {
+            System.out.println("cuantos[" + valor + "] " + ": " + contador + " - " + mensaje);
+
         }
         return contador;
     }
@@ -198,13 +194,13 @@ public class ComparacionIdeal {
         System.out.println("\n##############################################");
         for (int i = 0; i < metricas.length; i++) {
 //            if (estadisticas[i] == 1) {
-                List<Double> lista = new ArrayList();
-                for (int k = 0; k < listaDatos.size(); k++) {
-                    lista.add(listaDatos.get(k).calculo.valores[i]);
-                }
-                double promedio = Utilidades.promedio(lista);
-                System.out.println("promedio " + metricas[i] + ": " + promedio);
-                System.out.println("desviacion " + metricas[i] + ": " + Utilidades.desviacion(lista, promedio));
+            List<Double> lista = new ArrayList();
+            for (int k = 0; k < listaDatos.size(); k++) {
+                lista.add(listaDatos.get(k).calculo.valores[i]);
+            }
+            double promedio = Utilidades.promedio(lista);
+            System.out.println("promedio " + metricas[i] + ": " + promedio);
+            System.out.println("desviacion " + metricas[i] + ": " + Utilidades.desviacion(lista, promedio));
 //            }
         }
     }

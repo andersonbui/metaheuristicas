@@ -1,0 +1,21 @@
+----------------------------------------------------------.
+Numero Intentos:100
+NPI: Numero iteraciones promedio.
+TP: Tiempo Promedio.
+TE: Tasa de exito.
+DPR: Desviación porcentual relativa.
+----------------------------------------------------------.
+NOMBRE              |FUNCION             |ALGORITMO                     |DIMENSION |NPI     |TE      |MEJOR OPTIMO  |PROM OPTIMOS|DPR     |TP        |EVALUACIONES   
+
+#====================================================================================================|18558.0
+
+jeu_100_25_1.txt    |Cuadratica          |IHEASS                        | 100      |75,00   |0,330000|18558,00      |18550,22    |0,041923|18,00     |0,000000       
+
+
+--------------------RESUMEN-----------------
+Algoritmo[IHEASS]
+aciertos:33,00%
+desviacion:0,041923
+tiempo promedio:18,00ms
+-----------
+

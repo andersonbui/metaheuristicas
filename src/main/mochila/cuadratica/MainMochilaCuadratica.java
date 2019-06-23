@@ -43,7 +43,7 @@ public class MainMochilaCuadratica {
     public static String tsalida = "v";
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 100;
+        int numIntentos = 2;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -65,7 +65,7 @@ public class MainMochilaCuadratica {
                     case "-e":
                     case "--examples":
                         ConjuntoDInstancias datos = new ConjuntoDInstancias();
-//                        datos.prepararInstanciasResumnenes();
+                        datos.prepararInstanciasResumnenes();
                         nombreArchivoResultado = datos.getNombreResultado();
                         listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
@@ -182,7 +182,9 @@ public class MainMochilaCuadratica {
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
             ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivoCompleto);
             if (parametros == null) {
-                System.out.println("no se pudo obtener el archivo: " + nombreArchivoCompleto);
+                if ("v".equals(tsalida) || "b".equals(tsalida)) {
+                        imprimir.imprimir("#========== No se encontro el archivo|" + nombreArchivoCompleto + "\n");
+                    }
                 continue;
             }
             GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(parametros);
@@ -194,12 +196,14 @@ public class MainMochilaCuadratica {
             hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
 
         }
+        // esperar que todas la ejecuciones terminen hasta aqui
         for (HiloEjecucion hilo : hilos) {
             hilo.start();
         }
         String nombreIns = "#";
         ParametrosCuadratica parametros = null;
         ResultadoGrupo resultadoGrupo;
+        // Imprimir resultados y estadisticas
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
 
@@ -218,7 +222,7 @@ public class MainMochilaCuadratica {
 
                 String stringResult = armarResultados(resultadoGrupo);
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
-                    imprimir.imprimir(stringResult + "\n");
+                    imprimir.imprimir(stringResult );
                 }
                 IndividuoCuadratico individuo = (IndividuoCuadratico) resultadoGrupo.getMejorIndividuo();
                 // almacenar mejor global
@@ -234,8 +238,8 @@ public class MainMochilaCuadratica {
                         try {
                             lpc.actualizar(parametros.getNombreArchivo(), parametros);
                         } catch (Exception e) {
-                            System.out.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
-                            System.out.println("---mensaje de error: \n " + e.getMessage());
+                            System.err.println("---fallo la actualizacion del maximo global:\n " + e.getLocalizedMessage());
+                            System.err.println("---mensaje de error: \n " + e.getMessage());
                         }
                     } else if (parametros.getMaxGlobal().compareTo(individuo.getCalidad()) > 0) {
 //                        System.out.println("No se encontro mejor");

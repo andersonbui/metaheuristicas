@@ -62,9 +62,10 @@ public class Main_MetododosInicializacion {
                 double beneficio = funcion.beneficio(i);
                 posiciones.add(new Posicion(i, peso, relacion, beneficio));
             }
+            Main_MetododosInicializacion obj = new Main_MetododosInicializacion();
             // ordenar de acuerdo a la estrctura anterior
             Collections.sort(posiciones, (Posicion o1, Posicion o2) -> {
-                return comparar4(o1, o2);
+                return obj.comparar4(o1, o2);
             });
 
             IndividuoIHEA indiAlcanzado = funcion.generarIndividuo();
@@ -84,7 +85,7 @@ public class Main_MetododosInicializacion {
         ComparacionIdeal.estadisticas(comparaciones);
     }
 
-    public static List<Integer> ordenar(FuncionMochilaIHEA funcion) {
+    public List<Integer> ordenar(FuncionMochilaIHEA funcion) {
         List<Integer> indicesOrdenados = new ArrayList();
         //        // lista de indices para ordenamiento
         List<Main_MetododosInicializacion.Posicion> posiciones = new ArrayList();
@@ -100,7 +101,7 @@ public class Main_MetododosInicializacion {
         Collections.sort(posiciones, (Main_MetododosInicializacion.Posicion o1, Main_MetododosInicializacion.Posicion o2) -> {
             return comparar4(o1, o2);
         });
-        
+
         for (Posicion posicion : posiciones) {
             indicesOrdenados.add(posicion.posicion);
         }
@@ -123,25 +124,25 @@ public class Main_MetododosInicializacion {
 
     }
 
-    public static int comparar3(Posicion o1, Posicion o2) {
+    public int comparar3(Posicion o1, Posicion o2) {
         Double resultado1 = o1.beneficio * o1.beneficio / (o1.relacion * o1.peso);
         Double resultado2 = o2.beneficio * o2.beneficio / (o2.relacion * o2.peso);
         return -resultado1.compareTo(resultado2);
     }
 
-    public static int comparar(Posicion o1, Posicion o2) {
+    public int comparar(Posicion o1, Posicion o2) {
         Double resultado1 = o1.beneficio / (o1.relacion * o1.peso);
         Double resultado2 = o2.beneficio / (o2.relacion * o2.peso);
         return -resultado1.compareTo(resultado2);
     }
 
-    public static int comparar2(Posicion o1, Posicion o2) {
+    public int comparar2(Posicion o1, Posicion o2) {
         Double resultado1 = o1.beneficio / o1.peso;
         Double resultado2 = o2.beneficio / o2.peso;
         return -Double.compare(resultado1, resultado2);
     }
 
-    public static int comparar4(Posicion o1, Posicion o2) {
+    public int comparar4(Posicion o1, Posicion o2) {
         Double resultado1 = o1.beneficio / o1.peso;
         Double resultado2 = o2.beneficio / o2.peso;
         int result = -Double.compare(resultado1, resultado2);
