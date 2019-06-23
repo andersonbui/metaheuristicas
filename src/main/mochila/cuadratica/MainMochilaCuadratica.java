@@ -16,7 +16,7 @@
  */
 package main.mochila.cuadratica;
 
-import main.GrupoInstancias;
+import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasPruebas;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,9 +64,8 @@ public class MainMochilaCuadratica {
                 switch (opcion) {
                     case "-e":
                     case "--examples":
-                        ConjuntoDInstancias datos = new ConjuntoDInstancias();
-                        datos.prepararInstanciasResumnenes();
-                        nombreArchivoResultado = datos.getNombreResultado();
+                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
+                        nombreArchivoResultado = "resultados/"+datos.getNombre()+"----------------.txt";
                         listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
                         break;

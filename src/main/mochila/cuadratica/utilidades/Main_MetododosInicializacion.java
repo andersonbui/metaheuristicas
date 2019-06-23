@@ -19,8 +19,7 @@ package main.mochila.cuadratica.utilidades;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import main.GrupoInstancias;
-import main.mochila.cuadratica.ConjuntoDInstancias;
+import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasPruebas;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
 
@@ -37,8 +36,7 @@ public class Main_MetododosInicializacion {
         String nombreArchivo = "";
 
         List<Instancia> listaInstanc = null;
-        ConjuntoDInstancias conjuntoInstan = new ConjuntoDInstancias();
-        conjuntoInstan.prepararTodos();
+        ConjuntoInstanciasPruebas conjuntoInstan = new ConjuntoInstanciasPruebas();
         listaInstanc = conjuntoInstan.getConjuntoInstancias();
 
         List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
@@ -48,7 +46,7 @@ public class Main_MetododosInicializacion {
             LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
             ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
             if (parametros == null) {
-                System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
+                System.err.println("no se pudo obtener el archivo: " + nombreArchivo);
                 continue;
             }
             funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());

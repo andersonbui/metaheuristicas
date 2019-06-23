@@ -87,7 +87,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //                return algotIHEA;
 //            }
 //        });
-//
+////
         add(new FabricaAlgoritmoMetaheuristico() {
             @Override
             public AlgoritmoMetaheuristico obtener() {
@@ -99,18 +99,18 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                 return algotIHEA;
             }
         });
-//
-        add(new FabricaAlgoritmoMetaheuristico() {
-            @Override
-            public AlgoritmoMetaheuristico obtener() {
-                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-                IteratedHyperplaneExplorationAlgoritm_A algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
-                algotIHEA.setSaltar(true);
-                algotIHEA.setParametros(parametros);
-                algotIHEA.addNombre("IHEA_A");
-                return algotIHEA;
-            }
-        });
+//////
+//        add(new FabricaAlgoritmoMetaheuristico() {
+//            @Override
+//            public AlgoritmoMetaheuristico obtener() {
+//                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+//                IteratedHyperplaneExplorationAlgoritm_A algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
+//                algotIHEA.setSaltar(true);
+//                algotIHEA.setParametros(parametros);
+//                algotIHEA.addNombre("IHEA_A");
+//                return algotIHEA;
+//            }
+//        });
 //        FuncionMochilaCuadraticaGreedy funcionEDG = new FuncionMochilaCuadraticaGreedy(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
 //        add(new EstrategiaEvolucionDiferencialConGreedy(funcionEDG, maxIteraciones, 10));
 //        FuncionGraspTabuR funcionGreedy = new FuncionGraspTabuR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
