@@ -19,6 +19,7 @@ package main.mochila.cuadratica.utilidades;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.ConjuntoInstancias.GrupoInstancias;
+import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
@@ -35,21 +36,21 @@ public class EstadisticasInstancias {
     public static void main(String[] args) {
         FuncionMochilaCuadratica funcion;
         String nombreArchivo = "";
-        List<GrupoInstancias> instancias = new ArrayList<>();
+        List<GrupoInstancias> listGrupoInstancias = new ArrayList<>();
 
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_25_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_50_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_75_%d.txt", 1, 10,"100"));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_100_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_25_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_50_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_75_%d.txt", 1, 10,"100"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_100_%d.txt", 1, 10,"100"));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 1, 10));
 
         StringBuilder sbuild = new StringBuilder();
@@ -68,14 +69,17 @@ public class EstadisticasInstancias {
                 append(formatear("lowerB/upperB")) // lowerB/upperB
                 ;
 
-        for (GrupoInstancias instancia : instancias) {
+        for (GrupoInstancias grupoInstancia : listGrupoInstancias) {
             System.out.println("########################################################################");
-            for (int indice_instancia = 1; indice_instancia <= instancia.ultimo; indice_instancia++) {
+            
+            List<Instancia> instancias = grupoInstancia.getInstancias();
 
-                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
+            for (Instancia instancia : instancias) {
+                
+                nombreArchivo = instancia.getNombreCompleto();
 
                 LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-                ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
+                ParametrosInstancia parametros = pc.obtenerParametros(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;
@@ -94,7 +98,7 @@ public class EstadisticasInstancias {
                 };
 
                 sbuild.append("\n");
-                sbuild.append(String.format("%20s", instancia.getNombreArchivo(indice_instancia)));
+                sbuild.append(String.format("%20s", instancia.getNombre()));
                 double[] vecValPesos = parametros.getVectorPesos();
                 sbuild.append(formatear(UtilCuadratica.promedio(vecValPesos)));//promedio pesos
                 sbuild.append(formatear(UtilCuadratica.desviacion(vecValPesos)));//desviacion pesos

@@ -18,7 +18,6 @@ package main.mochila.cuadratica.ConjuntoInstancias;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.utilidades.Instancia;
 
 /**
  *
@@ -30,7 +29,8 @@ public class GrupoInstancias {
     public String base;
     public int ultimo;
     public int primero;
-    public String nombregrupo;
+    public String familia;
+    private ConjuntoInstancias conjunto;
 
     /**
      *
@@ -38,14 +38,14 @@ public class GrupoInstancias {
      * @param nombreBase nombre de la instancia del tipo "nombre_%d_nombre2", donde %d se itera desde primero hasta ultimo
      * @param ultimo
      * @param primero
-     * @param nombregrupo
+     * @param familia
      */
-    public GrupoInstancias(String ubicacion, String nombreBase, int primero, int ultimo, String nombregrupo) {
+    public GrupoInstancias(String ubicacion, String nombreBase, int primero, int ultimo, String familia) {
         this.ubicacion = ubicacion;
         this.base = nombreBase;
         this.ultimo = ultimo;
         this.primero = primero;
-        this.nombregrupo = nombregrupo;
+        this.familia = familia;
     }
 
     public String getNombreArchivoCompleto(int indice_instancia) {
@@ -58,7 +58,7 @@ public class GrupoInstancias {
 
     @Override
     public String toString() {
-        return "-" + nombregrupo + '[' + primero + '-' + ultimo + ']';
+        return "-" + familia + '[' + primero + '-' + ultimo + ']';
     }
 
     /**
@@ -74,10 +74,20 @@ public class GrupoInstancias {
 
             nombreCompletoArchivo = getNombreArchivoCompleto(indice_instancia);
             nombreArchivo = getNombreArchivo(indice_instancia);
-            listaArchivos.add(new Instancia(nombreArchivo, nombreCompletoArchivo, base));
+            Instancia instan = new Instancia(nombreArchivo, nombreCompletoArchivo, base);
+            instan.setGrupo(this);
+            listaArchivos.add(instan);
         }
 
         return listaArchivos;
     }
 
+    public ConjuntoInstancias getConjunto() {
+        return conjunto;
+    }
+
+    public void setConjunto(ConjuntoInstancias conjunto) {
+        this.conjunto = conjunto;
+    }
+    
 }

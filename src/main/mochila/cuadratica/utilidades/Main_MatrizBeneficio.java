@@ -19,6 +19,7 @@ package main.mochila.cuadratica.utilidades;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.utilidades.EscribirArchivo;
 import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
@@ -54,7 +55,7 @@ public class Main_MatrizBeneficio {
 
         // dimension de los puntos;
         LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-        ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
+        ParametrosInstancia parametros = pc.obtenerParametros(new Instancia(nombreArchivo,nombreArchivo,""));
         EscribirArchivo archivoEsc = new EscribirArchivo();
         archivoEsc.abrir("matriz_beneficio.txt");
 

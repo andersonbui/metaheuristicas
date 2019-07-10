@@ -21,7 +21,7 @@ import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
-import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
+import main.mochila.cuadratica.utilidades.ParametrosInstancia;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -42,7 +42,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     protected int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     protected int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    protected ParametrosCuadratica parametros;
+    protected ParametrosInstancia parametros;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
@@ -52,12 +52,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         ub = funcion.obtenerUpperBound();
         tiempototal = 0;
         rcl = 20;
-        L = 30;
+        L = 300;
         intentosDescent = 5;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
     }
 
-    public void setParametros(ParametrosCuadratica parametros) {
+    public void setParametros(ParametrosInstancia parametros) {
         this.parametros = parametros;
     }
 
@@ -113,11 +113,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         
         
         for (; iteraciones < maxIter; iteraciones++) {
-            boolean suficiente = funcion.suficiente(x_mejorGlobal);
-            if (suficiente) {
-                recorrido.add(x_mejorGlobal);
-                return recorrido;
-            }
+//            boolean suficiente = funcion.suficiente(x_mejorGlobal);
+//            if (suficiente) {
+//                recorrido.add(x_mejorGlobal);
+//                return recorrido;
+//            }
             // linea 10:
             solucionEncontrada = true;
             // linea 11:

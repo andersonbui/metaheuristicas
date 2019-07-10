@@ -49,6 +49,9 @@ public class ConjuntoInstanciasResumenes extends ConjuntoInstancias {
                 instancias.add(gi);
             }
         }
+        instancias.forEach((instancia) -> {
+            instancia.setConjunto(this);
+        });
         return instancias;
     }
     

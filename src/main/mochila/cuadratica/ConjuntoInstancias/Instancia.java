@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.utilidades;
+package main.mochila.cuadratica.ConjuntoInstancias;
 
 /**
  *
@@ -24,15 +24,16 @@ public class Instancia {
 
     String nombre;
     String nombreCompleto;
-    String grupo;
+    String familia;
+    GrupoInstancias grupo;
 
     public Instancia() {
     }
 
-    public Instancia(String nombre, String nombreCompleto, String grupo) {
+    public Instancia(String nombre, String nombreCompleto, String familia) {
         this.nombre = nombre;
         this.nombreCompleto = nombreCompleto;
-        this.grupo = grupo;
+        this.familia = familia;
     }
 
     public String getNombre() {
@@ -51,11 +52,19 @@ public class Instancia {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public String getGrupo() {
+    public String getFamilia() {
+        return familia;
+    }
+
+    public void setFamilia(String familia) {
+        this.familia = familia;
+    }
+
+    public GrupoInstancias getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(String grupo) {
+    public void setGrupo(GrupoInstancias grupo) {
         this.grupo = grupo;
     }
 

@@ -135,9 +135,6 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
         int i_aster = 0;
         int j_aster = 0;
 
-        int imax = -1;
-        int jmax = -1;
-        double vmax = -1;
         // linea 8:
         int iterTabu = 1;
 
@@ -151,13 +148,10 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 
             vmin = default_min;
             fmax = -default_min;
-            imax = -1;
-            jmax = -1;
             List<Integer> I0;
             List<Integer> I1;
             I0 = elementosFuera(x);
             I1 = elementosDentro(x);
-            vmax = -1;
             // linea 10:
             for (int j : I1) {
                 viol_capacidad = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
@@ -174,7 +168,7 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                         if (vcx == 0) {
                             System.out.print("");
                         }
-//                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin)) {
+//                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin) || ((vcx == vmin) && (frx >= fmax))) {
                         if ((frx >= fmin) && (((vcx > vmin)) || ((vcx == vmin) && (frx >= fmax)))) {  // 89
 //                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) { //
                             i_aster = i;
@@ -183,37 +177,13 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                             fmax = frx;
                         }
 
-//                        if (frx > fmin && vcx >= 0) {
-//                            imax = i;
-//                            jmax = j;
-//                            fmin = frx;
-//                            vmax = vcx;
-//                            saltar = true;
-//                            break;
-//                        }
-                        contadorIntercambios++;
                     }
-                }
-                if (vmax >= 0) {
-                    break;
                 }
             }
             int i;
             Integer j;
             // linea 21:
-            if (vmax >= 0) {
-                x.set(imax, 1);
-                x.set(jmax, 0);
-                // linea 24:
-                //iterMax = 0;
-                list_RL.clear();
-                fmin = rawFuncion(x);
-                x_aster = x.clone();
-                // linea 25:
-                imax = -1;
-                jmax = -1;
-//                iterMax = 0;
-            } else if (vmin != default_min) {
+            if (vmin != default_min) {
 
                 // linea 22:
                 x.set(i_aster, 1);
@@ -228,7 +198,7 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                     // linea 24:
                     iterMax = 0;
                     list_RL.clear();
-//                    fmin = rawFuncion(x);
+//                    fmin = rawFuncion(x);indice
                     fmin = fmax;
                     x_aster = x.clone();
                     // linea 25:

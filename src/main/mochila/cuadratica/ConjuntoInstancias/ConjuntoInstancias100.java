@@ -35,6 +35,9 @@ public class ConjuntoInstancias100 extends ConjuntoInstancias {
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10, "100_50")); //1-10
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10, "100_75")); //1-10
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10, "100_100")); //1-10
+        instancias.forEach((instancia) -> {
+            instancia.setConjunto(this);
+        });
         return instancias;
     }
 

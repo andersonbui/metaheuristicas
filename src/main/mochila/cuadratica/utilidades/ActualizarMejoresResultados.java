@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.utilidades.LeerArchivo;
 import main.utilidades.Utilidades;
 
@@ -54,7 +55,7 @@ public class ActualizarMejoresResultados {
                 continue;
             }
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            ParametrosCuadratica parametros = lpc.obtenerParametros(directorioInstancias + nombreInstancia);
+            ParametrosInstancia parametros = lpc.obtenerParametros(new Instancia(nombreInstancia, directorioInstancias + nombreInstancia, ""));
 
             System.out.println("en" + nombreSinExtension + ".sol " + mi.calidad + " => instancia: " + parametros.getMaxGlobal());
             if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(mi.calidad) < 0) {

@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.utilidades;
 
+import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +45,7 @@ public class Main_MetododosInicializacion {
             nombreArchivo = instancia.getNombreCompleto();
 
             LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-            ParametrosCuadratica parametros = pc.obtenerParametros(nombreArchivo);
+            ParametrosInstancia parametros = pc.obtenerParametros(instancia);
             if (parametros == null) {
                 System.err.println("no se pudo obtener el archivo: " + nombreArchivo);
                 continue;

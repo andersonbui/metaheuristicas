@@ -33,6 +33,9 @@ public class ConjuntoInstancias300 extends ConjuntoInstancias {
         instancias = new ArrayList();
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20, "300_25")); //1-20
         instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 20, "300_50")); //1-20
+        instancias.forEach((instancia) -> {
+            instancia.setConjunto(this);
+        });
         return instancias;
     }
 

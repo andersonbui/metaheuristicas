@@ -22,8 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica;
 import main.mochila.cuadratica.ConjuntoInstancias.GrupoInstancias;
+import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
-import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
+import main.mochila.cuadratica.utilidades.ParametrosInstancia;
 
 /**
  *
@@ -45,7 +46,7 @@ public class PruebasRendimiento {
         // numero de veces que se ejecuta un mismo algoritmo con una misma funcion
         numMuestras = 1;
         String nombreArchivo;
-        List<GrupoInstancias> instancias = new ArrayList();
+        List<GrupoInstancias> listGrupoInstancias = new ArrayList();
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
@@ -55,7 +56,7 @@ public class PruebasRendimiento {
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10));
 //        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));
-        instancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10,"300"));
+        listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10, "300"));
         double porcentaje = 0;
         int cantidadPorcentajes = 0;
         //calculo tiempo
@@ -63,16 +64,18 @@ public class PruebasRendimiento {
         int elementosSeleccionados = 100;
         List indices1 = null;
         List indices2 = null;
-        for (GrupoInstancias instancia : instancias) {
+        for (GrupoInstancias grupoInstancia : listGrupoInstancias) {
             System.out.println("########################################################################");
-            for (int indice_instancia = instancia.primero; indice_instancia <= instancia.ultimo; indice_instancia++) {
-                nombreArchivo = instancia.getNombreArchivoCompleto(indice_instancia);
+            List<Instancia> instancias = grupoInstancia.getInstancias();
+
+            for (Instancia instancia : instancias) {
+                nombreArchivo = instancia.getNombreCompleto();
 
                 System.out.println("---------------------------------------------------------------");
                 System.out.println("Nombre archivo: " + nombreArchivo);
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-                ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivo);
+                ParametrosInstancia parametros = lpc.obtenerParametros(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;

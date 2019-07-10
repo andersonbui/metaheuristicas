@@ -25,13 +25,14 @@ import main.EjecutarGrupo;
 import main.EjecutorAlgoritmo;
 import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
+import main.mochila.cuadratica.ConjuntoInstancias.*;
+import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasResumenes;
 import main.mochila.cuadratica.utilidades.ImprimirResultados;
-import main.mochila.cuadratica.utilidades.Instancia;
+import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
+import main.mochila.cuadratica.utilidades.EstadisticasResultados;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
-import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
-import main.utilidades.EscribirArchivo;
+import main.mochila.cuadratica.utilidades.ParametrosInstancia;
 import metaheuristicas.AlgoritmoMetaheuristico;
-import metaheuristicas.IndividuoGen;
 import metaheuristicas.funcion.FuncionGen;
 
 /**
@@ -41,9 +42,10 @@ import metaheuristicas.funcion.FuncionGen;
 public class MainMochilaCuadratica {
 
     public static String tsalida = "v";
+    public static String algoritmo = null;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 2;
+        int numIntentos = 1;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -56,6 +58,8 @@ public class MainMochilaCuadratica {
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
+//            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"};
+//            args = new String[]{"-v","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0626H_0.txt"};
         }
         while (repetir) {
             repetir = false;
@@ -64,8 +68,10 @@ public class MainMochilaCuadratica {
                 switch (opcion) {
                     case "-e":
                     case "--examples":
-                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
-                        nombreArchivoResultado = "resultados/"+datos.getNombre()+"----------------.txt";
+//                        ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
+                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+//                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
+                        nombreArchivoResultado = "";
                         listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
                         break;
@@ -113,11 +119,17 @@ public class MainMochilaCuadratica {
                         tsalida = "b";
                         repetir = true;
                         break;
+                    case "-g":
+                    case "--algoritmo":
+                        algoritmo = "g";
+                        repetir = true;
+                        break;
                 }
             }
         }
 
         if (!ayuda) {
+            
             ejecutar(numIntentos, listaInstanc, nombreArchivoResultado);
         } else {
             StringBuilder sb = new StringBuilder();
@@ -143,7 +155,7 @@ public class MainMochilaCuadratica {
         }
     }
 
-    public static void ejecutar(int numIntentos, List<Instancia> listaInstanc, String nombreArchivoResultado) throws InterruptedException {
+    public static void ejecutar(int numIntentos, List<Instancia> listaInstanc, String nombreArchivoResultado  ) throws InterruptedException {
 
         boolean graficaRecorrido3D = false; //true solo para SO con gnuplot y para (2 dimensiones + calidad) osea 3D
         boolean graficaDispercion2D = false; // true para graficas de dispersion con gnuplot
@@ -176,17 +188,20 @@ public class MainMochilaCuadratica {
         for (Instancia instancia : listaInstanc) {
             nombreInst = instancia.getNombre();
             nombreArchivoCompleto = instancia.getNombreCompleto();
-            mensaje = instancia.getGrupo();
+            mensaje = instancia.getFamilia();
             // dimension de los puntos;
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            ParametrosCuadratica parametros = lpc.obtenerParametros(nombreArchivoCompleto);
+            ParametrosInstancia parametros = lpc.obtenerParametros(instancia);
             if (parametros == null) {
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
-                        imprimir.imprimir("#========== No se encontro el archivo|" + nombreArchivoCompleto + "\n");
-                    }
+                    imprimir.imprimir("#========== No se encontro el archivo (" + nombreArchivoCompleto + ")\n");
+                }
                 continue;
             }
             GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(parametros);
+            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_JSGVNS);
+//            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_IHEA);
+            grupoAlgoritmos.setInstancias(parametros);
             grupoAlgoritmos.inicializar();
             EjecutarGrupo ejecutor = new EjecutarGrupo();
             // EJECUTAR ANALISIS
@@ -200,20 +215,21 @@ public class MainMochilaCuadratica {
             hilo.start();
         }
         String nombreIns = "#";
-        ParametrosCuadratica parametros = null;
+        ParametrosInstancia parametros = null;
         ResultadoGrupo resultadoGrupo;
         // Imprimir resultados y estadisticas
         for (HiloEjecucion hilo : hilos) {
             hilo.join();
 
-            resultadoGrupo = hilo.resultadoGrupo;
-            parametros = hilo.parametros;
+            resultadoGrupo = hilo.getResultadoGrupo();
 
             if (resultadoGrupo != null) {
+                parametros = resultadoGrupo.getParametros();
+
                 if (!nombreIns.equals(resultadoGrupo.getInstancia())) {
                     nombreIns = resultadoGrupo.getInstancia();
                     if ("v".equals(tsalida) || "b".equals(tsalida)) {
-                        imprimir.imprimir("#====================================================================================================|" + parametros.getMaxGlobal() + "\n");
+                        imprimir.imprimir("#====================================================================================================(" + parametros.getMaxGlobal() + ")\n");
                     }
                 }
                 listResultadosGrupos.add(resultadoGrupo);
@@ -221,7 +237,7 @@ public class MainMochilaCuadratica {
 
                 String stringResult = armarResultados(resultadoGrupo);
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
-                    imprimir.imprimir(stringResult );
+                    imprimir.imprimir(stringResult);
                 }
                 IndividuoCuadratico individuo = (IndividuoCuadratico) resultadoGrupo.getMejorIndividuo();
                 // almacenar mejor global
@@ -249,6 +265,8 @@ public class MainMochilaCuadratica {
             }
         }
 
+        EstadisticasResultados estadResult = new EstadisticasResultados();
+
         // imprimir mejor
         if ("i".equals(tsalida) || "b".equals(tsalida)) {
             if (mejorGlobal != null) {
@@ -262,8 +280,9 @@ public class MainMochilaCuadratica {
                 imprimir.imprimir(mejorGlobal.toStringIndicesOrdenados());
             }
         }
-        
+
         if (!listResultadosGrupos.isEmpty()) {
+            estadResult.estadisticas(listResultadosGrupos);
             String resumen = armarResumen(listResultadosGrupos);
             if ("v".equals(tsalida) || "b".equals(tsalida)) {
                 imprimir.imprimir(resumen);
@@ -273,12 +292,12 @@ public class MainMochilaCuadratica {
 
     static class HiloEjecucion extends Thread {
 
-        private final ParametrosCuadratica parametros;
+        private final ParametrosInstancia parametros;
         private final EjecutarGrupo ejecutor;
-        ResultadoGrupo resultadoGrupo;
+        private ResultadoGrupo resultadoGrupo;
         private final String mensaje;
 
-        public HiloEjecucion(ParametrosCuadratica parametros, EjecutarGrupo ejecutor, String mensaje) {
+        public HiloEjecucion(ParametrosInstancia parametros, EjecutarGrupo ejecutor, String mensaje) {
             this.parametros = parametros;
             this.ejecutor = ejecutor;
             this.mensaje = mensaje;
@@ -287,7 +306,13 @@ public class MainMochilaCuadratica {
         @Override
         public void run() {
             resultadoGrupo = ejecutor.ejecutarGrupo();
+            resultadoGrupo.setParametros(parametros);
         }
+
+        public ResultadoGrupo getResultadoGrupo() {
+            return resultadoGrupo;
+        }
+
     }
 
     public static int[] vDouble_vInt(double[] vector) {

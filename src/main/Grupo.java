@@ -19,7 +19,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import main.mochila.cuadratica.utilidades.ParametrosCuadratica;
+import main.mochila.cuadratica.utilidades.ParametrosInstancia;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 
@@ -30,19 +30,31 @@ import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 public abstract class Grupo {
 
     List<FabricaAlgoritmoMetaheuristico> algoritmos;
-    private final ParametrosCuadratica parametros;
+    protected ParametrosInstancia instancias;
     String nombreFuncion;
     protected int maxIteraciones;
-
+    
     /**
      *
      * @param parametros
      * @param nombreFuncion
      * @param maxIteraciones
      */
-    public Grupo(ParametrosCuadratica parametros, String nombreFuncion, int maxIteraciones) {
+    public Grupo(ParametrosInstancia parametros, String nombreFuncion, int maxIteraciones) {
         algoritmos = new ArrayList<>();
-        this.parametros = parametros;
+        this.instancias = parametros;
+        this.nombreFuncion = nombreFuncion;
+        this.maxIteraciones = maxIteraciones;
+    }
+
+    /**
+     *
+     * @param nombreFuncion
+     * @param maxIteraciones
+     */
+    public Grupo(String nombreFuncion, int maxIteraciones) {
+        algoritmos = new ArrayList<>();
+        this.instancias = null;
         this.nombreFuncion = nombreFuncion;
         this.maxIteraciones = maxIteraciones;
     }
@@ -81,8 +93,12 @@ public abstract class Grupo {
         this.maxIteraciones = maxIteraciones;
     }
 
-    public ParametrosCuadratica getParametros() {
-        return parametros;
+    public ParametrosInstancia getInstancias() {
+        return instancias;
+    }
+
+    public void setInstancias(ParametrosInstancia instancias) {
+        this.instancias = instancias;
     }
     
 }
