@@ -119,7 +119,7 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
         tabu = new int[x_inicial.getDimension()][x_inicial.getDimension()];
         double frx = 0;
         double vcx;
-
+        boolean bueno = false;
         // residual cancellation sequence list
         List<Integer> list_RCS = new ArrayList();
         // inicializa el tamaño de la lista de ejecucion
@@ -186,27 +186,38 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
             if (vmin != default_min) {
 
                 // linea 22:
-                x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin >= 0 && fmax > fmin) { 
-                    /** #### aqui puede haber una diferencia de (fmax/fmin -1) = 0.0000000000000002, 
-                     * por eso se asigno fmin = fmax directamente y volverlo a calcular, 
-                     * ya que fmax y fmin se calcularia de manera diferente
-                     * fmax se calcula de forma creciente y fmin co la funcion de beneficio
-                     * 
+                x.set(i_aster, 1);
+                double  porentak = fmax/fmin -1;
+                if (vmin >= 0 && fmax > fmin  ) {
+//                if (vmin >= 0 && fmax > fmin && porentak > 3.0e-14 ) {
+                    /**
+                     * #### aqui puede haber una diferencia de (fmax/fmin -1) =
+                     * 0.0000000000000002, por eso se asigno fmin = fmax
+                     * directamente y volverlo a calcular, ya que fmax y fmin se
+                     * calcularia de manera diferente fmax se calcula de forma
+                     * creciente y fmin co la funcion de beneficio
+                     *
                      */
                     // linea 24:
                     iterMax = 0;
-                    list_RL.clear();
+                    if(!bueno){
+                        list_RL.clear();
+                    }
+                    bueno = true;
+                    list_RL.add(i_aster);
+                    list_RL.add(j_aster);
 //                    fmin = rawFuncion(x);indice
                     fmin = fmax;
                     x_aster = x.clone();
                     // linea 25:
                 } else {
+                    bueno = false;
                     //linea 26: actualizar estado tabu
                     iterTabu += 1;
                     list_RL.add(i_aster);
                     list_RL.add(j_aster);
+                }
                     iterMax += 2;
                     // linea 27:
                     i = list_RL.size() - 1;
@@ -226,7 +237,6 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
                         }
                         i--;
                     }
-                }
             } else {
                 iterMax += 1;
             }

@@ -199,8 +199,8 @@ public class MainMochilaCuadratica {
                 continue;
             }
             GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(parametros);
-            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_JSGVNS);
-//            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_IHEA);
+//            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_JSGVNS);
+            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_IHEA);
             grupoAlgoritmos.setInstancias(parametros);
             grupoAlgoritmos.inicializar();
             EjecutarGrupo ejecutor = new EjecutarGrupo();
