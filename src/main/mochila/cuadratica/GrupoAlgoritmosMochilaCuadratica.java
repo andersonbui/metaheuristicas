@@ -46,7 +46,7 @@ import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     public static enum AlgoritmoOpion {
-        OPCION_IHEA, OPCION_SGVNS, OPCION_JSGVNS
+        OPCION_IHEA, OPCION_IHEA_MT, OPCION_SGVNS, OPCION_JSGVNS
     };
     AlgoritmoOpion opcion;
     List argsAlgoritmo;
@@ -90,18 +90,20 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //            }
 //        });
 //
-//        add(new FabricaAlgoritmoMetaheuristico() {
-//            @Override
-//            public AlgoritmoMetaheuristico obtener() {
-//
-//                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//                IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
-//                algotIHEA.setParametros(instancias);
-//                algotIHEA.addNombre("Impl");
-//
-//                return algotIHEA;
-//            }
-//        });
+            case OPCION_IHEA:
+                add(new FabricaAlgoritmoMetaheuristico() {
+                    @Override
+                    public AlgoritmoMetaheuristico obtener() {
+
+                        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                        IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+                        algotIHEA.setParametros(instancias);
+                        algotIHEA.addNombre("Impl");
+
+                        return algotIHEA;
+                    }
+                });
+                break;
 ////
 //        add(new FabricaAlgoritmoMetaheuristico() {
 //            @Override
@@ -115,7 +117,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 //            }
 //        });
 //////
-            case OPCION_IHEA:
+            case OPCION_IHEA_MT:
                 add(new FabricaAlgoritmoMetaheuristico() {
                     @Override
                     public AlgoritmoMetaheuristico obtener() {

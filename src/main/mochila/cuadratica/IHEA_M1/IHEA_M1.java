@@ -19,7 +19,6 @@ package main.mochila.cuadratica.IHEA_M1;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.hyperplane_exploration.*;
-import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 
 /**
  *
@@ -33,6 +32,7 @@ public class IHEA_M1 extends IteratedHyperplaneExplorationAlgoritm {
         L = 20;
     }
 
+    @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
