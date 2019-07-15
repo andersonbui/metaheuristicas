@@ -282,7 +282,7 @@ public class MainMochilaCuadratica {
         }
 
         if (!listResultadosGrupos.isEmpty()) {
-            estadResult.estadisticas(listResultadosGrupos);
+//            estadResult.estadisticas(listResultadosGrupos);
             String resumen = armarResumen(listResultadosGrupos);
             if ("v".equals(tsalida) || "b".equals(tsalida)) {
                 imprimir.imprimir(resumen);

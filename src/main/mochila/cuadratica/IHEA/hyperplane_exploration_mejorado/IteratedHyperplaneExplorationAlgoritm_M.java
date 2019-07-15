@@ -40,21 +40,28 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
 //        listaIndicesMalos = fijarVariables(funcion, ub);
     }
 
+    @Override
+    public void inicializar() {
+        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
+        saltar = false;
+        setL(20);
+    }
+
     public List<Integer> fijarVariables(FuncionMochilaIHEA funcion, int upperb) {
         if (listaIndicesMalos == null) {
             // tamaño de la mochila
             int n = funcion.getDimension();
             // numero de variables fijas
             Random rand = new Random();
-            double vari = 1.70+(0.2*rand.nextDouble()-0.1);
+            double vari = 1.70 + (0.2 * rand.nextDouble() - 0.1);
             int nf = (int) ((upperb * vari));//1.3
-            
+
             nf = Math.min(n, nf);
             // items seleccionados
-             listaIndicesMalos = new ArrayList(n-nf);
-             if(n-nf == 0){
-                 return listaIndicesMalos;
-             }
+            listaIndicesMalos = new ArrayList(n - nf);
+            if (n - nf == 0) {
+                return listaIndicesMalos;
+            }
             List<Integer> listaInidicesResultado = (new Main_MetododosInicializacion()).ordenar(funcion);
             int tamanio = listaInidicesResultado.size();
 //            nf = tamanio - nf;
@@ -99,14 +106,13 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
         return (FuncionMochilaIHEA_M) funcion;
     }
 
-//    @Override
+    @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
-        
+
 //        ComparacionIdeal.cuentaValorEnIdeal(parametros, listaIndicesMalos,1," indices malos como unos en ideal");
         return super.tabuSearchEngine(L, x_inicial, x_referencia); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
     protected IndividuoIHEA tabuSearchEngine2(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
@@ -182,7 +188,7 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
                             saltar = true;
                             break;
                         }
-                        contadorIntercambios++;
+                        setContadorIntercambios(getContadorIntercambios() + 1);
                     }
                 }
                 if (vmax >= 0) {

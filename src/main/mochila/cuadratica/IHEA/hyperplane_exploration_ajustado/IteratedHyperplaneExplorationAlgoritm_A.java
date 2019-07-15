@@ -35,9 +35,13 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 
     public IteratedHyperplaneExplorationAlgoritm_A(FuncionMochilaIHEA funcion) {
         super(funcion);
-        ub = funcion.obtenerUpperBound();
+    }
+
+    @Override
+    public void inicializar() {
+        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
         saltar = false;
-        L = 20;
+        setL(20);
     }
 
     public boolean isSaltar() {

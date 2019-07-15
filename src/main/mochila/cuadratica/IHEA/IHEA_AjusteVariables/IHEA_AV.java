@@ -16,8 +16,12 @@
  */
 package main.mochila.cuadratica.IHEA.IHEA_AjusteVariables;
 
+import java.util.List;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
+import metaheuristicas.Aleatorio;
 
 /**
  *
@@ -27,8 +31,37 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
 
     public IHEA_AV(FuncionMochilaIHEA funcion) {
         super(funcion);
-        ub = funcion.obtenerUpperBound();
-        L = 20;
     }
+    
+    @Override
+    public void inicializar() {
+        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
+        setL(20);
+        setMt(15);
+    }
+    
+    @Override
+    protected IndividuoIHEA perturbacion(IndividuoIHEA individuo, int iteraciones) {
+        individuo = individuo.clone();
+        List<Integer> I1 = elementosDentro(individuo);
 
+        // dimension de individuo
+        int dimX = dimensionHiperplano(individuo);
+        // tamaño de la mochila
+        int n = individuo.getDimension();
+        // numero de variables fijas
+        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+
+        int t = Math.min(getMt(), I1.size() - nf);
+        int s = Math.max(getMs(), t);
+
+        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
+        int posaleatoria;
+        for (int i = 0; i < s; i++) {
+            posaleatoria = Aleatorio.nextInt(listaIndices.size());
+            individuo.set(listaIndices.remove(posaleatoria), 0);
+        }
+        individuo = GreedyRandomizedConstruction(individuo, getRcl());
+        return individuo;
+    }
 }

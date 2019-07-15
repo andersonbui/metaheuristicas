@@ -20,7 +20,6 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.ParametrosInstancia;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
@@ -32,23 +31,27 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  */
 public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristico<FuncionMochilaIHEA, IndividuoIHEA> {
 
+    boolean inicializado;
     int rcl; // lista restringida de candidatos - construccion greedy
-    protected int lb; // lower bown
-    protected int ub; // lower bown
-    int mt;
+    private int lb; // lower bown
+    private int ub; // lower bown
+    private int mt;
     int ms;
-    int t; // 
-    int s; // 
-    protected int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
+    private int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
     int tiempototal; // tiempo total que toma la busqueda tabu
-    protected int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
-    protected int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
+    private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
+    private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    protected ParametrosInstancia parametros;
+    private ParametrosInstancia parametros;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super();
+    }
+
+    public void inicializar() {
+        inicializado = true;
         setFuncion(funcion);
+        inicializado = false;
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
         ub = funcion.obtenerUpperBound();
@@ -58,17 +61,17 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         ms = 3;
         mt = 10;
         intentosDescent = 5;
-        maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
-    }
-
-    public void setParametros(ParametrosInstancia parametros) {
-        this.parametros = parametros;
+        setMaxIteraciones((int) Math.sqrt(funcion.getDimension()) + 65);
     }
 
     @Override
     public List<IndividuoIHEA> ejecutar() {
         contadortabu = 0;
         contadorIntercambios = 0;
+        if (!inicializado) {
+            System.out.println("peligro" + getNombre() + " no inicializado");
+            return null;
+        }
         List listaResult = iterateHiperplaneExploration(L, rcl, maxIteraciones);
 //        System.out.println("===> tiempo: " + tiempototal / contadortabu);
 //        System.out.println("contador intercambios tabu: " + contadorIntercambios);
@@ -187,7 +190,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @param lowerb
      * @return
      */
-    protected List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
+    public List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
         // dimension de individuo
         int dimX = dimensionHyp;
         // tamaño de la mochila
@@ -328,7 +331,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
     }
 
-    protected double rawFuncion(IndividuoIHEA individuo) {
+    public double rawFuncion(IndividuoIHEA individuo) {
         return individuo.evaluar();
     }
 
@@ -347,17 +350,18 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (lb + Math.max(0, (dimX - lb) * (1 - 1 / (0.008 * n))));
+        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
 
-        t = Math.min(mt, I1.size() - nf);
-        s = Math.min(ms, t);
+        int t = Math.min(getMt(), I1.size() - nf);
+        int s = Math.min(getMs(), t);
+
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(listaIndices.size());
             individuo.set(listaIndices.remove(posaleatoria), 0);
         }
-        individuo = GreedyRandomizedConstruction(individuo, rcl);
+        individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;
     }
 
@@ -488,6 +492,94 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      */
     protected int dimensionHiperplano(IndividuoIHEA individuo) {
         return individuo.cantidadI1();
+    }
+
+    public int getRcl() {
+        return rcl;
+    }
+
+    public void setRcl(int rcl) {
+        this.rcl = rcl;
+    }
+
+    public int getLb() {
+        return lb;
+    }
+
+    public void setLb(int lb) {
+        this.lb = lb;
+    }
+
+    public int getUb() {
+        return ub;
+    }
+
+    public void setUb(int ub) {
+        this.ub = ub;
+    }
+
+    public int getMt() {
+        return mt;
+    }
+
+    public void setMt(int mt) {
+        this.mt = mt;
+    }
+
+    public int getMs() {
+        return ms;
+    }
+
+    public void setMs(int ms) {
+        this.ms = ms;
+    }
+
+    public int getL() {
+        return L;
+    }
+
+    public void setL(int L) {
+        this.L = L;
+    }
+
+    public int getTiempototal() {
+        return tiempototal;
+    }
+
+    public void setTiempototal(int tiempototal) {
+        this.tiempototal = tiempototal;
+    }
+
+    public int getIntentosDescent() {
+        return intentosDescent;
+    }
+
+    public void setIntentosDescent(int intentosDescent) {
+        this.intentosDescent = intentosDescent;
+    }
+
+    public int getContadorIntercambios() {
+        return contadorIntercambios;
+    }
+
+    public void setContadorIntercambios(int contadorIntercambios) {
+        this.contadorIntercambios = contadorIntercambios;
+    }
+
+    public int getContadortabu() {
+        return contadortabu;
+    }
+
+    public void setContadortabu(int contadortabu) {
+        this.contadortabu = contadortabu;
+    }
+
+    public void setParametros(ParametrosInstancia parametros) {
+        this.parametros = parametros;
+    }
+
+    public ParametrosInstancia getParametros() {
+        return parametros;
     }
 
 }

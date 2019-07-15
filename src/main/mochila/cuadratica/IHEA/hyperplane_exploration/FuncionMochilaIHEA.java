@@ -155,7 +155,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         variablesFijas.clear();
     }
 
-    protected List<Integer> getVariablesFijas() {
+    public List<Integer> getVariablesFijas() {
         return variablesFijas;
     }
 

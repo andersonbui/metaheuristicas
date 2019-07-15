@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.hyperplane_exploration;
+package main.mochila.cuadratica.IHEA.hyperplane_exploration;
 
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
-import main.mochila.cuadratica.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

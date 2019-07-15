@@ -29,11 +29,17 @@ import java.util.List;
 public class IHEA_M1 extends IteratedHyperplaneExplorationAlgoritm {
 
     public IHEA_M1(FuncionMochilaIHEA funcion) {
-        super(funcion);
-        ub = funcion.obtenerUpperBound();
-        L = 20;
+        super(funcion);;
     }
 
+    @Override
+    public void inicializar() {
+        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
+        setL(20);
+    }
+
+    
+    
     @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
