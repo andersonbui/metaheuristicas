@@ -35,6 +35,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int rcl; // lista restringida de candidatos - construccion greedy
     protected int lb; // lower bown
     protected int ub; // lower bown
+    int mt;
+    int ms;
     int t; // 
     int s; // 
     protected int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
@@ -53,6 +55,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         tiempototal = 0;
         rcl = 20;
         L = 300;
+        ms = 3;
+        mt = 10;
         intentosDescent = 5;
         maxIteraciones = (int) Math.sqrt(funcion.getDimension()) + 65;
     }
@@ -110,8 +114,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          */
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
-        
-        
+
         for (; iteraciones < maxIter; iteraciones++) {
 //            boolean suficiente = funcion.suficiente(x_mejorGlobal);
 //            if (suficiente) {
@@ -192,7 +195,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // numero de variables fijas
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //        System.out.print(nf+" - ");
-        nf = (int)(0.860*(lowerb + (ub - lowerb) / 2.0)); //general
+        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
 //        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
 //        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
 //        System.out.println("- "+nf);
@@ -289,7 +292,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 22:
                 x.set(i_aster, 1);
                 x.set(j_aster, 0);
-                if (vmin == 0) { 
+                if (vmin == 0) {
                     // linea 24:
                     list_RL.clear();
                     fmin = rawFuncion(x);
@@ -319,7 +322,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                         i--;
                     }
                 }
-            } 
+            }
         }
         return x_aster;
 
@@ -346,8 +349,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // numero de variables fijas
         int nf = (int) (lb + Math.max(0, (dimX - lb) * (1 - 1 / (0.008 * n))));
 
-        t = Math.min(15, I1.size() - nf);
-        s = Math.max(3, t);
+        t = Math.min(mt, I1.size() - nf);
+        s = Math.min(ms, t);
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
         for (int i = 0; i < s; i++) {
@@ -411,24 +414,28 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         IndividuoIHEA mejor = (IndividuoIHEA) original.clone();
         IndividuoIHEA individuo1;
         IndividuoIHEA individuo2;
-        boolean mejoro = false;
-        while (intentosDescent >= 0) {
-            //ADD
-            individuo1 = add_factible(mejor);
-            if (individuo1 != null && individuo1.compareTo(mejor) > 0) {
-                mejor = individuo1;
-                mejoro = true;
+        boolean vecindariouno = Aleatorio.nextBoolean();
+        while (true) {
+            if (vecindariouno) {
+                //ADD
+                individuo1 = add_factible(mejor);
+                if (individuo1 != null && individuo1.compareTo(mejor) > 0) {
+                    mejor = individuo1;
+                    vecindariouno = !vecindariouno;
+                } else {
+                    break;
+                }
             }
-            //SWAP
-            individuo2 = (IndividuoIHEA) swap(mejor);
-            if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
-                mejor = individuo2;
-                mejoro = true;
+            if (!vecindariouno) {
+                //SWAP
+                individuo2 = (IndividuoIHEA) swap(mejor);
+                if (individuo2 != null && individuo2.compareTo(mejor) > 0) {
+                    mejor = individuo2;
+                    vecindariouno = !vecindariouno;
+                } else {
+                    break;
+                }
             }
-            if (!mejoro) {
-                intentosDescent--;
-            }
-            mejoro = false;
         }
         return mejor;
     }
@@ -443,7 +450,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     protected IndividuoIHEA addElemento(IndividuoIHEA individuo) {
         individuo = individuo.clone();
         List<Integer> listaI0 = funcion.obtener_I0(individuo);
-        if(listaI0.isEmpty()){
+        if (listaI0.isEmpty()) {
             return individuo;
         }
         int indice = Aleatorio.nextInt(listaI0.size());
