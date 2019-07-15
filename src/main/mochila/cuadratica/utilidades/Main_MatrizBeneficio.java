@@ -21,9 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.utilidades.EscribirArchivo;
-import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
-import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
-import main.mochila.cuadratica.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 
 /**
  * Imprimir matriz de beneficios ordenada para ver grupos de unos

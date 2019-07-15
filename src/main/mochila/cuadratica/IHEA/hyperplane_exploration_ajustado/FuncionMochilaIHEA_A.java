@@ -14,20 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.IHEA_AjusteVariables;
+package main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado;
 
-import main.mochila.cuadratica.hyperplane_exploration.*;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 
 /**
  *
  * @author debian
  */
-public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
+public class FuncionMochilaIHEA_A extends FuncionMochilaIHEA {
 
-    public IHEA_AV(FuncionMochilaIHEA funcion) {
-        super(funcion);
-        ub = funcion.obtenerUpperBound();
-        L = 20;
+    public FuncionMochilaIHEA_A(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
     }
 
 }

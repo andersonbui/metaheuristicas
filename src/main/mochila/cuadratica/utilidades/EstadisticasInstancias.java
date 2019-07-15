@@ -22,8 +22,8 @@ import main.mochila.cuadratica.ConjuntoInstancias.GrupoInstancias;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
-import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 
 /**
  * Realiza estadisticas de cada instancia y las guarda en el mismo archivo o las

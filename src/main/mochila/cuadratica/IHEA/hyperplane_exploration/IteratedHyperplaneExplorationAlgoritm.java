@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.hyperplane_exploration;
+package main.mochila.cuadratica.IHEA.hyperplane_exploration;
 
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
-import main.mochila.cuadratica.hyperplane_exploration.greedy.Greedy;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;

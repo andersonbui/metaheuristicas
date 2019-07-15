@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.hyperplane_exploration.greedy;
+package main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import main.Item;
-import main.mochila.cuadratica.hyperplane_exploration.FuncionMochilaIHEA;
-import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import metaheuristicas.Aleatorio;
 

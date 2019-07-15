@@ -20,7 +20,7 @@ import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 
 /**
  *
