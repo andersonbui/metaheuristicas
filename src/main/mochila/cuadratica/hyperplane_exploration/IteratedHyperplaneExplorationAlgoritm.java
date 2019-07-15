@@ -195,7 +195,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // numero de variables fijas
         int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //        System.out.print(nf+" - ");
-        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
+//        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
 //        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
 //        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
 //        System.out.println("- "+nf);
