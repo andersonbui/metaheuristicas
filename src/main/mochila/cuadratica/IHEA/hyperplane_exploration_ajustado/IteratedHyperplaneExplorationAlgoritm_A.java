@@ -178,22 +178,18 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 //                        if ((frx >= fmin) && (((vcx > vmin)) || ((vcx == vmin) && (frx >= fmax)))) {  // 89
 //                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) { //
                         if (vmin < 0 && frx >= fmin && (vcx > vmin || ((vcx == vmin) && (frx >= fmax)))) {
-
-                                i_aster = i;
-                                j_aster = j;
-                                vmin = vcx;
-                                fmax = frx;
-
+                            i_aster = i;
+                            j_aster = j;
+                            vmin = vcx;
+                            fmax = frx;
                         } else {
                             if (frx > fmin && ((vcx >= vmin && frx > fmax) || (vcx > vmin && frx == fmax))) {
-
                                 i_aster = i;
                                 j_aster = j;
                                 vmin = vcx;
                                 fmax = frx;
                             }
                         }
-
                     }
                 }
             }
