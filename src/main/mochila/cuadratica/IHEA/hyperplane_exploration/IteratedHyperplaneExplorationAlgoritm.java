@@ -45,13 +45,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private ParametrosInstancia parametros;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
-        super();
+        super(funcion);
+        inicializado = false;
     }
 
     public void inicializar() {
         inicializado = true;
-        setFuncion(funcion);
-        inicializado = false;
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
         ub = funcion.obtenerUpperBound();

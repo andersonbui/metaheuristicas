@@ -45,7 +45,7 @@ public class MainMochilaCuadratica {
     public static String algoritmo = null;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 1;
+        int numIntentos = 15;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -200,7 +200,8 @@ public class MainMochilaCuadratica {
             }
             GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(parametros);
 //            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_JSGVNS);
-            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_IHEA);
+//            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_IHEA_VA);
+            grupoAlgoritmos.setOpcion(GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.OPCION_IHEA_M1);
             grupoAlgoritmos.setInstancias(parametros);
             grupoAlgoritmos.inicializar();
             EjecutarGrupo ejecutor = new EjecutarGrupo();

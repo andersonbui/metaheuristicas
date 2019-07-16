@@ -16,31 +16,29 @@
  */
 package main.mochila.cuadratica.IHEA.IHEA_M1;
 
-import main.mochila.cuadratica.IHEA.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 
 /**
  *
  * @author debian
  */
-public class IHEA_M1 extends IteratedHyperplaneExplorationAlgoritm {
+public class IHEA_M1 extends IHEA_AV {
 
     public IHEA_M1(FuncionMochilaIHEA funcion) {
-        super(funcion);;
+        super(funcion);
     }
 
     @Override
     public void inicializar() {
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
-        setL(20);
     }
 
     
     
-    @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
@@ -109,7 +107,8 @@ public class IHEA_M1 extends IteratedHyperplaneExplorationAlgoritm {
                                 vmin = vcx;
                                 fmax = frx;
 
-                        } else {
+                        } 
+                        else {
                             if (frx > fmin && ((vcx >= vmin && frx > fmax) || (vcx > vmin && frx == fmax))) {
 
                                 i_aster = i;

@@ -21,12 +21,17 @@ public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Indivi
         iteraciones = 0;
     }
 
+    public AlgoritmoMetaheuristico(Funcion funcion) {
+        super();
+        this.funcion = funcion;
+    }
+
     public abstract List<Individuo> ejecutar();
 
-    public void addNombre(String nombrecito){
-        this.nombre+=nombrecito;
+    public void addNombre(String nombrecito) {
+        this.nombre += nombrecito;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
