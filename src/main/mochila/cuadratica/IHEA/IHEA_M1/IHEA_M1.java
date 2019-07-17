@@ -39,6 +39,7 @@ public class IHEA_M1 extends IHEA_AV {
 
     
     
+    @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
         // almacenamiento de valores tabu
