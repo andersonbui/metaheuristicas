@@ -29,8 +29,9 @@ import main.utilidades.Utilidades;
  */
 public class ComparacionIdeal {
 
-    static String[] metricas;
-//    static int[] estadisticas;
+    static TipoEstadistica[] tiposEstadist;
+    static String formato = "-1.10";
+//    static String formato = "-15.10";
 
     public ComparacionIdeal() {
     }
@@ -39,21 +40,44 @@ public class ComparacionIdeal {
 
     }
 
-    static class DatoCalculo {
+    public static class TipoEstadistica {
 
-        double[] valores;
+        String corto;
+        String largo;
+        boolean estadisticas;
+
+        public TipoEstadistica() {
+            estadisticas = false;
+        }
+    }
+
+    public static class DatoCalculo {
+
+        private double[] valores;
 
         public DatoCalculo() {
-            valores = new double[metricas.length];
+            valores = new double[tiposEstadist.length];
+        }
+
+        public DatoCalculo(double[] valores) {
+            this.valores = valores;
         }
 
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < valores.length; i++) {
-                sb.append(metricas[i]).append(": ").append(valores[i]);
+                sb.append(String.format("%" + formato + "f|", valores[i]));
             }
             return sb.toString();
+        }
+
+        public double[] getValores() {
+            return valores;
+        }
+
+        public void setValores(double[] valores) {
+            this.valores = valores;
         }
 
     }
@@ -90,70 +114,139 @@ public class ComparacionIdeal {
                 ultimoSeleccionado = i;
             }
         }
-        if (metricas == null) {
-            metricas = new String[6];
+        if (tiposEstadist == null) {
+            tiposEstadist = new TipoEstadistica[15];
         }
         int a = -1;
-        DatoCalculo calculo = new DatoCalculo();
         int cantidadUnosAlcanzado = indiAlcanzado.parecido(indiIdeal);
         int[] lu_bound = UtilCuadratica.optenerLowerUpper_Bound(funcion);
         double lowerB = lu_bound[0];
         double upperB = lu_bound[1];
         int cantidadUnosIdeal = indiIdeal.elementosSeleccionados().size();
-        double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lowerB;
+        double[] valores = new double[tiposEstadist.length];
 
-        System.out.println("----------------------------------");
-        System.out.println("nombre archivo: " + parametros.getNombreInstancia());
-        //
-        System.out.println("parecido (# unos alcanzado)" + cantidadUnosAlcanzado);
-        //
-        System.out.println("# unos Ideal" + cantidadUnosIdeal);
-        //
-        System.out.println("lowerB: " + lowerB + "; upperB: " + upperB);
-        //
-        System.out.println("calidad alcanzado: " + indiAlcanzado.getCalidad());
-        //
-        System.out.println("calidad ideal: " + indiIdeal.getCalidad());
+//        System.out.println("----------------------------------");
+//        System.out.println("nombre archivo: " + parametros.getNombreInstancia());
         //
         a++;
-        metricas[a] = "(calidad alcanzado)/(calidad ideal)";
-        calculo.valores[a] = (indiAlcanzado.getCalidad() / indiIdeal.getCalidad());
-        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "tamanio instancia";
+        tiposEstadist[a].corto = "TI";
+        valores[a] = valsIdeal.length;
         //
         a++;
-        metricas[a] = "(#_unos_alcanzado)/(#_unos_ideal)";
-        calculo.valores[a] = ((double) cantidadUnosAlcanzado) / cantidadUnosIdeal;
-        System.out.println(metricas[a] + ": " + calculo.valores[a]);
-        //
-        System.out.println("ultimo seleccionado (posicion): " + ultimoSeleccionado);
-        //
-        a++;
-        metricas[a] = "(ultimo seleccionado)/upper";
-        calculo.valores[a] = (ultimoSeleccionado / (double) upperB);
-        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "parecido (# unos alcanzado)";
+        tiposEstadist[a].corto = "#UA";
+        valores[a] = cantidadUnosAlcanzado;
         //
         a++;
-        metricas[a] = "(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2)";
-        calculo.valores[a] = (ultimoSeleccionado / (double) (lowerB + (upperB - (double) lowerB) / 2));
-        System.out.println(metricas[a] + ": " + calculo.valores[a]);
-        //
-        System.out.println("ultimo seleccionado consecutivo (posicion)" + cantidadSeleccionadosConsecutivos);
-        //
-        a++;
-        metricas[a] = "(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2)";
-        calculo.valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double) lowerB) / 2));
-        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "# unos Ideal";
+        tiposEstadist[a].corto = "#UI";
+        valores[a] = cantidadUnosIdeal;
         //
         a++;
-        metricas[a] = "(ultimo seleccionado consecutivo)/lowerB";
-        calculo.valores[a] = porc_csc_lb;
-        System.out.println(metricas[a] + ": " + calculo.valores[a]);
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "LowerBound";
+        tiposEstadist[a].corto = "LB";
+        valores[a] = lowerB;
+        // 
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "UpperBound";
+        tiposEstadist[a].corto = "UB";
+        valores[a] = upperB;
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "calidad alcanzado";
+        tiposEstadist[a].corto = "CA";
+        valores[a] = indiAlcanzado.getCalidad();
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "calidad ideal";
+        tiposEstadist[a].corto = "CI";
+        valores[a] = indiIdeal.getCalidad();
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "(calidad alcanzado)/(calidad ideal)";
+        tiposEstadist[a].corto = "CA/CI";
+        tiposEstadist[a].estadisticas = true;
+        valores[a] = (indiAlcanzado.getCalidad() / indiIdeal.getCalidad());
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "(#_unos_alcanzado)/(#_unos_ideal)";
+        tiposEstadist[a].corto = "#UA/#UI";
+        tiposEstadist[a].estadisticas = true;
+        valores[a] = ((double) cantidadUnosAlcanzado) / cantidadUnosIdeal;
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "ultimo seleccionado (posicion)";
+        tiposEstadist[a].corto = "US";
+        valores[a] = ultimoSeleccionado;
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "(ultimo seleccionado)/UpperBound";
+        tiposEstadist[a].corto = "US/UB";
+        tiposEstadist[a].estadisticas = true;
+        valores[a] = (ultimoSeleccionado / (double) upperB);
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "(ultimoSeleccionado)/(lowerB + (upperB - lowerB) / 2)";
+        tiposEstadist[a].corto = "US/prom(LB,UB)";
+        tiposEstadist[a].estadisticas = true;
+        valores[a] = (ultimoSeleccionado / (double) (lowerB + (upperB - (double) lowerB) / 2));
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "ultimo seleccionado consecutivo (posicion)";
+        tiposEstadist[a].corto = "USC";
+        valores[a] = cantidadSeleccionadosConsecutivos;
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "(cantidadSeleccionadosConsecutivos)/(lowerB + (upperB - lowerB) / 2)";
+        tiposEstadist[a].corto = "CSC/prom(LB,UB)";
+        tiposEstadist[a].estadisticas = true;
+        valores[a] = (cantidadSeleccionadosConsecutivos / (double) (lowerB + (upperB - (double) lowerB) / 2));
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "(ultimo seleccionado consecutivo)/lowerB";
+        tiposEstadist[a].corto = "USC/LB";
+        tiposEstadist[a].estadisticas = true;
+        double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lowerB;
+        valores[a] = porc_csc_lb;
+
+        DatoCalculo calculo = new DatoCalculo(valores);
+        //System.out.println(calculo);
 
         Datos datos = new Datos(indiAlcanzado.getCalidad(), indiIdeal.getCalidad(),
                 cantidadUnosAlcanzado, cantidadUnosIdeal, lu_bound[0], lu_bound[1],
                 cantidadSeleccionadosConsecutivos, ultimoSeleccionado, parametros, calculo);
 
         return datos;
+    }
+
+    public static String imprimirCabecera() {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (TipoEstadistica tipoEst : tiposEstadist) {
+            sb.append(String.format(tipoEst.corto + ": " + tipoEst.largo + "\n"));
+        }
+        sb.append("==================================\n");
+        for (TipoEstadistica nombreEstaDistica : tiposEstadist) {
+            sb.append(String.format(nombreEstaDistica.corto + "|"));
+        }
+        return sb.toString();
     }
 
     /**
@@ -192,16 +285,16 @@ public class ComparacionIdeal {
     public static void estadisticas(List<Datos> listaDatos) {
 
         System.out.println("\n##############################################");
-        for (int i = 0; i < metricas.length; i++) {
-//            if (estadisticas[i] == 1) {
-            List<Double> lista = new ArrayList();
-            for (int k = 0; k < listaDatos.size(); k++) {
-                lista.add(listaDatos.get(k).calculo.valores[i]);
+        for (int i = 0; i < tiposEstadist.length; i++) {
+            if (tiposEstadist[i].estadisticas) {
+                List<Double> lista = new ArrayList();
+                for (int k = 0; k < listaDatos.size(); k++) {
+                    lista.add(listaDatos.get(k).calculo.valores[i]);
+                }
+                double promedio = Utilidades.promedio(lista);
+                System.out.println("promedio " + tiposEstadist[i].corto + ": " + promedio);
+                System.out.println("desviacion " + tiposEstadist[i].corto + ": " + Utilidades.desviacion(lista, promedio));
             }
-            double promedio = Utilidades.promedio(lista);
-            System.out.println("promedio " + metricas[i] + ": " + promedio);
-            System.out.println("desviacion " + metricas[i] + ": " + Utilidades.desviacion(lista, promedio));
-//            }
         }
     }
 

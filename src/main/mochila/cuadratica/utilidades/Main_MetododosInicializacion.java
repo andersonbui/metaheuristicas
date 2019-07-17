@@ -20,7 +20,9 @@ import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstancias;
 import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasPruebas;
+import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasResumenes;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 
@@ -37,9 +39,10 @@ public class Main_MetododosInicializacion {
         String nombreArchivo = "";
 
         List<Instancia> listaInstanc = null;
-        ConjuntoInstanciasPruebas conjuntoInstan = new ConjuntoInstanciasPruebas();
+        ConjuntoInstancias conjuntoInstan = new ConjuntoInstanciasPruebas();
         listaInstanc = conjuntoInstan.getConjuntoInstancias();
-
+        conjuntoInstan = new ConjuntoInstanciasResumenes();
+        listaInstanc.addAll(conjuntoInstan.getConjuntoInstancias());
         List<ComparacionIdeal.Datos> comparaciones = new ArrayList();
         for (Instancia instancia : listaInstanc) {
             nombreArchivo = instancia.getNombreCompleto();
@@ -47,7 +50,7 @@ public class Main_MetododosInicializacion {
             LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
             ParametrosInstancia parametros = pc.obtenerParametros(instancia);
             if (parametros == null) {
-                System.err.println("no se pudo obtener el archivo: " + nombreArchivo);
+                //System.err.println("no se pudo obtener el archivo: " + nombreArchivo);
                 continue;
             }
             funcion = new FuncionMochilaIHEA(parametros.getMatrizBeneficios(), parametros.getCapacidad(), parametros.getVectorPesos(), parametros.getMaxGlobal());
@@ -80,6 +83,10 @@ public class Main_MetododosInicializacion {
             if (datosComparacion != null) {
                 comparaciones.add(datosComparacion);
             }
+        }
+        System.out.println(ComparacionIdeal.imprimirCabecera());
+        for (ComparacionIdeal.Datos dato : comparaciones) {
+            System.out.println(dato.calculo);
         }
         ComparacionIdeal.estadisticas(comparaciones);
     }
