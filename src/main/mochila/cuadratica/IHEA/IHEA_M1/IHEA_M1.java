@@ -37,8 +37,6 @@ public class IHEA_M1 extends IHEA_AV {
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    
     @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
@@ -75,7 +73,7 @@ public class IHEA_M1 extends IHEA_AV {
         double default_min = Double.NEGATIVE_INFINITY;
 //        double default_min = Double.POSITIVE_INFINITY;
 
-        while ((iterMax < L / 2) && (vmin != default_min && list_RL.size() < L)) {
+        while (iterMax < L && vmin != default_min && list_RL.size() < L) {
 
             vmin = default_min;
             fmax = -default_min;
@@ -95,30 +93,22 @@ public class IHEA_M1 extends IHEA_AV {
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
-                        if (vcx == 0) {
-                            System.out.print("");
-                        }
-//                        if ((frx >= fmin && vcx > vmin) || (frx > fmin && vcx >= vmin) || ((vcx == vmin) && (frx >= fmax))) {
-//                        if ((frx >= fmin) && (((vcx > vmin)) || ((vcx == vmin) && (frx >= fmax)))) {  // 89
-//                        if ((frx >= fmin) && (((vcx < vmin)) || ((vcx == vmin) && (frx >= fmax)))) { //
-                        if (vmin < 0 && frx >= fmin && (vcx > vmin || ((vcx == vmin) && (frx >= fmax)))) {
 
+                        if (frx >= fmin) {
+                            if (vmin < 0 && (vcx > vmin || ((vcx == vmin) && (frx >= fmax)))) {
                                 i_aster = i;
                                 j_aster = j;
                                 vmin = vcx;
                                 fmax = frx;
-
-                        } 
-                        else {
-                            if (frx > fmin && ((vcx >= vmin && frx > fmax) || (vcx > vmin && frx == fmax))) {
-
-                                i_aster = i;
-                                j_aster = j;
-                                vmin = vcx;
-                                fmax = frx;
+                            } else {
+                                if (frx > fmin && ((vcx >= vmin && frx > fmax) || (vcx > vmin && frx == fmax))) {
+                                    i_aster = i;
+                                    j_aster = j;
+                                    vmin = vcx;
+                                    fmax = frx;
+                                }
                             }
                         }
-
                     }
                 }
             }
@@ -130,20 +120,11 @@ public class IHEA_M1 extends IHEA_AV {
                 // linea 22:
                 x.set(j_aster, 0);
                 x.set(i_aster, 1);
-                double porentak = fmax / fmin - 1;
+
                 if (vmin >= 0 && fmax > fmin) {
-//                if (vmin >= 0 && fmax > fmin && porentak > 3.0e-14 ) {
-                    /**
-                     * #### aqui puede haber una diferencia de (fmax/fmin -1) =
-                     * 0.0000000000000002, por eso se asigno fmin = fmax
-                     * directamente y volverlo a calcular, ya que fmax y fmin se
-                     * calcularia de manera diferente fmax se calcula de forma
-                     * creciente y fmin co la funcion de beneficio
-                     *
-                     */
                     // linea 24:
                     iterMax = 0;
-                    if(!bueno){
+                    if (!bueno) {
                         list_RL.clear();
                     }
                     bueno = true;
@@ -159,7 +140,6 @@ public class IHEA_M1 extends IHEA_AV {
                     iterTabu += 1;
                     list_RL.add(i_aster);
                     list_RL.add(j_aster);
-                }
                     iterMax += 2;
                     // linea 27:
                     i = list_RL.size() - 1;
@@ -179,6 +159,7 @@ public class IHEA_M1 extends IHEA_AV {
                         }
                         i--;
                     }
+                }
             } else {
                 iterMax += 1;
             }
