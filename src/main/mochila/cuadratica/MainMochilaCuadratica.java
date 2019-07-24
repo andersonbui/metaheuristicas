@@ -45,7 +45,7 @@ public class MainMochilaCuadratica {
     public static String algoritmo = null;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 15;
+        int numIntentos = 1;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
@@ -69,8 +69,8 @@ public class MainMochilaCuadratica {
                     case "-e":
                     case "--examples":
 //                        ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
-//                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
-                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
+                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+//                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
                         nombreArchivoResultado = "";
                         listaInstanc = datos.getConjuntoInstancias();
                         ayuda = false;
