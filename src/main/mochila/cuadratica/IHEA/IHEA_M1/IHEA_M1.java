@@ -94,9 +94,8 @@ public class IHEA_M1 extends IHEA_AV {
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
 
-                        if (frx >= fmin) {
                             if (vmin < 0) {
-                                if ((vcx > vmin || ((vcx == vmin) && (frx >= fmax)))) {
+                                if ((vcx > vmin && frx >= fmin) || (vcx == vmin && frx >= fmax)) {
                                     i_aster = i;
                                     j_aster = j;
                                     vmin = vcx;
@@ -110,7 +109,6 @@ public class IHEA_M1 extends IHEA_AV {
                                     fmax = frx;
                                 }
                             }
-                        }
                     }
                 }
             }
@@ -124,7 +122,7 @@ public class IHEA_M1 extends IHEA_AV {
                 x.set(i_aster, 1);
                 frx = x.getCalidad();
                 double vmax = funcion.getCapacidad() - x.pesar();
-                if (vmin >= 0 && !(frx == fmin && vmax == vmin)) {
+                if (vmin >= 0 && !(frx <= fmin && vmax <= vmin)) {
                     // linea 24:
                     iterMax = 0;
                     if (!bueno) {

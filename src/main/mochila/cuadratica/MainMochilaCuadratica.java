@@ -45,7 +45,7 @@ public class MainMochilaCuadratica {
     public static String algoritmo = null;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 1;
+        int numIntentos = 2;
         int indice = 0;
         boolean repetir = true;
         boolean ayuda = true;
