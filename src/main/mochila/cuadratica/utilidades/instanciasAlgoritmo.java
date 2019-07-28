@@ -23,7 +23,7 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  *
  * @author debian
  */
-public class ParametrosInstancia {
+public class instanciasAlgoritmo {
 
     private String nombreArchivo;
 
@@ -48,7 +48,7 @@ public class ParametrosInstancia {
      * @param vectorIdeal
      * @param maxGlobal
      */
-    public ParametrosInstancia(String nombreArchivo, String nombreInstancia, double[][] matrizBeneficios, double capacidad, double[] vectorPesos, int[] vectorIdeal, Double maxGlobal) {
+    public instanciasAlgoritmo(String nombreArchivo, String nombreInstancia, double[][] matrizBeneficios, double capacidad, double[] vectorPesos, int[] vectorIdeal, Double maxGlobal) {
         this.nombreArchivo = nombreArchivo;
         this.nombreInstancia = nombreInstancia;
         this.matrizBeneficios = matrizBeneficios;
@@ -58,7 +58,7 @@ public class ParametrosInstancia {
         this.vectorIdeal = vectorIdeal;
     }
 
-    public ParametrosInstancia() {
+    public instanciasAlgoritmo() {
         
     }
 

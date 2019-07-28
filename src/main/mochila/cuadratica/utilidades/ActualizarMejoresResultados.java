@@ -55,7 +55,7 @@ public class ActualizarMejoresResultados {
                 continue;
             }
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            ParametrosInstancia parametros = lpc.obtenerParametros(new Instancia(nombreInstancia, directorioInstancias + nombreInstancia, ""));
+            instanciasAlgoritmo parametros = lpc.obtenerParametros(new Instancia(nombreInstancia, directorioInstancias + nombreInstancia, ""));
 
             System.out.println("en" + nombreSinExtension + ".sol " + mi.calidad + " => instancia: " + parametros.getMaxGlobal());
             if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(mi.calidad) < 0) {

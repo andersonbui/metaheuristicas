@@ -20,7 +20,7 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.utilidades.ParametrosInstancia;
+import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -42,7 +42,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    private ParametrosInstancia parametros;
+    private instanciasAlgoritmo instancias;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -136,7 +136,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
-//                int cuantosNoEstan = ComparacionIdeal.cuentaValorEnIdeal(parametros, variablesFijas,0);
+//                int cuantosNoEstan = ComparacionIdeal.cuentaValorEnIdeal(instanciasAlgoritmo, variablesFijas,0);
 
                 // linea 17: run tabu serach engine (L,x',xb)
                 long tiempo_inicial = System.currentTimeMillis();
@@ -573,12 +573,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.contadortabu = contadortabu;
     }
 
-    public void setParametros(ParametrosInstancia parametros) {
-        this.parametros = parametros;
+    public void setInstancias(instanciasAlgoritmo instancias) {
+        this.instancias = instancias;
     }
 
-    public ParametrosInstancia getParametros() {
-        return parametros;
+    public instanciasAlgoritmo getInstancias() {
+        return instancias;
     }
-
 }
