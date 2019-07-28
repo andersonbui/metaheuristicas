@@ -68,8 +68,8 @@ public class MainMochilaCuadratica {
                 switch (opcion) {
                     case "-e":
                     case "--examples":
-//                        ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
-                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+                        ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
+//                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
 //                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
                         nombreArchivoResultado = "";
                         listaInstanc = datos.getConjuntoInstancias();
