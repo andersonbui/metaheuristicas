@@ -46,22 +46,36 @@ public class MainMochilaCuadratica {
     static String parametrosAlgoritmo;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 2;
-        int indice = 0;
-//        boolean repetir = true;
-        boolean ayuda = true;
-        List<Instancia> listaInstanc = null;
-        String nombreArchivoResultado = "";
+
+        List<String[]> listaVectArgumentas = new ArrayList();
         // comentar todo el if para produccion
         if (args.length == 0) {
-            args = new String[]{"-e", "-g", "OPCION_IHEA22"};
+            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M3", "L=2,mt=15,mt=5"});
+            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M2", "L=2,mt=15,mt=5"});
+            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M1", "L=2,mt=15,mt=5"});
+            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M4", "L=2,mt=15,mt=5"});
+            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_VA", "L=2,mt=15,mt=5"});
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"};
 //            args = new String[]{"-v","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0626H_0.txt"};
+        } else {
+            listaVectArgumentas.add(args);
         }
+        for (String[] vectArgumentos : listaVectArgumentas) {
+            ejecucion(vectArgumentos);
+        }
+    }
+
+    public static void ejecucion(String[] args) throws FileNotFoundException, Exception {
+        int numIntentos = 1;
+        int indice = 0;
+//        boolean repetir = true;
+        boolean ayuda = true;
+        List<Instancia> listaInstanc = null;
+        String nombreArchivoResultado = "";
         while (args.length > indice) {
             String opcion = args[indice++];
             switch (opcion) {
@@ -130,7 +144,6 @@ public class MainMochilaCuadratica {
         }
 
         if (!ayuda) {
-
             ejecutar(numIntentos, listaInstanc, nombreArchivoResultado);
         } else {
             StringBuilder sb = new StringBuilder();
@@ -192,20 +205,21 @@ public class MainMochilaCuadratica {
             mensaje = instancia.getFamilia();
             // dimension de los puntos;
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            instanciasAlgoritmo parametros = lpc.obtenerParametros(instancia);
-            if (parametros == null) {
+            instanciasAlgoritmo instanciasAlgot = lpc.obtenerParametrosInstancias(instancia);
+            if (instanciasAlgot == null) {
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
                     imprimir.imprimir("#========== No se encontro el archivo (" + nombreArchivoCompleto + ")\n");
                 }
                 continue;
             }
-            GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(parametros);
+            GrupoAlgoritmosMochilaCuadratica grupoAlgoritmos = new GrupoAlgoritmosMochilaCuadratica(instanciasAlgot);
             GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion algot = null;
             if (algoritmo != null) {
                 try {
                     algot = GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.valueOf(algoritmo);
-                    System.out.println("algoritmo: " + algoritmo);
+//                    System.out.println("algoritmo: " + algoritmo);
                     grupoAlgoritmos.setOpcion(algot);
+                    grupoAlgoritmos.setParametrosAlgoritmo(parametrosAlgoritmo);
                 } catch (java.lang.IllegalArgumentException e) {
                     System.out.println("Algoritmo <" + algoritmo + "> no existe");
                     return;
@@ -216,13 +230,13 @@ public class MainMochilaCuadratica {
                 System.out.println("Falta indicar el algoritmo");
                 return;
             }
-            grupoAlgoritmos.setInstancias(parametros);
+            grupoAlgoritmos.setInstancias(instanciasAlgot);
             grupoAlgoritmos.inicializar();
             EjecutarGrupo ejecutor = new EjecutarGrupo();
             // EJECUTAR ANALISIS
             ejecutor.setParametros(grupoAlgoritmos, graficaRecorrido3D, graficaDispercion2D, numIntentos, nombreInst);
             // Multi-hilo
-            hilos.add(new HiloEjecucion(parametros, ejecutor, mensaje));
+            hilos.add(new HiloEjecucion(instanciasAlgot, ejecutor, mensaje));
 
         }
         // esperar que todas la ejecuciones terminen hasta aqui

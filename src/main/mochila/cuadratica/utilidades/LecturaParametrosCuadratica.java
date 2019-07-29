@@ -83,7 +83,7 @@ public class LecturaParametrosCuadratica {
         return aInstancia;
     }
 
-    public instanciasAlgoritmo obtenerParametros(Instancia instancia) {
+    public instanciasAlgoritmo obtenerParametrosInstancias(Instancia instancia) {
         String nombreArchivo = instancia.getNombreCompleto();
         ArchivoInstancia aInstancia = leerParametros(nombreArchivo);
         if (aInstancia == null) {

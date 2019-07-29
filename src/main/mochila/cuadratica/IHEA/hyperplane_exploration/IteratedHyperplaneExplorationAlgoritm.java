@@ -61,6 +61,35 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         mt = 10;
         intentosDescent = 5;
         setMaxIteraciones((int) Math.sqrt(funcion.getDimension()) + 65);
+
+        if (getCadenaParametros() != null) {
+            String[] arrayParametros = getCadenaParametros().split(",");
+            for (String arrayParametro : arrayParametros) {
+                String[] unParametro = arrayParametro.split("=");
+                actualizarVarible(unParametro[0], Integer.parseInt(unParametro[1]));
+//                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
+            }
+        }
+    }
+
+    public void actualizarVarible(String nombre, int valor) {
+        switch (nombre) {
+            case "L":
+                L = valor;
+                break;
+            case "mt":
+                mt = valor;
+                break;
+            case "ms":
+                ms = valor;
+                break;
+            case "rcl":
+                rcl = valor;
+                break;
+            case "idesc":
+                intentosDescent = valor;
+                break;
+        }
     }
 
     @Override

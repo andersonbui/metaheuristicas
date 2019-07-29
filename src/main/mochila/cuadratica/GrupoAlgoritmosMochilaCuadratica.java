@@ -55,7 +55,6 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         IHEA, IHEA_VA, IHEA_M1, IHEA_M2, IHEA_M3, IHEA_M4, IHEA_MT, SGVNS, JSGVNS
     };
     AlgoritmoOpion opcion;
-    List argsAlgoritmo;
     String parametrosAlgoritmo;
 
     /**
@@ -75,7 +74,6 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     /**
      *
-     * @param opcion
      */
     @Override
     public void inicializar() {
@@ -105,6 +103,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IteratedHyperplaneExplorationAlgoritm(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
                         algotIHEA.addNombre("Impl");
@@ -120,6 +119,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_M1(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
                         algotIHEA.addNombre("M1");
@@ -134,6 +134,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     public AlgoritmoMetaheuristico obtener() {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_M2(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
                         algotIHEA.addNombre("M2");
@@ -147,6 +148,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     public AlgoritmoMetaheuristico obtener() {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_M3(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
                         algotIHEA.addNombre("M3");
@@ -160,6 +162,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     public AlgoritmoMetaheuristico obtener() {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_M4(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_M4(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
                         algotIHEA.addNombre("M4");
@@ -174,6 +177,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_AV(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
                         algotIHEA.addNombre("IHEA_VA");
@@ -329,4 +333,11 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
         this.opcion = opcion;
     }
 
+    public String getParametrosAlgoritmo() {
+        return parametrosAlgoritmo;
+    }
+
+    public void setParametrosAlgoritmo(String parametrosAlgoritmo) {
+        this.parametrosAlgoritmo = parametrosAlgoritmo;
+    }
 }

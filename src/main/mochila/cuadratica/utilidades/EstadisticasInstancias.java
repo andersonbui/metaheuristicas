@@ -80,7 +80,7 @@ public class EstadisticasInstancias {
                 nombreArchivo = instancia.getNombreCompleto();
 
                 LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-                instanciasAlgoritmo parametros = pc.obtenerParametros(instancia);
+                instanciasAlgoritmo parametros = pc.obtenerParametrosInstancias(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;

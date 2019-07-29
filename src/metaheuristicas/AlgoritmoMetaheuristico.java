@@ -15,10 +15,12 @@ public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Indivi
     protected int maxIteraciones;
     protected String nombre;
     protected Funcion funcion;
+    protected String cadenaParametros;
 
     public AlgoritmoMetaheuristico() {
         this.nombre = "";
         iteraciones = 0;
+        this.cadenaParametros = null;
     }
 
     public AlgoritmoMetaheuristico(Funcion funcion) {
@@ -72,4 +74,11 @@ public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Indivi
         return funcion.getContadorEvaluaciones();
     }
 
+    public String getCadenaParametros() {
+        return cadenaParametros;
+    }
+
+    public void setCadenaParametros(String cadenaParametros) {
+        this.cadenaParametros = cadenaParametros;
+    }
 }

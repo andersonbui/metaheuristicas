@@ -66,7 +66,7 @@ public class PruebasGreedy {
                 System.out.println("Nombre archivo: " + nombreArchivo);
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-                instanciasAlgoritmo parametros = lpc.obtenerParametros(instancia);
+                instanciasAlgoritmo parametros = lpc.obtenerParametrosInstancias(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;
