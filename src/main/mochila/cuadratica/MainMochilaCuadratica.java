@@ -50,21 +50,22 @@ public class MainMochilaCuadratica {
         List<String[]> listaVectArgumentas = new ArrayList();
         // comentar todo el if para produccion
         if (args.length == 0) {
-            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M3", "L=2,mt=15,mt=5"});
-            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M2", "L=2,mt=15,mt=5"});
-            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M1", "L=2,mt=15,mt=5"});
-            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_M4", "L=2,mt=15,mt=5"});
-            listaVectArgumentas.add(new String[]{"-e", "-g", "IHEA_VA", "L=2,mt=15,mt=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=2,mt=15,mt=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M4", "L=2,mt=15,mt=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_VA", "L=2,mt=15,mt=5"});
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
-//            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"};
-//            args = new String[]{"-v","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0626H_0.txt"};
+            listaVectArgumentas.add(new String[]{"-I","-r","IHEA2","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-v","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0626H_0.txt"});
         } else {
             listaVectArgumentas.add(args);
         }
         for (String[] vectArgumentos : listaVectArgumentas) {
+//            System.out.println("entradas: "+Arrays.toString(vectArgumentos));
             ejecucion(vectArgumentos);
         }
     }
@@ -128,12 +129,15 @@ public class MainMochilaCuadratica {
                 case "--ambos":
                     tsalida = "b";
                     break;
-                case "-g":
+                case "-r":
                 case "--algoritmo":
                     //algoritmos
                     if (args.length > indice) {
                         algoritmo = args[indice++];
                     }
+                    break;
+                case "-g":
+                case "--arg-algoritmo":
                     //parametros para algoritmo
                     if (args.length > indice) {
                         parametrosAlgoritmo = args[indice++];
@@ -296,7 +300,7 @@ public class MainMochilaCuadratica {
 
         EstadisticasResultados estadResult = new EstadisticasResultados();
 
-        // imprimir mejor
+        // imprimir mejor y resumen
         if ("i".equals(tsalida) || "b".equals(tsalida)) {
             if (mejorGlobal != null) {
                 imprimir.imprimir(mejorGlobal.toStringInt());
@@ -307,6 +311,7 @@ public class MainMochilaCuadratica {
         if ("I".equals(tsalida)) {
             if (mejorGlobal != null) {
                 imprimir.imprimir(mejorGlobal.toStringIndicesOrdenados());
+                imprimir.imprimir("" + mejorGlobal.getCalidad());
             }
         }
 
