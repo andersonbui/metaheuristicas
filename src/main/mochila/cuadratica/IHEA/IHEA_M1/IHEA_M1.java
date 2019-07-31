@@ -73,7 +73,7 @@ public class IHEA_M1 extends IHEA_AV {
         double default_min = Double.NEGATIVE_INFINITY;
 //        double default_min = Double.POSITIVE_INFINITY;
 
-        while (iterMax < L && vmin != default_min && list_RL.size() < L) {
+        while (iterMax < L / 2 && vmin != default_min && list_RL.size() < L) {
 
             vmin = default_min;
             fmax = -default_min;
@@ -94,19 +94,19 @@ public class IHEA_M1 extends IHEA_AV {
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
 
-                        if (frx >= fmin) {
-                            if (vmin < 0 && (vcx > vmin || ((vcx == vmin) && (frx >= fmax)))) {
+                        if (vmin < 0) {
+                            if ((vcx > vmin && frx >= fmin) || (vcx == vmin && frx >= fmax)) {
                                 i_aster = i;
                                 j_aster = j;
                                 vmin = vcx;
                                 fmax = frx;
-                            } else {
-                                if (frx > fmin && ((vcx >= vmin && frx > fmax) || (vcx > vmin && frx == fmax))) {
-                                    i_aster = i;
-                                    j_aster = j;
-                                    vmin = vcx;
-                                    fmax = frx;
-                                }
+                            }
+                        } else {
+                            if (frx > fmax && ((vcx >= vmin && frx > fmin) || (vcx > vmin && frx == fmin))) {
+                                i_aster = i;
+                                j_aster = j;
+                                vmin = vcx;
+                                fmax = frx;
                             }
                         }
                     }
@@ -120,8 +120,9 @@ public class IHEA_M1 extends IHEA_AV {
                 // linea 22:
                 x.set(j_aster, 0);
                 x.set(i_aster, 1);
-
-                if (vmin >= 0 && fmax > fmin) {
+                frx = x.getCalidad();
+                double vmax = funcion.getCapacidad() - x.pesar();
+                if (vmin >= 0 && !(frx <= fmin && vmax <= vmin)) {
                     // linea 24:
                     iterMax = 0;
                     if (!bueno) {

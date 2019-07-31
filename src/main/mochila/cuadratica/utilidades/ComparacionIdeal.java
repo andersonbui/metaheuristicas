@@ -82,7 +82,7 @@ public class ComparacionIdeal {
 
     }
 
-    public static Datos comparacion(ParametrosInstancia parametros, IndividuoCuadratico indiAlcanzado, List<Main_MetododosInicializacion.Posicion> posiciones) {
+    public static Datos comparacion(instanciasAlgoritmo parametros, IndividuoCuadratico indiAlcanzado, List<Main_MetododosInicializacion.Posicion> posiciones) {
         FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) indiAlcanzado.getFuncion();
         int ultimoSeleccionado = 0;
 
@@ -258,7 +258,7 @@ public class ComparacionIdeal {
      * individuo ideal
      * @return
      */
-    public static int cuentaValorEnIdeal(ParametrosInstancia parametros, List<Integer> indices, int valor, String mensaje) {
+    public static int cuentaValorEnIdeal(instanciasAlgoritmo parametros, List<Integer> indices, int valor, String mensaje) {
         int contador = 0;
         if (indices == null || indices.size() == 0) {
             return 0;
@@ -300,7 +300,7 @@ public class ComparacionIdeal {
 
     public static class Datos {
 
-        public ParametrosInstancia parametros;
+        public instanciasAlgoritmo parametros;
         public double calidadAlcanzado;
         public double calidadIdeal;
         public int cantidadUnosAlcanzado;
@@ -332,7 +332,7 @@ public class ComparacionIdeal {
          */
         public Datos(double calidadAlcanzado, double calidadIdeal,
                 int cantidadUnosAlcanzado, int cantidadUnosIdeal, int lowerB,
-                int upperB, int cantSelConsecutivo, int ultSeleccionado, ParametrosInstancia parametros, DatoCalculo calculo) {
+                int upperB, int cantSelConsecutivo, int ultSeleccionado, instanciasAlgoritmo parametros, DatoCalculo calculo) {
             this.calidadAlcanzado = calidadAlcanzado;
             this.calidadIdeal = calidadIdeal;
             this.cantidadUnosAlcanzado = cantidadUnosAlcanzado;

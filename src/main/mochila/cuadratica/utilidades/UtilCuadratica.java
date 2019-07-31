@@ -210,7 +210,7 @@ public class UtilCuadratica {
         return new int[]{lowerB, upperB};
     }
     
-    public static double[] vectorizarMatrizBeneficios(ParametrosInstancia parametros) {
+    public static double[] vectorizarMatrizBeneficios(instanciasAlgoritmo parametros) {
         double[][] mat = parametros.getMatrizBeneficios();
         int tamanio = (mat.length * (mat.length + 1)) / 2;
         int contador = 0;

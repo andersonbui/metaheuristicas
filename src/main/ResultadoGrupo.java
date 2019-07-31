@@ -19,7 +19,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import main.mochila.cuadratica.utilidades.ParametrosInstancia;
+import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
 import metaheuristicas.IndividuoGen;
 
 /**
@@ -32,7 +32,7 @@ public class ResultadoGrupo implements Iterable<ResultadoAlgoritmo>{
     private List<ResultadoAlgoritmo> resultadosAlgoritmo;
     private String instancia;
     private IndividuoGen mejorIndividuo;
-    private ParametrosInstancia parametros;
+    private instanciasAlgoritmo parametros;
 
     public ResultadoGrupo(String instancia, IndividuoGen mejorIndividuo) {
         this.instancia = instancia;
@@ -82,11 +82,11 @@ public class ResultadoGrupo implements Iterable<ResultadoAlgoritmo>{
         this.mejorIndividuo = mejorIndividuo;
     }
 
-    public ParametrosInstancia getParametros() {
+    public instanciasAlgoritmo getParametros() {
         return parametros;
     }
 
-    public void setParametros(ParametrosInstancia parametros) {
+    public void setParametros(instanciasAlgoritmo parametros) {
         this.parametros = parametros;
     }
 

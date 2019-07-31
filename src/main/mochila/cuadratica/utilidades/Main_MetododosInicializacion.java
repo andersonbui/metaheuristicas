@@ -48,7 +48,7 @@ public class Main_MetododosInicializacion {
             nombreArchivo = instancia.getNombreCompleto();
 
             LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-            ParametrosInstancia parametros = pc.obtenerParametros(instancia);
+            instanciasAlgoritmo parametros = pc.obtenerParametrosInstancias(instancia);
             if (parametros == null) {
                 //System.err.println("no se pudo obtener el archivo: " + nombreArchivo);
                 continue;

@@ -41,10 +41,10 @@ public class ImprimirResultados {
 
         boolean sepudo = archivo_resultados.abrir(nombreArchivoResultado, aniadir);
         if (sepudo) {
-            archivo_resultados.escribir(cadena);
+            archivo_resultados.escribir("\n" + cadena);
             archivo_resultados.terminar();
         }
-        System.out.print(cadena);
+        System.out.println(cadena);
         if (!aniadir) {
             aniadir = !aniadir;
         }
