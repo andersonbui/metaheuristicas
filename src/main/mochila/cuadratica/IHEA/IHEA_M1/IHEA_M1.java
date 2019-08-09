@@ -94,22 +94,12 @@ public class IHEA_M1 extends IHEA_AV {
                         // peso del articulo
                         vcx = viol_capacidad - funcion.peso(i);
                         if (frx >= fmin) {
-//                            if (vmin < 0) {
-                                if ((vmin >= 0 && vcx > vmin && frx >= fmax) || (vmin < 0 && vcx > vmin) || (frx > fmax && vcx == vmin)) {
-                                    i_aster = i;
-                                    j_aster = j;
-                                    vmin = vcx;
-                                    fmax = frx;
-                                }
-//                            } else {
-//                                if ((frx > fmax && vcx == vmin) || (frx >= fmax && vcx > vmin)) {
-////                            if (frx > fmax && ((vcx >= vmin && frx > fmin) || (vcx > vmin && frx == fmin))) {
-//                                    i_aster = i;
-//                                    j_aster = j;
-//                                    vmin = vcx;
-//                                    fmax = frx;
-//                                }
-//                            }
+                            if ((vmin >= 0 && vcx > vmin && frx >= fmax) || (vmin < 0 && vcx > vmin) || (frx > fmax && vcx == vmin)) {
+                                i_aster = i;
+                                j_aster = j;
+                                vmin = vcx;
+                                fmax = frx;
+                            }
                         }
                     }
                 }
