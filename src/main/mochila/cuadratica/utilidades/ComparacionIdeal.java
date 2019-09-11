@@ -256,11 +256,12 @@ public class ComparacionIdeal {
      * @param indices indices de los valores en los cuales se busca el valor
      * @param valor valor el cual se cuenta cuanta coincidencias existe en
      * individuo ideal
+     * @param mensaje
      * @return
      */
     public static int cuentaValorEnIdeal(instanciasAlgoritmo parametros, List<Integer> indices, int valor, String mensaje) {
         int contador = 0;
-        if (indices == null || indices.size() == 0) {
+        if (indices == null || indices.isEmpty()) {
             return 0;
         }
         int[] valsIdeal = parametros.getVectorIdeal();
@@ -276,7 +277,7 @@ public class ComparacionIdeal {
         }
 
         if (contador > 0) {
-            System.out.println("cuantos[" + valor + "] " + ": " + contador + " - " + mensaje);
+//            System.out.println("cuantos[" + valor + "] " + ": " + contador + " - " + mensaje);
 
         }
         return contador;

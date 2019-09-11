@@ -20,6 +20,7 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
@@ -42,6 +43,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
+    int contadorFijosFalsosPositivos;
     private instanciasAlgoritmo instancias;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
@@ -50,6 +52,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     public void inicializar() {
+        contadorFijosFalsosPositivos = 0;
         inicializado = true;
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
@@ -165,8 +168,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
-//                int cuantosNoEstan = ComparacionIdeal.cuentaValorEnIdeal(instanciasAlgoritmo, variablesFijas,0);
-
+                int amalos = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesFijas, 0, "cuanto son ceros");
+                contadorFijosFalsosPositivos += amalos;
                 // linea 17: run tabu serach engine (L,x',xb)
                 long tiempo_inicial = System.currentTimeMillis();
                 contadortabu++;
@@ -206,6 +209,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
+//        System.out.println(""+instancias.getNombreInstancia()+ ":" + contadorFijosFalsosPositivos);
+
         return recorrido;
     }
 

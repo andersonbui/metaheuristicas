@@ -21,6 +21,7 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
@@ -36,6 +37,42 @@ public class IHEA_M1 extends IHEA_AV {
     public void inicializar() {
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
+
+        /**
+     * obtine los indices de todas las varibles seleccionadas que seran fijas
+     *
+     * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
+     * @param dimensionHyp
+     * @param individuo
+     * @param lowerb
+     * @return
+     */
+    @Override
+    public List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
+        // dimension de individuo
+        int dimX = dimensionHyp;
+        // tamaño de la mochila
+        int n = individuo.getDimension();
+        // numero de variables fijas
+        int nf = 0;
+        nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+//        System.out.print(nf+" - ");
+//        nf = (int) (0.860 * (lowerb + (getUb() - lowerb) / 2.0)); //general
+//        nf = (int)(1.08 * ((getUb() + lowerb) / 2.0)); //300
+//        nf = (int)(0.96*(lowerb + (getUb() - lowerb) / 2.0)); //100
+//        System.out.println("- "+nf);
+//        nf = (int)(1.20*(lowerb + (getUb() - lowerb) / 2.0)); //1000
+        // items seleccionados
+        List<Integer> itemsSeleccionados = elementosDentro(individuo);
+
+        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+
+        // vector de indices de variables fijas
+        // obtener los primeros nf indices de los elementos más densos
+        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+        return listaIndices;
+    }
+
 
     @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
@@ -121,19 +158,18 @@ public class IHEA_M1 extends IHEA_AV {
                         list_RL.clear();
                     }
                     bueno = true;
-                    list_RL.add(i_aster);
-                    list_RL.add(j_aster);
 //                    fmin = rawFuncion(x);indice
                     fmin = fmax;
                     x_aster = x.clone();
                     // linea 25:
                 } else {
                     bueno = false;
-                    //linea 26: actualizar estado tabu
-                    iterTabu += 1;
+                    iterMax += 2;
+                }
                     list_RL.add(i_aster);
                     list_RL.add(j_aster);
-                    iterMax += 2;
+                    //linea 26: actualizar estado tabu
+                    iterTabu += 1;
                     // linea 27:
                     i = list_RL.size() - 1;
                     // linea 28:
@@ -152,7 +188,6 @@ public class IHEA_M1 extends IHEA_AV {
                         }
                         i--;
                     }
-                }
             } else {
                 iterMax += 1;
             }
