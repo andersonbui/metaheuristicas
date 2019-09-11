@@ -16,10 +16,12 @@
  */
 package main.mochila.cuadratica.sgvns;
 
-import main.mochila.cuadratica.IndividuoCuadratico;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

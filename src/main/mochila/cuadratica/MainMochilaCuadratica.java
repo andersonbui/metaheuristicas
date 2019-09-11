@@ -16,17 +16,13 @@
  */
 package main.mochila.cuadratica;
 
-import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasPruebas;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import main.EjecutarGrupo;
-import main.EjecutorAlgoritmo;
 import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
 import main.mochila.cuadratica.ConjuntoInstancias.*;
-import main.mochila.cuadratica.ConjuntoInstancias.ConjuntoInstanciasResumenes;
 import main.mochila.cuadratica.utilidades.ImprimirResultados;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.utilidades.EstadisticasResultados;
@@ -46,20 +42,23 @@ public class MainMochilaCuadratica {
     static String parametrosAlgoritmo;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
-
         List<String[]> listaVectArgumentas = new ArrayList();
         // comentar todo el if para produccion
         if (args.length == 0) {
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=2,mt=15,mt=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=5, i_encontrarM=5"});
+            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=15, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=5, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M2","-g", "i_interc=5, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M3","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M4", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_VA", "L=2,mt=15,mt=5"});
 //            args = new String[]{"--archivo", "/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt", "jeu_100_25_1_salida.txt"};
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
-            listaVectArgumentas.add(new String[]{"-I","-r","IHEA2","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-I","-r","IHEA2","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-v","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0626H_0.txt"});
         } else {
             listaVectArgumentas.add(args);
@@ -82,8 +81,8 @@ public class MainMochilaCuadratica {
             switch (opcion) {
                 case "-e":
                 case "--examples":
-                    ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
-//                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+//                    ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
+                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
 //                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
                     nombreArchivoResultado = "";
                     listaInstanc = datos.getConjuntoInstancias();

@@ -18,6 +18,7 @@ package main.mochila.cuadratica.sgvns;
 
 import java.util.Random;
 import main.mochila.IndividuoMochila;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
