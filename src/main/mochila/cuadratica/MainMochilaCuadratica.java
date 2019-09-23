@@ -40,19 +40,28 @@ public class MainMochilaCuadratica {
     public static String tsalida = "v";
     public static String algoritmo = null;
     static String parametrosAlgoritmo;
-
+   
     public static void main(String[] args) throws FileNotFoundException, Exception {
         List<String[]> listaVectArgumentas = new ArrayList();
         // comentar todo el if para produccion
+//        System.out.println("max calue: "+Double.MAX_VALUE);
+//        System.out.println("min calue: "+Double.MIN_VALUE);
+//        double flotante =  1797693.13486231575554542;
+//        flotante = Math.floor(flotante*1000000000)/1000000000;
+//        
+//        System.out.println("flotante: "+flotante);
+//        
+//        System.out.println("POSITIVE_INFINITY calue: "+flotante);
         if (args.length == 0) {
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=5, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=15, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=15, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M2","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M3","-g", "i_interc=5, i_encontrarM=5"});
-            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=2,mt=15,mt=5"});
+            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=20,mt=10,ms=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M4", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_VA", "L=2,mt=15,mt=5"});
@@ -87,7 +96,8 @@ public class MainMochilaCuadratica {
                 case "-e":
                 case "--examples":
 //                    ConjuntoInstancias datos = new ConjuntoInstancias1000();
-                    ConjuntoInstancias datos = new ConjuntoInstancias300();
+//                    ConjuntoInstancias datos = new ConjuntoInstancias300();
+                    ConjuntoInstancias datos = new ConjuntoInstancias100();
 //                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
 //                        ConjuntoInstancias datos = new ConjuntoInstanciasPruebas();
                     nombreArchivoResultado = "";
@@ -217,7 +227,7 @@ public class MainMochilaCuadratica {
             instanciasAlgoritmo instanciasAlgot = lpc.obtenerParametrosInstancias(instancia);
             if (instanciasAlgot == null) {
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
-                    imprimir.imprimir("#========== No se encontro el archivo (" + nombreArchivoCompleto + ")\n");
+//                    imprimir.imprimir("#========== No se encontro el archivo (" + nombreArchivoCompleto + ")\n");
                 }
                 continue;
             }
