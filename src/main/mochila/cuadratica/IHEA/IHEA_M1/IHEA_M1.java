@@ -20,7 +20,9 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
+import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
@@ -50,23 +52,31 @@ public class IHEA_M1 extends IHEA_AV {
     @Override
     public List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
         // dimension de individuo
-        int dimX = dimensionHyp;
+        double dimX = dimensionHyp;
         // tamaño de la mochila
         int n = individuo.getDimension();
+        List<Integer> listaIndices = null;
         // numero de variables fijas
         int nf = 0;
-        nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+//        nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //        System.out.print(nf+" - ");
 //        nf = (int) (0.860 * (lowerb + (getUb() - lowerb) / 2.0)); //general
-//        nf = (int)(1.08 * ((getUb() + lowerb) / 2.0)); //300
+        nf = (int) (0.99 * ((getUb() + lowerb) / 2.0) * (dimX *1.0/ getUb())); //300
+//        nf = (int) (0.99 * ((getUb() + lowerb) / 2.0) * (dimX / getUb())); //300
+//        nf = (int)(1.0 * ((getUb() + lowerb) / 2.0)); //300
 //        nf = (int)(0.96*(lowerb + (getUb() - lowerb) / 2.0)); //100
 //        System.out.println("- "+nf);
 //        nf = (int)(1.20*(lowerb + (getUb() - lowerb) / 2.0)); //1000
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
-
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
-
+        listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+        
+//        listaIndices = new ArrayList<>();
+//        List<Integer> listaInidicesResultado = (new Main_MetododosInicializacion()).ordenar(funcion);
+////            nf = tamanio - nf;
+//        for (int i = 0; i < nf; i++) {
+//            listaIndices.add(listaInidicesResultado.get(i));
+//        }
         // vector de indices de variables fijas
         // obtener los primeros nf indices de los elementos más densos
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido

@@ -39,6 +39,9 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
      * haya espacio para uno mas.
      */
     protected int ub;
+    
+    private double porcentajeCentral = 1;
+    private double porcentajeNoCentral = 1;
 
     private List<Integer> variablesFijas;
 
@@ -47,6 +50,22 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         lb = -1;
         ub = -1;
         variablesFijas = new ArrayList<>();
+    }
+
+    public double getPorcentajeCentral() {
+        return porcentajeCentral;
+    }
+
+    public void setPorcentajeCentral(double porcentajeCentral) {
+        this.porcentajeCentral = porcentajeCentral;
+    }
+
+    public double getPorcentajeNoCentral() {
+        return porcentajeNoCentral;
+    }
+
+    public void setPorcentajeNoCentral(double porcentajeNoCentral) {
+        this.porcentajeNoCentral = porcentajeNoCentral;
     }
 
     @Override

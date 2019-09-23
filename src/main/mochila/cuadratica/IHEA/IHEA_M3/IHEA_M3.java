@@ -49,7 +49,7 @@ public class IHEA_M3 extends IHEA_AV {
     @Override
     public List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
         // dimension de individuo
-        int dimX = dimensionHyp;
+        int dimX = dimensionHyp;  
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
@@ -57,7 +57,8 @@ public class IHEA_M3 extends IHEA_AV {
 //        nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //        System.out.print(nf+" - ");
 //        nf = (int) (0.860 * (lowerb + (getUb() - lowerb) / 2.0)); //general
-        nf = (int)(1.08*(lowerb + (getUb() - lowerb) / 2.0)); //300
+        nf = (int)(1.08 * (lowerb + (getUb() - lowerb) / 2.0)); //300
+//        nf = (int) (0.99 * ((getUb() + lowerb) / 2.0) * (dimX *1.0/ getUb())); //300
 //        nf = (int)(0.96*(lowerb + (getUb() - lowerb) / 2.0)); //100
 //        System.out.println("- "+nf);
 //        nf = (int)(1.20*(lowerb + (getUb() - lowerb) / 2.0)); //1000
