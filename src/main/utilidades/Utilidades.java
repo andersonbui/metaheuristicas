@@ -318,6 +318,15 @@ public class Utilidades {
 
     }
 
+    public static double suma(List<Double> lista) {
+        double suma = 0;
+        for (double item : lista) {
+            suma += item;
+        }
+        return suma;
+
+    }
+    
     public static double desviacion(List<Double> lista, double promedio) {
         double suma = 0;
         double diferencia;
