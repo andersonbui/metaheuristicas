@@ -18,6 +18,7 @@ package main.mochila.cuadratica.IHEA.hyperplane_exploration;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IndividuoCuadratico;
 
 /**
@@ -108,7 +109,7 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     @Override
     public double evaluar() {
         return calidad;
-    }
+        }
 
     @Override
     public void set(int indice, double valor) {
