@@ -56,7 +56,7 @@ public class IHEA_GAR extends IHEA_M1 {
         /**
          * linea 3: x0 = GreedyRandomizedConstruction(rcl). solucion inicial
          */
-        IndividuoIHEA indi = new IndividuoIHEA_GAR(funcion);
+        IndividuoIHEA indi = new IndividuoIHEA_GAR(getFuncion());
         getFuncion().setPorcentajeCentral(1);
         getFuncion().setPorcentajeNoCentral(1);
         IndividuoIHEA x_inicial = GreedyRandomizedConstruction(indi, rcl);
@@ -81,6 +81,8 @@ public class IHEA_GAR extends IHEA_M1 {
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
         contadorFijosFalsosPositivos = 0;
+        getFuncion().setPorcentajeCentral(1);
+        getFuncion().setPorcentajeNoCentral(1);
         for (; iteraciones < maxIter; iteraciones++) {
 //            boolean suficiente = funcion.suficiente(x_mejorGlobal);
 //            if (suficiente) {
@@ -88,6 +90,19 @@ public class IHEA_GAR extends IHEA_M1 {
 //                return recorrido;
 //            }
             // linea 10:
+            
+            if(iteraciones == maxIter/3) {
+//                getFuncion().setPorcentajeCentral(1);
+//                getFuncion().setPorcentajeNoCentral(0);
+            }
+            
+            if(iteraciones == 2*maxIter/3) {
+//                getFuncion().setPorcentajeCentral(0.5);
+//                getFuncion().setPorcentajeNoCentral(1);
+                getFuncion().setPorcentajeCentral(1);
+                getFuncion().setPorcentajeNoCentral(0.4);
+            }
+
             solucionEncontrada = true;
             // linea 11:
             k = dimensionHiperplano(x_prima);
