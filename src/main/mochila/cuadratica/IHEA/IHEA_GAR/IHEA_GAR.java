@@ -147,5 +147,9 @@ public class IHEA_GAR extends IHEA_M1 {
 
         return recorrido;
     }
-
+    
+    @Override
+    public FuncionMochilaIHEA_GAR getFuncion() {
+        return (FuncionMochilaIHEA_GAR)funcion;
+    }
 }

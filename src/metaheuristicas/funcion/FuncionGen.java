@@ -73,10 +73,10 @@ public abstract class FuncionGen<Individuo extends metaheuristicas.IndividuoGen>
 
     protected abstract double evaluar(Individuo p);
 
-    public double evaluacion(Individuo indiv) {
-        contadorEvaluaciones++;
-        return evaluar(indiv);
-    }
+//    public double evaluacion(Individuo indiv) {
+//        contadorEvaluaciones++;
+//        return evaluar(indiv);
+//    }
 
     public int getContadorEvaluaciones() {
         return contadorEvaluaciones;

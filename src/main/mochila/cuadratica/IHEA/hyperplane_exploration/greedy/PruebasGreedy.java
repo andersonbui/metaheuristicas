@@ -28,7 +28,7 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
-import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
+import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 
 /**
  *
@@ -40,16 +40,16 @@ public class PruebasGreedy {
 
         String nombreArchivo;
         List<GrupoInstancias> gruposInstancias = new ArrayList();
-//        instanciasAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));
-//        instanciasAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
-//        instanciasAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
+//        InstanciaAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_75_%d.txt", 1, 10));
+//        InstanciaAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_50_%d.txt", 1, 10));
+//        InstanciaAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_25_%d.txt", 1, 10));
         gruposInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_100_100_%d.txt", 1, 10,"100"));
         gruposInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_100_%d.txt", 1, 10,"100"));
         gruposInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_25_%d.txt", 1, 10,"100"));
         gruposInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_50_%d.txt", 1, 10,"100"));
         gruposInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_200_75_%d.txt", 1, 10,"100"));
-//        instanciasAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));
-//        instanciasAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
+//        InstanciaAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_25_%d.txt", 1, 20));
+//        InstanciaAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/grupo1/", "jeu_300_50_%d.txt", 1, 10));
         double porcentaje = 0;
         int cantidadPorcentajes = 0;
         //calculo tiempo
@@ -66,7 +66,7 @@ public class PruebasGreedy {
                 System.out.println("Nombre archivo: " + nombreArchivo);
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-                instanciasAlgoritmo parametros = lpc.obtenerParametrosInstancias(instancia);
+                InstanciaAlgoritmo parametros = lpc.obtenerParametrosInstancias(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;

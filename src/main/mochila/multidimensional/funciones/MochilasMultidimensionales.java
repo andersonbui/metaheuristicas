@@ -63,7 +63,7 @@ public class MochilasMultidimensionales extends FuncionGen {
         if (funcion.getClass() == MochilaMultidimensional_LimitRellenoM.class) {
             System.out.print("");
         }
-        return funcion.evaluacion(mochila);
+        return mochila.evaluar();
     }
 
     @Override

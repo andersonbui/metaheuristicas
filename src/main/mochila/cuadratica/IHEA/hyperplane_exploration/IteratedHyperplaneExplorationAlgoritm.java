@@ -21,7 +21,7 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
-import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
+import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -44,7 +44,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     protected int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
     protected int contadorFijosFalsosPositivos;
-    protected instanciasAlgoritmo instancias;
+    protected InstanciaAlgoritmo instancias;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -617,11 +617,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.contadortabu = contadortabu;
     }
 
-    public void setInstancias(instanciasAlgoritmo instancias) {
+    public void setInstancias(InstanciaAlgoritmo instancias) {
         this.instancias = instancias;
     }
 
-    public instanciasAlgoritmo getInstancias() {
+    public InstanciaAlgoritmo getInstancias() {
         return instancias;
     }
 }

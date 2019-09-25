@@ -37,7 +37,7 @@ public class LecturaParametrosCuadratica {
 
     }
 
-    public void actualizar(String nombreArchivo, instanciasAlgoritmo parametros) {
+    public void actualizar(String nombreArchivo, InstanciaAlgoritmo parametros) {
 
         ArchivoInstancia archivoInstancia = leerParametros(nombreArchivo);
         archivoInstancia.setMaximoGlobal(parametros.getMaxGlobal());
@@ -83,13 +83,13 @@ public class LecturaParametrosCuadratica {
         return aInstancia;
     }
 
-    public instanciasAlgoritmo obtenerParametrosInstancias(Instancia instancia) {
+    public InstanciaAlgoritmo obtenerParametrosInstancias(Instancia instancia) {
         String nombreArchivo = instancia.getNombreCompleto();
         ArchivoInstancia aInstancia = leerParametros(nombreArchivo);
         if (aInstancia == null) {
             return null;
         }
-        instanciasAlgoritmo pc = new instanciasAlgoritmo(
+        InstanciaAlgoritmo pc = new InstanciaAlgoritmo(
                 nombreArchivo,
                 aInstancia.getNombre(),
                 aInstancia.getMatriz(),
@@ -101,7 +101,7 @@ public class LecturaParametrosCuadratica {
         return pc;
     }
 
-//    public instanciasAlgoritmo obtenerParametros2(String nombreArchivo) {
+//    public InstanciaAlgoritmo obtenerParametros2(String nombreArchivo) {
 ////        String nombreInstancia = (String) listaParametros.remove(0);
 //        double[][] matrizBeneficios;
 //        int[] vectorideal = null;
@@ -111,7 +111,7 @@ public class LecturaParametrosCuadratica {
 //        String[] vectSubdivisiones;
 //        double[] vectorPesos;
 //        int numElementos;
-//        instanciasAlgoritmo pc = new instanciasAlgoritmo();
+//        InstanciaAlgoritmo pc = new InstanciaAlgoritmo();
 //        pc.setNombreArchivo(nombreArchivo);
 //        List<String> listaCadenas = leerParametros(nombreArchivo).getLineas();
 //        if (listaCadenas == null) {

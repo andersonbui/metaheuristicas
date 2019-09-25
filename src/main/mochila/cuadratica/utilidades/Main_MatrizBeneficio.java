@@ -55,7 +55,7 @@ public class Main_MatrizBeneficio {
 
         // dimension de los puntos;
         LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-        instanciasAlgoritmo parametros = pc.obtenerParametrosInstancias(new Instancia(nombreArchivo,nombreArchivo,""));
+        InstanciaAlgoritmo parametros = pc.obtenerParametrosInstancias(new Instancia(nombreArchivo,nombreArchivo,""));
         EscribirArchivo archivoEsc = new EscribirArchivo();
         archivoEsc.abrir("matriz_beneficio.txt");
 

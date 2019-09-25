@@ -160,8 +160,8 @@ public class IHEA_M1 extends IHEA_AV {
                 x.set(j_aster, 0);
                 x.set(i_aster, 1);
                 frx = x.getCalidad();
-                double vmax = funcion.getCapacidad() - x.pesar();
-                if (vmin >= 0 && !(frx <= fmin && vmax <= vmin)) {
+                double vmax = funcion.getCapacidad() - x_aster.pesar();
+                if (vmin >= 0 && !(frx <= fmin && vmax >= vmin)) {
                     // linea 24:
                     iterMax = 0;
                     if (!bueno) {
@@ -169,7 +169,7 @@ public class IHEA_M1 extends IHEA_AV {
                     }
                     bueno = true;
 //                    fmin = rawFuncion(x);indice
-                    fmin = fmax;
+                    fmin = frx;
                     x_aster = x.clone();
                     // linea 25:
                 } else {

@@ -52,7 +52,7 @@ public class EstadisticasInstancias {
         listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_50_%d.txt", 1, 10,"100"));
         listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_75_%d.txt", 1, 10,"100"));
         listGrupoInstancias.add(new GrupoInstancias("mochilaCuadratica/grupo1000/", "1000_100_%d.txt", 1, 10,"100"));
-//        instanciasAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 1, 10));
+//        InstanciaAlgoritmo.add(new GrupoInstancias("mochilaCuadratica/", "r_10_100_%d.txt", 1, 10));
 
         StringBuilder sbuild = new StringBuilder();
         sbuild.append(String.format("%20s","pm_pesos")).append("|").//promedio pesos
@@ -80,7 +80,7 @@ public class EstadisticasInstancias {
                 nombreArchivo = instancia.getNombreCompleto();
 
                 LecturaParametrosCuadratica pc = new LecturaParametrosCuadratica();
-                instanciasAlgoritmo parametros = pc.obtenerParametrosInstancias(instancia);
+                InstanciaAlgoritmo parametros = pc.obtenerParametrosInstancias(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;

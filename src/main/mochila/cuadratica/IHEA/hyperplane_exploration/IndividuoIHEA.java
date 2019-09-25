@@ -106,10 +106,6 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         return peso;
     }
 
-    @Override
-    public double evaluar() {
-        return calidad;
-        }
 
     @Override
     public void set(int indice, double valor) {
@@ -158,13 +154,13 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     }
 
     public int compareTo(IndividuoIHEA otrop) {
-        Double a_calidad = this.calidad;
+        Double a_calidad = this.getCalidad();
         int orden = funcion.isMaximizar() ? 1 : -1;
         int comparacion = a_calidad.compareTo(otrop.getCalidad());
-        if (comparacion != 0) {
-            return orden * a_calidad.compareTo(otrop.getCalidad());
-        }
-        return orden * Double.compare(peso, otrop.peso);
+//        if (comparacion != 0) {
+            return orden * comparacion;
+//        }
+//        return orden * Double.compare(peso, otrop.peso);
     }
 
     @Override
@@ -180,4 +176,30 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     public String toString() {
         return "IndividuoCuadratico{" + "calidad=" + this.calidad + "peso=" + pesar() + "capacidad=" + ((FuncionMochilaIHEA) funcion).getCapacidad() + '}';
     }
+
+    protected List<Integer> getI1() {
+        return I1;
+    }
+
+    protected void setI1(List<Integer> I1) {
+        this.I1 = I1;
+    }
+
+    protected List<Integer> getI0() {
+        return I0;
+    }
+
+    protected void setI0(List<Integer> I0) {
+        this.I0 = I0;
+    }
+
+    protected double[] getVec_contribucion() {
+        return vec_contribucion;
+    }
+
+    protected void setVec_contribucion(double[] vec_contribucion) {
+        this.vec_contribucion = vec_contribucion;
+    }
+    
+    
 }

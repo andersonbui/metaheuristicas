@@ -17,7 +17,6 @@
 package main.mochila.cuadratica.IHEA.IHEA_GAR;
 
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.*;
-import main.mochila.cuadratica.IndividuoCuadratico;
 
 /**
  *
@@ -29,7 +28,7 @@ public class FuncionMochilaIHEA_GAR extends FuncionMochilaIHEA {
     private double porcentajeNoCentral = 1;
 
     public FuncionMochilaIHEA_GAR(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal);
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
     }
 
     public double getPorcentajeCentral() {
@@ -49,22 +48,9 @@ public class FuncionMochilaIHEA_GAR extends FuncionMochilaIHEA {
     }
 
     @Override
-    public IndividuoIHEA generarIndividuo() {
-        IndividuoIHEA nuevop = new IndividuoIHEA(this);
+    public IndividuoIHEA_GAR generarIndividuo() {
+        IndividuoIHEA_GAR nuevop = new IndividuoIHEA_GAR(this);
         return nuevop;
     }
 
-    @Override
-    public double contribucion(int indice, IndividuoCuadratico mochila) {
-        IndividuoIHEA individuo = (IndividuoIHEA) mochila;
-        return individuo.getContribucion(indice);
-    }
-
-    @Override
-    public double contribucion(int indice, IndividuoCuadratico mochila, Integer sin_k) {
-        double contribMejor = contribucion(indice, mochila);
-        double beneficioQuitar = indice > sin_k ? this.beneficio(sin_k, indice) : this.beneficio(indice, sin_k);
-        contribMejor -= beneficioQuitar;
-        return contribMejor;
-    }
 }

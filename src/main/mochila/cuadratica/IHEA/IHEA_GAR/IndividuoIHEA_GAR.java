@@ -27,46 +27,18 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
  */
 public class IndividuoIHEA_GAR extends IndividuoIHEA {
 
-    /**
-     * guarda todos los indices de los elementos dentro de la mochila.
-     */
-    private List<Integer> I1;
-    /**
-     * guarda todos los indices de los elementos fuera de la mochila.
-     */
-    private List<Integer> I0;
-    /**
-     * guarda todas las contribuciones de todos los elementos, de acuerdo la
-     * mochila actual. Las contribuciones se encuentran en el mismo orden que
-     * los elementos correspondientes.
-     */
-    private double[] vec_contribucion;
-
     public IndividuoIHEA_GAR(FuncionMochilaIHEA funcion) {
         super(funcion);
-        InicializarI0I1();
     }
 
     public IndividuoIHEA_GAR(FuncionMochilaIHEA funcion, double[] valores) {
-        super(funcion);
-        InicializarI0I1();
-        for (int i = 0; i < valores.length; i++) {
-            this.set(i, valores[i]);
-        }
+        super(funcion, valores);
     }
 
-    private void InicializarI0I1() {
-        vec_contribucion = new double[funcion.getDimension()];
-        for (int i = 0; i < vec_contribucion.length; i++) {
-            vec_contribucion[i] = funcion.beneficio(i, i);
-        }
-        I1 = new ArrayList();
-        I0 = new ArrayList();
-        for (int i = 0; i < funcion.getDimension(); i++) {
-            I0.add(i);
-        }
+    public FuncionMochilaIHEA_GAR getFuncion() {
+        return (FuncionMochilaIHEA_GAR)funcion;
     }
-
+    
     /**
      * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
      * individuo.
@@ -76,7 +48,7 @@ public class IndividuoIHEA_GAR extends IndividuoIHEA {
     @Override
     public List<Integer> elementosNoSeleccionados() {
         // Sacar listas de elementos seleccionados y no seleccionados
-        List<Integer> listaI0 = new ArrayList(I0);
+        List<Integer> listaI0 = new ArrayList(getI0());
         return listaI0;
     }
 
@@ -89,116 +61,39 @@ public class IndividuoIHEA_GAR extends IndividuoIHEA {
     @Override
     public List<Integer> elementosSeleccionados() {
         // Sacar listas de elementos seleccionados y no seleccionados
-        List<Integer> listaI1 = new ArrayList(I1);
+        List<Integer> listaI1 = new ArrayList(getI1());
         return listaI1;
     }
 
-    public int cantidadI1() {
-        return this.I1.size();
-    }
-
-    public double getContribucion(int indice) {
-        double contri = vec_contribucion[indice];
-        double calidadCentral = funcion.beneficio(indice, indice);
-        double porcentajeCentral = funcion.getPorcentajeCentral();
-        return (calidadCentral * porcentajeCentral) + ((contri - calidadCentral) * (1 - porcentajeCentral));
-    }
-
     @Override
-    public double pesar() {
-        return peso;
+    public double getContribucion(int indice) {
+        double contri = getVec_contribucion()[indice];
+        double calidadCentral = getFuncion().beneficio(indice, indice);
+        double porcentajeCentral = getFuncion().getPorcentajeCentral();
+        double porcentajeNoCentral = getFuncion().getPorcentajeNoCentral();
+        return (calidadCentral * porcentajeCentral) + ((contri - calidadCentral) * (porcentajeNoCentral));
     }
 
     @Override
     public double getCalidad() {
-        double calidadCentral = 0;
-        for (Integer integer : I1) {
-            calidadCentral += funcion.beneficio(integer, integer);
-        }
-        double porcentajeCentral = funcion.getPorcentajeCentral();
-        double porcentajeNoCentral = funcion.getPorcentajeNoCentral();
-        return (calidadCentral * porcentajeCentral) + ((calidad - calidadCentral) * (porcentajeNoCentral));
+        return evaluar();
     }
     
-//    @Override
+   @Override
     public double evaluar() {
-        //calidad += (-valAnterior + valor) * (unacontribucion - funcion.beneficio(indice, indice))*(1 - porcentajeCentral)  + funcion.beneficio(indice, indice)*porcentajeCentral;
         double calidadCentral = 0;
-        for (Integer integer : I1) {
-            calidadCentral += funcion.beneficio(integer, integer);
+        for (Integer integer : getI1()) {
+            calidadCentral += getFuncion().beneficio(integer, integer);
         }
-        double porcentajeCentral = funcion.getPorcentajeCentral();
-        double porcentajeNoCentral = funcion.getPorcentajeNoCentral();
+        double porcentajeCentral = getFuncion().getPorcentajeCentral();
+        double porcentajeNoCentral = getFuncion().getPorcentajeNoCentral();
         return (calidadCentral * porcentajeCentral) + ((calidad - calidadCentral) * (porcentajeNoCentral));
-    }
-
-//    @Override
-    public void set(int indice, double valor) {
-
-        double valAnterior = get(indice);
-        if (valAnterior == valor) {
-//            System.out.println("valor igual al anterior");
-            return;
-        }
-        if (valor == 0) {
-            boolean result = I1.remove((Integer) indice);
-            if (result) {
-                I0.add((Integer) indice);
-            } else {
-                System.out.println("error anadiendo elemento de I1");
-            }
-        } else {
-            boolean result = I0.remove((Integer) indice);
-            if (result) {
-                I1.add((Integer) indice);
-            } else {
-                System.out.println("error removiendo elemento de I0");
-            }
-        }
-        double valorPeso;
-        double unacontribucion = 0;
-
-        // contribucion
-        unacontribucion = funcion.contribucion(indice, this);
-        // actualizacion de la contribucion de cada elemento
-        for (int j = 0; j < vec_contribucion.length; j++) {
-            if (j < indice) {
-                vec_contribucion[j] += (-valAnterior + valor) * funcion.beneficio(j, indice);
-            } else if (j > indice) {
-                vec_contribucion[j] += (-valAnterior + valor) * funcion.beneficio(indice, j);
-            }
-        }
-        // peso del articulo
-        valorPeso = funcion.peso(indice);
-        // incluir beneficio
-        calidad += (-valAnterior + valor) * unacontribucion;
-        // incluir peso del elemento
-        peso += (-valAnterior + valor) * valorPeso;
-
-        this.valores[indice] = valor;
-    }
-
-    public int compareTo(IndividuoIHEA_GAR otrop) {
-        Double a_calidad = this.calidad;
-        int orden = funcion.isMaximizar() ? 1 : -1;
-        int comparacion = a_calidad.compareTo(otrop.getCalidad());
-        if (comparacion != 0) {
-            return orden * a_calidad.compareTo(otrop.getCalidad());
-        }
-        return orden * Double.compare(peso, otrop.peso);
     }
 
     @Override
     public IndividuoIHEA_GAR clone() {
         IndividuoIHEA_GAR ind = (IndividuoIHEA_GAR) super.clone();
-        ind.I0 = new ArrayList(ind.I0);
-        ind.I1 = new ArrayList(ind.I1);
-        ind.vec_contribucion = this.vec_contribucion.clone();
         return ind;
     }
 
-    @Override
-    public String toString() {
-        return "IndividuoCuadratico{" + "calidad=" + this.calidad + "peso=" + pesar() + "capacidad=" + ((FuncionMochilaIHEA) funcion).getCapacidad() + '}';
-    }
 }

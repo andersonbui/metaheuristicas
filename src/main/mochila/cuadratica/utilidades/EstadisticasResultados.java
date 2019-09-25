@@ -51,7 +51,7 @@ public class EstadisticasResultados {
 
         List<RegistroResultadoGlobal> listaRegistros = new ArrayList<>();
 
-        instanciasAlgoritmo parametros;
+        InstanciaAlgoritmo parametros;
         IndividuoCuadratico mejorGlobal = null;
         StringBuilder sb = new StringBuilder();
         String nombreIns = "";
@@ -110,7 +110,7 @@ public class EstadisticasResultados {
             if (mejorGlobal == null || mejorGlobal.compareTo(individuo) < 0) {
                 mejorGlobal = individuo;
             }
-            // comprobar calidad de la actua instancia y actualizar los archivos de instanciasAlgoritmo
+            // comprobar calidad de la actua instancia y actualizar los archivos de InstanciaAlgoritmo
             {
                 if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                     parametros.setMaxGlobal(individuo.getCalidad());

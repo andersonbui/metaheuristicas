@@ -55,11 +55,12 @@ public class IndividuoCuadratico<FuncionSGVNS extends FuncionMochilaCuadratica> 
         return peso;
     }
 
-    @Override
-    public double evaluar() {
-        double porcentajeEspacio = 1 - (pesar() / funcion.getCapacidad());
-        return calidad + calidad * porc_vacio * porcentajeEspacio;
-    }
+//    @Override
+//    public double evaluar() {
+////        double porcentajeEspacio = 1 - (pesar() / funcion.getCapacidad());
+////        return calidad + calidad * porc_vacio * porcentajeEspacio;
+//        return calidad + calidad;
+//    }
 
     /**
      * genera una lista de los elementos que estan fuera de la mochila
