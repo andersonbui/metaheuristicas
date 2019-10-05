@@ -22,12 +22,23 @@ import java.util.List;
 import main.mochila.cuadratica.IHEA.IHEA_M1.IHEA_M1;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
+import metaheuristicas.Aleatorio;
 
 /**
  *
  * @author debian
  */
 public class IHEA_GAR extends IHEA_M1 {
+
+    public static enum OpcionVar {
+        TABU, PERT, CONS, DESC
+    };
+    // porcentaje de iteraciones | central | no central 
+    String tabu = "0.0:1.0:1.0";
+    String pert = "0.0:1.0:1.0";
+    String cons = "0.0:1.0:1.0";
+    String desc = "0.0:1.0:1.0";
 
     public IHEA_GAR(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -59,7 +70,7 @@ public class IHEA_GAR extends IHEA_M1 {
         IndividuoIHEA indi = new IndividuoIHEA_GAR(getFuncion());
         getFuncion().setPorcentajeCentral(1);
         getFuncion().setPorcentajeNoCentral(1);
-        IndividuoIHEA x_inicial = GreedyRandomizedConstruction(indi, rcl);
+        IndividuoIHEA x_inicial = GreedyRandomizedConstruction(indi, getRcl());
         /**
          * linea 4: x0 = descent(x0). mejoramiento de la solución inicial
          */
@@ -81,8 +92,6 @@ public class IHEA_GAR extends IHEA_M1 {
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
         contadorFijosFalsosPositivos = 0;
-        getFuncion().setPorcentajeCentral(1);
-        getFuncion().setPorcentajeNoCentral(1);
         for (; iteraciones < maxIter; iteraciones++) {
 //            boolean suficiente = funcion.suficiente(x_mejorGlobal);
 //            if (suficiente) {
@@ -90,19 +99,6 @@ public class IHEA_GAR extends IHEA_M1 {
 //                return recorrido;
 //            }
             // linea 10:
-            
-            if(iteraciones == maxIter/3) {
-//                getFuncion().setPorcentajeCentral(1);
-//                getFuncion().setPorcentajeNoCentral(0);
-            }
-            
-            if(iteraciones == 2*maxIter/3) {
-//                getFuncion().setPorcentajeCentral(0.5);
-//                getFuncion().setPorcentajeNoCentral(1);
-                getFuncion().setPorcentajeCentral(1);
-                getFuncion().setPorcentajeNoCentral(0.4);
-            }
-
             solucionEncontrada = true;
             // linea 11:
             k = dimensionHiperplano(x_prima);
@@ -116,13 +112,20 @@ public class IHEA_GAR extends IHEA_M1 {
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
                 int amalos = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesFijas, 0, "cuanto son ceros");
-                if(amalos > 0){
+                if (amalos > 0) {
                     contadorFijosFalsosPositivos += amalos;
                 }
-                // linea 17: run tabu serach engine (L,x',xb)
+                // linea 17: run TABU serach engine (L,x',xb)
                 long tiempo_inicial = System.currentTimeMillis();
                 contadortabu++;
+
+                variable(OpcionVar.DESC, iteraciones, maxIter);
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
+
+                //RESTABLECER
+                getFuncion().setPorcentajeCentral(1);
+                getFuncion().setPorcentajeNoCentral(1);
+
                 long tiempo_final = System.currentTimeMillis();
                 tiempototal += (tiempo_final - tiempo_inicial);
                 // linea 18:
@@ -151,9 +154,18 @@ public class IHEA_GAR extends IHEA_M1 {
             }
             // linea 30: fase de perturbacion
             // linea 31:
+
+            if (iteraciones == maxIter / 2) {
+            }
             x_prima = perturbacion(x_mejorRondaHyper, iteraciones);
+
             // linea 32:
+            variable(OpcionVar.DESC, iteraciones, maxIter);
             x_prima = descent(x_prima);
+
+            //RESTABLECER
+            getFuncion().setPorcentajeCentral(1);
+            getFuncion().setPorcentajeNoCentral(1);
             // linea 33:
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
@@ -162,9 +174,100 @@ public class IHEA_GAR extends IHEA_M1 {
 
         return recorrido;
     }
-    
+
     @Override
     public FuncionMochilaIHEA_GAR getFuncion() {
-        return (FuncionMochilaIHEA_GAR)funcion;
+        return (FuncionMochilaIHEA_GAR) funcion;
+    }
+
+    public void variable(OpcionVar variable, int interaciones, int maxIter) {
+        String[] cadenas = null;
+        switch (variable) {
+            case TABU:
+                cadenas = tabu.split(":");
+                break;
+            case PERT:
+                cadenas = pert.split(":");
+                break;
+            case CONS:
+                cadenas = cons.split(":");
+                break;
+            case DESC:
+                cadenas = desc.split(":");
+                break;
+            default:
+                    ;
+        }
+        if (cadenas != null) {
+            try {
+                double porcentajeInter = Double.parseDouble(cadenas[0]);
+                double central = Double.parseDouble(cadenas[1]);
+                double noCentral = Double.parseDouble(cadenas[2]);
+                if (iteraciones == maxIter * porcentajeInter) {
+                    getFuncion().setPorcentajeCentral(central);
+                    getFuncion().setPorcentajeNoCentral(noCentral);
+                }
+            } catch (NumberFormatException e) {
+
+            }
+        }
+    }
+
+    @Override
+    public void actualizarVarible(String nombre, String valor) {
+        super.actualizarVarible(nombre, valor);
+        switch (nombre) {
+            case "TABU":
+                tabu = valor;
+                break;
+            case "PERT":
+                pert = valor;
+                break;
+            case "CONS":
+                cons = valor;
+                break;
+            case "DESC":
+                desc = valor;
+                break;
+        }
+    }
+
+    @Override
+    protected IndividuoIHEA perturbacion(IndividuoIHEA individuo, int iteraciones) {
+        individuo = individuo.clone();
+        List<Integer> I1 = elementosDentro(individuo);
+
+        // dimension de individuo
+        int dimX = dimensionHiperplano(individuo);
+        // tamaño de la mochila
+        int n = individuo.getDimension();
+        // numero de variables fijas
+        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+
+        int t = Math.min(getMt(), I1.size() - nf);
+        t = Math.max(t, 0);
+        int s = Math.min(getMs(), t);
+
+        variable(OpcionVar.PERT, iteraciones, getMaxIteraciones());
+        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
+        int posaleatoria;
+        if (!listaIndices.isEmpty()) {
+            for (int i = 0; listaIndices.size() > 0 && i < s; i++) {
+                posaleatoria = Aleatorio.nextInt(listaIndices.size());
+                individuo.set(listaIndices.remove(posaleatoria), 0);
+            }
+        }
+        //RESTABLECER
+        getFuncion().setPorcentajeCentral(1);
+        getFuncion().setPorcentajeNoCentral(1);
+
+        variable(OpcionVar.CONS, iteraciones, getMaxIteraciones());
+        individuo = GreedyRandomizedConstruction(individuo, getRcl());
+
+        //RESTABLECER
+        getFuncion().setPorcentajeCentral(1);
+        getFuncion().setPorcentajeNoCentral(1);
+
+        return individuo;
     }
 }

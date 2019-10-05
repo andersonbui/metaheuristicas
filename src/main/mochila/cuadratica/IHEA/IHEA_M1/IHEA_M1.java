@@ -161,7 +161,9 @@ public class IHEA_M1 extends IHEA_AV {
                 x.set(i_aster, 1);
                 frx = x.getCalidad();
                 double vmax = funcion.getCapacidad() - x_aster.pesar();
-                if (vmin >= 0 && !(frx <= fmin && vmax >= vmin)) {
+//                if (vmin >= 0 && !(frx <= fmin && vmax >= vmin)) {
+                if (vmin >= 0 && (frx > fmin || (frx == fmin && vmax < vmin))) {
+                    //if (vmin >= 0 && ((frx > fmin && vmax <= vmin) || (frx == fmin && vmax < vmin))) {
                     // linea 24:
                     iterMax = 0;
                     if (!bueno) {

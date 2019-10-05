@@ -69,28 +69,44 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             String[] arrayParametros = getCadenaParametros().split(",");
             for (String arrayParametro : arrayParametros) {
                 String[] unParametro = arrayParametro.split("=");
-                actualizarVarible(unParametro[0], Integer.parseInt(unParametro[1]));
+                actualizarVarible(unParametro[0], unParametro[1]);
 //                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
             }
         }
     }
 
-    public void actualizarVarible(String nombre, int valor) {
+    public void actualizarVarible(String nombre, String valor) {
+        
         switch (nombre) {
             case "L":
-                L = valor;
+                try {  
+                    L = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "mt":
-                mt = valor;
+                try {  
+                    mt = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "ms":
-                ms = valor;
+                try {  
+                    ms = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "rcl":
-                rcl = valor;
+                try {  
+                    rcl = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "idesc":
-                intentosDescent = valor;
+                try {  
+                    intentosDescent = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
         }
     }
@@ -103,7 +119,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             System.out.println("peligro" + getNombre() + " no inicializado");
             return null;
         }
-        List listaResult = iterateHiperplaneExploration(L, rcl, maxIteraciones);
+        List listaResult = iterateHiperplaneExploration(L, getRcl(), maxIteraciones);
 //        System.out.println("===> tiempo: " + tiempototal / contadortabu);
 //        System.out.println("contador intercambios tabu: " + contadorIntercambios);
         return listaResult;
