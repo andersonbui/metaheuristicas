@@ -19,8 +19,7 @@ package main.mochila.cuadratica.sgvns;
 import java.util.ArrayList;
 import java.util.List;
 import main.Item;
-import main.mochila.IndividuoMochila;
-import main.mochila.cuadratica.FuncionMochilaCuadratica;
+import main.mochila.cuadratica.sgvns.greedy.Greedy;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
 import main.utilidades.Utilidades;
@@ -44,7 +43,10 @@ public class JSGVNS extends SGVNS {
     protected int ub;
     protected int cont_JSGVNS = 0;
     protected int cont_SacudidaJ = 0;
-    protected int cont_;
+    protected int cont_Mejoro = 0;
+    //tamaño lista restringida de candidatos
+    protected int rcl = 0;
+    
 
     public JSGVNS(FuncionJSGVNS funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
@@ -53,6 +55,7 @@ public class JSGVNS extends SGVNS {
         lb = obtenerLowerBound();
         ub = obtenerUpperBound();
         nombre = "JSGVNS";
+        rcl = 100;
     }
 
     /**
@@ -85,7 +88,9 @@ public class JSGVNS extends SGVNS {
         //Lista para graficar
         List<IndividuoVNS> recorrido = new ArrayList();
         //Encuentra una solucion inicial y
-        IndividuoVNS y = solucionInicial();
+//        IndividuoVNS y = solucionInicial();
+        IndividuoVNS individuo = funcion.generarIndividuo();
+        IndividuoVNS y = GreedyRandomizedConstruction(individuo, rcl);
         //Almacena la solucion inicial como best
         IndividuoVNS y_best = y;
         //termina cuando encuentra el optimo
@@ -96,24 +101,22 @@ public class JSGVNS extends SGVNS {
         }
         for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
             //numero de movimientos aleatorios para shaking
-            int h = 1;
+            int h = 5;
             IndividuoVNS y_p;
             IndividuoVNS y_p2;
+            IndividuoVNS y_p_Original;
             List<Integer> variablesFijasLowerb;
             List<Integer> variablesFijasUpperb;
-//            funcion.
             while (h <= hMax) {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
-
                 //MODIFICACION trabajar la sacudida con el vecindario 1
+//                y_p = sacudidaOriginal(y, 2, h);
                 y_p = sacudida(y, 1, h);
 //                variablesFijasUpperb = determinarVariablesFijasUpperBound(y_p.getDimension(), y_p, ub);
 //                construirProblemaRestringidoReducido(variablesFijasUpperb);
 //              getFuncion().reiniciarVijarVariablesUpperb();
-                getFuncion().reiniciarVijarVariables();
-                
-                
+
 //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
                 if (y_p2.compareTo(y_best) > 0) {
@@ -135,13 +138,40 @@ public class JSGVNS extends SGVNS {
         //CONDICION DE TERMINACION PARA AJUSTAR
         cont_JSGVNS++;
 //        System.out.println("cont_JSGVNS" + cont_JSGVNS);
-        
+
         return recorrido;
     }
 
     /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
     private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
+        IndividuoVNS aux;
+        boolean mejoro;
+
+        s_inicial = s_inicial.clone();
+        intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size() - 1);
+        do {
+            if (vecindario == 1) {
+                aux = intercambio(s_inicial);
+            } else {
+                aux = cambio(s_inicial);
+            }
+            //MODIFICACION
+            cont_SacudidaJ++;
+            mejoro = aux.compareTo(s_inicial) > 0;
+            s_inicial = aux;
+            if (mejoro) {
+                cont_Mejoro++;
+                break;
+            }
+        } while (intentos-- >= 0);
+
+        return s_inicial;
+    }
+
+    /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
+    en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
+    private IndividuoVNS sacudidaOriginal(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
         boolean mejoro;
         s_inicial = s_inicial.clone();
@@ -152,16 +182,21 @@ public class JSGVNS extends SGVNS {
             } else {
                 aux = cambio(s_inicial);
             }
-
-            //MODIFICACION
-            mejoro = aux.compareTo(s_inicial) > 0;
-            s_inicial = aux;
-            if (mejoro) {
-                break;
-            }
         } while (intentos-- >= 0);
 
         return s_inicial;
+    }
+
+    /**
+     * Ejecuta un algoritmo gredy aleatorizado a partir de un individuo y el
+     * tamaño de la lista restringida de candidatos (rcl)
+     *
+     * @param individuo
+     * @param rcl tamaño de la lista restringida de candidatos
+     * @return el individuo mejorado por elalgoritmo gredy
+     */
+    protected IndividuoVNS GreedyRandomizedConstruction(IndividuoVNS individuo, int rcl) {
+        return (new Greedy(rcl)).ejecutarGreedy(individuo);
     }
 
     @Override
@@ -250,5 +285,23 @@ public class JSGVNS extends SGVNS {
     protected void construirProblemaRestringidoReducido(List<Integer> varFijas) {
         getFuncion().fijarVariables(varFijas);
 
+    }
+
+    /**
+     * adiciona un item, escogido aleatoriamente, a individuo ya sea que el
+     * individuo resultante sea factible o no factible.
+     *
+     * @param individuo
+     * @return indice del elemento adicionado
+     */
+    protected IndividuoVNS addElemento(IndividuoVNS individuo) {
+        individuo = individuo.clone();
+        List<Integer> listaI0 = funcion.obtener_I0(individuo);
+        if (listaI0.isEmpty()) {
+            return individuo;
+        }
+        int indice = Aleatorio.nextInt(listaI0.size());
+        individuo.set(listaI0.get(indice), 1);
+        return individuo;
     }
 }

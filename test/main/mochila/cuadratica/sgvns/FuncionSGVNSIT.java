@@ -18,7 +18,7 @@ package main.mochila.cuadratica.sgvns;
 
 import java.util.Random;
 import main.mochila.IndividuoMochila;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Original;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  */
 public class FuncionSGVNSIT {
 
-    FuncionSGVNS instance;
+    FuncionSGVNS_Original instance;
     int tamanio = 1000;
 
     Random rand = new Random();
@@ -51,7 +51,7 @@ public class FuncionSGVNSIT {
             vectorPesos[k] = 2;
         }
 
-        instance = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, 100.);
+        instance = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, 100.);
     }
 
     @BeforeClass

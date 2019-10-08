@@ -47,6 +47,10 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         hMax = 5;
     }
 
+    public SGVNS(FuncionSGVNS funcionSGVNS) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public double getAlpha() {
         return alpha;
     }
@@ -97,7 +101,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
      */
     @Override
     public List<IndividuoVNS> ejecutar() {
-        //Lista para graficar
+//        //Lista para graficar
         List<IndividuoVNS> recorrido = new ArrayList();
         //Encuentra una solucion inicial y
         IndividuoVNS y = solucionInicial();

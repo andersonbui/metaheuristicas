@@ -19,14 +19,14 @@ package main.mochila.cuadratica.sgvns.SGVNS_M3;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Original;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 
 /**
  *
  * @author Juan Diaz PC
  */
-public class FuncionMochilaSGVNS_M3 extends FuncionSGVNS {
+public class FuncionMochilaSGVNS_M3 extends FuncionSGVNS_Original {
 
     private List<Integer> variablesFijas;
     private List<Integer> variablesFijasMalas;

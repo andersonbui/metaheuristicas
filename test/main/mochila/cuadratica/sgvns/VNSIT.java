@@ -19,7 +19,7 @@ package main.mochila.cuadratica.sgvns;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Original;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 import org.junit.After;
@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
  */
 public class VNSIT {
 
-    FuncionSGVNS funcion;
+    FuncionSGVNS_Original funcion;
     IndividuoVNS mochila;
     Random rand = new Random();
     int tamanio = 1000;
@@ -54,7 +54,7 @@ public class VNSIT {
             vectorPesos[k] = 2;
         }
 
-        funcion = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, 100.);
+        funcion = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, 100.);
 
         double[] valores = new double[tamanio];
         mochila = new IndividuoVNS(funcion, valores);

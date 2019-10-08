@@ -32,7 +32,7 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.FuncionMochi
 import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
 import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
 import main.mochila.cuadratica.sgvns.JSGVNS;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Original;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 
@@ -240,7 +240,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
-                            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                            FuncionSGVNS_Original funcionVns = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                             SGVNS algot = new SGVNS(funcionVns, maxIteraciones);
                             //algot.setIntentosIntercambio(intentos);
                             algot.setIntentosEncontrarMejor(intentos);

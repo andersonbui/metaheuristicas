@@ -25,7 +25,7 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  *
  * @author debian
  */
-public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
+public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, IndividuoVNS> {
 
     public double alpha;
     int intentosEncontrarMejor;
@@ -43,11 +43,15 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
     protected int ub;
     boolean inicializado;
 
-    public SGVNS(FuncionSGVNS funcion, int maxIteraciones) {
+    public SGVNS(FuncionSGVNS_Original funcion, int maxIteraciones) {
         super(funcion);
         inicializado = false;
         this.funcion = funcion;
         this.maxIteraciones = maxIteraciones;
+    }
+
+    public SGVNS(FuncionSGVNS_Original funcionSGVNS) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void inicializar() {
