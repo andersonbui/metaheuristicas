@@ -129,7 +129,7 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
     }
 
     public double evaluar() {
-        calidad = funcion.evaluacion(this);
+//        calidad = funcion.(this);
         return calidad;
     }
 

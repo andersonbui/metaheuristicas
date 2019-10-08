@@ -21,6 +21,7 @@ import java.util.List;
 import main.mochila.IndividuoMochila;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
+import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
 
 /**
@@ -41,6 +42,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
     protected int ub;
 
     private List<Integer> variablesFijas;
+    InstanciaAlgoritmo instancias;
 
     public FuncionMochilaIHEA(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
@@ -172,4 +174,13 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         contribMejor -= beneficioQuitar;
         return contribMejor;
     }
+
+    public InstanciaAlgoritmo getInstancias() {
+        return instancias;
+    }
+
+    public void setInstancias(InstanciaAlgoritmo instancias) {
+        this.instancias = instancias;
+    }
+    
 }

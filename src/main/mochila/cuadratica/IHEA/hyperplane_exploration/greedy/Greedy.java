@@ -45,7 +45,7 @@ public class Greedy {
     }
 
     public IndividuoIHEA ejecutar(IndividuoIHEA individuo) {
-        //TODO mejorar pasando la lista ya ordenada y no volver a ordenar
+        //TODO mejorar pasando la lista ya ordenada y no volver a ordenar - exacto
         individuo = individuo.clone();
 //        List<Item> LRC = crearLRC(individuo, rcl);
         List<Item> LRC = crearLRC(individuo, rcl);

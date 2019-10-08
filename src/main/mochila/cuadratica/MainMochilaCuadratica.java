@@ -27,7 +27,7 @@ import main.mochila.cuadratica.utilidades.ImprimirResultados;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.utilidades.EstadisticasResultados;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
-import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
+import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.funcion.FuncionGen;
 
@@ -40,18 +40,29 @@ public class MainMochilaCuadratica {
     public static String tsalida = "v";
     public static String algoritmo = null;
     static String parametrosAlgoritmo;
-
+   
     public static void main(String[] args) throws FileNotFoundException, Exception {
         List<String[]> listaVectArgumentas = new ArrayList();
         // comentar todo el if para produccion
+//        System.out.println("max calue: "+Double.MAX_VALUE);
+//        System.out.println("min calue: "+Double.MIN_VALUE);
+//        double flotante =  1797693.13486231575554542;
+//        flotante = Math.floor(flotante*1000000000)/1000000000;
+//        
+//        System.out.println("flotante: "+flotante);
+//        
+//        System.out.println("POSITIVE_INFINITY calue: "+flotante);
         if (args.length == 0) {
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=5, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=15, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=15, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M2","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M3","-g", "i_interc=5, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_GAR", "L=20,mt=10,ms=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=20,mt=10,ms=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M4", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_VA", "L=2,mt=15,mt=5"});
@@ -59,6 +70,11 @@ public class MainMochilaCuadratica {
 //            args = new String[]{"--estandar"};
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
+//            listaVectArgumentas.add(new String[]{"-v","-r","IHEA_GAR","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"});
+//              listaVectArgumentas.add(new String[]{"-b","-r","IHEA_GAR","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_100_2.txt"});
+//              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","L=30,rcl=30,mt=50,ms=20","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0609I_0.txt"});
+              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","L=30,rcl=30,mt=5,ms=2,CONS=0.0:0.5:0.5,DESC=0.0:0.5:0.5,PERT=0.0:0.5:0.5,TABU=0.0:0.5:0.5","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0626H_0.txt"}); //se detiene
+//              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","L=20,mt=10,ms=5","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0601A_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-I","-r","IHEA2","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-I","-r","IHEA","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-I","-r","SGVNS", "rcl=30,L=20,mi=65,ms=4,mt=10","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0615F_0.txt"});
@@ -86,8 +102,9 @@ public class MainMochilaCuadratica {
                 case "-e":
                 case "--examples":
 //                    ConjuntoInstancias datos = new ConjuntoInstancias1000();
-                    ConjuntoInstancias datos = new ConjuntoInstancias300();
-//                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+//                    ConjuntoInstancias datos = new ConjuntoInstancias300();
+//                    ConjuntoInstancias datos = new ConjuntoInstancias100();
+                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
 //                        ConjuntoInstancias datos = new ConjuntoInstanciasPruebas();
                     nombreArchivoResultado = "";
                     listaInstanc = datos.getConjuntoInstancias();
@@ -213,7 +230,7 @@ public class MainMochilaCuadratica {
             mensaje = instancia.getFamilia();
             // dimension de los puntos;
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-            instanciasAlgoritmo instanciasAlgot = lpc.obtenerParametrosInstancias(instancia);
+            InstanciaAlgoritmo instanciasAlgot = lpc.obtenerParametrosInstancias(instancia);
             if (instanciasAlgot == null) {
                 if ("v".equals(tsalida) || "b".equals(tsalida)) {
                     imprimir.imprimir("#========== No se encontro el archivo (" + nombreArchivoCompleto + ")\n");
@@ -252,7 +269,7 @@ public class MainMochilaCuadratica {
             hilo.start();
         }
         String nombreIns = "#";
-        instanciasAlgoritmo parametros = null;
+        InstanciaAlgoritmo parametros = null;
         ResultadoGrupo resultadoGrupo;
         // Imprimir resultados y estadisticas
         for (HiloEjecucion hilo : hilos) {
@@ -281,7 +298,7 @@ public class MainMochilaCuadratica {
                 if (mejorGlobal == null || mejorGlobal.compareTo(individuo) < 0) {
                     mejorGlobal = individuo;
                 }
-                // comprobar calidad de la actua instancia y actualizar los archivos de instanciasAlgoritmo
+                // comprobar calidad de la actua instancia y actualizar los archivos de InstanciaAlgoritmo
                 {
                     if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                         parametros.setMaxGlobal(individuo.getCalidad());
@@ -330,12 +347,12 @@ public class MainMochilaCuadratica {
 
     static class HiloEjecucion extends Thread {
 
-        private final instanciasAlgoritmo parametros;
+        private final InstanciaAlgoritmo parametros;
         private final EjecutarGrupo ejecutor;
         private ResultadoGrupo resultadoGrupo;
         private final String mensaje;
 
-        public HiloEjecucion(instanciasAlgoritmo parametros, EjecutarGrupo ejecutor, String mensaje) {
+        public HiloEjecucion(InstanciaAlgoritmo parametros, EjecutarGrupo ejecutor, String mensaje) {
             this.parametros = parametros;
             this.ejecutor = ejecutor;
             this.mensaje = mensaje;

@@ -32,14 +32,14 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
     public IHEA_AV(FuncionMochilaIHEA funcion) {
         super(funcion);
     }
-    
+
     @Override
     public void inicializar() {
-        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
         setL(20);
         setMt(15);
+        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     protected IndividuoIHEA perturbacion(IndividuoIHEA individuo, int iteraciones) {
         individuo = individuo.clone();
@@ -53,13 +53,16 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
         int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
 
         int t = Math.min(getMt(), I1.size() - nf);
-        int s = Math.max(getMs(), t);
+        t = Math.max(t, 0);
+        int s = Math.min(getMs(), t);
 
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
-        for (int i = 0; i < s; i++) {
-            posaleatoria = Aleatorio.nextInt(listaIndices.size());
-            individuo.set(listaIndices.remove(posaleatoria), 0);
+        if (!listaIndices.isEmpty()) {
+            for (int i = 0; listaIndices.size() > 0 && i < s; i++) {
+                posaleatoria = Aleatorio.nextInt(listaIndices.size());
+                individuo.set(listaIndices.remove(posaleatoria), 0);
+            }
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;

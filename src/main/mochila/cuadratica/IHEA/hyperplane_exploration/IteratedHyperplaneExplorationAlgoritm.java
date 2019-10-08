@@ -21,7 +21,7 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
-import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
+import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -44,7 +44,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
     protected int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
     protected int contadorFijosFalsosPositivos;
-    protected instanciasAlgoritmo instancias;
+    protected InstanciaAlgoritmo instancias;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -69,28 +69,44 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             String[] arrayParametros = getCadenaParametros().split(",");
             for (String arrayParametro : arrayParametros) {
                 String[] unParametro = arrayParametro.split("=");
-                actualizarVarible(unParametro[0], Integer.parseInt(unParametro[1]));
+                actualizarVarible(unParametro[0], unParametro[1]);
 //                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
             }
         }
     }
 
-    public void actualizarVarible(String nombre, int valor) {
+    public void actualizarVarible(String nombre, String valor) {
+        
         switch (nombre) {
             case "L":
-                L = valor;
+                try {  
+                    L = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "mt":
-                mt = valor;
+                try {  
+                    mt = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "ms":
-                ms = valor;
+                try {  
+                    ms = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "rcl":
-                rcl = valor;
+                try {  
+                    rcl = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
             case "idesc":
-                intentosDescent = valor;
+                try {  
+                    intentosDescent = Integer.parseInt(valor);
+                } catch(NumberFormatException e){  
+                }  
                 break;
         }
     }
@@ -103,7 +119,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             System.out.println("peligro" + getNombre() + " no inicializado");
             return null;
         }
-        List listaResult = iterateHiperplaneExploration(L, rcl, maxIteraciones);
+        List listaResult = iterateHiperplaneExploration(L, getRcl(), maxIteraciones);
 //        System.out.println("===> tiempo: " + tiempototal / contadortabu);
 //        System.out.println("contador intercambios tabu: " + contadorIntercambios);
         return listaResult;
@@ -617,11 +633,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.contadortabu = contadortabu;
     }
 
-    public void setInstancias(instanciasAlgoritmo instancias) {
+    public void setInstancias(InstanciaAlgoritmo instancias) {
         this.instancias = instancias;
     }
 
-    public instanciasAlgoritmo getInstancias() {
+    public InstanciaAlgoritmo getInstancias() {
         return instancias;
     }
 }
