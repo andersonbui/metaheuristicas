@@ -20,6 +20,7 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
@@ -38,11 +39,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private int mt;
     int ms;
     private int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
-    int tiempototal; // tiempo total que toma la busqueda tabu
+    protected int tiempototal; // tiempo total que toma la busqueda tabu
     private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
-    int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    private instanciasAlgoritmo instancias;
+    protected int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
+    protected int contadorFijosFalsosPositivos;
+    protected instanciasAlgoritmo instancias;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -50,6 +52,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     public void inicializar() {
+        contadorFijosFalsosPositivos = 0;
         inicializado = true;
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
@@ -145,7 +148,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          */
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
-
+        contadorFijosFalsosPositivos = 0;
         for (; iteraciones < maxIter; iteraciones++) {
 //            boolean suficiente = funcion.suficiente(x_mejorGlobal);
 //            if (suficiente) {
@@ -165,8 +168,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
-//                int cuantosNoEstan = ComparacionIdeal.cuentaValorEnIdeal(instanciasAlgoritmo, variablesFijas,0);
-
+                int amalos = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesFijas, 0, "cuanto son ceros");
+                if(amalos > 0){
+                    contadorFijosFalsosPositivos += amalos;
+                }
                 // linea 17: run tabu serach engine (L,x',xb)
                 long tiempo_inicial = System.currentTimeMillis();
                 contadortabu++;
@@ -206,8 +211,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
+//        System.out.println(""+instancias.getNombreInstancia()+ ":" + contadorFijosFalsosPositivos);
+
         return recorrido;
-    }
+    }   
 
     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
@@ -219,18 +226,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
      * @return
      */
     public List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
-        // dimension de individuo
-        int dimX = dimensionHyp;
-        // tamaño de la mochila
-        int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-//        System.out.print(nf+" - ");
-//        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
-//        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
-//        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
-//        System.out.println("- "+nf);
-//        nf = (int)(1.20*(lowerb + (ub - lowerb) / 2.0)); //1000
+        int nf = getNumeroNF(individuo);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
@@ -363,6 +360,24 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         return individuo.evaluar();
     }
 
+    public int getNumeroNF(IndividuoIHEA individuo) {
+        // dimension de individuo
+        int dimX = dimensionHiperplano(individuo);
+        // tamaño de la mochila
+        int n = individuo.getDimension();
+        // calcular numero de variables fijas
+//        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+        
+        int nf = (int) (0.99 * ((getUb() + getLb()) / 2.0) * (dimX *1.0/ getUb())); //300
+//        System.out.print(nf+" - ");
+//        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
+//        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
+//        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
+//        System.out.println("- "+nf);
+//        nf = (int)(1.20*(lowerb + (ub - lowerb) / 2.0)); //1000
+        return nf;
+    }
+    
     /**
      *
      * @param individuo
@@ -378,7 +393,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+        int nf = getNumeroNF(individuo);
 
         int t = Math.min(getMt(), I1.size() - nf);
         int s = Math.min(getMs(), t);

@@ -197,6 +197,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     public AlgoritmoMetaheuristico obtener() {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         IteratedHyperplaneExplorationAlgoritm_A algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setSaltar(true);
                         algotIHEA.setInstancias(instancias);

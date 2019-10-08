@@ -54,6 +54,7 @@ public class ComparacionIdeal {
     public static class DatoCalculo {
 
         private double[] valores;
+        private String nombre;
 
         public DatoCalculo() {
             valores = new double[tiposEstadist.length];
@@ -63,9 +64,15 @@ public class ComparacionIdeal {
             this.valores = valores;
         }
 
+        public DatoCalculo(String nombre, double[] valores) {
+            this.valores = valores;
+            this.nombre = nombre;
+        }
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
+            sb.append(String.format("%s", nombre)).append("|");
             for (int i = 0; i < valores.length; i++) {
                 sb.append(String.format("%" + formato + "f|", valores[i]));
             }
@@ -115,7 +122,7 @@ public class ComparacionIdeal {
             }
         }
         if (tiposEstadist == null) {
-            tiposEstadist = new TipoEstadistica[15];
+            tiposEstadist = new TipoEstadistica[21];
         }
         int a = -1;
         int cantidadUnosAlcanzado = indiAlcanzado.parecido(indiIdeal);
@@ -127,6 +134,7 @@ public class ComparacionIdeal {
 
 //        System.out.println("----------------------------------");
 //        System.out.println("nombre archivo: " + parametros.getNombreInstancia());
+        String nombre = parametros.getNombreInstancia();
         //
         a++;
         tiposEstadist[a] = new TipoEstadistica();
@@ -225,7 +233,86 @@ public class ComparacionIdeal {
         double porc_csc_lb = (cantidadSeleccionadosConsecutivos) / (double) lowerB;
         valores[a] = porc_csc_lb;
 
-        DatoCalculo calculo = new DatoCalculo(valores);
+        // promedio de pesos
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "Promedio pesos";
+        tiposEstadist[a].corto = "PromPeso";
+        tiposEstadist[a].estadisticas = false;
+        List<Double> listaPesos = new ArrayList();
+        double[] vecPesos = parametros.getVectorPesos();
+        for (int k = 0; k < vecPesos.length; k++) {
+            listaPesos.add(vecPesos[k]);
+        }
+        double promedio = Utilidades.promedio(listaPesos);
+        valores[a] = promedio;
+
+        // desviacion pesos 
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "Desviacion pesos";
+        tiposEstadist[a].corto = "DesvPes";
+        tiposEstadist[a].estadisticas = false;
+        double desvi = Utilidades.desviacion(listaPesos, promedio);
+        valores[a] = desvi;
+
+        // suma de pesos
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "Suma pesos";
+        tiposEstadist[a].corto = "SumPes";
+        tiposEstadist[a].estadisticas = false;
+        double suma = Utilidades.suma(listaPesos);
+        valores[a] = suma;
+
+        // capacidad
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "capacidad";
+        tiposEstadist[a].corto = "capa";
+        tiposEstadist[a].estadisticas = false;
+        valores[a] = parametros.getCapacidad();
+
+        // promedio de calidades
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "Promedio pesos";
+        tiposEstadist[a].corto = "PrmCal";
+        tiposEstadist[a].estadisticas = false;
+        List<Double> listaCalidad = new ArrayList();
+        double[][] vecCalidades = parametros.getMatrizBeneficios();
+        for (int k = 0; k < vecCalidades.length; k++) {
+            for (int j = k; j < vecCalidades.length; j++) {
+                listaCalidad.add(vecCalidades[j][k]);
+            }
+        }
+        double promedioCal = Utilidades.promedio(listaCalidad);
+        valores[a] = promedioCal;
+        
+        // promedio de densidades
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "Promedio densidades";
+        tiposEstadist[a].corto = "PrmDensi";
+        tiposEstadist[a].estadisticas = false;
+        List<Double> listadensidades = new ArrayList();
+        double[] vectDensidades = new double[vecCalidades.length];
+        for (int k = 0; k < vecCalidades.length; k++) {
+            vectDensidades[k] = 0;
+            for (int j = 0; j < vecCalidades.length; j++) {
+                listadensidades.add(vecCalidades[j][k]);
+                if (j < k) {
+                    vectDensidades[k] += vecCalidades[j][k];
+                } else if (j > k) {
+                    vectDensidades[k] += vecCalidades[k][j];
+                }
+            }
+            listadensidades.add(vecPesos[k]/vectDensidades[k]);
+        }
+        double promedioDensi = Utilidades.promedio(listadensidades);
+        valores[a] = promedioDensi;
+        
+        DatoCalculo calculo = new DatoCalculo(nombre, valores);
         //System.out.println(calculo);
 
         Datos datos = new Datos(indiAlcanzado.getCalidad(), indiIdeal.getCalidad(),
@@ -256,11 +343,12 @@ public class ComparacionIdeal {
      * @param indices indices de los valores en los cuales se busca el valor
      * @param valor valor el cual se cuenta cuanta coincidencias existe en
      * individuo ideal
+     * @param mensaje
      * @return
      */
     public static int cuentaValorEnIdeal(instanciasAlgoritmo parametros, List<Integer> indices, int valor, String mensaje) {
         int contador = 0;
-        if (indices == null || indices.size() == 0) {
+        if (indices == null || indices.isEmpty()) {
             return 0;
         }
         int[] valsIdeal = parametros.getVectorIdeal();
@@ -276,7 +364,7 @@ public class ComparacionIdeal {
         }
 
         if (contador > 0) {
-            System.out.println("cuantos[" + valor + "] " + ": " + contador + " - " + mensaje);
+//            System.out.println("cuantos[" + valor + "] " + ": " + contador + " - " + mensaje);
 
         }
         return contador;

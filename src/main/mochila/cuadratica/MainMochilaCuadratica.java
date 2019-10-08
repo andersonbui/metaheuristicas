@@ -47,8 +47,8 @@ public class MainMochilaCuadratica {
         if (args.length == 0) {
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
-            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=5, i_encontrarM=5"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2","-g", "i_interc=15, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=5, i_encontrarM=5"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=15, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M2","-g", "i_interc=5, i_encontrarM=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M3","-g", "i_interc=5, i_encontrarM=5"});
@@ -60,6 +60,9 @@ public class MainMochilaCuadratica {
 //            args = new String[]{"--estandar", " < /home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_1.txt"};
 //            args = new String[]{"-I","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/r_10_100_13.txt"};
 //            listaVectArgumentas.add(new String[]{"-I","-r","IHEA2","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-I","-r","IHEA","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-I","-r","SGVNS", "rcl=30,L=20,mi=65,ms=4,mt=10","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0615F_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-I","-r","IHEA_M1", "rcl=30,L=20,mi=65,ms=4,mt=10","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0615F_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-v","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0626H_0.txt"});
         } else {
             listaVectArgumentas.add(args);
@@ -71,7 +74,7 @@ public class MainMochilaCuadratica {
     }
 
     public static void ejecucion(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 5;
+        int numIntentos = 1;
         int indice = 0;
 //        boolean repetir = true;
         boolean ayuda = true;
@@ -82,9 +85,10 @@ public class MainMochilaCuadratica {
             switch (opcion) {
                 case "-e":
                 case "--examples":
-//                    ConjuntoInstancias1000 datos = new ConjuntoInstancias1000();
-                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
-//                        ConjuntoInstanciasPruebas datos = new ConjuntoInstanciasPruebas();
+//                    ConjuntoInstancias datos = new ConjuntoInstancias1000();
+                    ConjuntoInstancias datos = new ConjuntoInstancias300();
+//                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+//                        ConjuntoInstancias datos = new ConjuntoInstanciasPruebas();
                     nombreArchivoResultado = "";
                     listaInstanc = datos.getConjuntoInstancias();
                     ayuda = false;
@@ -262,7 +266,7 @@ public class MainMochilaCuadratica {
                 if (!nombreIns.equals(resultadoGrupo.getInstancia())) {
                     nombreIns = resultadoGrupo.getInstancia();
                     if ("v".equals(tsalida) || "b".equals(tsalida)) {
-                        imprimir.imprimir("#====================================================================================================(" + parametros.getMaxGlobal() + ")\n");
+//                        imprimir.imprimir("#====================================================================================================(" + parametros.getMaxGlobal() + ")\n");
                     }
                 }
                 listResultadosGrupos.add(resultadoGrupo);
