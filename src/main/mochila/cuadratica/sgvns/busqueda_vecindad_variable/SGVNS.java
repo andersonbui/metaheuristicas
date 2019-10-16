@@ -66,7 +66,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
             String[] arrayParametros = getCadenaParametros().split(",");
             for (String arrayParametro : arrayParametros) {
                 String[] unParametro = arrayParametro.split("=");
-                actualizarVarible(unParametro[0], Integer.parseInt(unParametro[1]));
+                actualizarVarible(unParametro[0], (unParametro[1]));
 //                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
             }
         }
@@ -373,14 +373,22 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
         return y;
     }
 
-    public void actualizarVarible(String nombre, int valor) {
+    public void actualizarVarible(String nombre, String valor) {
         switch (nombre) {
             case "i_interc":
-                intentosIntercambio = valor;
+                try {
+                    intentosIntercambio = Integer.parseInt(valor);
+                } catch (NumberFormatException e) {
+                }
                 break;
             case "i_encontrarM":
-                intentosEncontrarMejor = valor;
+                try {
+                    intentosEncontrarMejor = Integer.parseInt(valor);
+                } catch (NumberFormatException e) {
+                }
+
                 break;
         }
     }
+
 }

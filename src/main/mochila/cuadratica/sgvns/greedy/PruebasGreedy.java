@@ -30,7 +30,7 @@ import main.mochila.cuadratica.sgvns.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.JSGVNS;
 import main.mochila.cuadratica.sgvns.SGVNS;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
-import main.mochila.cuadratica.utilidades.instanciasAlgoritmo;
+import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 
 /**
  *
@@ -68,7 +68,7 @@ public class PruebasGreedy {
                 System.out.println("Nombre archivo: " + nombreArchivo);
                 // dimension de los puntos;
                 LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
-                instanciasAlgoritmo parametros = lpc.obtenerParametrosInstancias(instancia);
+                InstanciaAlgoritmo parametros = lpc.obtenerParametrosInstancias(instancia);
                 if (parametros == null) {
                     System.out.println("no se pudo obtener el archivo: " + nombreArchivo);
                     continue;

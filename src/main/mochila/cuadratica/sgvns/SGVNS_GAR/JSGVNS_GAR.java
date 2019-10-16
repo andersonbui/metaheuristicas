@@ -14,48 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.sgvns;
+package main.mochila.cuadratica.sgvns.SGVNS_GAR;
 
+import main.mochila.cuadratica.sgvns.SGVNS_GAR.FuncionMochilaVNS_GAR;
+import main.mochila.cuadratica.sgvns.*;
 import java.util.ArrayList;
 import java.util.List;
-import main.Item;
 import main.mochila.cuadratica.sgvns.greedy.Greedy;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
-import main.utilidades.Utilidades;
 import metaheuristicas.Aleatorio;
 
 /**
  *
  * @author Juan Diaz PC
  */
-public class JSGVNS extends SGVNS {
+public class JSGVNS_GAR extends JSGVNS {
 
-    /**
-     * lower bound: minimo numero de elementos que llenarian la mochila sin que
-     * haya espacio para uno mas.
-     */
-    protected int lb;
-    /**
-     * upper bound: maximo número de elementos que llenarian la mochila sin que
-     * haya espacio para uno mas.
-     */
-    protected int ub;
-    protected int cont_JSGVNS = 0;
-    protected int cont_SacudidaJ = 0;
-    protected int cont_Mejoro = 0;
-    //tamaño lista restringida de candidatos
-    protected int rcl = 0;
-    
+    public static enum OpcionVar {
+        SACUDIDA, SEQ_VND
+    };
 
-    public JSGVNS(FuncionJSGVNS funcion, int maxIteraciones) {
+    // porcentaje de iteraciones | central | no central 
+    String sacud = "0.0:1.0:1.0";
+    String seqV = "0.0:1.0:1.0";
+
+    public JSGVNS_GAR(FuncionMochilaVNS_GAR funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
-        lb = -1;
-        ub = -1;
-        lb = obtenerLowerBound();
-        ub = obtenerUpperBound();
-        nombre = "JSGVNS";
-        rcl = 400;
     }
 
     /**
@@ -88,9 +73,11 @@ public class JSGVNS extends SGVNS {
         //Lista para graficar
         List<IndividuoVNS> recorrido = new ArrayList();
         //Encuentra una solucion inicial y
-        IndividuoVNS y = solucionInicial();
-//        IndividuoVNS individuo = funcion.generarIndividuo();
-//        IndividuoVNS y = GreedyRandomizedConstruction(individuo, rcl);
+        IndividuoVNS indi = new IndividuoVNS_GAR(getFuncion());
+        getFuncion().setPorcentajeCentral(1);
+        getFuncion().setPorcentajeNoCentral(1);
+//        IndividuoVNS y = solucionInicial();
+        IndividuoVNS y = GreedyRandomizedConstruction(indi, rcl);
         //Almacena la solucion inicial como best
         IndividuoVNS y_best = y;
         //termina cuando encuentra el optimo
@@ -112,14 +99,21 @@ public class JSGVNS extends SGVNS {
                 //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
                 //MODIFICACION trabajar la sacudida con el vecindario 1
 //                y_p = sacudidaOriginal(y, 2, h);
-                y_p = sacudidaModifacadaMejorActual(y, 1, h);
-//                y_p = sacudidaModificadaMejorInicial(y, 1, h);
+                variable(OpcionVar.SACUDIDA, iteraciones, maxIteraciones);
+                y_p = sacudida(y, 1, h);
+                //RESTABLECER
+                getFuncion().setPorcentajeCentral(1);
+                getFuncion().setPorcentajeNoCentral(1);
 //                variablesFijasUpperb = determinarVariablesFijasUpperBound(y_p.getDimension(), y_p, ub);
 //                construirProblemaRestringidoReducido(variablesFijasUpperb);
 //              getFuncion().reiniciarVijarVariablesUpperb();
 
 //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
+                variable(OpcionVar.SEQ_VND, iteraciones, maxIteraciones);
                 y_p2 = seq_VND(y_p);
+                //RESTABLECER
+                getFuncion().setPorcentajeCentral(1);
+                getFuncion().setPorcentajeNoCentral(1);
                 if (y_p2.compareTo(y_best) > 0) {
                     y_best = y_p2;
                 }
@@ -143,9 +137,60 @@ public class JSGVNS extends SGVNS {
         return recorrido;
     }
 
+    @Override
+    public FuncionMochilaVNS_GAR getFuncion() {
+        return (FuncionMochilaVNS_GAR) funcion;
+    }
+
+    public void variable(OpcionVar variable, int interaciones, int maxIter) {
+        String[] cadenas = null;
+        switch (variable) {
+            case SACUDIDA:
+                cadenas = sacud.split(":");
+                break;
+            case SEQ_VND:
+                cadenas = seqV.split(":");
+                break;
+            default:
+                    ;
+        }
+        if (cadenas != null) {
+            try {
+                double porcentajeInter = Double.parseDouble(cadenas[0]);
+                double central = Double.parseDouble(cadenas[1]);
+                double noCentral = Double.parseDouble(cadenas[2]);
+                if (iteraciones == maxIter * porcentajeInter) {
+                    getFuncion().setPorcentajeCentral(central);
+                    getFuncion().setPorcentajeNoCentral(noCentral);
+                }
+            } catch (NumberFormatException e) {
+
+            }
+        }
+    }
+//    @Override
+//    public void actualizarVarible(String nombre, int valor) {
+//        super.actualizarVarible(nombre, valor);
+//        switch (nombre) {
+//            case "TABU":
+//                tabu = valor;
+//                break;
+//            case "PERT":
+//                pert = valor;
+//                break;
+//            case "CONS":
+//                cons = valor;
+//                break;
+//            case "DESC":
+//                desc = valor;
+//                break;
+//        }
+//    }
+
+
     /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
-    private IndividuoVNS sacudidaModifacadaMejorActual(IndividuoVNS s_inicial, int vecindario, int intentos) {
+    private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
         boolean mejoro;
 
@@ -158,9 +203,11 @@ public class JSGVNS extends SGVNS {
                 aux = cambio(s_inicial);
             }
             //MODIFICACION
+            cont_SacudidaJ++;
             mejoro = aux.compareTo(s_inicial) > 0;
             s_inicial = aux;
             if (mejoro) {
+                cont_Mejoro++;
                 break;
             }
         } while (intentos-- >= 0);
@@ -185,30 +232,6 @@ public class JSGVNS extends SGVNS {
 
         return s_inicial;
     }
-    /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
-    en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
-    private IndividuoVNS sacudidaModificadaMejorInicial(IndividuoVNS s_inicial, int vecindario, int intentos) {
-        IndividuoVNS aux;
-        boolean mejoro;
-        IndividuoVNS s_inicial_best;
-        s_inicial_best = s_inicial.clone();
-        intentos = Math.min(intentos, s_inicial_best.elementosSeleccionados().size() - 1);
-        do {
-            if (vecindario == 1) {
-                aux = intercambio(s_inicial_best);
-            } else {
-                aux = cambio(s_inicial_best);
-            }
-            //MODIFICACION
-            mejoro = aux.compareTo(s_inicial) > 0;
-            s_inicial_best = aux;
-            if (mejoro) {
-                break;
-            }
-        } while (intentos-- >= 0);
-
-        return s_inicial_best;
-    }
 
     /**
      * Ejecuta un algoritmo gredy aleatorizado a partir de un individuo y el
@@ -222,11 +245,10 @@ public class JSGVNS extends SGVNS {
         return (new Greedy(rcl)).ejecutarGreedy(individuo);
     }
 
-    @Override
-    public FuncionJSGVNS getFuncion() {
-        return (FuncionJSGVNS) funcion;
-    }
-
+//    @Override
+//    public FuncionJSGVNS getFuncion() {
+//        return (FuncionJSGVNS) funcion;
+//    }
     /**
      * obtiene el lower bound
      *
@@ -327,10 +349,4 @@ public class JSGVNS extends SGVNS {
         individuo.set(listaI0.get(indice), 1);
         return individuo;
     }
-//     //Posicion de la oracion en el documento
-//            for (int i = 0; i <= individuo.; i++)
-//            {
-//                DatosDeFrase datosFrase = ListaDeFrases[i];
-//                POS = POS + (Math.Sqrt(1 / datosFrase.PosicionEnDocumento));
-//            }  
 }

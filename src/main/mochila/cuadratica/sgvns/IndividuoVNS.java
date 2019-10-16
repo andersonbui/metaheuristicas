@@ -24,7 +24,7 @@ import main.mochila.cuadratica.IndividuoCuadratico;
  *
  * @author debian
  */
-public final class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
+public class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
 
     private List<Integer> I1;
     private List<Integer> I0;
@@ -40,6 +40,15 @@ public final class IndividuoVNS extends IndividuoCuadratico<FuncionSGVNS> {
 //        }
         InicializarI0I1();
     }
+
+    public double[] getVec_contribucion() {
+        return vec_contribucion;
+    }
+
+    public void setVec_contribucion(double[] vec_contribucion) {
+        this.vec_contribucion = vec_contribucion;
+    }
+    
 
     public IndividuoVNS(FuncionSGVNS funcion, double[] valores) {
         super(funcion);

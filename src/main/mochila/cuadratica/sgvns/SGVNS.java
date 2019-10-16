@@ -27,10 +27,11 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  */
 public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
-    double alpha;
+   public double alpha;
     int intentosEncontrarMejor;
     int intentosIntercambio; // intentos de busqueda de elementos aptos para realizar intercambio
-    int hMax;
+   public int hMax;
+   boolean inicializado;
 
     /**
      *
@@ -45,6 +46,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         intentosIntercambio = 15;
         intentosEncontrarMejor = 20;
         hMax = 5;
+        inicializado = false;
     }
 
     public SGVNS(FuncionSGVNS funcionSGVNS) {
@@ -93,6 +95,41 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         this.hMax = hMax;
         this.intentosIntercambio = intentosIntercambio;
         this.intentosEncontrarMejor = intentosEncontrarMejor;
+    }
+    
+    public void inicializar() {
+        inicializado = true;
+        alpha = 1.0 / 30.0;
+        nombre = "SGVNS";
+        intentosIntercambio = 15;
+        intentosEncontrarMejor = 20;
+        hMax = 5;
+
+        if (getCadenaParametros() != null) {
+            String[] arrayParametros = getCadenaParametros().split(",");
+            for (String arrayParametro : arrayParametros) {
+                String[] unParametro = arrayParametro.split("=");
+                actualizarVarible(unParametro[0], unParametro[1]);
+//                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
+            }
+        }
+    }
+    public void actualizarVarible(String nombre, String valor) {
+        switch (nombre) {
+            case "i_interc":
+                try {
+                    intentosIntercambio = Integer.parseInt(valor);
+                } catch (NumberFormatException e) {
+                }
+                break;
+            case "i_encontrarM":
+                try {
+                    intentosEncontrarMejor = Integer.parseInt(valor);
+                } catch (NumberFormatException e) {
+                }
+
+                break;
+        }
     }
 
     /**
