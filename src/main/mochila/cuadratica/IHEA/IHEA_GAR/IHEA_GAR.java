@@ -119,12 +119,9 @@ public class IHEA_GAR extends IHEA_M1 {
                 long tiempo_inicial = System.currentTimeMillis();
                 contadortabu++;
 
-                variable(OpcionVar.DESC, iteraciones, maxIter);
+                variable(OpcionVar.TABU, iteraciones, maxIter);
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
 
-                //RESTABLECER
-                getFuncion().setPorcentajeCentral(1);
-                getFuncion().setPorcentajeNoCentral(1);
 
                 long tiempo_final = System.currentTimeMillis();
                 tiempototal += (tiempo_final - tiempo_inicial);
@@ -144,6 +141,10 @@ public class IHEA_GAR extends IHEA_M1 {
                     // linea 24:
                     solucionEncontrada = false;
                 }
+                
+                //RESTABLECER
+                getFuncion().setPorcentajeCentral(1);
+                getFuncion().setPorcentajeNoCentral(1);
 //                recorrido.addElemento(x_mejorGlobal);
                 funcion.reiniciarVijarVariables();
             }
@@ -196,7 +197,7 @@ public class IHEA_GAR extends IHEA_M1 {
                 cadenas = desc.split(":");
                 break;
             default:
-                    ;
+                ;
         }
         if (cadenas != null) {
             try {

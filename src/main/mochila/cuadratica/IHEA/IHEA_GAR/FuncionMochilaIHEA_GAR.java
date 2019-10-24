@@ -16,7 +16,10 @@
  */
 package main.mochila.cuadratica.IHEA.IHEA_GAR;
 
+import java.util.ArrayList;
+import java.util.List;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.*;
+import main.utilidades.Utilidades;
 
 /**
  *
@@ -26,9 +29,19 @@ public class FuncionMochilaIHEA_GAR extends FuncionMochilaIHEA {
     
     private double porcentajeCentral = 1;
     private double porcentajeNoCentral = 1;
+    private double promedioPesos;
+    private double desviacionPesos;
 
     public FuncionMochilaIHEA_GAR(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+        List<Double> lpesos = new ArrayList();
+        
+        for (double peso : vectorPesos) {
+            lpesos.add(peso);
+        }
+        
+        promedioPesos = Utilidades.promedio(lpesos);
+        desviacionPesos = Utilidades.desviacion(lpesos,promedioPesos);
     }
 
     public double getPorcentajeCentral() {
@@ -53,4 +66,12 @@ public class FuncionMochilaIHEA_GAR extends FuncionMochilaIHEA {
         return nuevop;
     }
 
+    public double logitud(IndividuoIHEA_GAR indi) {
+        double longitud = 0;
+        for (int j = 0; j < indi.getValores().length; j++) {
+            double val = Math.exp((-indi.getFuncion().peso(j) - promedioPesos) / (desviacionPesos));
+            longitud += (1 - val) / (1 + val);
+        }
+        return longitud;
+    }
 }

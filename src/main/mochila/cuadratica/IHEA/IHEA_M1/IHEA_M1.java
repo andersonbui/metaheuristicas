@@ -83,10 +83,12 @@ public class IHEA_M1 extends IHEA_AV {
         return listaIndices;
     }
 
-
+    int contador_ignora_max = 10;
     @Override
     protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
 
+        double porcentaje_ignora = 0.0000000000000005; //0000000000000002
+        int contador_ignora = 0;
         // almacenamiento de valores tabu
         int[][] tabu;
         double vmin = -1;
@@ -163,17 +165,27 @@ public class IHEA_M1 extends IHEA_AV {
                 double vmax = funcion.getCapacidad() - x_aster.pesar();
 //                if (vmin >= 0 && !(frx <= fmin && vmax >= vmin)) {
                 if (vmin >= 0 && (frx > fmin || (frx == fmin && vmax < vmin))) {
-                    //if (vmin >= 0 && ((frx > fmin && vmax <= vmin) || (frx == fmin && vmax < vmin))) {
-                    // linea 24:
-                    iterMax = 0;
-                    if (!bueno) {
-                        list_RL.clear();
+                    double porcentaje = (1 - frx / fmin);
+                    if (porcentaje < porcentaje_ignora) {
+                        contador_ignora++;
+//                        System.out.println("porcentaje: " + contador_ignora);
                     }
-                    bueno = true;
-//                    fmin = rawFuncion(x);indice
-                    fmin = frx;
-                    x_aster = x.clone();
-                    // linea 25:
+                    if ((contador_ignora > contador_ignora_max && porcentaje < porcentaje_ignora)) {
+                        bueno = false;
+                        iterMax += 2;
+                    } else {
+                        //if (vmin >= 0 && ((frx > fmin && vmax <= vmin) || (frx == fmin && vmax < vmin))) {
+                        // linea 24:
+                        iterMax = 0;
+                        if (!bueno) {
+                            list_RL.clear();
+                        }
+                        bueno = true;
+    //                    fmin = rawFuncion(x);indice
+                        fmin = frx;
+                        x_aster = x.clone();
+                        // linea 25:
+                    }
                 } else {
                     bueno = false;
                     iterMax += 2;

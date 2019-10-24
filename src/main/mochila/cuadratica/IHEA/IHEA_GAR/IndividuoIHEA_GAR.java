@@ -81,13 +81,15 @@ public class IndividuoIHEA_GAR extends IndividuoIHEA {
     
    @Override
     public double evaluar() {
+//        double longitud = getFuncion().logitud(this);
+//        longitud = longitud / getFuncion().getDimension();
         double calidadCentral = 0;
         for (Integer integer : getI1()) {
             calidadCentral += getFuncion().beneficio(integer, integer);
         }
         double porcentajeCentral = getFuncion().getPorcentajeCentral();
         double porcentajeNoCentral = getFuncion().getPorcentajeNoCentral();
-        return (calidadCentral * porcentajeCentral) + ((calidad - calidadCentral) * (porcentajeNoCentral));
+        return ((calidadCentral * porcentajeCentral) + ((calidad - calidadCentral) * (porcentajeNoCentral)));
     }
 
     @Override
