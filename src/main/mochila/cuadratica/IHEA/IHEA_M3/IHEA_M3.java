@@ -37,42 +37,53 @@ public class IHEA_M3 extends IHEA_AV {
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
  
-        /**
-     * obtine los indices de todas las varibles seleccionadas que seran fijas
-     *
-     * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
-     * @param dimensionHyp
-     * @param individuo
-     * @param lowerb
-     * @return
-     */
-    @Override
-    public List<Integer> determinarVariablesFijas(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
-        // dimension de individuo
-        int dimX = dimensionHyp;  
-        // tamaño de la mochila
-        int n = individuo.getDimension();
-        // numero de variables fijas
-        int nf = 0;
+//        /**
+//     * obtine los indices de todas las varibles seleccionadas que seran fijas
+//     *
+//     * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
+//     * @param dimensionHyp
+//     * @param individuo
+//     * @param lowerb
+//     * @return
+//     */
+//    public List<Integer> determinarVariablesFijas2(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
+//        // dimension de individuo
+//        int dimX = dimensionHyp;  
+//        // tamaño de la mochila
+//        int n = individuo.getDimension();
+//        // numero de variables fijas
+//        int nf;
 //        nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-//        System.out.print(nf+" - ");
-//        nf = (int) (0.860 * (lowerb + (getUb() - lowerb) / 2.0)); //general
-        nf = (int)(1.08 * (lowerb + (getUb() - lowerb) / 2.0)); //300
-//        nf = (int) (0.99 * ((getUb() + lowerb) / 2.0) * (dimX *1.0/ getUb())); //300
-//        nf = (int)(0.96*(lowerb + (getUb() - lowerb) / 2.0)); //100
-//        System.out.println("- "+nf);
-//        nf = (int)(1.20*(lowerb + (getUb() - lowerb) / 2.0)); //1000
-        // items seleccionados
-        List<Integer> itemsSeleccionados = elementosDentro(individuo);
+////        System.out.print(nf+" - ");
+////        nf = (int) (0.860 * (lowerb + (getUb() - lowerb) / 2.0)); //general
+////        nf = (int)(1.08 * (lowerb + (getUb() - lowerb) / 2.0)); //300
+////        nf = (int) (0.99 * ((getUb() + lowerb) / 2.0) * (dimX *1.0/ getUb())); //300
+////        nf = (int)(0.96*(lowerb + (getUb() - lowerb) / 2.0)); //100
+////        System.out.println("- "+nf);
+////        nf = (int)(1.20*(lowerb + (getUb() - lowerb) / 2.0)); //1000
+//        // items seleccionados
+//        List<Integer> itemsSeleccionados = elementosDentro(individuo);
+//
+//        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+//
+//        // vector de indices de variables fijas
+//        // obtener los primeros nf indices de los elementos más densos
+//        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+//        return listaIndices;
+//    }
 
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
-
-        // vector de indices de variables fijas
-        // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
-        return listaIndices;
-    }
-
+//    @Override
+//    public int getNumeroNF(IndividuoIHEA individuo) {
+//        // dimension de individuo
+//        int dimX = dimensionHiperplano(individuo);
+//        // tamaño de la mochila
+//        int n = individuo.getDimension();
+//        // calcular numero de variables fijas
+////        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+//        int nf = (int)(1.08 * (getLb() + (getUb() - getLb()) / 2.0)); //300
+//        
+//        return nf;
+//    }
 
 
 }

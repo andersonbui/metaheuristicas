@@ -227,13 +227,13 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
-//        System.out.println(""+instancias.getNombreInstancia()+ ":" + contadorFijosFalsosPositivos);
+        System.out.println(""+instancias.getNombreInstancia()+ ":" + contadorFijosFalsosPositivos);
 
         return recorrido;
     }   
 
     /**
-     * obtine los indices de todas las varibles seleccionadas que seran fijas
+     * Obtiene los indices de todas las varibles seleccionadas que seran fijas
      *
      * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
      * @param dimensionHyp
@@ -247,11 +247,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
+        // obtener los primeros nf indices de los elementos más densos
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
 
-        // vector de indices de variables fijas
-        // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
         return listaIndices;
     }
 
@@ -382,15 +380,8 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // tamaño de la mochila
         int n = individuo.getDimension();
         // calcular numero de variables fijas
-//        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
         
-        int nf = (int) (0.99 * ((getUb() + getLb()) / 2.0) * (dimX *1.0/ getUb())); //300
-//        System.out.print(nf+" - ");
-//        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
-//        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
-//        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
-//        System.out.println("- "+nf);
-//        nf = (int)(1.20*(lowerb + (ub - lowerb) / 2.0)); //1000
         return nf;
     }
     

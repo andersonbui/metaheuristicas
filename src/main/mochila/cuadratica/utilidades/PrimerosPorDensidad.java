@@ -46,18 +46,26 @@ public class PrimerosPorDensidad {
         }
         return LRC;
     }
-
-    public List<Item> primeros2(List<Item> listaItems, int n, boolean minimo) {
+    
+    /**
+     * Obtinene los primeros n elementos de listaItems ordenados deacuerdo a "desc". 
+     * desc (true: ascendente, False: descendente)
+     * @param listaItems lista de origen de elementos
+     * @param n cantidad de elementos a selecionar
+     * @param desc orden de ordenamiento de lista
+     * @return 
+     */
+    public List<Item> primeros2(final List<Item> listaItems, int n, boolean desc) {
         List<Item> result = new ArrayList();
         int indice;
         List listaObj = result;
-        if(n<0){
+        if(n < 0){
            throw  new IllegalArgumentException("n debe ser mayor que 0.");
         }
         int tamListaItems = listaItems.size();
         int tamanio = Math.min(n, tamListaItems);
         for (Item item : listaItems) {
-            indice = Utilidades.indiceOrdenadamente(listaObj, item, minimo, tamanio);
+            indice = Utilidades.indiceOrdenadamente(listaObj, item, desc, tamanio);
 //            indice = Utilidades.indiceOrdenadamente(listaObj, item, minimo);
             if (indice >= 0) {
                 listaObj.add(indice, item);
@@ -87,7 +95,7 @@ public class PrimerosPorDensidad {
         return listaResult;
     }
 
-    public List<Item> primeros(List<Item> listaIndices, int n, boolean minimo) {
+    private List<Item> primeros(List<Item> listaIndices, int n, boolean minimo) {
         listaIndices = new ArrayList<>(listaIndices);
         List<Item> resultado = new ArrayList();
 //        ascendente = !ascendente;
@@ -95,6 +103,7 @@ public class PrimerosPorDensidad {
         Item buscado;
         Item actual;
         int posicionGuardada = 0;
+        
         for (int i = 0; i < numero; i++) {
             buscado = null;
             for (int k = 0; k < listaIndices.size(); k++) {
@@ -112,6 +121,13 @@ public class PrimerosPorDensidad {
         return resultado;
     }
 
+//    public List<Item> obtenerPrimerosAsc(List<Item> listaIndices, int n) {
+//        return primeros(listaIndices,  n, true);
+//        return primeros1(listaIndices,  n, true);
+//        return primeros2(listaIndices,  n, true);
+//        return primeros3(listaIndices,  n, true);
+//    }
+    
     /**
      * obtiene los n primeros indices de los items de mayor(minimo=true) o
      * menor(minimo=false) densidad (aporte/peso) de los elementos
@@ -124,8 +140,8 @@ public class PrimerosPorDensidad {
      * @param minimo
      * @return
      */
-    public List<Integer> primerosPorDensidad2(List<Integer> listaIndices, IndividuoCuadratico mochila, int n, boolean minimo) {
-        listaIndices = new ArrayList(listaIndices);
+    public List<Integer> primerosPorDensidad2(final List<Integer> listaIndices, IndividuoCuadratico mochila, int n, boolean minimo) {
+//        listaIndices = new ArrayList(listaIndices);
         List<Integer> resultado = new ArrayList();
 
         // almacen de todas las densidades
@@ -133,7 +149,7 @@ public class PrimerosPorDensidad {
 
         FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) mochila.getFuncion();
         // calcular densidades
-        for (Integer indice : listaIndices) {
+        for (int indice : listaIndices) {
             densidades.add(new Item(indice, funcion.densidad(indice, mochila)));
         }
         List<Item> litems = primeros2(densidades, n, minimo);
