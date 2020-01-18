@@ -22,8 +22,8 @@ import java.util.Comparator;
 import java.util.List;
 import main.Item;
 import main.mochila.FuncionMochila;
-import main.mochila.cuadratica.sgvns.FuncionSGVNS;
-import main.mochila.cuadratica.sgvns.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import metaheuristicas.Aleatorio;
 

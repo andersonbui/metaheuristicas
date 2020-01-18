@@ -18,11 +18,11 @@ package main.mochila.cuadratica.sgvns;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.Item;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 import main.mochila.cuadratica.sgvns.greedy.Greedy;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
-import main.utilidades.Utilidades;
 import metaheuristicas.Aleatorio;
 
 /**
@@ -130,8 +130,8 @@ public class JSGVNS extends SGVNS {
                     h++;
                 }
 //                MODIFICACION
-                variablesFijasLowerb = determinarVariablesFijasLowerBound(y.getDimension(), y, lb);
-                construirProblemaRestringidoReducido(variablesFijasLowerb);
+//                variablesFijasLowerb = determinarVariablesFijasLowerBound(y.getDimension(), y, lb);
+//                construirProblemaRestringidoReducido(variablesFijasLowerb);
 
             }
             recorrido.add(y_best);
@@ -267,9 +267,9 @@ public class JSGVNS extends SGVNS {
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-//        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //MODIFICACION
-        int nf = (int) (lowerb);
+//        int nf = (int) (lowerb);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 

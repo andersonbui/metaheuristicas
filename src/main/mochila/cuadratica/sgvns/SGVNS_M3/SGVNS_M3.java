@@ -17,6 +17,7 @@
 package main.mochila.cuadratica.sgvns.SGVNS_M3;
 
 import java.util.List;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
@@ -28,8 +29,9 @@ import main.mochila.cuadratica.utilidades.UtilCuadratica;
  */
 public class SGVNS_M3 extends SGVNS {
 
-    public SGVNS_M3(FuncionMochilaSGVNS_M3 funcion, int maxIteraciones) {
+    public SGVNS_M3(FuncionSGVNS funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
+        this.setNombre("SGVNS_M3");
     }
      /**
      * lower bound: minimo numero de elementos que llenarian la mochila sin que
@@ -78,6 +80,33 @@ public class SGVNS_M3 extends SGVNS {
         }
         return ub;
     }
+    
+    
+    
+     /*Aplica la estructura de vecindario h a la s_inicial, un numero de intentos 
+    determinado (intentosEncontrarMejor) y va comparando si s_inicial mejora*/
+    @Override
+    protected IndividuoVNS encontrarMejor(IndividuoVNS s_inicial, int h) {
+        IndividuoVNS aux;
+        s_inicial = s_inicial.clone();
+        boolean mejoro;
+        int contador = intentosEncontrarMejor;
+        do {
+            if (h == 1) {
+                aux = intercambio(s_inicial);
+            } else {
+                aux = cambio(s_inicial);
+            }
+            mejoro = aux.compareTo(s_inicial) > 0;
+            if (mejoro) {
+                s_inicial = aux;
+                break;
+            }
+        } while (contador-- >= 0);
+        return s_inicial;
+    }
+    
+    
 
     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas

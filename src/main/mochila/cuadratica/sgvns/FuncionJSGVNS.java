@@ -19,6 +19,8 @@ package main.mochila.cuadratica.sgvns;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.IndividuoMochila;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 
 /**
  *

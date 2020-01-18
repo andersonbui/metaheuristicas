@@ -25,7 +25,6 @@ import main.ResultadoGrupo;
 import main.mochila.cuadratica.ConjuntoInstancias.*;
 import main.mochila.cuadratica.utilidades.ImprimirResultados;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
-//import main.mochila.cuadratica.utilidades.EstadisticasResultados;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;

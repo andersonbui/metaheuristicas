@@ -20,6 +20,7 @@ import main.mochila.cuadratica.sgvns.SGVNS_GAR.FuncionMochilaVNS_GAR;
 import main.mochila.cuadratica.sgvns.*;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.greedy.Greedy;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
@@ -98,9 +99,10 @@ public class JSGVNS_GAR extends JSGVNS {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
                 //MODIFICACION trabajar la sacudida con el vecindario 1
-//                y_p = sacudidaOriginal(y, 2, h);
                 variable(OpcionVar.SACUDIDA, iteraciones, maxIteraciones);
-                y_p = sacudida(y, 1, h);
+                y_p = sacudidaOriginal(y, 2, h);
+//                y_p = sacudidaModifacadaMejorActual(y, 1, h);
+//              y_p =sacudidaModificadaMejorInicial(y, 1, h);
                 //RESTABLECER
                 getFuncion().setPorcentajeCentral(1);
                 getFuncion().setPorcentajeNoCentral(1);
@@ -124,8 +126,8 @@ public class JSGVNS_GAR extends JSGVNS {
                     h++;
                 }
 //                MODIFICACION
-                variablesFijasLowerb = determinarVariablesFijasLowerBound(y.getDimension(), y, lb);
-                construirProblemaRestringidoReducido(variablesFijasLowerb);
+//                variablesFijasLowerb = determinarVariablesFijasLowerBound(y.getDimension(), y, lb);
+//                construirProblemaRestringidoReducido(variablesFijasLowerb);
 
             }
             recorrido.add(y_best);
@@ -187,10 +189,9 @@ public class JSGVNS_GAR extends JSGVNS {
 //        }
 //    }
 
-
     /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
-    private IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
+    private IndividuoVNS sacudidaModifacadaMejorActual(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
         boolean mejoro;
 
@@ -203,14 +204,12 @@ public class JSGVNS_GAR extends JSGVNS {
                 aux = cambio(s_inicial);
             }
             //MODIFICACION
-            cont_SacudidaJ++;
             mejoro = aux.compareTo(s_inicial) > 0;
             s_inicial = aux;
             if (mejoro) {
-                cont_Mejoro++;
                 break;
             }
-        } while (intentos-- >= 0);
+        } while (intentos-- > 0);
 
         return s_inicial;
     }
@@ -228,9 +227,34 @@ public class JSGVNS_GAR extends JSGVNS {
             } else {
                 aux = cambio(s_inicial);
             }
-        } while (intentos-- >= 0);
+        } while (intentos-- > 0);
 
         return s_inicial;
+    }
+    
+    /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
+    en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
+    private IndividuoVNS sacudidaModificadaMejorInicial(IndividuoVNS s_inicial, int vecindario, int intentos) {
+        IndividuoVNS aux;
+        boolean mejoro;
+        IndividuoVNS s_inicial_best;
+        s_inicial_best = s_inicial.clone();
+        intentos = Math.min(intentos, s_inicial_best.elementosSeleccionados().size() - 1);
+        do {
+            if (vecindario == 1) {
+                aux = intercambio(s_inicial_best);
+            } else {
+                aux = cambio(s_inicial_best);
+            }
+            //MODIFICACION
+            mejoro = aux.compareTo(s_inicial) > 0;
+            s_inicial_best = aux;
+            if (mejoro) {
+                break;
+            }
+        } while (intentos-- > 0);
+
+        return s_inicial_best;
     }
 
     /**

@@ -26,9 +26,9 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
  *
  * @author debian
  */
-public class FuncionSGVNS_Original extends FuncionMochilaCuadratica {
+public class FuncionSGVNS extends FuncionMochilaCuadratica {
 
-    public FuncionSGVNS_Original(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+    public FuncionSGVNS(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal, 1);
         nombre = "FSGVNS";
     }
