@@ -188,7 +188,9 @@ public class IteratedHyperplaneExplorationAlgoritm_M extends IteratedHyperplaneE
                             saltar = true;
                             break;
                         }
-                        setContadorIntercambios(getContadorIntercambios() + 1);
+                        if(getDepuracion() != null) {
+                            getDepuracion().setContadorIntercambios(getDepuracion().getContadorIntercambios() + 1);
+                        }
                     }
                 }
                 if (vmax >= 0) {

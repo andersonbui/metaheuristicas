@@ -64,7 +64,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
     }
 
     public GrupoAlgoritmosMochilaCuadratica() {
-        super("Mochila Cuadratica", 20);
+        super("Mochila Cuadratica", 30);
         this.instancias = null;
     }
 
@@ -199,7 +199,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                         algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
-                        algotIHEA.addNombre("IHEA_VA");
+//                        algotIHEA.addNombre("_VA");
 
                         return algotIHEA;
                     }

@@ -31,6 +31,7 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
 
     public IHEA_AV(FuncionMochilaIHEA funcion) {
         super(funcion);
+        setNombre("IHEA_VA");
     }
 
     @Override

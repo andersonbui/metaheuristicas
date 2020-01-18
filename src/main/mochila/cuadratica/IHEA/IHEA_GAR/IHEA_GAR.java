@@ -91,7 +91,7 @@ public class IHEA_GAR extends IHEA_M1 {
          */
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
-        contadorFijosFalsosPositivos = 0;
+        int contadorEvaluaciones = 0;
         for (; iteraciones < maxIter; iteraciones++) {
 //            boolean suficiente = funcion.suficiente(x_mejorGlobal);
 //            if (suficiente) {
@@ -111,20 +111,20 @@ public class IHEA_GAR extends IHEA_M1 {
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
-                int amalos = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesFijas, 0, "cuanto son ceros");
-                if (amalos > 0) {
-                    contadorFijosFalsosPositivos += amalos;
+                // pruebas
+                if (depuracion != null) {
+                    contadorEvaluaciones++;
+                    depuracion.evaluarVariablesFijas(instancias, variablesFijas, getFuncion().getDimension());
                 }
                 // linea 17: run TABU serach engine (L,x',xb)
-                long tiempo_inicial = System.currentTimeMillis();
-                contadortabu++;
+//                long tiempo_inicial = System.currentTimeMillis();
+//                contadortabu++;
 
                 variable(OpcionVar.TABU, iteraciones, maxIter);
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
 
-
-                long tiempo_final = System.currentTimeMillis();
-                tiempototal += (tiempo_final - tiempo_inicial);
+//                long tiempo_final = System.currentTimeMillis();
+//                tiempototal += (tiempo_final - tiempo_inicial);
                 // linea 18:
                 if (x_prima.compareTo(x_mejorRondaHyper) > 0) {
                     // linea 19:
@@ -171,7 +171,13 @@ public class IHEA_GAR extends IHEA_M1 {
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
-//        System.out.println(""+instancias.getNombreInstancia()+ ":" + contadorFijosFalsosPositivos);
+        
+        if (depuracion != null) {
+            double cfn = depuracion.getContadorFijosFalsosNegativos() / contadorEvaluaciones;
+            double cfp = depuracion.getContadorFijosFalsosPositivos() / contadorEvaluaciones;
+            depuracion.setContadorFijosFalsosNegativos(cfn);
+            depuracion.setContadorFijosFalsosPositivos(cfp);
+        }
 
         return recorrido;
     }

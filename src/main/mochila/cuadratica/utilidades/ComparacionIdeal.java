@@ -122,7 +122,7 @@ public class ComparacionIdeal {
             }
         }
         if (tiposEstadist == null) {
-            tiposEstadist = new TipoEstadistica[21];
+            tiposEstadist = new TipoEstadistica[22];
         }
         int a = -1;
         int cantidadUnosAlcanzado = indiAlcanzado.parecido(indiIdeal);
@@ -135,6 +135,12 @@ public class ComparacionIdeal {
 //        System.out.println("----------------------------------");
 //        System.out.println("nombre archivo: " + parametros.getNombreInstancia());
         String nombre = parametros.getNombreInstancia();
+        //
+        a++;
+        tiposEstadist[a] = new TipoEstadistica();
+        tiposEstadist[a].largo = "Cantidad unos";
+        tiposEstadist[a].corto = "#U";
+        valores[a] = indiAlcanzado.elementosSeleccionados().size();
         //
         a++;
         tiposEstadist[a] = new TipoEstadistica();

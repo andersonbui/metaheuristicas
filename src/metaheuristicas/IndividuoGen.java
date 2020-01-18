@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static main.mochila.cuadratica.MainMochilaCuadratica.formatear;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
 
 /**
  *
@@ -24,7 +24,6 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
      */
     public IndividuoGen(Funcion funcion) {
         this.funcion = funcion;
-//        calidad = funcion.isMaximizar() ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         valores = new double[funcion.getDimension()];
         generacion = 0;
     }
@@ -32,7 +31,6 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
     public IndividuoGen(Funcion funcion, double[] valores) {
         this.funcion = funcion;
         this.valores = valores;
-//        calidad = funcion.isMaximizar() ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         generacion = 0;
     }
 
@@ -112,9 +110,9 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
     public String toString() {
         String cadena = "";
         for (double valor : valores) {
-            cadena += formatear(valor).replace(',', '.') + " ";
+            cadena += UtilCuadratica.formatear(valor).replace(',', '.') + " ";
         }
-        cadena += formatear(calidad).replace(',', '.');
+        cadena += UtilCuadratica.formatear(calidad).replace(',', '.');
         return cadena;
     }
 

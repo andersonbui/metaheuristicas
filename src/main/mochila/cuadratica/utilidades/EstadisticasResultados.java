@@ -22,12 +22,7 @@ import java.util.List;
 import main.ResultadoAlgoritmo;
 import main.ResultadoGrupo;
 import main.mochila.cuadratica.IndividuoCuadratico;
-import main.mochila.cuadratica.MainMochilaCuadratica;
-import static main.mochila.cuadratica.MainMochilaCuadratica.armarResultados;
-import static main.mochila.cuadratica.MainMochilaCuadratica.formatear;
-import static main.mochila.cuadratica.MainMochilaCuadratica.formatearCabecera;
-import static main.mochila.cuadratica.MainMochilaCuadratica.tsalida;
-import static main.mochila.cuadratica.MainMochilaCuadratica.vDouble_vInt;
+import main.mochila.cuadratica.MochilaCuadraticaEjecucion;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.funcion.FuncionGen;
 
@@ -50,6 +45,7 @@ public class EstadisticasResultados {
     public void estadisticas(List<ResultadoGrupo> listaResutadosGrupo) {
 
         List<RegistroResultadoGlobal> listaRegistros = new ArrayList<>();
+        MochilaCuadraticaEjecucion mce = new MochilaCuadraticaEjecucion();
 
         InstanciaAlgoritmo parametros;
         IndividuoCuadratico mejorGlobal = null;
@@ -79,18 +75,18 @@ public class EstadisticasResultados {
 
                 AlgoritmoMetaheuristico algot = resultado.algoritmo;
                 FuncionGen funcion = algot.getFuncion();
-                String cad = formatearCabecera(
+                String cad = mce.formatearCabecera(
                         resultadoGrupo.getInstancia(),
                         funcion.getNombre(),
                         algot.getNombre(),
-                        formatear(funcion.getDimension()),
-                        formatear(resultado.promedioIteraciones),
-                        formatear((double) resultado.exitos),
-                        formatear(resultado.mejorRecorrido.getMejorIndividuo().getCalidad()),
-                        formatear(resultado.promedioCalidadOptimos),
-                        formatear(resultado.desviacionCalidadOptimos),
-                        formatear(resultado.tiempoTotal),
-                        formatear(resultado.promedionumEvaluaciones)
+                        UtilCuadratica.formatear(funcion.getDimension()),
+                        UtilCuadratica.formatear(resultado.promedioIteraciones),
+                        UtilCuadratica.formatear((double) resultado.exitos),
+                        UtilCuadratica.formatear(resultado.mejorRecorrido.getMejorIndividuo().getCalidad()),
+                        UtilCuadratica.formatear(resultado.promedioCalidadOptimos),
+                        UtilCuadratica.formatear(resultado.desviacionCalidadOptimos),
+                        UtilCuadratica.formatear(resultado.tiempoTotal),
+                        UtilCuadratica.formatear(resultado.promedionumEvaluaciones)
                 );
                 sb.append(cad);
             }
@@ -101,8 +97,8 @@ public class EstadisticasResultados {
             parametros = resultadoGrupo.getParametros();
             LecturaParametrosCuadratica lpc = new LecturaParametrosCuadratica();
 
-            String stringResult = armarResultados(resultadoGrupo);
-            if ("v".equals(tsalida) || "b".equals(tsalida)) {
+            String stringResult = mce.armarResultados(resultadoGrupo);
+            if ("v".equals(mce.tsalida) || "b".equals(mce.tsalida)) {
                 imprimir(stringResult);
             }
             IndividuoCuadratico individuo = (IndividuoCuadratico) resultadoGrupo.getMejorIndividuo();
@@ -114,7 +110,7 @@ public class EstadisticasResultados {
             {
                 if (parametros.getMaxGlobal().isNaN() || parametros.getMaxGlobal().compareTo(individuo.getCalidad()) < 0) {
                     parametros.setMaxGlobal(individuo.getCalidad());
-                    parametros.setVectorIdeal(vDouble_vInt(individuo.getValores()));
+                    parametros.setVectorIdeal(mce.vDouble_vInt(individuo.getValores()));
 
                     try {
                         lpc.actualizar(parametros.getNombreArchivo(), parametros);
