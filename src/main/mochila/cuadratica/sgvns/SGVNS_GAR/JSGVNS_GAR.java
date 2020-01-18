@@ -20,6 +20,7 @@ import main.mochila.cuadratica.sgvns.SGVNS_GAR.FuncionMochilaVNS_GAR;
 import main.mochila.cuadratica.sgvns.*;
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.greedy.Greedy;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;

@@ -25,10 +25,10 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.ConjuntoInstancias.Instancia;
 import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
-import main.mochila.cuadratica.sgvns.FuncionSGVNS;
-import main.mochila.cuadratica.sgvns.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.JSGVNS;
-import main.mochila.cuadratica.sgvns.SGVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 import main.mochila.cuadratica.utilidades.LecturaParametrosCuadratica;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 

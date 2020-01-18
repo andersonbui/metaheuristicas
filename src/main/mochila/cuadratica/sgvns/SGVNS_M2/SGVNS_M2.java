@@ -16,7 +16,7 @@
  */
 package main.mochila.cuadratica.sgvns.SGVNS_M2;
 
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Original;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 
@@ -26,7 +26,7 @@ import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
  */
 public class SGVNS_M2 extends SGVNS {
 
-    public SGVNS_M2(FuncionSGVNS_Original funcion, int maxIteraciones) {
+    public SGVNS_M2(FuncionSGVNS funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
         this.setNombre("SGVNS_M2");
     }

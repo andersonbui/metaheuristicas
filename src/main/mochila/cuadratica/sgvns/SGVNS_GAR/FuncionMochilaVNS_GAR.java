@@ -17,7 +17,7 @@
 package main.mochila.cuadratica.sgvns.SGVNS_GAR;
 
 import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
-import main.mochila.cuadratica.sgvns.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 
 
 /**

@@ -18,7 +18,7 @@ package main.mochila.cuadratica.sgvns.SGVNS_GAR;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.sgvns.IndividuoVNS;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 
 /**
  *

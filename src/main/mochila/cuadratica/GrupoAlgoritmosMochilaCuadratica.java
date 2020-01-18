@@ -41,7 +41,7 @@ import main.mochila.cuadratica.sgvns.SGVNS_GAR.JSGVNS_GAR;
 import main.mochila.cuadratica.sgvns.SGVNS_M1.SGVNS_M1;
 import main.mochila.cuadratica.sgvns.SGVNS_M2.SGVNS_M2;
 import main.mochila.cuadratica.sgvns.SGVNS_M3.SGVNS_M3;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Original;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 
@@ -272,7 +272,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
-                            FuncionSGVNS_Original funcionVns = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                             SGVNS algot = new SGVNS(funcionVns, maxIteraciones);
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
@@ -290,7 +290,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
-                            FuncionSGVNS_Original funcionVns = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                             SGVNS algot = new SGVNS_M1(funcionVns, maxIteraciones);
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
@@ -308,7 +308,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
-                            FuncionSGVNS_Original funcionVns = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                             SGVNS algot = new SGVNS_M2(funcionVns, maxIteraciones);
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
@@ -326,7 +326,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
-                            FuncionSGVNS_Original funcionVns = new FuncionSGVNS_Original(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                            FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                             SGVNS algot = new SGVNS_M3(funcionVns, maxIteraciones);
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
