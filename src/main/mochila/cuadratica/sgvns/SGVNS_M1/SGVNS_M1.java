@@ -20,6 +20,7 @@ import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS_Ori
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 
+
 /**
  *
  * @author Juan Diaz PC
@@ -28,6 +29,7 @@ public class SGVNS_M1 extends SGVNS {
 
     public SGVNS_M1(FuncionSGVNS_Original funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
+        this.setNombre("SGVNS_M1");
     }
 
     @Override

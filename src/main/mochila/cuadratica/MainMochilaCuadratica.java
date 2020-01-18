@@ -55,10 +55,11 @@ public class MainMochilaCuadratica {
         if (args.length == 0) {
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=7, i_encontrarM=11"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=7, i_encontrarM=11"});
-            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS_GAR","-g", "i_interc=7, i_encontrarM=11, SACUDIDA=0.0:0.5:0.5, SEQ_VND=0.0:0.1:0.9"});
+            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=15, i_encontrarM=20"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11","-a","C:\\Users\\Juan Diaz PC\\Documents\\Documents\\TRABAJO_DE_GRADO\\Framework\\Framework_GAR\\Resultados\\Generico\\instancia_D0636I_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-I", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11","-a","C:\\Users\\Juan Diaz PC\\Documents\\Documents\\TRABAJO_DE_GRADO\\Framework\\Framework_GAR\\Resultados\\Generico\\instancia_D0624F_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS_GAR","-g", "i_interc=7, i_encontrarM=11, SACUDIDA=0.0:0.8:0.2"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=7, i_encontrarM=11"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M2","-g", "i_interc=7, i_encontrarM=11"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M3","-g", "i_interc=7, i_encontrarM=11"});
@@ -75,7 +76,7 @@ public class MainMochilaCuadratica {
 //              listaVectArgumentas.add(new String[]{"-b","-r","IHEA_GAR","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_100_2.txt"});
 //              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","L=30,rcl=30,mt=50,ms=20","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0609I_0.txt"});
 //              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","L=30,rcl=30,mt=5,ms=2,CONS=0.0:0.5:0.5,DESC=0.0:0.5:0.5,PERT=0.0:0.5:0.5,TABU=0.9:0.1:0.5","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D0626H_0.txt"}); //se detiene
-              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","rcl=30,L=30,mi=65,ms=4,mt=10,CONS=0:0.2:0","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D077B_0.txt"}); //se detiene
+//              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","rcl=30,L=30,mi=65,ms=4,mt=10,CONS=0:0.2:0","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework_GAR/Resultados/Generico/instancia_D077B_0.txt"}); //se detiene
 //              listaVectArgumentas.add(new String[]{"-I","-r","IHEA_GAR","-g","L=20,mt=10,ms=5","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D0601A_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-I","-r","IHEA2","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-I","-r","IHEA","-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/resumenes/instancia_D632i_0.txt"});
@@ -103,10 +104,10 @@ public class MainMochilaCuadratica {
             switch (opcion) {
                 case "-e":
                 case "--examples":
-//                    ConjuntoInstancias datos = new ConjuntoInstancias1000();
+                    ConjuntoInstancias datos = new ConjuntoInstancias1000();
 //                    ConjuntoInstancias datos = new ConjuntoInstancias300();
 //                    ConjuntoInstancias datos = new ConjuntoInstancias100();
-                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
+//                        ConjuntoInstancias datos = new ConjuntoInstanciasResumenes();
 //                        ConjuntoInstancias datos = new ConjuntoInstanciasPruebas();
                     nombreArchivoResultado = "";
                     listaInstanc = datos.getConjuntoInstancias();

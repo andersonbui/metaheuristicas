@@ -28,8 +28,8 @@ import metaheuristicas.AlgoritmoMetaheuristico;
 public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, IndividuoVNS> {
 
     public double alpha;
-    int intentosEncontrarMejor;
-    int intentosIntercambio; // intentos de busqueda de elementos aptos para realizar intercambio
+    public int intentosEncontrarMejor;
+    int intentosIntercambio; // intentos de busqueda    de elementos aptos para realizar intercambio
     public int hMax;
     /**
      * lower bound: minimo numero de elementos que llenarian la mochila sin que
@@ -45,9 +45,14 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
 
     public SGVNS(FuncionSGVNS_Original funcion, int maxIteraciones) {
         super(funcion);
-        inicializado = false;
         this.funcion = funcion;
+        alpha = 1.0 / 30.0;
         this.maxIteraciones = maxIteraciones;
+        nombre = "SGVNS";
+        intentosIntercambio = 1;
+        intentosEncontrarMejor = 20;
+        hMax = 5;
+        inicializado = false;
     }
 
     public SGVNS(FuncionSGVNS_Original funcionSGVNS) {
@@ -57,8 +62,8 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
     public void inicializar() {
         inicializado = true;
         alpha = 1.0 / 30.0;
-        nombre = "SGVNS";
-        intentosIntercambio = 15;
+//        nombre = "SGVNS";
+        intentosIntercambio = 1;
         intentosEncontrarMejor = 20;
         hMax = 5;
 
@@ -127,7 +132,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
         IndividuoVNS y = solucionInicial();
         //Almacena la solucion inicial como best
         IndividuoVNS y_best = y;
-        //termina cuando encuentra la el optimo
+        //termina cuando encuentra al optimo
         boolean suficiente = funcion.suficiente(y_best);
         if (suficiente) {
             recorrido.add(y_best);
@@ -343,7 +348,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
     en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
     protected IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
-        boolean mejoro;
+//        boolean mejoro;
         s_inicial = s_inicial.clone();
         intentos = Math.min(intentos, s_inicial.elementosSeleccionados().size() - 1);
         do {
@@ -369,7 +374,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS_Original, Indivi
 
     public IndividuoVNS estructuraVecindarioSacudida(IndividuoVNS s_inicial, int intentos) {
         IndividuoVNS y = null;
-        y = sacudida(s_inicial, 2, intentos);
+        y = sacudida(s_inicial, 3, intentos);
         return y;
     }
 

@@ -27,11 +27,11 @@ import metaheuristicas.AlgoritmoMetaheuristico;
  */
 public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
-   public double alpha;
+    public double alpha;
     int intentosEncontrarMejor;
     int intentosIntercambio; // intentos de busqueda de elementos aptos para realizar intercambio
-   public int hMax;
-   boolean inicializado;
+    public int hMax;
+    boolean inicializado;
 
     /**
      *
@@ -43,7 +43,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         alpha = 1.0 / 30.0;
         this.maxIteraciones = maxIteraciones;
         nombre = "SGVNS";
-        intentosIntercambio = 15;
+        intentosIntercambio = 1;
         intentosEncontrarMejor = 20;
         hMax = 5;
         inicializado = false;
@@ -51,6 +51,24 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
     public SGVNS(FuncionSGVNS funcionSGVNS) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void inicializar() {
+        inicializado = true;
+        alpha = 1.0 / 30.0;
+//        nombre = "SGVNS";
+        intentosIntercambio = 1;
+        intentosEncontrarMejor = 20;
+        hMax = 5;
+
+        if (getCadenaParametros() != null) {
+            String[] arrayParametros = getCadenaParametros().split(",");
+            for (String arrayParametro : arrayParametros) {
+                String[] unParametro = arrayParametro.split("=");
+                actualizarVarible(unParametro[0], (unParametro[1]));
+//                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
+            }
+        }
     }
 
     public double getAlpha() {
@@ -91,29 +109,12 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         this.funcion = funcion;
         this.alpha = alpha;
         this.maxIteraciones = maxIteraciones;
-        this.nombre = "SGVNS" + nombreAdicional;
+        this.nombre = nombreAdicional;
         this.hMax = hMax;
         this.intentosIntercambio = intentosIntercambio;
         this.intentosEncontrarMejor = intentosEncontrarMejor;
     }
-    
-    public void inicializar() {
-        inicializado = true;
-        alpha = 1.0 / 30.0;
-        nombre = "SGVNS";
-        intentosIntercambio = 15;
-        intentosEncontrarMejor = 20;
-        hMax = 5;
 
-        if (getCadenaParametros() != null) {
-            String[] arrayParametros = getCadenaParametros().split(",");
-            for (String arrayParametro : arrayParametros) {
-                String[] unParametro = arrayParametro.split("=");
-                actualizarVarible(unParametro[0], unParametro[1]);
-//                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
-            }
-        }
-    }
     public void actualizarVarible(String nombre, String valor) {
         switch (nombre) {
             case "i_interc":
@@ -158,7 +159,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
             while (h <= hMax) {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 //Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
-                y_p = sacudida(y, 2, h);
+                y_p = estructuraVecindarioSacudida(y, h);
                 //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
                 if (y_p2.compareTo(y_best) > 0) {
@@ -177,14 +178,14 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         return recorrido;
     }
 
-    //Va de un vecindario a otro si no encuentra una mejota a s_inicial
+    //Va de un vecindario a otro si no encuentra una mejora a s_inicial
     public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
         //Variable para el tipo de estructura de vecindario
         int h = 1;
         IndividuoVNS s_inicial = individuoOriginal.clone();
         IndividuoVNS solEncontrada;
         while (h <= 2) {
-            //Aplica una estructura de vecindario h a la s_inicial para mejorar
+            //Aplica una estructura de vecindario h a la s_inicial para mejorar (BUSQUEDA LOCAL)
             solEncontrada = encontrarMejor(s_inicial, h);
             /*Si mejora s_inicial permanece en h1 (si h=1) o se devuelve a h1 encaso que este en h2 (h=2),
             valida que no sea un optimo local(osea que exista una mejor solucion)*/
@@ -375,6 +376,11 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
         return s_inicial;
     }
 
+    public IndividuoVNS estructuraVecindarioSacudida(IndividuoVNS s_inicial, int intentos) {
+        IndividuoVNS y = null;
+        y = sacudida(s_inicial, 2, intentos);
+        return y;
+    }
     protected double distancia(IndividuoVNS y, IndividuoVNS y2) {
         double suma = 0;
         for (int i = 0; i < y.getDimension(); i++) {

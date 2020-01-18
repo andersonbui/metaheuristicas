@@ -28,6 +28,7 @@ public class SGVNS_M2 extends SGVNS {
 
     public SGVNS_M2(FuncionSGVNS_Original funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
+        this.setNombre("SGVNS_M2");
     }
 
     @Override
@@ -36,7 +37,10 @@ public class SGVNS_M2 extends SGVNS {
     }
 
     /*Sacudida genera una solucion aleatoria y' realizando h(intentos) movimientos
-    en el segundo vecindario (cambio) de la solucion y(s_inicial)*/
+    en el primer vecindario (intercambio) de la solucion (s_inicial). Este metodo compara 
+    la solucion en cuestion (aux), con la solucion actual (s_inicial). Si aux es mayor, actualiza a 
+    s_inicial y se sale. Sino de igual forma actualiza a s_inicial pero esta vez continua la sacudida
+    hasta h veces.*/
     @Override
     protected IndividuoVNS sacudida(IndividuoVNS s_inicial, int vecindario, int intentos) {
         IndividuoVNS aux;
