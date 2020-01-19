@@ -77,6 +77,7 @@ public class MochilaCuadraticaEjecucion {
         int indice = 0;
         nombreExperimento = "";
         boolean ayuda = true;
+        ConjuntoInstancias datos = null;
         List<Instancia> listaInstanc = null;
         String nombreArchivoResultado = "";
         while (args.length > indice) {
@@ -86,8 +87,8 @@ public class MochilaCuadraticaEjecucion {
                     numIntentos = Integer.parseInt(args[indice++]);
                     break;
                 case "-e":
-                case "--examples":
-                    ConjuntoInstancias datos = escogerConjunto(args[indice++]);
+                case "--examples": 
+                    datos = escogerConjunto(args[indice++]);
                     listaInstanc = datos.getConjuntoInstancias();
                     ayuda = false;
                     break;
@@ -157,6 +158,9 @@ public class MochilaCuadraticaEjecucion {
         nombreExperimento+=algoritmo+"|";
         nombreExperimento+=parametrosAlgoritmo+"|";
         nombreExperimento+=numIntentos+"|";
+        if(datos != null ){
+            nombreExperimento+= "GRP:" + datos.getNombre()+"|";
+        }
 
         if (!ayuda) {
             ejecutar(numIntentos, listaInstanc, nombreArchivoResultado);
