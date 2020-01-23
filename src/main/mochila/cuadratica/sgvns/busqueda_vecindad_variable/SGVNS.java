@@ -18,6 +18,7 @@ package main.mochila.cuadratica.sgvns.busqueda_vecindad_variable;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
@@ -147,6 +148,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 //Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
                 y_p = estructuraVecindarioSacudida(y, h);
+//                  y_p = sacudida(y,2,h);
                 //Va de un vecindario a otro buscando encontrar una mejora a s_inicial
                 y_p2 = seq_VND(y_p);
                 if (y_p2.compareTo(y_best) > 0) {
@@ -374,7 +376,7 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
 
     public IndividuoVNS estructuraVecindarioSacudida(IndividuoVNS s_inicial, int intentos) {
         IndividuoVNS y = null;
-        y = sacudida(s_inicial, 3, intentos);
+        y = sacudida(s_inicial, 2, intentos);
         return y;
     }
 
@@ -395,5 +397,4 @@ public class SGVNS extends AlgoritmoMetaheuristico<FuncionSGVNS, IndividuoVNS> {
                 break;
         }
     }
-
 }

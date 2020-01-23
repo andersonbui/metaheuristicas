@@ -29,18 +29,18 @@ import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 public class FuncionJSGVNS extends FuncionSGVNS {
 
     private List<Integer> variablesFijas;
-    private List<Integer> variablesFijasMalas;
+//    private List<Integer> variablesFijasMalas;
 
     public FuncionJSGVNS(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
         variablesFijas = null;
-        variablesFijasMalas = new ArrayList<>();
+//        variablesFijasMalas = new ArrayList<>();
         this.nombre = "FJSGVNS";
     }
 
-    public void fijarVariablesMalas(List<Integer> varFijas) {
-        variablesFijasMalas = varFijas;
-    }
+//    public void fijarVariablesMalas(List<Integer> varFijas) {
+//        variablesFijasMalas = varFijas;
+//    }
 
     /**
      * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
@@ -59,36 +59,20 @@ public class FuncionJSGVNS extends FuncionSGVNS {
         return seleccionados;
     }
 
-    /**
-     * procedimeinto que obtiene la lista de los elementos no seleccionados (I0)
-     * en individuo.
-     *
-     * @param individuo s * @return List de indices de elementos seleccionados
-     * @return
-     */
-    @Override
-    public List<Integer> obtener_I0(IndividuoMochila individuo) {
-        IndividuoVNS indi = ((IndividuoVNS) individuo);
-        List noseleccionados = indi.elementosNoSeleccionados();
-        if (this.variablesFijas != null && !this.variablesFijasMalas.isEmpty()) {
-            noseleccionados.removeAll(this.variablesFijasMalas);
-        }
-        return noseleccionados;
-    }
 
     public void fijarVariables(List<Integer> varFijas) {
         variablesFijas = varFijas;
     }
 
-    public void reiniciarVijarVariables() {
+    public void reiniciarFijarVariables() {
         if (variablesFijas != null && !variablesFijas.isEmpty()) {
             variablesFijas.clear();
         }
     }
 
-    public void reiniciarVijarVariablesUpperb() {
-        variablesFijasMalas.clear();
-    }
+//    public void reiniciarVijarVariablesUpperb() {
+//        variablesFijasMalas.clear();
+//    }
 
     protected List<Integer> getVariablesFijas() {
         return variablesFijas;

@@ -17,11 +17,13 @@
 package main.mochila.cuadratica.sgvns.SGVNS_M3;
 
 import java.util.List;
+import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
+import main.mochila.cuadratica.sgvns.JSGVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
-import main.mochila.cuadratica.utilidades.UtilCuadratica;
+
 
 /**
  *
@@ -29,86 +31,53 @@ import main.mochila.cuadratica.utilidades.UtilCuadratica;
  */
 public class SGVNS_M3 extends SGVNS {
 
-    public SGVNS_M3(FuncionSGVNS funcion, int maxIteraciones) {
+    public SGVNS_M3(FuncionSGVNS_M3 funcion, int maxIteraciones) {
         super(funcion, maxIteraciones);
         this.setNombre("SGVNS_M3");
     }
-     /**
-     * lower bound: minimo numero de elementos que llenarian la mochila sin que
-     * haya espacio para uno mas.
-     */
-    protected int lb;
-    /**
-     * upper bound: maximo número de elementos que llenarian la mochila sin que
-     * haya espacio para uno mas.
-     */
-    protected int ub;
-    
+
+    List<Integer> variablesFijasLowerb;
 
     @Override
-    public void inicializar() {
-        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
-        lb = -1;
-        ub = -1;
-        lb = obtenerLowerBound();
-        ub = obtenerUpperBound();
+    public FuncionSGVNS_M3 getFuncion() {
+        return (FuncionSGVNS_M3) funcion;
     }
     
-    
     /**
-     * obtiene el lower bound
      *
-     * @return
+     * @param varFijas
      */
-    public int obtenerLowerBound() {
-        if (lb == -1) {
-            int[] lu_b = UtilCuadratica.optenerLowerUpper_Bound(getFuncion());
-            lb = lu_b[0];
-            ub = lu_b[1];
-        }
-        return lb;
+    protected void construirProblemaRestringidoReducido(List<Integer> varFijas) {
+        getFuncion().fijarVariables(varFijas);
+
     }
 
-    /**
-     * obtiene el upper bound
-     *
-     * @return
-     */
-    public int obtenerUpperBound() {
-        if (ub == -1) {
-            obtenerLowerBound();
-        }
-        return ub;
-    }
-    
-    
-    
-     /*Aplica la estructura de vecindario h a la s_inicial, un numero de intentos 
-    determinado (intentosEncontrarMejor) y va comparando si s_inicial mejora*/
+    //Va de un vecindario a otro si no encuentra una mejota a s_inicial
     @Override
-    protected IndividuoVNS encontrarMejor(IndividuoVNS s_inicial, int h) {
-        IndividuoVNS aux;
-        s_inicial = s_inicial.clone();
-        boolean mejoro;
-        int contador = intentosEncontrarMejor;
-        do {
-            if (h == 1) {
-                aux = intercambio(s_inicial);
+    public IndividuoVNS seq_VND(IndividuoVNS individuoOriginal) {
+        //Variable para el tipo de estructura de vecindario
+        int h = 1;
+        IndividuoVNS s_inicial = individuoOriginal.clone();
+        IndividuoVNS solEncontrada;
+        while (h <= 2) {
+            variablesFijasLowerb = determinarVariablesFijasLowerBound(s_inicial.getDimension(), s_inicial, lb);
+            construirProblemaRestringidoReducido(variablesFijasLowerb);
+            //Aplica una estructura de vecindario h a la s_inicial para mejorar
+            solEncontrada = encontrarMejor(s_inicial, h);
+            getFuncion().reiniciarFijarVariables();
+            /*Si mejora s_inicial permanece en h1 (si h=1) o se devuelve a h1 encaso que este en h2 (h=2),
+            valida que no sea un optimo local(osea que exista una mejor solucion)*/
+            if (solEncontrada.compareTo(s_inicial) > 0) {
+                s_inicial = solEncontrada;
+                h = 1;
             } else {
-                aux = cambio(s_inicial);
+                h++;
             }
-            mejoro = aux.compareTo(s_inicial) > 0;
-            if (mejoro) {
-                s_inicial = aux;
-                break;
-            }
-        } while (contador-- >= 0);
+        }
         return s_inicial;
     }
     
-    
-
-    /**
+     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
      *
      * @param dimension
@@ -122,9 +91,9 @@ public class SGVNS_M3 extends SGVNS {
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-//        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
+        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
 //MODIFICACION
-        int nf = (int) (lowerb);
+//        int nf = (int) (lowerb);
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
@@ -135,37 +104,4 @@ public class SGVNS_M3 extends SGVNS {
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
         return listaIndices;
     }
-
-    protected List<Integer> determinarVariablesFijasUpperBound(int dimension, IndividuoVNS individuo, int upperb) {
-        // dimension de individuo
-        int dimX = dimension;
-        // tamaño de la mochila
-        int n = individuo.getDimension();
-        // numero de variables fijas
-//        int nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-//MODIFICACION
-        int nf = (int) (upperb);
-        // items seleccionados
-        List<Integer> itemsSeleccionados = elementosFueraYCaben(individuo);
-
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
-
-        // vector de indices de variables fijas
-        // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
-        return listaIndices;
-    }
-
-    /**
-     *
-     * @param varFijas
-     */
-    protected void construirProblemaRestringidoReducido(List<Integer> varFijas) {
-        ((FuncionMochilaSGVNS_M3)getFuncion()).fijarVariables(varFijas);
-    }
-    
-//    
-//    public FuncionMochilaSGVNS_M3 getFuncion() {
-//        return (FuncionMochilaSGVNS_M3) funcion;
-//    }
 }

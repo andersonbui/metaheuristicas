@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Juan Diaz PC
+ * Copyright (C) 2018 debian
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,36 +16,27 @@
  */
 package main.mochila.cuadratica.sgvns.SGVNS_M3;
 
-import java.util.ArrayList;
+import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.*;
+import main.mochila.cuadratica.sgvns.SGVNS_M3.*;
 import java.util.List;
 import main.mochila.IndividuoMochila;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
-import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.IndividuoVNS;
 
 /**
  *
- * @author Juan Diaz PC
+ * @author debian
  */
-public class FuncionMochilaSGVNS_M3 extends FuncionSGVNS {
-
+public class FuncionSGVNS_M3 extends FuncionSGVNS {
+    
     private List<Integer> variablesFijas;
-    private List<Integer> variablesFijasMalas;
 
-    public FuncionMochilaSGVNS_M3(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
-        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        variablesFijas = null;
-        variablesFijasMalas = new ArrayList<>();
-        this.nombre = "FJSGVNS";
+    public FuncionSGVNS_M3(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
+        super(matrizBeneficios, capacidad, vectorPesos, maxGlobal == null ? null : maxGlobal);
+        nombre = "FSGVNS_M3";
     }
-
-    public void fijarVariablesMalas(List<Integer> varFijas) {
-        variablesFijasMalas = varFijas;
-    }
-
+    
     /**
      * procedimeinto que obtiene la lista de los elementos seleccionados (I1) en
      * individuo.
-     *
      * @param individuo s * @return List de indices de elementos seleccionados
      * @return
      */
@@ -58,25 +49,8 @@ public class FuncionMochilaSGVNS_M3 extends FuncionSGVNS {
         }
         return seleccionados;
     }
-
-    /**
-     * procedimeinto que obtiene la lista de los elementos no seleccionados (I0)
-     * en individuo.
-     *
-     * @param individuo s * @return List de indices de elementos seleccionados
-     * @return
-     */
-    @Override
-    public List<Integer> obtener_I0(IndividuoMochila individuo) {
-        IndividuoVNS indi = ((IndividuoVNS) individuo);
-        List noseleccionados = indi.elementosNoSeleccionados();
-        if (this.variablesFijas != null && !this.variablesFijasMalas.isEmpty()) {
-            noseleccionados.removeAll(this.variablesFijasMalas);
-        }
-        return noseleccionados;
-    }
-
-    public void fijarVariables(List<Integer> varFijas) {
+  
+      public void fijarVariables(List<Integer> varFijas) {
         variablesFijas = varFijas;
     }
 
@@ -85,13 +59,10 @@ public class FuncionMochilaSGVNS_M3 extends FuncionSGVNS {
             variablesFijas.clear();
         }
     }
-
-    public void reiniciarFijarVariablesUpperb() {
-        variablesFijasMalas.clear();
-    }
-
-    protected List<Integer> getVariablesFijas() {
+     protected List<Integer> getVariablesFijas() {
         return variablesFijas;
     }
+     
+
 
 }

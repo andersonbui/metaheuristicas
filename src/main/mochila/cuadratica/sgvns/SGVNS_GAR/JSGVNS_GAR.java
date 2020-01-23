@@ -133,7 +133,6 @@ public class JSGVNS_GAR extends JSGVNS {
             recorrido.add(y_best);
         }
         //CONDICION DE TERMINACION PARA AJUSTAR
-        cont_JSGVNS++;
 //        System.out.println("cont_JSGVNS" + cont_JSGVNS);
 
         return recorrido;

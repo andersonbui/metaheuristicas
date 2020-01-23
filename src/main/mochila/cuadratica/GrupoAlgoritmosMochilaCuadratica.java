@@ -29,7 +29,6 @@ import main.mochila.cuadratica.IHEA.IHEA_M4.FuncionMochilaIHEA_M4;
 import main.mochila.cuadratica.IHEA.IHEA_M4.IHEA_M4;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
-import main.mochila.cuadratica.sgvns.SGVNS_M3.FuncionMochilaSGVNS_M3;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 //import main.mochila.cuadratica.sgvns.SGVNS;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
@@ -40,7 +39,10 @@ import main.mochila.cuadratica.sgvns.SGVNS_GAR.FuncionMochilaVNS_GAR;
 import main.mochila.cuadratica.sgvns.SGVNS_GAR.JSGVNS_GAR;
 import main.mochila.cuadratica.sgvns.SGVNS_M1.SGVNS_M1;
 import main.mochila.cuadratica.sgvns.SGVNS_M2.SGVNS_M2;
+import main.mochila.cuadratica.sgvns.SGVNS_M3.FuncionSGVNS_M3;
+//import main.mochila.cuadratica.sgvns.SGVNS_ALL.SGVNS_ALL;
 import main.mochila.cuadratica.sgvns.SGVNS_M3.SGVNS_M3;
+import main.mochila.cuadratica.sgvns.SGVNS_M4.SGVNS_M4;
 import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.FuncionSGVNS;
 import metaheuristicas.AlgoritmoMetaheuristico;
 import metaheuristicas.FabricaAlgoritmoMetaheuristico;
@@ -52,7 +54,7 @@ import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     public static enum AlgoritmoOpion {
-        IHEA, IHEA_VA, IHEA_GAR, IHEA_M1, IHEA_M2, IHEA_M3, IHEA_M4, IHEA_MT, SGVNS,SGVNS_M1,SGVNS_M2,SGVNS_M3, JSGVNS, JSGVNS_GAR
+        IHEA, IHEA_VA, IHEA_GAR, IHEA_M1, IHEA_M2, IHEA_M3, IHEA_M4, IHEA_MT, SGVNS, SGVNS_M1, SGVNS_M2, SGVNS_M3, SGVNS_M4, JSGVNS, JSGVNS_GAR
     };
     AlgoritmoOpion opcion;
     String parametrosAlgoritmo;
@@ -68,7 +70,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
     }
 
     public GrupoAlgoritmosMochilaCuadratica() {
-        super("Mochila Cuadratica", 100);
+        super("Mochila Cuadratica", 20);
         this.instancias = null;
     }
 
@@ -277,7 +279,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
 //                            algot.addNombre("-Int[" + intentos + "]");
-                                algot.inicializar();
+                            algot.inicializar();
                             return algot;
                         }
                     });
@@ -285,7 +287,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                 break;
             ///////////////////////////
 //////////////////////
-                case SGVNS_M1:
+            case SGVNS_M1:
                 for (int intentos : vecImayor) {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
@@ -295,7 +297,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
 //                            algot.addNombre("-Int[" + intentos + "]");
-                                algot.inicializar();
+                            algot.inicializar();
                             return algot;
                         }
                     });
@@ -303,7 +305,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                 break;
             ///////////////////////////
 //////////////////////
-                case SGVNS_M2:
+            case SGVNS_M2:
                 for (int intentos : vecImayor) {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
@@ -313,7 +315,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
 //                            algot.addNombre("-Int[" + intentos + "]");
-                                algot.inicializar();
+                            algot.inicializar();
                             return algot;
                         }
                     });
@@ -321,17 +323,35 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                 break;
             ///////////////////////////
 //////////////////////
-                case SGVNS_M3:
+            case SGVNS_M3:
+                for (int intentos : vecImayor) {
+                    add(new FabricaAlgoritmoMetaheuristico() {
+                        @Override
+                        public AlgoritmoMetaheuristico obtener() {
+                            FuncionSGVNS_M3 funcionVns = new FuncionSGVNS_M3(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                            SGVNS algot = new SGVNS_M3(funcionVns, maxIteraciones);
+                            //algot.setIntentosIntercambio(intentos);
+//                            algot.setIntentosEncontrarMejor(intentos);
+//                            algot.addNombre("-Int[" + intentos + "]");
+                            algot.inicializar();
+                            return algot;
+                        }
+                    });
+                }
+                break;
+            ///////////////////////////
+//////////////////////
+            case SGVNS_M4:
                 for (int intentos : vecImayor) {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
                             FuncionSGVNS funcionVns = new FuncionSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-                            SGVNS algot = new SGVNS_M3(funcionVns, maxIteraciones);
+                            SGVNS algot = new SGVNS_M4(funcionVns, maxIteraciones);
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setIntentosEncontrarMejor(intentos);
 //                            algot.addNombre("-Int[" + intentos + "]");
-                              algot.inicializar();
+                            algot.inicializar();
                             return algot;
                         }
                     });
@@ -340,19 +360,19 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
             ///////////////////////////
 //////////////////////
             case JSGVNS:
-                double[] vecPenalizacion = {0.5};
-                for (double intentos : vecPenalizacion) {
+//                double[] vecPenalizacion = {0.5};
+                for (double intentos : vecImayor) {
                     add(new FabricaAlgoritmoMetaheuristico() {
                         @Override
                         public AlgoritmoMetaheuristico obtener() {
                             FuncionJSGVNS funcionVns = new FuncionJSGVNS(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-                            JSGVNS algot = new JSGVNS(funcionVns, maxIteraciones);
-                            algot.setCadenaParametros(parametrosAlgoritmo);
+                            SGVNS algot = new JSGVNS(funcionVns, maxIteraciones);
+//                            algot.setCadenaParametros(parametrosAlgoritmo);
                             algot.inicializar();
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setPenalizacion(intentos);
-                            algot.setIntentosEncontrarMejor(20);
-                            algot.addNombre("-Int[" + intentos + "]");
+//                            algot.setIntentosEncontrarMejor(20);
+//                            algot.addNombre("-Int[" + intentos + "]");
                             return algot;
                         }
                     });
@@ -369,12 +389,12 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                         public AlgoritmoMetaheuristico obtener() {
                             FuncionMochilaVNS_GAR funcionVns = new FuncionMochilaVNS_GAR(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                             JSGVNS_GAR algot = new JSGVNS_GAR(funcionVns, maxIteraciones);
-                             algot.setCadenaParametros(parametrosAlgoritmo);
-                             algot.inicializar();
+                            algot.setCadenaParametros(parametrosAlgoritmo);
+                            algot.inicializar();
                             //algot.setIntentosIntercambio(intentos);
 //                            algot.setPenalizacion(intentos);
-                            algot.setIntentosEncontrarMejor(20);
-                            algot.addNombre("-Int[" + intentos + "]");
+//                            algot.setIntentosEncontrarMejor(20);
+//                            algot.addNombre("-Int[" + intentos + "]");
                             return algot;
                         }
                     });
