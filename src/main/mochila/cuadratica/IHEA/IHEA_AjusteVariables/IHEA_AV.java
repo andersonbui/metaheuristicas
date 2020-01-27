@@ -38,6 +38,7 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
     public void inicializar() {
         setL(20);
         setMt(15);
+//        setMs(3);
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
 

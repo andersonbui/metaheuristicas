@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Random;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
+import main.mochila.cuadratica.IHEA.IHEA_M1.IHEA_M1;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
 
@@ -28,7 +29,7 @@ import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
  *
  * @author debian
  */
-public class IHEA_M4 extends IHEA_AV {
+public class IHEA_M4 extends IHEA_M1 {
 
     //    protected int ub; // upper bown
     public List<Integer> listaIndicesMalos;
@@ -48,19 +49,20 @@ public class IHEA_M4 extends IHEA_AV {
             int n = funcion.getDimension();
             // numero de variables fijas
             Random rand = new Random();
-            double vari = 1.47 + (0.2 * rand.nextDouble() - 0.1);
-            int nf = (int) ((upperb * vari));//1.3
-
+            double vari = 2.2;
+//            double vari = 1.47 + (0.2 * rand.nextDouble() - 0.1);
+            int nf = (int) (((upperb) * vari));//1.3
+            
             nf = Math.min(n, nf);
-            // items seleccionados
-            listaIndicesMalos = new ArrayList(n - nf);
-            if (n - nf == 0) {
-                return listaIndicesMalos;
+            int inicio = n - nf;
+            
+            if( inicio <= 0 ){
+                return new ArrayList(0);
             }
+            // items seleccionados
+            listaIndicesMalos = new ArrayList(nf);
             List<Integer> listaInidicesResultado = (new Main_MetododosInicializacion()).ordenar(funcion);
-            int tamanio = listaInidicesResultado.size();
-//            nf = tamanio - nf;
-            for (int i = nf; i < tamanio; i++) {
+            for (int i = inicio; i < n; i++) {
                 listaIndicesMalos.add(listaInidicesResultado.get(i));
             }
         }
@@ -97,8 +99,8 @@ public class IHEA_M4 extends IHEA_AV {
     @Override
     protected void construirProblemaRestringidoReducido(List<Integer> varFijas, IndividuoIHEA individuoActual) {
         getFuncion().fijarVariables(individuoActual, varFijas);
-//        List<Integer> malas = determinarMalasVariablesFijas(individuoActual, getUb());
-//        getFuncion().fijarVariablesMalas(malas);
+        List<Integer> malas = determinarMalasVariablesFijas(individuoActual, getUb());
+        getFuncion().fijarVariablesMalas(malas);
     }
 
 

@@ -72,18 +72,18 @@ public class IHEA_M3 extends IHEA_AV {
 //        return listaIndices;
 //    }
 
-//    @Override
-//    public int getNumeroNF(IndividuoIHEA individuo) {
-//        // dimension de individuo
-//        int dimX = dimensionHiperplano(individuo);
-//        // tamaño de la mochila
-//        int n = individuo.getDimension();
-//        // calcular numero de variables fijas
-////        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
-//        int nf = (int)(1.08 * (getLb() + (getUb() - getLb()) / 2.0)); //300
-//        
-//        return nf;
-//    }
+    @Override
+    public int getNumeroNF(IndividuoIHEA individuo) {
+        // dimension de individuo
+        int dimX = dimensionHiperplano(individuo);
+        // tamaño de la mochila
+        int n = individuo.getDimension();
+        // calcular numero de variables fijas
+//        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+        int nf = (int)(1.08 * (getLb() + (getUb() - getLb()) / 2.0)); //300
+        
+        return nf;
+    }
 
 
 }
