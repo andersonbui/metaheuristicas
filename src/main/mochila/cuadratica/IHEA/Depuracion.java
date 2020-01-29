@@ -151,7 +151,7 @@ public class Depuracion implements DepuracionInterface {
             // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
             int cantidadSeleccionadosConsecutivos = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenados, 1);
             
-            seleccOrdenados = (new PrimerosPorDensidad()).primerosPorPeso(seleccionados, individuo, seleccionados.size(), true);
+            seleccOrdenados = (new PrimerosPorDensidad()).primerosPorPeso(seleccionados, individuo, seleccionados.size(), false);
             int cantidadSeleccionadosConsecutivosPeso = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenados, 1);
             
             this.addDatosActual(seleccionados.size(), (int) individuo.pesar(), cantidadSeleccionadosConsecutivos, fpos, fneg, variablesFijas.size(),cantidadSeleccionadosConsecutivosPeso);
