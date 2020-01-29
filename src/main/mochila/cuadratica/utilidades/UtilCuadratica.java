@@ -242,6 +242,14 @@ public class UtilCuadratica {
         return promedio;
     }
 
+    public static int suma(int[] valores) {
+        int promedio = 0;
+        for (int val : valores) {
+            promedio += val;
+        }
+        return promedio;
+    }
+    
     public static double promedio(double[] valores) {
         double promedio = 0;
         for (double val : valores) {

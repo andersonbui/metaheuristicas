@@ -159,6 +159,26 @@ public class PrimerosPorDensidad {
         return resultado;
     }
 
+    public List<Integer> primerosPorPeso(final List<Integer> listaIndices, IndividuoCuadratico mochila, int n, boolean minimo) {
+//        listaIndices = new ArrayList(listaIndices);
+        List<Integer> resultado = new ArrayList();
+
+        // almacen de todas las densidades
+        List<Item> densidades = new ArrayList();
+
+        FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) mochila.getFuncion();
+        // calcular densidades
+        for (int indice : listaIndices) {
+            densidades.add(new Item(indice, funcion.peso(indice)));
+        }
+        
+        List<Item> litems = primeros2(densidades, n, minimo);
+        litems.forEach((item) -> {
+            resultado.add(item.getIndice());
+        });
+        return resultado;
+    }
+    
     /**
      * obtiene los n primeros indices de los items de mayor(minimo=true) o
      * menor(minimo=false) densidad (aporte/peso) de los elementos

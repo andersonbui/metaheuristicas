@@ -19,6 +19,7 @@ package main.mochila.cuadratica;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import main.Grupo;
 import static main.mochila.cuadratica.GrupoAlgoritmosMochilaCuadratica.AlgoritmoOpion.JSGVNS_GAR;
+import main.mochila.cuadratica.IHEA.Depuracion;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 import main.mochila.cuadratica.IHEA.IHEA_GAR.FuncionMochilaIHEA_GAR;
 import main.mochila.cuadratica.IHEA.IHEA_GAR.IHEA_GAR;
@@ -166,9 +167,11 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                 add(new FabricaAlgoritmoMetaheuristico() {
                     @Override
                     public AlgoritmoMetaheuristico obtener() {
+                        Depuracion depura = new Depuracion();
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         funcionHyperplanos.setInstancias(instancias);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_M3(funcionHyperplanos);
+                        algotIHEA.setDepuracion(depura);
                         algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
@@ -196,10 +199,11 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                 add(new FabricaAlgoritmoMetaheuristico() {
                     @Override
                     public AlgoritmoMetaheuristico obtener() {
-
+                        Depuracion depura = new Depuracion();
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         funcionHyperplanos.setInstancias(instancias);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_AV(funcionHyperplanos);
+                        algotIHEA.setDepuracion(depura);
                         algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);

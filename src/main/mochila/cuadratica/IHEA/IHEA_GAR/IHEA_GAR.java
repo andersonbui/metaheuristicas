@@ -112,9 +112,9 @@ public class IHEA_GAR extends IHEA_M1 {
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
                 // pruebas
-                if (depuracion != null) {
+                if (getDepuracion() != null) {
                     contadorEvaluaciones++;
-                    depuracion.evaluarVariablesFijas(instancias, variablesFijas, getFuncion().getDimension());
+                    getDepuracion().evaluarVariablesFijas(instancias, variablesFijas, getFuncion().getDimension(),x_prima);
                 }
                 // linea 17: run TABU serach engine (L,x',xb)
 //                long tiempo_inicial = System.currentTimeMillis();
@@ -172,11 +172,11 @@ public class IHEA_GAR extends IHEA_M1 {
             recorrido.add(x_mejorGlobal);
         }
         
-        if (depuracion != null) {
-            double cfn = depuracion.getContadorFijosFalsosNegativos() / contadorEvaluaciones;
-            double cfp = depuracion.getContadorFijosFalsosPositivos() / contadorEvaluaciones;
-            depuracion.setContadorFijosFalsosNegativos(cfn);
-            depuracion.setContadorFijosFalsosPositivos(cfp);
+        if (getDepuracion() != null) {
+            double cfn = getDepuracion().getContadorFijosFalsosNegativos() / contadorEvaluaciones;
+            double cfp = getDepuracion().getContadorFijosFalsosPositivos() / contadorEvaluaciones;
+            getDepuracion().setContadorFijosFalsosNegativos(cfn);
+            getDepuracion().setContadorFijosFalsosPositivos(cfp);
         }
 
         return recorrido;

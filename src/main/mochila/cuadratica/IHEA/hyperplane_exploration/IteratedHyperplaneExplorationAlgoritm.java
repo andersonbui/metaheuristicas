@@ -21,9 +21,10 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.IHEA.Depuracion;
-import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
+import main.utilidades.Utilidades;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
@@ -42,11 +43,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     private int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
     private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     protected InstanciaAlgoritmo instancias;
-    protected Depuracion depuracion;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
         inicializado = false;
+        
     }
 
     public void inicializar() {
@@ -109,9 +110,19 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     @Override
+     public FuncionMochilaIHEA getFuncion() {
+        return funcion;
+    }
+    
+    @Override
     public List<IndividuoIHEA> ejecutar() {
-        if (depuracion != null) {
-            depuracion.inicializar();
+        if (getDepuracion() != null) {
+            getDepuracion().inicializar();
+            getDepuracion().setCapacidad((int)funcion.getCapacidad());
+            getDepuracion().setKub(getUb());
+            getDepuracion().setKlb(getLb());
+            getDepuracion().setPesoTotal((int)UtilCuadratica.suma(getFuncion().getVectorPesos()));
+            getDepuracion().setN(funcion.getDimension());
         }
         if (!inicializado) {
             System.out.println("peligro" + getNombre() + " no inicializado");
@@ -183,7 +194,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // pruebas
                 if (depuracion != null) {
                     contadorEvaluaciones++;
-                    depuracion.evaluarVariablesFijas(instancias, variablesFijas, getFuncion().getDimension());
+                    getDepuracion().evaluarVariablesFijas(instancias, variablesFijas, getFuncion().getDimension(), x_prima);
                 }
                 // linea 17: run tabu serach engine (L,x',xb)
 //                long tiempo_inicial = System.currentTimeMillis();
@@ -226,10 +237,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         }
         
         if (depuracion != null) {
-            double cfn = depuracion.getContadorFijosFalsosNegativos() / contadorEvaluaciones;
-            double cfp = depuracion.getContadorFijosFalsosPositivos() / contadorEvaluaciones;
-            depuracion.setContadorFijosFalsosNegativos(cfn);
-            depuracion.setContadorFijosFalsosPositivos(cfp);
+//            double cfn = getDepuracion().getContadorFijosFalsosNegativos() / contadorEvaluaciones;
+//            double cfp = getDepuracion().getContadorFijosFalsosPositivos() / contadorEvaluaciones;
+//            getDepuracion().setContadorFijosFalsosNegativos(cfn / funcion.getDimension());
+//            getDepuracion().setContadorFijosFalsosPositivos(cfp / funcion.getDimension());
+            
         }
 
         return recorrido;
@@ -595,12 +607,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.L = L;
     }
 
+    @Override
     public Depuracion getDepuracion() {
-        return depuracion;
-    }
-
-    public void setDepuracion(Depuracion depuracion) {
-        this.depuracion = depuracion;
+        return (Depuracion) depuracion;
     }
 
     public int getIntentosDescent() {

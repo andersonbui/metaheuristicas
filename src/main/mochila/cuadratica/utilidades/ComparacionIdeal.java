@@ -352,7 +352,7 @@ public class ComparacionIdeal {
      * @param mensaje
      * @return
      */
-    public static int cuentaValorEnIdeal(InstanciaAlgoritmo parametros, List<Integer> indices, int valor, String mensaje) {
+    public static int cuentaValorEnIdeal(InstanciaAlgoritmo parametros, List<Integer> indices, int valor) {
         int contador = 0;
         if (indices == null || indices.isEmpty()) {
             return 0;
@@ -369,13 +369,31 @@ public class ComparacionIdeal {
             }
         }
 
-        if (contador > 0) {
-//            System.out.println("cuantos[" + valor + "] " + ": " + contador + " - " + mensaje);
-
-        }
         return contador;
     }
+    
+    public static int cuentaValorEnIdealConsecutivos(InstanciaAlgoritmo parametros, List<Integer> indices, int valor) {
+        int contador = 0;
+        if (indices == null || indices.isEmpty()) {
+            return 0;
+        }
+        int[] valsIdeal = parametros.getVectorIdeal();
+        if (valsIdeal == null) {
+//            System.out.println("No hay ideal.");
+            return -1;
+        }
 
+        for (Integer i : indices) {
+            if (valsIdeal[i] == valor) {
+                contador++;
+            }else{
+                break;
+            }
+        }
+
+        return contador;
+    }
+    
     public static void estadisticas(List<Datos> listaDatos) {
 
         System.out.println("\n##############################################");
