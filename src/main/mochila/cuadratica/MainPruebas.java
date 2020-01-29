@@ -57,11 +57,20 @@ public class MainPruebas {
     public static void pruebasA(String[] args) throws FileNotFoundException, Exception {
         List<String[]> listaVectArgumentas = new ArrayList();
         if (args.length == 0) {
-//            String algorit = "IHEA_VA";
-            String algorit = "IHEA_M3";
-            int intentos = 1;
+            String algorit = "IHEA_VA";
+//            String algorit = "IHEA_M3";
+            int intentos = 100;
             int L = 35;
             
+            System.out.println(algorit);
+            listaVectArgumentas.add(new String[]{"-e", "100", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+            listaVectArgumentas.add(new String[]{"-e", "200", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+            listaVectArgumentas.add(new String[]{"-e", "300", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+            listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+
+            
+            algorit = "IHEA_M3";
+            System.out.println(algorit);
             listaVectArgumentas.add(new String[]{"-e", "100", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
             listaVectArgumentas.add(new String[]{"-e", "200", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
             listaVectArgumentas.add(new String[]{"-e", "300", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
