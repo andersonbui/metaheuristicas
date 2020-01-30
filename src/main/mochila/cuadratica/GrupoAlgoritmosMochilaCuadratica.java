@@ -171,7 +171,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         funcionHyperplanos.setInstancias(instancias);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_M3(funcionHyperplanos);
-//                        algotIHEA.setDepuracion(depura);
+                        algotIHEA.setDepuracion(depura);
                         algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);
@@ -203,7 +203,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
                         funcionHyperplanos.setInstancias(instancias);
                         IteratedHyperplaneExplorationAlgoritm algotIHEA = new IHEA_AV(funcionHyperplanos);
-//                        algotIHEA.setDepuracion(depura);
+                        algotIHEA.setDepuracion(depura);
                         algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
                         algotIHEA.setInstancias(instancias);

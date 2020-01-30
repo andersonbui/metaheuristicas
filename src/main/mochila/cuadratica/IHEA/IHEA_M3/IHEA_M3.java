@@ -77,12 +77,15 @@ public class IHEA_M3 extends IHEA_AV {
         // dimension de individuo
         int k = dimensionHiperplano(individuo);
         // tamaño de la mochila
-        int n = individuo.getDimension();
+        int n = individuo.getFuncion().getDimension();
+        if(n<=0){
+            System.out.println("sdsd");
+        }
         int c = (int)individuo.getFuncion().getCapacidad();
         // calcular numero de variables fijas
 //        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
-//        int nf = (int)((getUb() - c/(n*3))*(1 - 1/(k*0.05))); //mio7
-        int nf = (int)((getUb() - 20)*(1 - 1/(k*0.099))); //mio1
+        int nf = (int)((getUb() - c/(n*3))*(1 - 1/(k*0.05))); //mio7
+//        int nf = (int)((getUb() - 20)*(1 - 1/(k*0.099))); //mio1
         // (kub-20)*(1-1/(k*0.099)) // mio1
         // (kub-c/(n*3))*(1-1/(k*0.05)) // mio7
         return nf;

@@ -42,7 +42,7 @@ public class MainPruebas {
                 listaVectArgumentas.add(new String[]{"-e", "300", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + i + ",mt=10"});
             }
 //            for (int i = 10; i < 50; i = i + 5) {
-//                listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", "IHEA_VA", "-g", "L=" + i + ",mt=10"});
+//                listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", algorit, "-g", "L=" + i + ",mt=10"});
 //            }
 
 //            listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", "10" ,"--depuracion", "-r", "IHEA_VA", "-g", "L=" + 15 + ",mt=15"});
@@ -57,9 +57,9 @@ public class MainPruebas {
     public static void pruebasA(String[] args) throws FileNotFoundException, Exception {
         List<String[]> listaVectArgumentas = new ArrayList();
         if (args.length == 0) {
-            String algorit = "IHEA_VA";
-//            String algorit = "IHEA_M3";
-            int intentos = 100;
+//            String algorit = "IHEA_VA";
+            String algorit = "IHEA_M3";
+            int intentos = 1;
             int L = 35;
             
             System.out.println(algorit);
@@ -69,12 +69,12 @@ public class MainPruebas {
             listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
 
             
-            algorit = "IHEA_M3";
-            System.out.println(algorit);
-            listaVectArgumentas.add(new String[]{"-e", "100", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
-            listaVectArgumentas.add(new String[]{"-e", "200", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
-            listaVectArgumentas.add(new String[]{"-e", "300", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
-            listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+//            algorit = "IHEA_M3";
+//            System.out.println(algorit);
+//            listaVectArgumentas.add(new String[]{"-e", "100", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+//            listaVectArgumentas.add(new String[]{"-e", "200", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+//            listaVectArgumentas.add(new String[]{"-e", "300", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+//            listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
 
 //            listaVectArgumentas.add(new String[]{"-e", "1000","--evresumen", "--intentos", "10" ,"--depuracion", "-r", "IHEA_VA", "-g", "L=" + 15 + ",mt=15"});
         } else {
