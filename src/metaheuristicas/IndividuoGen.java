@@ -70,6 +70,14 @@ public class IndividuoGen<Funcion extends FuncionGen> implements Iterable<Double
         return cadena;
     }
 
+    public String toStringBinarioEspaciado() {
+        String cadena = "";
+        for (double valor : valores) {
+            cadena += " " + (int) valor;
+        }
+        return cadena;
+    }
+    
     @Override
     public IndividuoGen clone() {
         try {

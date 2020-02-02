@@ -38,16 +38,18 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int rcl; // lista restringida de candidatos - construccion greedy
     private int lb; // lower bown
     private int ub; // lower bown
+    private double PesoT; // Peso total de elementos
     private int mt;
     int ms;
     private int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
     private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
     protected InstanciaAlgoritmo instancias;
+    int[] tabu;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
         inicializado = false;
-        
+
     }
 
     public void inicializar() {
@@ -62,7 +64,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         mt = 10;
         intentosDescent = 5;
         setMaxIteraciones((int) Math.sqrt(funcion.getDimension()) + 65);
-
+        PesoT = getFuncion().getInstancias().obtenerPesoTotal();
         if (getCadenaParametros() != null) {
             String[] arrayParametros = getCadenaParametros().split(",");
             for (String arrayParametro : arrayParametros) {
@@ -70,6 +72,10 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 actualizarVarible(unParametro[0], unParametro[1]);
 //                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
             }
+        }
+        tabu = new int[funcion.getDimension()];
+        for (int i = 0; i < tabu.length; i++) {
+            tabu[i] = 0;
         }
     }
 
@@ -110,18 +116,18 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     }
 
     @Override
-     public FuncionMochilaIHEA getFuncion() {
+    public FuncionMochilaIHEA getFuncion() {
         return funcion;
     }
-    
+
     @Override
     public List<IndividuoIHEA> ejecutar() {
         if (getDepuracion() != null) {
             getDepuracion().inicializar();
-            getDepuracion().setCapacidad((int)funcion.getCapacidad());
+            getDepuracion().setCapacidad((int) funcion.getCapacidad());
             getDepuracion().setKub(getUb());
             getDepuracion().setKlb(getLb());
-            getDepuracion().setPesoTotal((int)UtilCuadratica.suma(getFuncion().getVectorPesos()));
+            getDepuracion().setPesoTotal((int) UtilCuadratica.suma(getFuncion().getVectorPesos()));
             getDepuracion().setN(funcion.getDimension());
         }
         if (!inicializado) {
@@ -178,6 +184,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 //                recorrido.add(x_mejorGlobal);
 //                return recorrido;
 //            }
+            for (int i = 0; i < tabu.length; i++) {
+                if (tabu[i] > 0) {
+                    tabu[i]--;
+                }
+            }
             // linea 10:
             solucionEncontrada = true;
             // linea 11:
@@ -235,13 +246,13 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
-        
+
         if (depuracion != null) {
 //            double cfn = getDepuracion().getContadorFijosFalsosNegativos() / contadorEvaluaciones;
 //            double cfp = getDepuracion().getContadorFijosFalsosPositivos() / contadorEvaluaciones;
 //            getDepuracion().setContadorFijosFalsosNegativos(cfn / funcion.getDimension());
 //            getDepuracion().setContadorFijosFalsosPositivos(cfp / funcion.getDimension());
-            
+
         }
 
         return recorrido;
@@ -263,7 +274,12 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
         // obtener los primeros nf indices de los elementos más densos
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+        List<Integer> listaIndices = null;
+//        if (nf > 0) {
+            listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+//        } else {
+//            listaIndices = new ArrayList();
+//        }
 
         return listaIndices;
     }
@@ -424,7 +440,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(listaIndices.size());
-            individuo.set(listaIndices.remove(posaleatoria), 0);
+            Integer indice = listaIndices.remove(posaleatoria);
+            individuo.set(indice, 0);
+            tabu[indice] = s;
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;
@@ -619,7 +637,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     public void setIntentosDescent(int intentosDescent) {
         this.intentosDescent = intentosDescent;
     }
-    
+
 //    public int getTiempototal() {
 //        return tiempototal;
 //    }
@@ -642,7 +660,6 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 //    public void setContadortabu(int contadortabu) {
 //        this.contadortabu = contadortabu;
 //    }
-
     public void setInstancias(InstanciaAlgoritmo instancias) {
         this.instancias = instancias;
     }
@@ -650,4 +667,13 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     public InstanciaAlgoritmo getInstancias() {
         return instancias;
     }
+
+    public double getPesoT() {
+        return PesoT;
+    }
+
+    public int[] getTabu() {
+        return tabu;
+    }
+    
 }

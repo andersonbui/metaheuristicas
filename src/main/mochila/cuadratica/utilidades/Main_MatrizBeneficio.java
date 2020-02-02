@@ -40,6 +40,7 @@ public class Main_MatrizBeneficio {
 //        nombreArchivo = "mochilaCuadratica/5000_25_1.txt";
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
+        nombreArchivo = "mochilaCuadratica/grupo1/jeu_100_25_9.txt";
 //        nombreArchivo = "mochilaCuadratica/jeu_200_75_6.txt";
 //        //lim,15,0.99,20
 //        nombreArchivo = "mochilaCuadratica/jeu_300_25_10.txt";
@@ -49,7 +50,7 @@ public class Main_MatrizBeneficio {
 //        nombreArchivo = "mochilaCuadratica/jeu_100_25_2.txt";
 //        //no,15,0.99,20,32
 //        //si,15,0.90-93,20,31
-        nombreArchivo = "mochilaCuadratica/grupo1/jeu_200_50_2.txt";
+//        nombreArchivo = "mochilaCuadratica/grupo1/jeu_200_50_2.txt";
         //lim,15,0.99,5->,1
 //        nombreArchivo = "mochilaCuadratica/r_10_100_13.txt";
 
@@ -96,7 +97,7 @@ public class Main_MatrizBeneficio {
             posiciones.add(i);
         }
         // encontrar orden
-
+/*
         Collections.sort(posiciones, (Integer o1, Integer o2) -> {
             double peso1 = funcion.peso(o1);
             double peso2 = funcion.peso(o2);
@@ -131,7 +132,7 @@ public class Main_MatrizBeneficio {
             }
         }
         matrizb = matrizAux;
-
+*/
         // impresion
         String cadena;
         for (int i = 0; i < matrizb.length; i++) {

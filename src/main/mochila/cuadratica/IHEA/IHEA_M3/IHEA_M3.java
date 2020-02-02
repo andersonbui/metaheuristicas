@@ -20,7 +20,6 @@ import java.util.List;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
-import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
@@ -83,11 +82,23 @@ public class IHEA_M3 extends IHEA_AV {
         }
         int c = (int)individuo.getFuncion().getCapacidad();
         // calcular numero de variables fijas
-//        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
-        int nf = (int)((getUb() - c/(n*3))*(1 - 1/(k*0.05))); //mio7
-//        int nf = (int)((getUb() - 20)*(1 - 1/(k*0.099))); //mio1
-        // (kub-20)*(1-1/(k*0.099)) // mio1
+        // int nf = (int) (getLb() + Math.max(0, (k - getLb()) * (1 - 1 / (0.008 * n))));
         // (kub-c/(n*3))*(1-1/(k*0.05)) // mio7
+//        int nf = (int)((getUb() - c/(n*3))*(1 - 1/(k*0.05))); //mio7
+        // (kub-20)*(1-1/(k*0.099)) // mio1
+//        int nf = (int)((getUb() - 20)*(1 - 1/(k*0.099))); //mio1 YA
+        // klb+(k-klb)*(1-1/(n*0.010)) +(kub-k)/2
+        //int nf = getLb() + (int)(Math.max(0, (k - getLb()))*(1-1.0/(n*0.010))) + (getUb() - k)/2; //YA
+        // klb+(k-klb)*(1-1/(n*0.010)) +(kub-k)/2 -(kub-(c*0.02))*0.02
+         int nf = getLb() + (int)(Math.max(0, (k - getLb()))*(1-1.0/(n*0.010))) + (getUb() - k)/2 - (int)Math.max(0,(getUb() - (c*0.02))*.02); // mejor
+        // klb+(k-klb)*max(c/PT*.6,abs(1-1/(n*0.012))) +(kub-k)/2 -(kub-(c*0.02))*0.02
+        //int nf = getLb() + (int)((k - getLb())*Math.max((30/n)*c/getPesoT(), Math.abs(1-1.0/(n*0.0090)))) + (getUb() - k)/2 - (int)((getUb() - (c*0.02))*.02); // mucho mejor
+        //(kub-20)*(1-1/(k*0.099))-(kub-(c*0.028))*0.015
+        //int nf = (int)Math.max(0,(int)((getUb() - 20)*(1 - 1/(k*0.099)))- (getUb() - (c*0.028))*.015); // YA
+        //(-9*kub-10*1+10*k) - c/600
+        //int nf = (int)Math.max(0,(10*k-9*getUb()-10) - c/540); // YA malo
+        // klb +(k-klb)*max(c/PT*50/n,abs(1-1000/(n*8)))
+        // int nf = getLb() + (int)((k - getLb())*Math.max((50/n)*c/getPesoT(), Math.abs(1-1.0/(n*0.008)))); // muhco mejor
         return nf;
     }
 

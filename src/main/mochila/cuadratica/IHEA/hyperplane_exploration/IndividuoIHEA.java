@@ -40,6 +40,7 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
      * mochila actual. Las contribuciones se encuentran en el mismo orden que
      * los elementos correspondientes.
      */
+    private int[] tabu;
     private double[] vec_contribucion;
 
     public IndividuoIHEA(FuncionMochilaIHEA funcion) {
@@ -73,7 +74,7 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
      *
      * @return
      */
-    @Override
+    @Override 
     public List<Integer> elementosNoSeleccionados() {
         // Sacar listas de elementos seleccionados y no seleccionados
         List<Integer> listaI0 = new ArrayList(I0);
@@ -200,6 +201,13 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     protected void setVec_contribucion(double[] vec_contribucion) {
         this.vec_contribucion = vec_contribucion;
     }
-    
+
+    public int[] getTabu() {
+        return tabu;
+    }
+
+    public void setTabu(int[] tabu) {
+        this.tabu = tabu;
+    }
     
 }

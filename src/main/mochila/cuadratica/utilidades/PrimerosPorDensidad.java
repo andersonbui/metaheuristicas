@@ -158,7 +158,38 @@ public class PrimerosPorDensidad {
         });
         return resultado;
     }
+    
+    /**
+     * obtiene los n primeros indices de los items de mayor(minimo=true) o
+     * menor(minimo=false) densidad (aporte/peso) de los elementos
+     * (listaIndicces) en la mochila.
+     *
+     * @TODO considere uso de lista ordenada
+     * @param listaIndices
+     * @param mochila
+     * @param n n-primeros indices
+     * @param minimo
+     * @return
+     */
+    public List<Integer> primerosPorBeneficioCrudo(final List<Integer> listaIndices, IndividuoCuadratico mochila, int n, boolean minimo) {
+//        listaIndices = new ArrayList(listaIndices);
+        List<Integer> resultado = new ArrayList();
 
+        // almacen de todas las densidades
+        List<Item> beneficios = new ArrayList();
+
+        FuncionMochilaCuadratica funcion = (FuncionMochilaCuadratica) mochila.getFuncion();
+        // calcular densidades
+        for (int indice : listaIndices) {
+            beneficios.add(new Item(indice, funcion.beneficio(indice)));
+        }
+        List<Item> litems = primeros2(beneficios, n, minimo);
+        litems.forEach((item) -> {
+            resultado.add(item.getIndice());
+        });
+        return resultado;
+    }
+    
     public List<Integer> primerosPorPeso(final List<Integer> listaIndices, IndividuoCuadratico mochila, int n, boolean minimo) {
 //        listaIndices = new ArrayList(listaIndices);
         List<Integer> resultado = new ArrayList();

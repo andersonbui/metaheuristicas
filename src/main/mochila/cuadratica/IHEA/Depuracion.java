@@ -18,7 +18,6 @@ package main.mochila.cuadratica.IHEA;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.utilidades.ComparacionIdeal;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
@@ -52,8 +51,19 @@ public class Depuracion implements DepuracionInterface {
         protected int cantidadSeleccionadosPeso;
         protected double falsosPositivos;
         protected double falsosNegativos;
+        protected int cerosConsecutivos;
+        private final int cantidadParecidoIdeal;
 
-        public DatoDep(int k, int pesoActual, int unosConsecutivos, double falsosPositivos, double falsosNegativos, int cantidadSeleccionados, int cantidadSeleccionadosPeso) {
+        public DatoDep(
+                int k, int pesoActual,
+                int unosConsecutivos,
+                double falsosPositivos,
+                double falsosNegativos,
+                int cantidadSeleccionados,
+                int cantidadSeleccionadosPeso,
+                int cerosConsecutivos,
+                int cantidadParecidoIdeal
+        ) {
             this.k = k;
             this.pesoActual = pesoActual;
             this.unosConsecutivos = unosConsecutivos;
@@ -61,12 +71,14 @@ public class Depuracion implements DepuracionInterface {
             this.falsosNegativos = falsosNegativos;
             this.cantidadSeleccionados = cantidadSeleccionados;
             this.cantidadSeleccionadosPeso = cantidadSeleccionadosPeso;
+            this.cerosConsecutivos = cerosConsecutivos;
+            this.cantidadParecidoIdeal = cantidadParecidoIdeal;
         }
 
         @Override
         public String toString() {
-            //FP|FN|k|PA|UC|CS|UCP
-            return falsosPositivos + "|" + falsosNegativos + "|" + k + '|' + pesoActual + '|' + unosConsecutivos + '|' + cantidadSeleccionados+'|'+cantidadSeleccionadosPeso;
+            //FP|FN|k|PA|UC|CS|UCP|CC|CPI
+            return falsosPositivos + "|" + falsosNegativos + "|" + k + '|' + pesoActual + '|' + unosConsecutivos + '|' + cantidadSeleccionados + '|' + cantidadSeleccionadosPeso;
         }
     }
 
@@ -128,7 +140,7 @@ public class Depuracion implements DepuracionInterface {
     public void evaluarVariablesFijas(InstanciaAlgoritmo instancias, List<Integer> variablesFijas, int tamanio, IndividuoIHEA individuo) {
         int fpos = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesFijas, 0);// "cuanto son ceros"
         if (fpos > 0) {
-            setContadorFijosFalsosPositivos(fpos+getContadorFijosFalsosPositivos());
+            setContadorFijosFalsosPositivos(fpos + getContadorFijosFalsosPositivos());
         }
 
         List<Integer> variablesNoFijas = new ArrayList<>();
@@ -139,27 +151,46 @@ public class Depuracion implements DepuracionInterface {
 
         int fneg = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesNoFijas, 1);// "cuanto son unos"
         if (fneg > 0) {
-            setContadorFijosFalsosNegativos(fneg+ getContadorFijosFalsosNegativos());
+            setContadorFijosFalsosNegativos(fneg + getContadorFijosFalsosNegativos());
         }
 
-
         if (instancias.getVectorIdeal() != null) {
+            individuo.toStringBinarioEspaciado();
             // items seleccionados
             List<Integer> seleccionados = individuo.elementosSeleccionados();
             // obtener los primeros nf indices de los elementos más densos
             List<Integer> seleccOrdenados = (new PrimerosPorDensidad()).primerosPorDensidad2(seleccionados, individuo, seleccionados.size(), false);
             // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
             int cantidadSeleccionadosConsecutivos = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenados, 1);
+
+            // obtener los primeros nf indices de los elementos con mayor beneficio crudo
+            List<Integer> seleccOrdenadosCrudo = (new PrimerosPorDensidad()).primerosPorBeneficioCrudo(seleccionados, individuo, seleccionados.size(), false);
+            // obtener cantidad de unos consecutivos en el individuo encontrado con respecto al ideal
+            int cantidadSeleccionadosConsecutivosBenefCrudo = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenadosCrudo, 1);
             
             seleccOrdenados = (new PrimerosPorDensidad()).primerosPorPeso(seleccionados, individuo, seleccionados.size(), false);
             int cantidadSeleccionadosConsecutivosPeso = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenados, 1);
+
+            int cantidadParecidoIdeal = ComparacionIdeal.contarValores(instancias.getVectorIdeal(), seleccOrdenados, 1);
             
-            this.addDatosActual(seleccionados.size(), (int) individuo.pesar(), cantidadSeleccionadosConsecutivos, fpos, fneg, variablesFijas.size(),cantidadSeleccionadosConsecutivosPeso);
+            List<Integer> NOSeleccionados = individuo.elementosNoSeleccionados();
+            List<Integer> seleccNOOrdenados = (new PrimerosPorDensidad()).primerosPorDensidad2(NOSeleccionados, individuo, NOSeleccionados.size(), true);
+            int cerosConsecutivos = ComparacionIdeal.contarValoresConsecutivos(instancias.getVectorIdeal(), seleccNOOrdenados, 0);
             
+            this.addDatosActual(
+                    seleccionados.size(),
+                    (int) individuo.pesar(),
+                    cantidadSeleccionadosConsecutivos,
+                    fpos, fneg,
+                    variablesFijas.size(),
+                    cantidadSeleccionadosConsecutivosPeso,
+                    cerosConsecutivos,
+                    cantidadParecidoIdeal
+            );
+
         }
     }
 
-    
     @Override
     public String imprimir() {
         return this.imprimirDatos();
@@ -204,12 +235,14 @@ public class Depuracion implements DepuracionInterface {
         this.capacidad = capacidad;
     }
 
-    public void addDatosActual(int k, int pesoActual, int unosConsecutivos, double falsosPositivos, double falsosNegativos, int cantidadSeleccionados, int cantiSelecPeso) {
-        listaDatos.add(new DatoDep(k, pesoActual, unosConsecutivos, falsosPositivos, falsosNegativos, cantidadSeleccionados, cantiSelecPeso));
+    public void addDatosActual(int k, int pesoActual, int unosConsecutivos, double falsosPositivos, double falsosNegativos, int cantidadSeleccionados, int cantiSelecPeso,
+            int cerosConsecutivos,
+            int cantidadParecidoIdeal) {
+        listaDatos.add(new DatoDep(k, pesoActual, unosConsecutivos, falsosPositivos, falsosNegativos, cantidadSeleccionados, cantiSelecPeso, cerosConsecutivos, cantidadParecidoIdeal));
     }
 
     public String imprimirDatos() {
-        //FP|FN|k|PA|UC|CS|UCP|n|klb|kub|c|PT|
+        //FP|FN|k|PA|UC|CS|UCP|CC|CPI|n|klb|kub|c|PT|
         StringBuilder sb = new StringBuilder();
         for (DatoDep dato : listaDatos) {
             sb.append(dato.toString()).append('|').append(n).append('|').append(klb).append('|').

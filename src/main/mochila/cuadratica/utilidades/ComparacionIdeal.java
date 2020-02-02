@@ -17,7 +17,6 @@
 package main.mochila.cuadratica.utilidades;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import main.mochila.cuadratica.FuncionMochilaCuadratica;
 import main.mochila.cuadratica.IndividuoCuadratico;
@@ -294,7 +293,7 @@ public class ComparacionIdeal {
         }
         double promedioCal = Utilidades.promedio(listaCalidad);
         valores[a] = promedioCal;
-        
+
         // promedio de densidades
         a++;
         tiposEstadist[a] = new TipoEstadistica();
@@ -313,11 +312,11 @@ public class ComparacionIdeal {
                     vectDensidades[k] += vecCalidades[k][j];
                 }
             }
-            listadensidades.add(vecPesos[k]/vectDensidades[k]);
+            listadensidades.add(vecPesos[k] / vectDensidades[k]);
         }
         double promedioDensi = Utilidades.promedio(listadensidades);
         valores[a] = promedioDensi;
-        
+
         DatoCalculo calculo = new DatoCalculo(nombre, valores);
         //System.out.println(calculo);
 
@@ -349,51 +348,77 @@ public class ComparacionIdeal {
      * @param indices indices de los valores en los cuales se busca el valor
      * @param valor valor el cual se cuenta cuanta coincidencias existe en
      * individuo ideal
-     * @param mensaje
      * @return
      */
     public static int cuentaValorEnIdeal(InstanciaAlgoritmo parametros, List<Integer> indices, int valor) {
-        int contador = 0;
-        if (indices == null || indices.isEmpty()) {
+        if (parametros == null) {
             return 0;
         }
-        int[] valsIdeal = parametros.getVectorIdeal();
-        if (valsIdeal == null) {
-//            System.out.println("No hay ideal.");
-            return -1;
-        }
+        return contarValores(parametros.getVectorIdeal(), indices, valor, false);
+    }
 
-        for (Integer i : indices) {
-            if (valsIdeal[i] == valor) {
-                contador++;
-            }
+    public static int cuentaValorEnIdealConsecutivos(InstanciaAlgoritmo parametros, List<Integer> indices, int valor) {
+        if (parametros == null) {
+            return 0;
         }
+        return contarValores(parametros.getVectorIdeal(), indices, valor, true);
+    }
 
-        return contador;
+    /**
+     * cuenta cuantos valores de arregloVals, consecutivamente en el orden que
+     * indica indices, son iguales a valor
+     *
+     * @param arregloVals
+     * @param indices
+     * @param valor
+     * @return
+     */
+    public static int contarValoresConsecutivos(int[] arregloVals, List<Integer> indices, int valor) {
+        return contarValores(arregloVals, indices, valor, true);
     }
     
-    public static int cuentaValorEnIdealConsecutivos(InstanciaAlgoritmo parametros, List<Integer> indices, int valor) {
+    /**
+     * cuenta cuantos valores de arregloVals, indicados por la lista indices, son iguales a valor
+     *
+     * @param arregloVals
+     * @param indices
+     * @param valor
+     * @return
+     */
+    public static int contarValores(int[] arregloVals, List<Integer> indices, int valor) {
+        return contarValores(arregloVals, indices, valor, false);
+    }
+    
+    /**
+     * cuenta valores, consecutivos (true) o no consecutivos(false), de
+     * arregloVals que sean igual a valor, en el orden en que indica la lista
+     * indices
+     *
+     * @param arregloVals
+     * @param indices
+     * @param valor
+     * @param consecutivos
+     * @return cantidad de valores contados
+     */
+    public static int contarValores(int[] arregloVals, List<Integer> indices, int valor, boolean consecutivos) {
         int contador = 0;
         if (indices == null || indices.isEmpty()) {
             return 0;
         }
-        int[] valsIdeal = parametros.getVectorIdeal();
-        if (valsIdeal == null) {
+        if (arregloVals == null) {
 //            System.out.println("No hay ideal.");
             return -1;
         }
-
         for (Integer i : indices) {
-            if (valsIdeal[i] == valor) {
+            if (arregloVals[i] == valor) {
                 contador++;
-            }else{
+            } else if (consecutivos) {
                 break;
             }
         }
-
         return contador;
     }
-    
+
     public static void estadisticas(List<Datos> listaDatos) {
 
         System.out.println("\n##############################################");
