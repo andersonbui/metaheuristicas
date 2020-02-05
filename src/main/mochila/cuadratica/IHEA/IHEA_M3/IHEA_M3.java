@@ -16,10 +16,12 @@
  */
 package main.mochila.cuadratica.IHEA.IHEA_M3;
 
+import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
@@ -46,28 +48,23 @@ public class IHEA_M3 extends IHEA_AV {
 //     * @return
 //     */
 //    public List<Integer> determinarVariablesFijas2(int dimensionHyp, IndividuoIHEA individuo, int lowerb) {
-//        // dimension de individuo
-//        int dimX = dimensionHyp;  
-//        // tamaño de la mochila
-//        int n = individuo.getDimension();
 //        // numero de variables fijas
-//        int nf;
-//        nf = (int) (lowerb + Math.max(0, (dimX - lowerb) * (1 - 1 / (0.008 * n))));
-////        System.out.print(nf+" - ");
-////        nf = (int) (0.860 * (lowerb + (getUb() - lowerb) / 2.0)); //general
-////        nf = (int)(1.08 * (lowerb + (getUb() - lowerb) / 2.0)); //300
-////        nf = (int) (0.99 * ((getUb() + lowerb) / 2.0) * (dimX *1.0/ getUb())); //300
-////        nf = (int)(0.96*(lowerb + (getUb() - lowerb) / 2.0)); //100
-////        System.out.println("- "+nf);
-////        nf = (int)(1.20*(lowerb + (getUb() - lowerb) / 2.0)); //1000
+//        int nf = getNumeroNF(individuo);
 //        // items seleccionados
 //        List<Integer> itemsSeleccionados = elementosDentro(individuo);
 //
-//        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
-//
-//        // vector de indices de variables fijas
 //        // obtener los primeros nf indices de los elementos más densos
-//        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+//        List<Integer> listaIndices = null;
+//        
+//        listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf-1, false);
+////        itemsSeleccionados = new ArrayList(itemsSeleccionados);
+//        itemsSeleccionados.removeAll(listaIndices);
+//        List<Integer> listaOtrosIndices = null;
+////        listaIndices = (new PrimerosPorDensidad()).
+//        
+////        // vector de indices de variables fijas
+////        // obtener los primeros nf indices de los elementos más densos
+////        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
 //        return listaIndices;
 //    }
 
@@ -78,7 +75,7 @@ public class IHEA_M3 extends IHEA_AV {
         // tamaño de la mochila
         int n = individuo.getFuncion().getDimension();
         if(n<=0){
-            System.out.println("sdsd");
+            System.out.println("");
         }
         int c = (int)individuo.getFuncion().getCapacidad();
         // calcular numero de variables fijas

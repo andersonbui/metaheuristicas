@@ -63,7 +63,9 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
         if (!listaIndices.isEmpty()) {
             for (int i = 0; listaIndices.size() > 0 && i < s; i++) {
                 posaleatoria = Aleatorio.nextInt(listaIndices.size());
-                individuo.set(listaIndices.remove(posaleatoria), 0);
+                Integer indice = listaIndices.remove(posaleatoria);
+                individuo.set(indice, 0);
+                getTabu()[indice] = 1;
             }
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());

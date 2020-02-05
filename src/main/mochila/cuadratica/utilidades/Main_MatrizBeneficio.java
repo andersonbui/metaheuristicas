@@ -40,7 +40,7 @@ public class Main_MatrizBeneficio {
 //        nombreArchivo = "mochilaCuadratica/5000_25_1.txt";
 //        listaParametros = UtilCuadratica.obtenerDatosMochilaCuadratica("mochilaCuadratica/1000_25_1.dat");
 
-        nombreArchivo = "mochilaCuadratica/grupo1/jeu_100_25_9.txt";
+        nombreArchivo = "mochilaCuadratica/grupo1/jeu_100_25_3.txt";
 //        nombreArchivo = "mochilaCuadratica/jeu_200_75_6.txt";
 //        //lim,15,0.99,20
 //        nombreArchivo = "mochilaCuadratica/jeu_300_25_10.txt";

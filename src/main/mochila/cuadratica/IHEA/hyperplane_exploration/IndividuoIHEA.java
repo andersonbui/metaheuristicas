@@ -74,11 +74,16 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
      *
      * @return
      */
-    @Override 
+    @Override
     public List<Integer> elementosNoSeleccionados() {
         // Sacar listas de elementos seleccionados y no seleccionados
-        List<Integer> listaI0 = new ArrayList(I0);
-        return listaI0;
+        List<Integer> listaFuera = new ArrayList();
+        for (Integer integer : getI0()) {
+            if (tabu[integer] <= 0) {
+                listaFuera.add(integer);
+            }
+        }
+        return listaFuera;
     }
 
     /**
@@ -106,7 +111,6 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     public double pesar() {
         return peso;
     }
-
 
     @Override
     public void set(int indice, double valor) {
@@ -159,7 +163,7 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
         int orden = funcion.isMaximizar() ? 1 : -1;
         int comparacion = a_calidad.compareTo(otrop.getCalidad());
 //        if (comparacion != 0) {
-            return orden * comparacion;
+        return orden * comparacion;
 //        }
 //        return orden * Double.compare(peso, otrop.peso);
     }
@@ -209,5 +213,5 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     public void setTabu(int[] tabu) {
         this.tabu = tabu;
     }
-    
+
 }

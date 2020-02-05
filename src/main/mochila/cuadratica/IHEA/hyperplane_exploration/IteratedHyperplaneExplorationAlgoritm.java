@@ -24,7 +24,6 @@ import main.mochila.cuadratica.IHEA.Depuracion;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
 import main.mochila.cuadratica.utilidades.UtilCuadratica;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
-import main.utilidades.Utilidades;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
 
@@ -122,7 +121,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 
     @Override
     public List<IndividuoIHEA> ejecutar() {
-        if (getDepuracion() != null) {
+        if (getDepuracion() != null) { 
             getDepuracion().inicializar();
             getDepuracion().setCapacidad((int) funcion.getCapacidad());
             getDepuracion().setKub(getUb());
@@ -156,6 +155,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          * linea 3: x0 = GreedyRandomizedConstruction(rcl). solucion inicial
          */
         IndividuoIHEA indi = funcion.generarIndividuo();
+        indi.setTabu(tabu);
         IndividuoIHEA x_inicial = GreedyRandomizedConstruction(indi, rcl);
         /**
          * linea 4: x0 = descent(x0). mejoramiento de la solución inicial
@@ -442,7 +442,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             posaleatoria = Aleatorio.nextInt(listaIndices.size());
             Integer indice = listaIndices.remove(posaleatoria);
             individuo.set(indice, 0);
-            tabu[indice] = s;
+            tabu[indice] = 1;
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;
