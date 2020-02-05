@@ -48,10 +48,10 @@ public class Depuracion implements DepuracionInterface {
         protected int pesoActual;
         protected int unosConsecutivos;
         protected int cantidadSeleccionados;
-        protected int cantidadSeleccionadosPeso;
+        protected int unosCansecutivos2;
         protected double falsosPositivos;
         protected double falsosNegativos;
-        protected int cerosConsecutivos;
+        protected int cantidadIgnoradosConsecutivos;
         private final int cantidadParecidoIdeal;
 
         public DatoDep(
@@ -60,8 +60,8 @@ public class Depuracion implements DepuracionInterface {
                 double falsosPositivos,
                 double falsosNegativos,
                 int cantidadSeleccionados,
-                int cantidadSeleccionadosPeso,
-                int cerosConsecutivos,
+                int unosCansecutivos2,
+                int cantidadIgnoradosConsecutivos,
                 int cantidadParecidoIdeal
         ) {
             this.k = k;
@@ -70,15 +70,17 @@ public class Depuracion implements DepuracionInterface {
             this.falsosPositivos = falsosPositivos;
             this.falsosNegativos = falsosNegativos;
             this.cantidadSeleccionados = cantidadSeleccionados;
-            this.cantidadSeleccionadosPeso = cantidadSeleccionadosPeso;
-            this.cerosConsecutivos = cerosConsecutivos;
+            this.unosCansecutivos2 = unosCansecutivos2;
+            this.cantidadIgnoradosConsecutivos = cantidadIgnoradosConsecutivos;
             this.cantidadParecidoIdeal = cantidadParecidoIdeal;
         }
 
         @Override
         public String toString() {
-            //FP|FN|k|PA|UC|CS|UCP|CC|CPI
-            return falsosPositivos + "|" + falsosNegativos + "|" + k + '|' + pesoActual + '|' + unosConsecutivos + '|' + cantidadSeleccionados + '|' + cantidadSeleccionadosPeso;
+            //FP|FN|k|PA|UC|CS|UC2|CIC|CPI
+            return falsosPositivos + "|" + falsosNegativos + "|" + k + '|' + pesoActual + '|' + 
+                    unosConsecutivos + '|' + cantidadSeleccionados + '|' + unosCansecutivos2 + '|' + 
+                    cantidadIgnoradosConsecutivos + '|' + cantidadParecidoIdeal;
         }
     }
 
@@ -169,13 +171,13 @@ public class Depuracion implements DepuracionInterface {
             int cantidadSeleccionadosConsecutivosBenefCrudo = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenadosCrudo, 1);
             
             seleccOrdenados = (new PrimerosPorDensidad()).primerosPorPeso(seleccionados, individuo, seleccionados.size(), false);
-            int cantidadSeleccionadosConsecutivosPeso = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenados, 1);
+            int unosConsecutivos2 = ComparacionIdeal.cuentaValorEnIdealConsecutivos(instancias, seleccOrdenados, 1);
 
             int cantidadParecidoIdeal = ComparacionIdeal.contarValores(instancias.getVectorIdeal(), seleccOrdenados, 1);
             
             List<Integer> NOSeleccionados = individuo.elementosNoSeleccionados();
             List<Integer> seleccNOOrdenados = (new PrimerosPorDensidad()).primerosPorDensidad2(NOSeleccionados, individuo, NOSeleccionados.size(), true);
-            int cerosConsecutivos = ComparacionIdeal.contarValoresConsecutivos(instancias.getVectorIdeal(), seleccNOOrdenados, 0);
+            int cantidadIgnoradosConsecutivos = ComparacionIdeal.contarValoresConsecutivos(instancias.getVectorIdeal(), seleccNOOrdenados, 0);
             
             this.addDatosActual(
                     seleccionados.size(),
@@ -183,8 +185,8 @@ public class Depuracion implements DepuracionInterface {
                     cantidadSeleccionadosConsecutivos,
                     fpos, fneg,
                     variablesFijas.size(),
-                    cantidadSeleccionadosConsecutivosPeso,
-                    cerosConsecutivos,
+                    unosConsecutivos2,
+                    cantidadIgnoradosConsecutivos,
                     cantidadParecidoIdeal
             );
 
@@ -242,7 +244,7 @@ public class Depuracion implements DepuracionInterface {
     }
 
     public String imprimirDatos() {
-        //FP|FN|k|PA|UC|CS|UCP|CC|CPI|n|klb|kub|c|PT|
+        //FP|FN|k|PA|UC|CS|UC2|CIC|CPI|n|klb|kub|c|PT|
         StringBuilder sb = new StringBuilder();
         for (DatoDep dato : listaDatos) {
             sb.append(dato.toString()).append('|').append(n).append('|').append(klb).append('|').

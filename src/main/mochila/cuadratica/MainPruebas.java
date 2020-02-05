@@ -57,8 +57,8 @@ public class MainPruebas {
     public static void pruebasA(String[] args) throws FileNotFoundException, Exception {
         List<String[]> listaVectArgumentas = new ArrayList();
         if (args.length == 0) {
-//            String algorit = "IHEA_VA";
-            String algorit = "IHEA_M3";
+            String algorit = "IHEA_VA";
+//            String algorit = "IHEA_M3";
             int intentos = 1;
             int L = 35;
             

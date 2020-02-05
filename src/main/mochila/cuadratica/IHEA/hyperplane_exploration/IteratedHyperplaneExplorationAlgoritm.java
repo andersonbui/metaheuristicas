@@ -442,7 +442,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             posaleatoria = Aleatorio.nextInt(listaIndices.size());
             Integer indice = listaIndices.remove(posaleatoria);
             individuo.set(indice, 0);
-            tabu[indice] = 1;
+//            tabu[indice] = 1;
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;
