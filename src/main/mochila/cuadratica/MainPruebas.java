@@ -57,14 +57,15 @@ public class MainPruebas {
     public static void pruebasA(String[] args) throws FileNotFoundException, Exception {
         List<String[]> listaVectArgumentas = new ArrayList();
         if (args.length == 0) {
-            String algorit = "IHEA_VA";
-//            String algorit = "IHEA_M3";
+//            String algorit = "IHEA_VA";
+            String algorit = "IHEA_M4";
             int intentos = 1;
             int L = 35;
             
             System.out.println(algorit);
 //            listaVectArgumentas.add(new String[]{"-b","-r",algorit,"-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1/jeu_100_25_3.txt"});
-            listaVectArgumentas.add(new String[]{"-e", "1000", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+            listaVectArgumentas.add(new String[]{"-b","-r",algorit,"-a","/home/debian/Documentos/Proyecto_grado/frameworks/framework-java-metaheuristicas/framework-metaheuristicas/mochilaCuadratica/grupo1000/1000_100_1.txt"});
+//            listaVectArgumentas.add(new String[]{"-e", "1000", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
 //            listaVectArgumentas.add(new String[]{"-e", "100", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
 //            listaVectArgumentas.add(new String[]{"-e", "200", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
 //            listaVectArgumentas.add(new String[]{"-e", "300", "--evresumen", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});

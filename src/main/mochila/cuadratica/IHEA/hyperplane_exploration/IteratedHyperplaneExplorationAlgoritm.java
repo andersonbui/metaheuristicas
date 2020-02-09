@@ -230,7 +230,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     solucionEncontrada = false;
                 }
 //                recorrido.addElemento(x_mejorGlobal);
-                funcion.reiniciarVijarVariables();
+                funcion.reiniciarFijarVariables();
             }
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {

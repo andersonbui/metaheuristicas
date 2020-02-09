@@ -77,12 +77,13 @@ public class IndividuoIHEA extends IndividuoCuadratico<FuncionMochilaIHEA> {
     @Override
     public List<Integer> elementosNoSeleccionados() {
         // Sacar listas de elementos seleccionados y no seleccionados
-        List<Integer> listaFuera = new ArrayList();
-        for (Integer integer : getI0()) {
-            if (tabu[integer] <= 0) {
-                listaFuera.add(integer);
-            }
-        }
+        List<Integer> listaFuera = new ArrayList(getI0());
+//        List<Integer> listaFuera = new ArrayList();
+//        for (Integer integer : getI0()) {
+//            if (tabu[integer] <= 0) {
+//                listaFuera.add(integer);
+//            }
+//        }
         return listaFuera;
     }
 

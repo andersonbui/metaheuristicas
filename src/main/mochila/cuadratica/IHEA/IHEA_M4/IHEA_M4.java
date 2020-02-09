@@ -24,15 +24,16 @@ import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 import main.mochila.cuadratica.IHEA.IHEA_M1.IHEA_M1;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
+import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
  * @author debian
  */
-public class IHEA_M4 extends IHEA_M1 {
+public class IHEA_M4 extends IHEA_AV {
 
     //    protected int ub; // upper bown
-    public List<Integer> listaIndicesMalos;
+//    public List<Integer> listaIndicesMalos;
     
     public IHEA_M4(FuncionMochilaIHEA funcion) {
         super(funcion);
@@ -43,36 +44,33 @@ public class IHEA_M4 extends IHEA_M1 {
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
  
-    public List<Integer> fijarVariablesMaslas(FuncionMochilaIHEA funcion, int upperb) {
-        if (listaIndicesMalos == null) {
+    public List<Integer> fijarVariablesMaslas(IndividuoIHEA individuo,FuncionMochilaIHEA funcion, int upperb) {
+        List<Integer> listaIndicesMalos = null;
+//        if (listaIndicesMalos == null) {
             // tamaño de la mochila
             int n = funcion.getDimension();
             // numero de variables fijas
-            Random rand = new Random();
-            double vari = 2.2;
-//            double vari = 1.47 + (0.2 * rand.nextDouble() - 0.1);
-            int nf = (int) (((upperb) * vari));//1.3
-            
-            nf = Math.min(n, nf);
+            // n - upperb - 40
+            int nf = (int) Math.max(0,(n - upperb - 40));//1.3
             int inicio = n - nf;
+            nf = Math.min(n, nf);
             
             if( inicio <= 0 ){
                 return new ArrayList(0);
             }
-            // items seleccionados
-            listaIndicesMalos = new ArrayList(nf);
-            List<Integer> listaInidicesResultado = (new Main_MetododosInicializacion()).ordenar(funcion);
-            for (int i = inicio; i < n; i++) {
-                listaIndicesMalos.add(listaInidicesResultado.get(i));
-            }
-        }
+            
+            List<Integer> itemsNoSeleccionados = elementosFuera(individuo);
+            listaIndicesMalos = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsNoSeleccionados, individuo, nf, true);
+            
+//        }
 //        System.out.print("");
         // vector de indices de variables fijas
         // obtener los primeros nf indices de los elementos más densos
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido (listo)
         return listaIndicesMalos;
     }
-
+  
+    
     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
      *
@@ -82,8 +80,7 @@ public class IHEA_M4 extends IHEA_M1 {
      * @return
      */
     protected List<Integer> determinarMalasVariablesFijas(IndividuoIHEA individuo, int upperb) {
-        listaIndicesMalos = fijarVariablesMaslas(funcion, upperb);
-        return listaIndicesMalos;
+        return fijarVariablesMaslas(individuo, funcion, upperb);
     }
 
     @Override
@@ -102,6 +99,6 @@ public class IHEA_M4 extends IHEA_M1 {
         List<Integer> malas = determinarMalasVariablesFijas(individuoActual, getUb());
         getFuncion().fijarVariablesMalas(malas);
     }
-
+    
 
 }

@@ -146,7 +146,7 @@ public class IHEA_GAR extends IHEA_M1 {
                 getFuncion().setPorcentajeCentral(1);
                 getFuncion().setPorcentajeNoCentral(1);
 //                recorrido.addElemento(x_mejorGlobal);
-                funcion.reiniciarVijarVariables();
+                funcion.reiniciarFijarVariables();
             }
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {

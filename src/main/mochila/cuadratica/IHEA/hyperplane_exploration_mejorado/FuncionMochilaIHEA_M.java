@@ -58,7 +58,7 @@ public class FuncionMochilaIHEA_M extends FuncionMochilaIHEA {
     }
 
     @Override
-    public void reiniciarVijarVariables() {
+    public void reiniciarFijarVariables() {
 
 //        variablesFijasMalas = null;
         if (variablesFijasMalas != null) {

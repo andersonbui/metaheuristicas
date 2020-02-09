@@ -202,7 +202,7 @@ public class FuncionMochilaIHEATest {
     }
 
     /**
-     * Test of reiniciarVijarVariables method, of class FuncionMochilaIHEA_A.
+     * Test of reiniciarFijarVariables method, of class FuncionMochilaIHEA_A.
      */
     @Test
     public void testReiniciarVijarVariables() {
@@ -219,7 +219,7 @@ public class FuncionMochilaIHEATest {
         List<Integer> result2 = funcion.obtener_I1(individuo);
         assertTrue(result2.isEmpty());
         
-        funcion.reiniciarVijarVariables();
+        funcion.reiniciarFijarVariables();
         List<Integer> listVarFijas = funcion.getVariablesFijas();
         assertTrue(listVarFijas.isEmpty());
         
