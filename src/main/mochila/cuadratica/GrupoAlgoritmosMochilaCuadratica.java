@@ -35,6 +35,8 @@ import main.mochila.cuadratica.sgvns.busqueda_vecindad_variable.SGVNS;
 //import main.mochila.cuadratica.sgvns.SGVNS;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.FuncionMochilaIHEA_A;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration_mejorado.FuncionMochilaIHEA_M1_M4;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration_mejorado.IHEA_M_M1_M4;
 import main.mochila.cuadratica.sgvns.FuncionJSGVNS;
 import main.mochila.cuadratica.sgvns.JSGVNS;
 import main.mochila.cuadratica.sgvns.SGVNS_GAR.FuncionMochilaVNS_GAR;
@@ -53,7 +55,7 @@ import metaheuristicas.FabricaAlgoritmoMetaheuristico;
 public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
 
     public static enum AlgoritmoOpion {
-        IHEA, IHEA_VA, IHEA_GAR, IHEA_M1, IHEA_M2, IHEA_M3, IHEA_M4, IHEA_MT, SGVNS,SGVNS_M1,SGVNS_M2,SGVNS_M3, JSGVNS, JSGVNS_GAR
+        IHEA, IHEA_VA, IHEA_GAR, IHEA_M1, IHEA_M2, IHEA_M3, IHEA_M4, IHEA_MT, IHEA_M, SGVNS,SGVNS_M1,SGVNS_M2,SGVNS_M3, JSGVNS, JSGVNS_GAR
     };
     AlgoritmoOpion opcion;
     String parametrosAlgoritmo;
@@ -213,24 +215,28 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
                     }
                 });
                 break;
-////
-//        add(new FabricaAlgoritmoMetaheuristico() {
-//            @Override
-//            public AlgoritmoMetaheuristico obtener() {
-//                FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_M(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-//                IteratedHyperplaneExplorationAlgoritm_M algotIHEA = new IteratedHyperplaneExplorationAlgoritm_M(funcionHyperplanos);
-//                algotIHEA.setSaltar(true);
-//                algotIHEA.setInstancias(InstanciaAlgoritmo);
-//                algotIHEA.addNombre("IHEA_M");
-//                return algotIHEA;
-//            }
-//        });
-//////
+            case IHEA_M:
+                add(new FabricaAlgoritmoMetaheuristico() {
+                    @Override
+                    public AlgoritmoMetaheuristico obtener() {
+                        FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_M1_M4(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                        funcionHyperplanos.setInstancias(instancias);
+                        IHEA_M_M1_M4 algotIHEA = new IHEA_M_M1_M4(funcionHyperplanos);
+                        algotIHEA.setCadenaParametros(parametrosAlgoritmo);
+                        algotIHEA.addNombre("_M");
+                        algotIHEA.inicializar();
+//                        algotIHEA.setSaltar(true);
+                        algotIHEA.setInstancias(instancias);
+                        return algotIHEA;
+                    }
+                });
+                break;
             case IHEA_MT:
                 add(new FabricaAlgoritmoMetaheuristico() {
                     @Override
                     public AlgoritmoMetaheuristico obtener() {
                         FuncionMochilaIHEA funcionHyperplanos = new FuncionMochilaIHEA_A(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
+                        funcionHyperplanos.setInstancias(instancias);
                         IteratedHyperplaneExplorationAlgoritm_A algotIHEA = new IteratedHyperplaneExplorationAlgoritm_A(funcionHyperplanos);
                         algotIHEA.setCadenaParametros(parametrosAlgoritmo);
                         algotIHEA.inicializar();
