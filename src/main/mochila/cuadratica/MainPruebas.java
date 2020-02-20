@@ -112,11 +112,37 @@ public class MainPruebas {
             }
         }
     }
- 
+    
+    public static void pruebasM1423(String[] args) throws FileNotFoundException, Exception {
+        String[] algots = {"IHEA_M1423"};
+//        String[] algots = {"IHEA_M","IHEA_M142","IHEA_M1423"};
+        for (String algot : algots) {
+            
+            List<String[]> listaVectArgumentas = new ArrayList();
+            if (args.length == 0) {
+                String algorit = algot;
+                int intentos = 1;
+                int L = 35;
+
+                System.out.println(algorit);
+//                listaVectArgumentas.add(new String[]{"-e", "100", "-v", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+//                listaVectArgumentas.add(new String[]{"-e", "200", "-v", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+//                listaVectArgumentas.add(new String[]{"-e", "300", "-v", "--intentos", String.valueOf(intentos), "--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+                listaVectArgumentas.add(new String[]{"-e", "1000","-v", "--intentos", String.valueOf(intentos) ,"--depuracion", "-r", algorit, "-g", "L=" + L + ",mt=10"});
+
+            } else {
+                listaVectArgumentas.add(args);
+            }
+            for (String[] vectArgumentos : listaVectArgumentas) {
+                (new MochilaCuadraticaEjecucion()).ejecucion(vectArgumentos);
+            }
+        }
+    }
     public static void main(String[] args) throws FileNotFoundException, Exception {
 //        pruebasL(args);
-        pruebasA(args);
+//        pruebasA(args);
         //pruebasB(args);
+        pruebasM1423(args);
 
     }
 }

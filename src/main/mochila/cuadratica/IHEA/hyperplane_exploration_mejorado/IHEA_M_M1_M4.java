@@ -20,11 +20,7 @@ import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import main.mochila.cuadratica.IHEA.IHEA_M1.IHEA_M1;
-import main.mochila.cuadratica.IHEA.hyperplane_exploration_ajustado.IteratedHyperplaneExplorationAlgoritm_A;
-import main.mochila.cuadratica.utilidades.ComparacionIdeal;
-import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**

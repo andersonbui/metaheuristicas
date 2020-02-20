@@ -16,12 +16,9 @@
  */
 package main.mochila.cuadratica.IHEA.IHEA_M3;
 
-import java.util.ArrayList;
-import java.util.List;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
-import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
