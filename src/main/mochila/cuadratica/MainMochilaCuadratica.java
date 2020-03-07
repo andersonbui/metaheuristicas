@@ -56,15 +56,18 @@ public class MainMochilaCuadratica {
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M3", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M2", "L=2,mt=15,mt=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=1, i_encontrarM=20"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS","-g", "i_interc=15, i_encontrarM=20"});
-            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=1, i_encontrarM=20"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11","-a","C:\\Users\\Juan Diaz PC\\Documents\\Documents\\TRABAJO_DE_GRADO\\Framework\\Framework_GAR\\Resultados\\Generico\\instancia_D0636I_0.txt"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11"});
 //            listaVectArgumentas.add(new String[]{"-I", "-r", "JSGVNS","-g", "i_interc=7, i_encontrarM=11","-a","C:\\Users\\Juan Diaz PC\\Documents\\Documents\\TRABAJO_DE_GRADO\\Framework\\Framework_GAR\\Resultados\\Generico\\instancia_D0624F_0.txt"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "JSGVNS_GAR","-g", "i_interc=7, i_encontrarM=11, SACUDIDA=0.0:0.8:0.2"});
-//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=1, i_encontrarM=20"});
+            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=1, i_encontrarM=20"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M6","-g", "i_interc=1, i_encontrarM=20"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M1","-g", "i_interc=1, i_encontrarM=20","-a","C:\\Users\\Juan Diaz PC\\Documents\\Documents\\TRABAJO_DE_GRADO\\Framework\\Java\\metaheuristicas\\mochilaCuadratica\\grupo1000\\1000_25_2.txt"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M2","-g", "i_interc=1, i_encontrarM=20"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M3", "-g", "i_interc=1, i_encontrarM=20"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M4","-g", "i_interc=1, i_encontrarM=20"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M5","-g", "i_interc=1, i_encontrarM=20"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M5","-g", "i_interc=1, i_encontrarM=20","-a","C:\\Users\\Juan Diaz PC\\Documents\\Documents\\TRABAJO_DE_GRADO\\Framework\\Java\\metaheuristicas\\mochilaCuadratica\\grupo1\\jeu_300_50_20.txt"});
+//            listaVectArgumentas.add(new String[]{"-e", "-r", "SGVNS_M7","-g", "i_interc=1, i_encontrarM=20"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_GAR", "L=20,mt=10,ms=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=20,mt=10,ms=5"});
 //            listaVectArgumentas.add(new String[]{"-e", "-r", "IHEA_M1", "L=2,mt=15,mt=5"});
@@ -95,7 +98,7 @@ public class MainMochilaCuadratica {
     }
 
     public static void ejecucion(String[] args) throws FileNotFoundException, Exception {
-        int numIntentos = 1;
+        int numIntentos = 10;
         int indice = 0;
 //        boolean repetir = true;
         boolean ayuda = true;

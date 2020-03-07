@@ -50,7 +50,7 @@ public class JSGVNS extends SGVNS {
         lb = -1;
         lb = obtenerLowerBound();
         nombre = "JSGVNS";
-        rcl = 400;
+        rcl = 10;
     }
 
     /**
@@ -104,7 +104,7 @@ public class JSGVNS extends SGVNS {
                 //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
                 //MODIFICACION trabajar la sacudida con el vecindario 1
 //                y_p = sacudidaOriginal(y, 2, h);
-                y_p = sacudidaModifacadaMejorActual(y, 1, h);
+                y_p = sacudidaModifacadaMejorActual(y, 2, h);
 //                y_p = sacudidaModificadaMejorInicial(y, 1, h);
 //                variablesFijasUpperb = determinarVariablesFijasUpperBound(y_p.getDimension(), y_p, ub);
 //                construirProblemaRestringidoReducido(variablesFijasUpperb);
