@@ -29,15 +29,15 @@ import main.mochila.IndividuoMochila;
  */
 public class FuncionMochilaIHEA_M4 extends FuncionMochilaIHEA {
 
-    private List<Integer> variablesFijasMalas;
+    private List<Integer> variablesIgnoradas;
 
     public FuncionMochilaIHEA_M4(double[][] matrizBeneficios, double capacidad, double[] vectorPesos, Double maxGlobal) {
         super(matrizBeneficios, capacidad, vectorPesos, maxGlobal);
-        variablesFijasMalas = null;
+        variablesIgnoradas = null;
     }
 
     public void fijarVariablesMalas(List<Integer> varFijas) {
-        variablesFijasMalas = varFijas;
+        variablesIgnoradas = varFijas;
     }
 
     /**
@@ -52,19 +52,24 @@ public class FuncionMochilaIHEA_M4 extends FuncionMochilaIHEA {
     public List<Integer> obtener_I0(IndividuoMochila individuo) {
         IndividuoIHEA indi = ((IndividuoIHEA) individuo);
         List noseleccionados = indi.elementosNoSeleccionados();
-        if (this.variablesFijasMalas != null && !this.variablesFijasMalas.isEmpty()) {
-            noseleccionados.removeAll(this.variablesFijasMalas);
+        if (this.variablesIgnoradas != null && !this.variablesIgnoradas.isEmpty()) {
+            noseleccionados.removeAll(this.variablesIgnoradas);
         }
         return noseleccionados;
     }
 
     @Override
-    public void reiniciarVijarVariables() {
+    public void reiniciarFijarVariables() {
 
-        variablesFijasMalas = null;
-        if (variablesFijasMalas != null) {
-            variablesFijasMalas.clear();
+        if (variablesIgnoradas != null) {
+            variablesIgnoradas.clear();
         }
+        variablesIgnoradas = null;
         getVariablesFijas().clear();
     }
+
+    public List<Integer> getVariablesIgnoradas() {
+        return variablesIgnoradas;
+    }
+    
 }

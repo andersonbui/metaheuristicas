@@ -110,6 +110,16 @@ public class InstanciaAlgoritmo {
         this.vectorPesos = vectorPesos;
     }
 
+    public double obtenerPesoTotal(){
+        double suma = 0;
+        double[] vectPesos = getVectorPesos();
+        
+        for (double elemento: vectPesos) {
+            suma =+ elemento;
+        }
+        return suma;
+    }
+    
     public Double getMaxGlobal() {
         return maxGlobal;
     }

@@ -16,6 +16,7 @@
  */
 package main.mochila.cuadratica.IHEA.IHEA_AjusteVariables;
 
+import java.util.ArrayList;
 import java.util.List;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.IteratedHyperplaneExplorationAlgoritm;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
@@ -31,12 +32,14 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
 
     public IHEA_AV(FuncionMochilaIHEA funcion) {
         super(funcion);
+        setNombre("IHEA_VA");
     }
 
     @Override
     public void inicializar() {
-        setL(20);
+        setL(35);
         setMt(15);
+//        setMs(3);
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -50,7 +53,7 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
         // tamaño de la mochila
         int n = individuo.getDimension();
         // numero de variables fijas
-        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+        int nf = getNumeroNF(individuo);
 
         int t = Math.min(getMt(), I1.size() - nf);
         t = Math.max(t, 0);
@@ -58,11 +61,17 @@ public class IHEA_AV extends IteratedHyperplaneExplorationAlgoritm {
 
         List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad(I1, individuo, t, true);
         int posaleatoria;
+//        List<Integer> list = new ArrayList();
         if (!listaIndices.isEmpty()) {
             for (int i = 0; listaIndices.size() > 0 && i < s; i++) {
                 posaleatoria = Aleatorio.nextInt(listaIndices.size());
-                individuo.set(listaIndices.remove(posaleatoria), 0);
+                Integer indice = listaIndices.remove(posaleatoria);
+                individuo.set(indice, 0);
+//                list.add(indice);
             }
+//            posaleatoria = Aleatorio.nextInt(list.size());
+//            Integer indice = list.remove(posaleatoria);
+//            getTabu()[indice] = 4;
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;

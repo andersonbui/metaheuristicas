@@ -153,7 +153,7 @@ public class FuncionMochilaIHEA extends FuncionMochilaCuadratica {
         variablesFijas = varFijas;
     }
 
-    public void reiniciarVijarVariables() {
+    public void reiniciarFijarVariables() {
         variablesFijas.clear();
     }
 

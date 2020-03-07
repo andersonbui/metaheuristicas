@@ -14,36 +14,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main.mochila.cuadratica.IHEA.IHEA_M4;
+package main.mochila.cuadratica.IHEA.hyperplane_exploration_mejorado;
 
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
+import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import main.mochila.cuadratica.IHEA.hyperplane_exploration.FuncionMochilaIHEA;
-import main.mochila.cuadratica.IHEA.IHEA_AjusteVariables.IHEA_AV;
 import main.mochila.cuadratica.IHEA.IHEA_M1.IHEA_M1;
-import main.mochila.cuadratica.IHEA.hyperplane_exploration.IndividuoIHEA;
-import main.mochila.cuadratica.utilidades.Main_MetododosInicializacion;
 import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 
 /**
  *
  * @author debian
  */
-public class IHEA_M4 extends IHEA_M1 {
+public class IHEA_M_M1_M4 extends IHEA_M1 {
 
-    //    protected int ub; // upper bown
-//    public List<Integer> listaIndicesMalos;
-    
-    public IHEA_M4(FuncionMochilaIHEA funcion) {
+//    protected int ub; // upper bown
+    public List<Integer> listaIndicesMalos;
+
+    public IHEA_M_M1_M4(FuncionMochilaIHEA funcion) {
         super(funcion);
+//        ub = funcion.obtenerUpperBound();
+//        listaIndicesMalos = fijarVariables(funcion, ub);
     }
 
     @Override
     public void inicializar() {
+//        saltar = false;
+        setL(20);
         super.inicializar(); //To change body of generated methods, choose Tools | Templates.
+        addNombre("-M1-M4");
     }
- 
+
+   
     public List<Integer> fijarVariablesMaslas(IndividuoIHEA individuo,FuncionMochilaIHEA funcion, int upperb) {
         List<Integer> listaIndicesMalos = null;
 //        if (listaIndicesMalos == null) {
@@ -69,8 +72,7 @@ public class IHEA_M4 extends IHEA_M1 {
         // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido (listo)
         return listaIndicesMalos;
     }
-  
-    
+
     /**
      * obtine los indices de todas las varibles seleccionadas que seran fijas
      *
@@ -80,12 +82,8 @@ public class IHEA_M4 extends IHEA_M1 {
      * @return
      */
     protected List<Integer> determinarMalasVariablesFijas(IndividuoIHEA individuo, int upperb) {
-        return fijarVariablesMaslas(individuo, funcion, upperb);
-    }
-
-    @Override
-    public FuncionMochilaIHEA_M4 getFuncion() {
-        return (FuncionMochilaIHEA_M4) funcion;
+        listaIndicesMalos = fijarVariablesMaslas(individuo, funcion, upperb);
+        return new ArrayList(listaIndicesMalos);
     }
 
     /**
@@ -99,6 +97,17 @@ public class IHEA_M4 extends IHEA_M1 {
         List<Integer> malas = determinarMalasVariablesFijas(individuoActual, getUb());
         getFuncion().fijarVariablesMalas(malas);
     }
-    
+
+    @Override
+    public FuncionMochilaIHEA_M1_M4 getFuncion() {
+        return (FuncionMochilaIHEA_M1_M4) funcion;
+    }
+
+    @Override
+    protected IndividuoIHEA tabuSearchEngine(int L, IndividuoIHEA x_inicial, IndividuoIHEA x_referencia) {
+
+//        ComparacionIdeal.cuentaValorEnIdeal(parametros, listaIndicesMalos,1," indices malos como unos en ideal");
+        return super.tabuSearchEngine(L, x_inicial, x_referencia); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

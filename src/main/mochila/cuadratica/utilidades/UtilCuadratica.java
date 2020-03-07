@@ -242,11 +242,39 @@ public class UtilCuadratica {
         return promedio;
     }
 
+    public static int suma(int[] valores) {
+        int promedio = 0;
+        for (int val : valores) {
+            promedio += val;
+        }
+        return promedio;
+    }
+    
     public static double promedio(double[] valores) {
         double promedio = 0;
         for (double val : valores) {
             promedio += val;
         }
         return promedio / valores.length;
+    }
+    
+    
+    public static String formatear(double valor) {
+        if (valor > 100000) {
+            return String.format("%-2.2f", valor);
+        }
+        if (valor < 10) {
+            return String.format("%-1.6f", valor);
+        } else {
+            return String.format("%.2f", valor);
+        }
+    }
+
+    public static String formatear(int valor) {
+        if (valor > 100000) {
+            return String.format("%-2E", 1.0 * valor);
+        } else {
+            return String.format("%4d" + "", valor);
+        }
     }
 }

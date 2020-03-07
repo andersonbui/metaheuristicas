@@ -16,6 +16,7 @@ public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Indivi
     protected String nombre;
     protected Funcion funcion;
     protected String cadenaParametros;
+    protected DepuracionInterface depuracion;
 
     public AlgoritmoMetaheuristico() {
         this.nombre = "";
@@ -81,4 +82,14 @@ public abstract class AlgoritmoMetaheuristico<Funcion extends FuncionGen, Indivi
     public void setCadenaParametros(String cadenaParametros) {
         this.cadenaParametros = cadenaParametros;
     }
+
+    public DepuracionInterface getDepuracion() {
+        return depuracion;
+    }
+
+    public void setDepuracion(DepuracionInterface depuracion) {
+        this.depuracion = depuracion;
+    }
+    
+    
 }

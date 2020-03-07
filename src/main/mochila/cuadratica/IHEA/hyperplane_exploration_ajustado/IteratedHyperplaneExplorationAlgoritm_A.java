@@ -39,9 +39,9 @@ public class IteratedHyperplaneExplorationAlgoritm_A extends IteratedHyperplaneE
 
     @Override
     public void inicializar() {
-        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
         saltar = false;
         setL(20);
+        super.inicializar(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public boolean isSaltar() {

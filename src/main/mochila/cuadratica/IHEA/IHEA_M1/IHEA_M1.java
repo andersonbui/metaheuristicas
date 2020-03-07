@@ -137,7 +137,7 @@ public class IHEA_M1 extends IHEA_AV {
                 for (int i : I0) {
                     // linea 11:
                     // linea 12:
-                    if (tabu[i][j] != iterTabu) {
+                    if (tabu[i][j] <= iterTabu) {
                         //contribucion
                         frx = calidadi + funcion.contribucion(i, x, j);
                         // peso del articulo
@@ -207,8 +207,8 @@ public class IHEA_M1 extends IHEA_AV {
                             list_RCS.add(j);
                         }
                         if (list_RCS.size() == 2) {
-                            tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu;
-                            tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu;
+                            tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu+2;
+                            tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu+2;
                         }
                         i--;
                     }

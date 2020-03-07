@@ -63,4 +63,12 @@ public abstract class FuncionMochila<Individuo extends IndividuoMochila> extends
         return nombre;
     }
 
+    public double[] getVectorPesos() {
+        return vectorPesos;
+    }
+
+    public void setVectorPesos(double[] vectorPesos) {
+        this.vectorPesos = vectorPesos;
+    }
+    
 }

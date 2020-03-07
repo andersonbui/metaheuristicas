@@ -121,6 +121,9 @@ public class EjecutorAlgoritmo {
         long tiempo_inicial = System.currentTimeMillis();
         for (int i = 0; i < numeroPruebas; i++) {
             recorridoIndividuos = unAlgoritmo.ejecutar();
+            if(unAlgoritmo.getDepuracion() != null){
+                System.out.print("" + unAlgoritmo.getDepuracion().imprimir());
+            }
             if (recorridoIndividuos != null) {
                 listaRecorridosPruebas.add(recorridoIndividuos);
             }

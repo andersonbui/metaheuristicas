@@ -20,8 +20,9 @@ import main.mochila.cuadratica.utilidades.PrimerosPorDensidad;
 import main.mochila.cuadratica.IHEA.hyperplane_exploration.greedy.Greedy;
 import java.util.ArrayList;
 import java.util.List;
-import main.mochila.cuadratica.utilidades.ComparacionIdeal;
+import main.mochila.cuadratica.IHEA.Depuracion;
 import main.mochila.cuadratica.utilidades.InstanciaAlgoritmo;
+import main.mochila.cuadratica.utilidades.UtilCuadratica;
 import static main.mochila.cuadratica.utilidades.UtilCuadratica.swap;
 import metaheuristicas.Aleatorio;
 import metaheuristicas.AlgoritmoMetaheuristico;
@@ -36,35 +37,33 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     int rcl; // lista restringida de candidatos - construccion greedy
     private int lb; // lower bown
     private int ub; // lower bown
+    private double PesoT; // Peso total de elementos
     private int mt;
     int ms;
     private int L; // tamanio maximo de la lista de ejecucion - busqueda tabu
-    protected int tiempototal; // tiempo total que toma la busqueda tabu
     private int intentosDescent; // intento de busqueda obtimo - procedimiento descendente.
-    private int contadorIntercambios; // contador de intercambios dentro de la busqueda exaustiva de tabuSearch (estadistica)
-    protected int contadortabu; // Contador de veces que se usa tabuSearch (estadistica)
-    protected int contadorFijosFalsosPositivos;
     protected InstanciaAlgoritmo instancias;
+    int[] tabu;
 
     public IteratedHyperplaneExplorationAlgoritm(FuncionMochilaIHEA funcion) {
         super(funcion);
         inicializado = false;
+
     }
 
     public void inicializar() {
-        contadorFijosFalsosPositivos = 0;
+//        depuracion = new Depuracion();
         inicializado = true;
         nombre = "IHEA";
         lb = funcion.obtenerLowerBound();
         ub = funcion.obtenerUpperBound();
-        tiempototal = 0;
         rcl = 20;
         L = 300;
         ms = 3;
         mt = 10;
         intentosDescent = 5;
         setMaxIteraciones((int) Math.sqrt(funcion.getDimension()) + 65);
-
+        PesoT = getFuncion().getInstancias().obtenerPesoTotal();
         if (getCadenaParametros() != null) {
             String[] arrayParametros = getCadenaParametros().split(",");
             for (String arrayParametro : arrayParametros) {
@@ -73,55 +72,68 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
 //                System.out.println("unParametro[0]: " + unParametro[0] + "; unParametro[1]: " + unParametro[1]);
             }
         }
+        tabu = new int[funcion.getDimension()];
+        for (int i = 0; i < tabu.length; i++) {
+            tabu[i] = 0;
+        }
     }
 
     public void actualizarVarible(String nombre, String valor) {
-        
+
         switch (nombre) {
             case "L":
-                try {  
+                try {
                     L = Integer.parseInt(valor);
-                } catch(NumberFormatException e){  
-                }  
+                } catch (NumberFormatException e) {
+                }
                 break;
             case "mt":
-                try {  
+                try {
                     mt = Integer.parseInt(valor);
-                } catch(NumberFormatException e){  
-                }  
+                } catch (NumberFormatException e) {
+                }
                 break;
             case "ms":
-                try {  
+                try {
                     ms = Integer.parseInt(valor);
-                } catch(NumberFormatException e){  
-                }  
+                } catch (NumberFormatException e) {
+                }
                 break;
             case "rcl":
-                try {  
+                try {
                     rcl = Integer.parseInt(valor);
-                } catch(NumberFormatException e){  
-                }  
+                } catch (NumberFormatException e) {
+                }
                 break;
             case "idesc":
-                try {  
+                try {
                     intentosDescent = Integer.parseInt(valor);
-                } catch(NumberFormatException e){  
-                }  
+                } catch (NumberFormatException e) {
+                }
                 break;
         }
     }
 
     @Override
+    public FuncionMochilaIHEA getFuncion() {
+        return funcion;
+    }
+
+    @Override
     public List<IndividuoIHEA> ejecutar() {
-        contadortabu = 0;
-        contadorIntercambios = 0;
+        if (getDepuracion() != null) { 
+            getDepuracion().inicializar();
+            getDepuracion().setCapacidad((int) funcion.getCapacidad());
+            getDepuracion().setKub(getUb());
+            getDepuracion().setKlb(getLb());
+            getDepuracion().setPesoTotal((int) UtilCuadratica.suma(getFuncion().getVectorPesos()));
+            getDepuracion().setN(funcion.getDimension());
+        }
         if (!inicializado) {
             System.out.println("peligro" + getNombre() + " no inicializado");
             return null;
         }
         List listaResult = iterateHiperplaneExploration(L, getRcl(), maxIteraciones);
-//        System.out.println("===> tiempo: " + tiempototal / contadortabu);
-//        System.out.println("contador intercambios tabu: " + contadorIntercambios);
         return listaResult;
     }
 
@@ -143,6 +155,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          * linea 3: x0 = GreedyRandomizedConstruction(rcl). solucion inicial
          */
         IndividuoIHEA indi = funcion.generarIndividuo();
+        indi.setTabu(tabu);
         IndividuoIHEA x_inicial = GreedyRandomizedConstruction(indi, rcl);
         /**
          * linea 4: x0 = descent(x0). mejoramiento de la solución inicial
@@ -164,13 +177,18 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
          */
         IndividuoIHEA x_mejorGlobal = x_mejorRondaHyper.clone();
         //linea 9:
-        contadorFijosFalsosPositivos = 0;
+        int contadorEvaluaciones = 0;
         for (; iteraciones < maxIter; iteraciones++) {
 //            boolean suficiente = funcion.suficiente(x_mejorGlobal);
 //            if (suficiente) {
 //                recorrido.add(x_mejorGlobal);
 //                return recorrido;
 //            }
+            for (int i = 0; i < tabu.length; i++) {
+                if (tabu[i] > 0) {
+                    tabu[i]--;
+                }
+            }
             // linea 10:
             solucionEncontrada = true;
             // linea 11:
@@ -184,16 +202,17 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                 // linea 16: construct reduce constrain problem
                 construirProblemaRestringidoReducido(variablesFijas, x_prima);
                 //contar variables fijas pertenecientes al ideal
-                int amalos = ComparacionIdeal.cuentaValorEnIdeal(instancias, variablesFijas, 0, "cuanto son ceros");
-                if(amalos > 0){
-                    contadorFijosFalsosPositivos += amalos;
+                // pruebas
+                if (depuracion != null) {
+                    contadorEvaluaciones++;
+                    getDepuracion().evaluarVariablesFijas(instancias, variablesFijas, getFuncion().getDimension(), x_prima);
                 }
                 // linea 17: run tabu serach engine (L,x',xb)
-                long tiempo_inicial = System.currentTimeMillis();
-                contadortabu++;
+//                long tiempo_inicial = System.currentTimeMillis();
+//                contadortabu++;
                 x_prima = tabuSearchEngine(L, x_prima, x_mejorRondaHyper);
-                long tiempo_final = System.currentTimeMillis();
-                tiempototal += (tiempo_final - tiempo_inicial);
+//                long tiempo_final = System.currentTimeMillis();
+//                tiempototal += (tiempo_final - tiempo_inicial);
                 // linea 18:
                 if (x_prima.compareTo(x_mejorRondaHyper) > 0) {
                     // linea 19:
@@ -211,7 +230,7 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
                     solucionEncontrada = false;
                 }
 //                recorrido.addElemento(x_mejorGlobal);
-                funcion.reiniciarVijarVariables();
+                funcion.reiniciarFijarVariables();
             }
             //linea 27:
             if (x_mejorRondaHyper.compareTo(x_mejorGlobal) > 0) {
@@ -227,13 +246,20 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
             x_mejorRondaHyper = x_prima.clone();
             recorrido.add(x_mejorGlobal);
         }
-//        System.out.println(""+instancias.getNombreInstancia()+ ":" + contadorFijosFalsosPositivos);
+
+        if (depuracion != null) {
+//            double cfn = getDepuracion().getContadorFijosFalsosNegativos() / contadorEvaluaciones;
+//            double cfp = getDepuracion().getContadorFijosFalsosPositivos() / contadorEvaluaciones;
+//            getDepuracion().setContadorFijosFalsosNegativos(cfn / funcion.getDimension());
+//            getDepuracion().setContadorFijosFalsosPositivos(cfp / funcion.getDimension());
+
+        }
 
         return recorrido;
-    }   
+    }
 
     /**
-     * obtine los indices de todas las varibles seleccionadas que seran fijas
+     * Obtiene los indices de todas las varibles seleccionadas que seran fijas
      *
      * @TODO realizar el calculo tambien con el LB solo, es decir, (nf=lowerb)
      * @param dimensionHyp
@@ -247,11 +273,14 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // items seleccionados
         List<Integer> itemsSeleccionados = elementosDentro(individuo);
 
-        List<Integer> listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
-
-        // vector de indices de variables fijas
         // obtener los primeros nf indices de los elementos más densos
-        // TODO: comprobar si todas estas variables fijas hacen parte del optimo global conocido
+        List<Integer> listaIndices = null;
+//        if (nf > 0) {
+            listaIndices = (new PrimerosPorDensidad()).primerosPorDensidad2(itemsSeleccionados, individuo, nf, false);
+//        } else {
+//            listaIndices = new ArrayList();
+//        }
+
         return listaIndices;
     }
 
@@ -382,18 +411,11 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         // tamaño de la mochila
         int n = individuo.getDimension();
         // calcular numero de variables fijas
-//        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
-        
-        int nf = (int) (0.99 * ((getUb() + getLb()) / 2.0) * (dimX *1.0/ getUb())); //300
-//        System.out.print(nf+" - ");
-//        nf = (int) (0.860 * (lowerb + (ub - lowerb) / 2.0)); //general
-//        nf = (int)(1.08*(lowerb + (ub - lowerb) / 2.0)); //300
-//        nf = (int)(0.96*(lowerb + (ub - lowerb) / 2.0)); //100
-//        System.out.println("- "+nf);
-//        nf = (int)(1.20*(lowerb + (ub - lowerb) / 2.0)); //1000
+        int nf = (int) (getLb() + Math.max(0, (dimX - getLb()) * (1 - 1 / (0.008 * n))));
+
         return nf;
     }
-    
+
     /**
      *
      * @param individuo
@@ -418,7 +440,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         int posaleatoria;
         for (int i = 0; i < s; i++) {
             posaleatoria = Aleatorio.nextInt(listaIndices.size());
-            individuo.set(listaIndices.remove(posaleatoria), 0);
+            Integer indice = listaIndices.remove(posaleatoria);
+            individuo.set(indice, 0);
+//            tabu[indice] = 1;
         }
         individuo = GreedyRandomizedConstruction(individuo, getRcl());
         return individuo;
@@ -601,12 +625,9 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.L = L;
     }
 
-    public int getTiempototal() {
-        return tiempototal;
-    }
-
-    public void setTiempototal(int tiempototal) {
-        this.tiempototal = tiempototal;
+    @Override
+    public Depuracion getDepuracion() {
+        return (Depuracion) depuracion;
     }
 
     public int getIntentosDescent() {
@@ -617,22 +638,28 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
         this.intentosDescent = intentosDescent;
     }
 
-    public int getContadorIntercambios() {
-        return contadorIntercambios;
-    }
-
-    public void setContadorIntercambios(int contadorIntercambios) {
-        this.contadorIntercambios = contadorIntercambios;
-    }
-
-    public int getContadortabu() {
-        return contadortabu;
-    }
-
-    public void setContadortabu(int contadortabu) {
-        this.contadortabu = contadortabu;
-    }
-
+//    public int getTiempototal() {
+//        return tiempototal;
+//    }
+//
+//    public void setTiempototal(int tiempototal) {
+//        this.tiempototal = tiempototal;
+//    }
+//    public int getContadorIntercambios() {
+//        return contadorIntercambios;
+//    }
+//
+//    public void setContadorIntercambios(int contadorIntercambios) {
+//        this.contadorIntercambios = contadorIntercambios;
+//    }
+//
+//    public int getContadortabu() {
+//        return contadortabu;
+//    }
+//
+//    public void setContadortabu(int contadortabu) {
+//        this.contadortabu = contadortabu;
+//    }
     public void setInstancias(InstanciaAlgoritmo instancias) {
         this.instancias = instancias;
     }
@@ -640,4 +667,13 @@ public class IteratedHyperplaneExplorationAlgoritm extends AlgoritmoMetaheuristi
     public InstanciaAlgoritmo getInstancias() {
         return instancias;
     }
+
+    public double getPesoT() {
+        return PesoT;
+    }
+
+    public int[] getTabu() {
+        return tabu;
+    }
+    
 }
