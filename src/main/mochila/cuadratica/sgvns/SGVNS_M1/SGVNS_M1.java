@@ -45,18 +45,18 @@ public class SGVNS_M1 extends SGVNS {
         //Encuentra una solucion inicial y
         IndividuoVNS y = solucionInicial();
         //Almacena la solucion inicial como best
+        IndividuoVNS y_best = y;
         //termina cuando encuentra al optimo
-        IndividuoVNS y_p = tabuSearchEngine(20, y, y);
+        IndividuoVNS y_p = tabuSearchEngine(20, y, y_best);
         if (y_p.compareTo(y) > 0) {
             y = y_p;
         }
-        IndividuoVNS y_best = y;
+        y_best = y;
         boolean suficiente = funcion.suficiente(y_best);
         if (suficiente) {
             recorrido.add(y_best);
             return recorrido;
         }
-        boolean bandera = false;
         for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
             //numero de movimientos aleatorios para shaking
             int h = 1;
@@ -67,7 +67,7 @@ public class SGVNS_M1 extends SGVNS {
                 //Genera una solución aleatoria y_p de y, para h en el vecindario cambio (diversidad)
                 //Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
 //                y_p = estructuraVecindarioSacudida(y, h);
-//                y_p3 = sacudidaMejorInicial(y_p, 2, h);
+                y_p3 = sacudidaMejorInicial(y_p, 2, h);
 //                y_p3 = sacudida(y_p, 2, h);
 //                variablesFijasLowerb = determinarVariablesFijasLowerBound(y.getDimension(), y, lb);
 //                construirProblemaRestringidoReducido(variablesFijasLowerb);

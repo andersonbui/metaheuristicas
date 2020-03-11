@@ -94,7 +94,7 @@ public class GrupoAlgoritmosMochilaCuadratica extends Grupo {
     }
 
     public GrupoAlgoritmosMochilaCuadratica() {
-        super("Mochila Cuadratica", 20);
+        super("Mochila Cuadratica", 50);
         this.instancias = null;
     }
 

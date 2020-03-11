@@ -74,14 +74,20 @@ public class JSGVNS_GAR extends JSGVNS {
         //Lista para graficar
         List<IndividuoVNS> recorrido = new ArrayList();
         //Encuentra una solucion inicial y
-        IndividuoVNS indi = new IndividuoVNS_GAR(getFuncion());
+//        IndividuoVNS indi = new IndividuoVNS_GAR(getFuncion());
         getFuncion().setPorcentajeCentral(1);
         getFuncion().setPorcentajeNoCentral(1);
-//        IndividuoVNS y = solucionInicial();
-        IndividuoVNS y = GreedyRandomizedConstruction(indi, rcl);
+        IndividuoVNS y = solucionInicial();
+//        IndividuoVNS y = GreedyRandomizedConstruction(indi, rcl);
         //Almacena la solucion inicial como best
         IndividuoVNS y_best = y;
-        //termina cuando encuentra el optimo
+        //termina cuando encuentra al optimo
+        IndividuoVNS y_p = tabuSearchEngine(20, y, y_best);
+        if (y_p.compareTo(y) > 0) {
+            y = y_p;
+        }
+        y_best = y;
+//termina cuando encuentra el optimo
         boolean suficiente = funcion.suficiente(y_best);
         if (suficiente) {
             recorrido.add(y_best);
@@ -90,9 +96,9 @@ public class JSGVNS_GAR extends JSGVNS {
         for (iteraciones = 0; iteraciones < maxIteraciones; iteraciones++) {
             //numero de movimientos aleatorios para shaking
             int h = 5;
-            IndividuoVNS y_p;
+//            IndividuoVNS y_p;
             IndividuoVNS y_p2;
-            IndividuoVNS y_p_Original;
+            IndividuoVNS y_p3;
             List<Integer> variablesFijasLowerb;
             List<Integer> variablesFijasUpperb;
             while (h <= hMax) {
@@ -100,9 +106,9 @@ public class JSGVNS_GAR extends JSGVNS {
                 //TODO: Se le puede aplicar una B. Tabu para que no repita soluciones (movimientos)
                 //MODIFICACION trabajar la sacudida con el vecindario 1
                 variable(OpcionVar.SACUDIDA, iteraciones, maxIteraciones);
-                y_p = sacudidaOriginal(y, 2, h);
+//                y_p3 = sacudidaOriginal(y, 2, h);
 //                y_p = sacudidaModifacadaMejorActual(y, 1, h);
-//              y_p =sacudidaModificadaMejorInicial(y, 1, h);
+              y_p3 =sacudidaModificadaMejorInicial(y_p, 1, h);
                 //RESTABLECER
                 getFuncion().setPorcentajeCentral(1);
                 getFuncion().setPorcentajeNoCentral(1);
@@ -371,5 +377,151 @@ public class JSGVNS_GAR extends JSGVNS {
         int indice = Aleatorio.nextInt(listaI0.size());
         individuo.set(listaI0.get(indice), 1);
         return individuo;
+    }
+     int contador_ignora_max = 10;
+    protected IndividuoVNS tabuSearchEngine(int L, IndividuoVNS x_inicial, IndividuoVNS x_referencia) {
+
+        double porcentaje_ignora = 0.0000000000000005; //0000000000000002
+        int contador_ignora = 0;
+        // almacenamiento de valores tabu
+        int[][] tabu;
+        double vmin = -1;
+        // 
+        double fmax;
+        tabu = new int[x_inicial.getDimension()][x_inicial.getDimension()];
+        double frx = 0;
+        double vcx;
+        boolean bueno = false;
+        // residual cancellation sequence list
+        List<Integer> list_RCS = new ArrayList();
+        // inicializa el tamaño de la lista de ejecucion
+        List<Integer> list_RL = new ArrayList();
+        // almacena el valor de la funcion objetivo de la actual mejor solución factible global
+        double fmin = x_referencia.evaluar();
+        // x*: recuerda la mejor solucion encontrada hasta el momento
+        IndividuoVNS x_aster = x_referencia;
+        // linea 6; tamanio lista RL
+//        int erl = 0;
+        // linea 7:
+        IndividuoVNS x = x_inicial.clone();
+        int i_aster = 0;
+        int j_aster = 0;
+
+        // linea 8:
+        int iterTabu = 1;
+
+        double viol_capacidad;
+        double calidadi;
+        int iterMax = 0;
+        double default_min = Double.NEGATIVE_INFINITY;
+//        double default_min = Double.POSITIVE_INFINITY;
+
+        while (iterMax < L / 2 && vmin != default_min && list_RL.size() < L) {
+
+            vmin = default_min;
+            fmax = -default_min;
+            List<Integer> I0;
+            List<Integer> I1;
+            I0 = elementosFuera(x);
+            I1 = elementosDentro(x);
+            // linea 10:
+            for (int j : I1) {
+                viol_capacidad = funcion.getCapacidad() - x.pesar() + funcion.peso(j);
+                calidadi = x.getCalidad() - funcion.contribucion(j, x);
+                for (int i : I0) {
+                    // linea 11:
+                    // linea 12:
+                    if (tabu[i][j] != iterTabu) {
+                        //contribucion
+                        frx = calidadi + funcion.contribucion(i, x, j);
+                        // peso del articulo
+                        vcx = viol_capacidad - funcion.peso(i);
+                        if (frx >= fmin) {
+                            if ((vmin >= 0 && vcx > vmin && frx >= fmax) || (vmin < 0 && vcx > vmin) || (frx > fmax && vcx == vmin)) {
+                                i_aster = i;
+                                j_aster = j;
+                                vmin = vcx;
+                                fmax = frx;
+                            }
+                        }
+                    }
+                }
+            }
+            int i;
+            Integer j;
+            // linea 21:
+            if (vmin != default_min) {
+
+                // linea 22:
+                x.set(j_aster, 0);
+                x.set(i_aster, 1);
+                frx = x.getCalidad();
+                double vmax = funcion.getCapacidad() - x_aster.pesar();
+//                if (vmin >= 0 && !(frx <= fmin && vmax >= vmin)) {
+                if (vmin >= 0 && (frx > fmin || (frx == fmin && vmax < vmin))) {
+                    double porcentaje = (1 - frx / fmin);
+                    if (porcentaje < porcentaje_ignora) {
+                        contador_ignora++;
+//                        System.out.println("porcentaje: " + contador_ignora);
+                    }
+                    if ((contador_ignora > contador_ignora_max && porcentaje < porcentaje_ignora)) {
+                        bueno = false;
+                        iterMax += 2;
+                    } else {
+                        //if (vmin >= 0 && ((frx > fmin && vmax <= vmin) || (frx == fmin && vmax < vmin))) {
+                        // linea 24:
+                        iterMax = 0;
+                        if (!bueno) {
+                            list_RL.clear();
+                        }
+                        bueno = true;
+                        //                    fmin = rawFuncion(x);indice
+                        fmin = frx;
+                        x_aster = x.clone();
+                        // linea 25:
+                    }
+                } else {
+                    bueno = false;
+                    iterMax += 2;
+                }
+                list_RL.add(i_aster);
+                list_RL.add(j_aster);
+                //linea 26: actualizar estado tabu
+                iterTabu += 1;
+                // linea 27:
+                i = list_RL.size() - 1;
+                // linea 28:
+                list_RCS.clear();
+                while (i >= 0) {
+                    // linea 29:
+                    j = list_RL.get(i);
+                    if (list_RCS.contains(j)) {
+                        boolean ret = list_RCS.remove(j);
+                    } else {
+                        list_RCS.add(j);
+                    }
+                    if (list_RCS.size() == 2) {
+                        tabu[list_RCS.get(0)][list_RCS.get(1)] = iterTabu;
+                        tabu[list_RCS.get(1)][list_RCS.get(0)] = iterTabu;
+                    }
+                    i--;
+                }
+            } else {
+                iterMax += 1;
+            }
+        }
+        return x_aster;
+    }
+     /**
+     * obtiene el subconjunto de elementos fuera de la mochila, pero que
+     * individualmente quepan dentro de esta.
+     *
+     * @param mochila
+     * @return lista de elementos fuera de la mochila
+     */
+    public List<Integer> elementosFuera(IndividuoVNS mochila) {
+        List listaI0 = mochila.elementosNoSeleccionados();
+//        listaI0 = funcion.filtrarPorFactibles(listaI0, mochila);
+        return listaI0;
     }
 }
